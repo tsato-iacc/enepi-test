@@ -1,4 +1,4 @@
-#FuelPHP
+## FuelPHP
 
 * Version: 1.8
 * [Website](http://fuelphp.com/)
@@ -14,29 +14,48 @@ FuelPHP is a fast, lightweight PHP 5.3+ framework. In an age where frameworks ar
 
 FuelPHP is fully PHP 7 compatible.
 
-## More information
+## Docker
 
-For more detailed information, see the [development wiki](https://github.com/fuelphp/fuelphp/wiki).
+```bash
+$ docker-compose build
+$ docker-compose up
+$ docker-compose exec web php composer.phar install
+```
 
-##Development Team
+### Create database 'ebdb'
 
-* Harro Verton - Project Manager, Developer ([http://wanwizard.eu/](http://wanwizard.eu/))
-* Steve West - Core Developer, ORM
-* Márk Sági-Kazár - Developer
+### Run seed
+```bash
+docker-compose exec web php oil refine migrate -all
+```
 
-### Want to join?
 
-The FuelPHP development team is always looking for new team members, who are willing
-to help lift the framework to the next level, and have the commitment to not only
-produce awesome code, but also great documentation, and support to our users.
+## Using Gulp for create JS an CSS
 
-You can not apply for membership. Start by sending in pull-requests, work on outstanding
-feature requests or bugs, and become active in the #fuelphp IRC channel. If your skills
-are up to scratch, we will notice you, and will ask you to become a team member.
+### Install nodejs and bower localy (on mac)
+```bash
+$ brew install node
+$ npm install -g bower
+```
 
-### Alumni
+### Install packages (run localy in root project directory)
+```bash
+$ npm install
+$ bower install
+```
 
-* Frank de Jonge - Developer ([http://frenky.net/](http://frenky.net/))
-* Jelmer Schreuder - Developer ([http://jelmerschreuder.nl/](http://jelmerschreuder.nl/))
-* Phil Sturgeon - Developer ([http://philsturgeon.co.uk](http://philsturgeon.co.uk))
-* Dan Horrigan - Founder, Developer ([http://dhorrigan.com](http://dhorrigan.com))
+### Run Gulp (watch task)
+```bash
+$ gulp
+```
+
+You also can use live reload server. Install extension for Chrome
+
+
+## Development
+
+### WEB Access url
+HTTP: http://localhost:8080
+
+### DB Access
+DB: localhost:3340

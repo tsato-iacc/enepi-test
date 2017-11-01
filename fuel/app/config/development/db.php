@@ -4,11 +4,15 @@
  */
 
 return array(
-	'default' => array(
-		'connection'  => array(
-			'dsn'        => 'mysql:host=localhost;dbname=fuel_dev',
-			'username'   => 'root',
-			'password'   => 'root',
-		),
-	),
+    'default' => array(
+        'type'        => 'mysqli',
+        'connection'  => array(
+            'hostname'   => 'db',
+            'port'       => '3306',
+            'database'   => 'ebdb',
+            'username'   => 'root',
+            'password'   => 'root',
+        ),
+        'profiling' => true
+    ),
 );

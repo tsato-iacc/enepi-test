@@ -1,0 +1,24 @@
+body {
+  font-family: 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
+  font-size: 14px;
+  color: #333;
+}
+
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+
+/**
+ * Hide and show elements if screen PC or SP
+ */
+@media screen and (min-device-width: $device-min-width) {
+  .hidden_sp {
+    display: none !important;
+  }
+}
+
+@media screen and (max-device-width: $device-max-width) {
+  .hidden_pc {
+    display: none !important;
+  }
+}

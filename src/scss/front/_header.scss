@@ -1,0 +1,148 @@
+header {
+  .container-wrap {
+    display: flex;
+    justify-content: space-between;
+    height: 70px;
+    margin: 0 10px;
+
+    .navi-wrap {
+      display: flex;
+      width: 570px;
+      height: 70px;
+      margin: auto;
+
+      > div {
+        &:last-child {
+          border-right: 1px solid #eee;
+        }
+      }
+    }
+
+    .navi {
+      width: 190px;
+      border-left: 1px solid #eee;
+
+      a {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        line-height: 1.5em;
+
+        &:hover {
+          &::after,
+          &::before {
+            width: 100%;
+            left: 0;
+          }
+          
+        }
+
+        &:before, &:after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          width: 0;
+          right: 0;
+          height: 3px;
+        }
+
+        &::before {
+          transition: width .4s cubic-bezier(0.51, 0.18, 0, 0.88) .1s;
+          background: $main-color;
+        }
+        
+        &::after {
+          transition: width .2s cubic-bezier(0.29, 0.18, 0.26, 0.83);
+          background: $main-color;
+        }
+      }
+    }
+
+    a {
+      color: $main-color;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: none;
+      }
+      &:visited {
+        color: $main-color;
+      }
+    }
+
+    img {
+      width: 100%;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-grow: 1;
+      flex-basis: 20%;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+
+      > div {
+        max-width: 120px;
+      }
+    }
+
+    .enepi-tel {
+      @extend .logo;
+
+      > div {
+        max-width: 230px;
+      }
+    }
+  }
+
+  @media screen and (max-device-width: $device-max-width) {
+    .container-wrap {
+      margin: 3% 0 0;
+      height: auto;
+      flex-wrap: wrap;
+
+      .navi-wrap {
+        width: 100%;
+        margin-top: 2%;
+        border-top: 1px solid #eee;
+        order: 3;
+      }
+
+      .navi {
+        width: 33.333333%;
+      }
+
+      .logo-wrap {
+        flex-grow: unset;
+        flex-basis: unset;
+
+        > div > div {
+          width: 100%;
+          max-width: unset;
+          padding: 0 10%;
+        }
+      }
+
+      .pos-left {
+        width: 40%;
+        order: 1;
+      }
+
+      .pos-right {
+        width: 60%;
+        order: 2;
+      }
+    }
+  }
+}
