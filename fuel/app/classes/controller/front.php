@@ -24,23 +24,26 @@ class Controller_Front extends Controller_Template
             ['name' => 'keywords', 'content' => \Config::get('enepi.meta.default.keywords')],
         ];
 
-        foreach ($template->meta as $val)
+        if (isset($template->meta))
         {
-            $new = true;
-
-            foreach ($meta_default as $k => $v)
+            foreach ($template->meta as $val)
             {
-                if ($v['name'] == $val['name'])
+                $new = true;
+
+                foreach ($meta_default as $k => $v)
                 {
-                    $meta_default[$k]['content'] = $val['content'];
-                    $new = false;
-                    break;
+                    if ($v['name'] == $val['name'])
+                    {
+                        $meta_default[$k]['content'] = $val['content'];
+                        $new = false;
+                        break;
+                    }
                 }
-            }
 
-            if ($new)
-            {
-                $meta_default[] = $val;
+                if ($new)
+                {
+                    $meta_default[] = $val;
+                }
             }
         }
 

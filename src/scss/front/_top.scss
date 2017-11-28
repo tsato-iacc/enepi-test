@@ -1,3 +1,37 @@
+.panel-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  @media screen and (max-width: 1000px) {
+    padding: 0 4%;
+  }
+}
+.panel, .panel-r, .panel-cta, .panel-2nd {
+  h2 {
+    text-align: center;
+  }
+  
+  padding-top: 60px;
+  padding-bottom: 60px;
+  @media screen and (max-width: 620px) {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  &.panel-r {
+    background-color: #e8f6ff;
+  }
+  &.panel-cta {
+    background-color: $main-color;
+  }
+  &.panel-2nd {
+    border-top: 1px dotted $main-color;
+    border-bottom: 1px dotted $main-color;
+  }
+
+  .center {
+    text-align: center;
+  }
+}
 
 .btn {
   display: inline-block;
@@ -1933,7 +1967,7 @@ ul.lp004-footer-ul li:after{
     float: left;
     position: relative;
     display:inline-block;
-    background: $primary_color_light;
+    background: $main-color;
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
     font-size: 18px;
@@ -1950,7 +1984,7 @@ ul.lp004-footer-ul li:after{
     position: absolute;
     top: 0;
     right: -15px;
-    border-left: 24px solid $primary_color_light;
+    border-left: 24px solid $main-color;
     border-top: 24px solid transparent;
     border-bottom: 24px solid transparent;
     transform-origin: right top;
@@ -1965,7 +1999,7 @@ ul.lp004-footer-ul li:after{
       text-align: center;
       position: relative;
       display:inline-block;
-      background: $primary_color_light;
+      background: $main-color;
       border-top-right-radius: 3px;
       border-bottom-right-radius: 3px;
       font-size: 18px;
@@ -2084,7 +2118,7 @@ ul.lp004-footer-ul li:after{
 　padding-bottom: 40px;
   background: #e8f6ff;
   .blue-color {
-    color: $primary_color_light;
+    color: $main-color;
     font-size: 36px;
     @media screen and (max-width: 620px) {
       font-size: 26px;
@@ -2143,8 +2177,8 @@ ul.lp004-footer-ul li:after{
     .lead {
       margin: 0 auto 33px;
       padding-bottom: 33px;
-      border-bottom: 2px dotted $primary_color_light;
-      color: $primary_color_light;
+      border-bottom: 2px dotted $main-color;
+      color: $main-color;
       font-size: 30px;
       font-weight: bold;
       text-align: center;
@@ -2152,7 +2186,7 @@ ul.lp004-footer-ul li:after{
         margin: 0 auto 20px;
         padding-bottom: 20px;
         font-size: 20px;
-        border-bottom: 2px dotted $primary_color_light;
+        border-bottom: 2px dotted $main-color;
       }
     }
     .example-contents {
@@ -2362,7 +2396,7 @@ ul.lp004-footer-ul li:after{
       background: #00b7ee;
     }
     .title_case_four {
-      background: $primary_color_light;
+      background: $main-color;
     }
     .title_case_six {
       background: #008bca;
@@ -2418,7 +2452,7 @@ ul.lp004-footer-ul li:after{
       background: #00b7ee;
     }
     .title_case_four {
-      background: $primary_color_light;
+      background: $main-color;
     }
     .title_case_six {
       background: #008bca;
@@ -2805,7 +2839,7 @@ ul.lp004-footer-ul li:after{
     width: 40px;
     height: 40px;
     float: right;
-    background: $primary_color_light;
+    background: $main-color;
     border-radius: 50%;
     @media screen and (max-width: 620px) {
       width: 32px;
@@ -2923,4 +2957,3 @@ ul.lp004-footer-ul li:after{
     }
   }
 }
-

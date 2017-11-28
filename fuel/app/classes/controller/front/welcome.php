@@ -51,6 +51,8 @@ class Controller_Front_Welcome extends Controller_Front
      */
     public function action_404()
     {
-        // return Response::forge(Presenter::forge('welcome/404'), 404);
+        $this->template->title = '404';
+        $this->template->content = View::forge('front/welcome/404');
+        return Response::forge($this->template, 404);
     }
 }

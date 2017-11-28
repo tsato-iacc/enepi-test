@@ -1,16 +1,10 @@
 <?= render('front/estimate_form'); ?>
-<%# ここのタイトルは末尾に「| エネピ」がいらないので title ヘルパーを使えない %>
 
 <style>
 .cvb_btn:hover{
     opacity: 0.8;
 }
 </style>
-
-
-
-<script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
-<!-- <%= render "shared/estimate_form" %> -->
 
 <div class="panel" id="knowing">
   <div class="panel-inner">
@@ -26,11 +20,11 @@
 
 <div class="panel" id="knowing_chooser">
   <div class="panel-inner">
-    <h2><span class="orange-color">「知っている」</span>方は<br>今より<%= image_tag asset_url("top/img_otoku.png"), :class => 'goodbuy-img' %>になれるこちらのメニューへ</h2>
+    <h2><span class="orange-color">「知っている」</span>方は<br>今より<?= Asset::img('welcome/img_otoku.png', ['class' => 'goodbuy-img']); ?>になれるこちらのメニューへ</h2>
 
     <div class="introduce_area">
     <%= link_to new_simple_simulation_path, class: "btn blue-button service-detail", onclick: "ga('send', 'event', 'top-button', 'click', 'simulation', 1);" do %>
-      <div class="text-area">プロパンガス料金<br>シミュレーション</div><?= Asset::img('layout/bt_bg_simulation.png'); ?><div class="arrow-area"></div><% end %>
+      <div class="text-area">プロパンガス料金<br>シミュレーション</div><%= image_tag asset_url("top/bt_bg_simulation.png") %><div class="arrow-area"></div><% end %>
 
       <h3 class="rec-title">こんな方にオススメ！</h3>
       <div class="rec-detail">
@@ -637,3 +631,20 @@
     </div>
   </div>
 </div>
+
+  <!-- <script>
+  $(function(){
+    $(".accordionbox dt").on("click", function() {
+      $(this).next().slideToggle(); 
+      // activeが存在する場合
+      if ($(this).children(".accordion_icon").hasClass('active')) {     
+        // activeを削除
+        $(this).children(".accordion_icon").removeClass('active');        
+      }
+      else {
+        // activeを追加
+        $(this).children(".accordion_icon").addClass('active');     
+      }     
+    });
+  });
+  </script> -->
