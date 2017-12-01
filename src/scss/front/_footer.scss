@@ -1,0 +1,240 @@
+footer {
+  overflow: hidden;
+  background-color: $main-color;
+  color: #FFF;
+  padding-top: 40px;
+  font-size: 12px;
+
+  @media screen and (max-device-width: $device-max-width) {
+    padding-top: 0;
+  }
+
+  .container {
+    margin: auto;
+    
+    @media screen and (min-device-width: $device-min-width) {
+      width: $device-max-width;
+    }
+    @media screen and (min-device-width: 1040px) {
+      width: 1040px;
+    }
+  }
+
+  a {
+    color: #FFF;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .gas-title {
+    margin-bottom: 15px;
+    font-size: 14px;
+    line-height: 1;
+    text-shadow: -1px -1px 1px rgba(0,0,0,.3);
+    
+    @media screen and (max-device-width: $device-max-width) {
+      padding: 3%;
+      margin-bottom: 0;
+      font-size: 4vw;
+    }
+  }
+
+  .area-wrap {
+    display: flex;
+    justify-content: space-between;
+
+    @media screen and (max-device-width: $device-max-width) {
+      flex-direction: column;
+    }
+
+    > div {
+      width: 14.285714%;
+
+      @media screen and (max-device-width: $device-max-width) {
+        width: 100%;
+      }
+    }
+
+    .area-title {
+      text-align: center;
+      padding-bottom: 10px;
+      font-size: 14px;
+      line-height: 1;
+      text-shadow: -1px -1px 1px rgba(0,0,0,.3);
+
+      @media screen and (max-device-width: $device-max-width) {
+        background-color: #0083bf;
+        padding: 3%;
+        font-size: 4vw;
+        border-bottom: 1px solid #00a0e9;
+        position: relative;
+
+        &:after {
+          content: "\2207";
+          position: absolute;
+          font-size: 3vw;
+          right: 3%;
+          top: 50%;
+          margin-top: -1.5vw;
+          transform: rotate(0deg);
+          transition: all 0.2s;
+        }
+      }
+    }
+
+    .area-title.active {
+      &:after {
+        transform: rotate(-180deg);        
+      }
+    }
+
+    .area-content {
+      border-right: 1px solid rgba(255, 255, 255, 0.6);
+
+      &:last-child {
+        border-right: 0;
+      }
+
+      .content-wrap > div {
+        margin-left: 43%;
+
+        @media screen and (max-device-width: $device-max-width) {
+          margin-left: 0;
+
+          &:after {
+            content: "";
+            display: block;
+            border: 0;
+            height: 1px;
+            background-image: -webkit-linear-gradient(left, #33b0e8, #f1f1f1, #33b0e8);
+          }
+
+          &:last-child {
+            &:after {
+              content: none;
+            }
+          }
+        }
+      }
+
+      a {
+        font-size: 12px;
+        font-weight: 100;
+        line-height: 1.5em;
+        text-decoration: underline;
+
+        @media screen and (max-device-width: $device-max-width) {
+          font-size: 3.5vw;
+          display: block;
+          padding: 2.5% 0;
+          text-align: center;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  .article-wrap {
+    @extend .area-wrap;
+
+    @media screen and (min-device-width: $device-min-width) {
+      > div {
+        width: 25%;
+      }
+
+      .area-title {
+        margin-left: 5%;
+        text-align: left;
+      }
+
+      .area-content .content-wrap {
+        > div {
+          margin-left: 16%;
+        }
+      }
+    }
+    
+    @media screen and (max-device-width: $device-max-width) {
+      .area-title {
+        text-align: left;
+      }
+    }
+  }
+  hr {
+    margin: 30px 0 25px;
+    border: 0;
+    height: 1px;
+    background-image: -webkit-linear-gradient(left, #33b0e8, #f1f1f1, #33b0e8);
+  
+    @media screen and (max-device-width: $device-max-width) {
+      margin: 5% 0;
+    }
+  }
+
+  .terms {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    background-color: #0083bf;
+    padding: 10px 0;
+    margin-top: 20px;
+
+    @media screen and (max-device-width: $device-max-width) {
+      flex-direction: column;
+      padding: 3% 5%;
+      margin-top: 0;
+    }
+
+    a {
+      font-size: 0.95vw;
+
+      @media screen and (max-device-width: $device-max-width) {
+        font-size: 3.5vw;
+      }
+    }
+
+    > div {
+      display: flex;
+      justify-content: space-between;
+      width: 20%;
+
+      &:first-child, &:last-child {
+        width: 40%;
+        font-size: 0.8vw;
+      }
+      &:last-child {
+        justify-content: flex-end;
+        padding-right: 1%;
+      }
+
+      @media screen and (max-device-width: $device-max-width) {
+        width: 100%;
+
+        &:first-child, &:last-child {
+          width: 100%;
+          font-size: 2.5vw;
+        }
+        &:last-child {
+          justify-content: center;
+          padding-right: 0;
+          padding-top: 3%;
+        }
+      }
+    }
+  }
+
+  .accordion {
+    @media screen and (max-device-width: $device-max-width) {
+      outline: none;
+      transition: 0.4s;
+    }
+  }
+
+  .accordion-box {
+    @media screen and (max-device-width: $device-max-width) {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.2s ease-out;
+    }
+  }
+}

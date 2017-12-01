@@ -71,3 +71,50 @@
 	</IfModule>
 
 </IfModule>
+
+<FilesMatch "\.(?i:gif|jpe?g|png|ico|css|js|swf)$">
+  <IfModule mod_headers.c>
+    Header set Cache-Control "max-age=172800, public, must-revalidate"
+  </IfModule>
+</FilesMatch>
+
+# Enable GZIP
+<ifmodule mod_deflate.c>
+	AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript text/javascript
+	BrowserMatch ^Mozilla/4 gzip-only-text/html
+	BrowserMatch ^Mozilla/4\.0[678] no-gzip
+	BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+</ifmodule>
+
+# Expires Headers - 2678400s = 31 days
+<ifmodule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 seconds"
+  # ExpiresByType text/html "access plus 7200 seconds"
+  ExpiresByType image/gif "access plus 2678400 seconds"
+  ExpiresByType image/jpeg "access plus 2678400 seconds"
+  ExpiresByType image/png "access plus 2678400 seconds"
+  ExpiresByType text/css "access plus 7200 seconds"
+  ExpiresByType text/javascript "access plus 7200 seconds"
+  ExpiresByType application/x-javascript "access plus 7200 seconds"
+</ifmodule>
+
+# Cache Headers
+<ifmodule mod_headers.c>
+  # Cache specified files for a one week
+  <filesmatch "\.(ico|flv|jpg|jpeg|png|gif|swf)$">
+  Header set Cache-Control "max-age=604800, public"
+  </filesmatch>
+  # Cache HTML files for a couple hours
+  <filesmatch "\.(html|htm)$">
+  Header set Cache-Control "max-age=7200, private, must-revalidate"
+  </filesmatch>
+  # Cache Javascripts for a couple hours
+  <filesmatch "\.(js)$">
+  Header set Cache-Control "max-age=7200, private"
+  </filesmatch>
+  # Cache CSS for a couple hours
+  <filesmatch "\.(css)$">
+  Header set Cache-Control "max-age=7200, private"
+  </filesmatch>
+</ifmodule>
