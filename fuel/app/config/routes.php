@@ -30,6 +30,66 @@ return array(
     'local_contents/(:num)'             => 'front/localContents/prefecture/$1',
     'local_contents/city_show/(:num)'   => 'front/localContents/city/$1',
 
-    'lp/(:any)'                         => 'front/lp/$1',
-    's/lp/(:any)'                       => 'front/lp/$1',
+    'lp/(:any)'                         => 'front/lp/index/$1',
+    's/lp/(:any)'                       => 'front/lp/index/$1',
+
+    /**
+     * Admin
+     */
+    'admin/tracking'                                     => [['GET', new Route('admin/tracking/index')], ['POST', new Route('admin/tracking/store')]],
+    'admin/tracking/(:num)/edit'                         => [['GET', new Route('admin/tracking/edit/$1')]],
+    'admin/tracking/(:num)'                              => [['POST', new Route('admin/tracking/update/$1')]],
+    'admin/tracking/statistics'                          => [['GET', new Route('admin/tracking/statistics')]],
+
+    'admin/partner_companies'                            => [['GET', new Route('admin/partnerCompanies/index')], ['POST', new Route('admin/partnerCompanies/store')]],
+    'admin/partner_companies/create'                     => [['GET', new Route('admin/partnerCompanies/create')]],
+    'admin/partner_companies/(:num)/edit'                => [['GET', new Route('admin/partnerCompanies/edit/$1')]],
+    'admin/partner_companies/(:num)'                     => [['POST', new Route('admin/partnerCompanies/update/$1')]],
+    'admin/partner_companies/(:num)/emails'              => [['GET', new Route('admin/partnerCompanies/emails_index/$1')], ['POST', new Route('admin/partnerCompanies/emails_store/$1')]],
+    'admin/partner_companies/(:num)/emails/(:num)'       => [['DELETE', new Route('admin/partnerCompanies/emails_destroy/$1/$2')]],
+
+    'admin/callings'                                     => [['GET', new Route('admin/callings/index')]],
+    'admin/activity'                                     => [['GET', new Route('admin/activity/index')]],
+    'admin/history'                                      => [['GET', new Route('admin/history/index')]],
+    'admin/behavior'                                     => [['GET', new Route('admin/behavior/index')]],
+    'admin/unsupported'                                  => [['GET', new Route('admin/unsupported/index')]],
+    'admin/holiday'                                      => [['GET', new Route('admin/holiday/index')], ['POST', new Route('admin/holiday/store')]],
+
+    'admin/estimates'                                    => [['GET', new Route('admin/estimates/index')]],
+    'admin/estimates/(:num)'                             => [['GET', new Route('admin/estimates/edit/$1')]],
+    'admin/estimates/history'                            => [['GET', new Route('admin/estimates/history')]],
+
+    'admin/contacts'                                     => [['GET', new Route('admin/contacts/index')]],
+    'admin/contacts/(:num)/edit'                         => [['GET', new Route('admin/contacts/edit/$1')]],
+    'admin/contacts/(:num)'                              => [['POST', new Route('admin/contacts/update/$1')]],
+    'admin/contacts/(:num)/estimates/create'             => [['GET', new Route('admin/contacts/estimate_create')]],
+
+    'admin/companies'                                    => [['GET', new Route('admin/companies/index')]],
+    'admin/companies/(:num)/edit'                        => [['GET', new Route('admin/companies/edit/$1')]],
+    'admin/companies/(:num)'                             => [['POST', new Route('admin/companies/update/$1')]],
+    'admin/companies/(:num)/estimates'                   => [['GET', new Route('admin/companies/estimates_index/$1')]],
+    'admin/companies/(:num)/ng'                          => [['GET', new Route('admin/companies/ng_index/$1')], ['POST', new Route('admin/companies/ng_store/$1')]],
+    'admin/companies/(:num)/ng/(:num)'                   => [['DELETE', new Route('admin/companies/ng_destroy/$1')]],
+    
+    'admin/companies/(:num)/offices'                     => [['GET', new Route('admin/companyOffices/index/$1')], ['POST', new Route('admin/companyOffices/store/$1')]],
+    'admin/companies/(:num)/offices/(:num)'              => [['DELETE', new Route('admin/companyOffices/destroy/$1/$2')]],
+    'admin/companies/(:num)/offices/(:num)/price'        => [['GET', new Route('admin/companyOffices/price_index/$1/$2')]],
+    'admin/companies/(:num)/offices/(:num)/price/(:num)' => [['DELETE', new Route('admin/companyOffices/offices_destroy/$1/$2/$3')]],
+    'admin/companies/(:num)/offices/(:num)/area'         => [['GET', new Route('admin/companyOffices/area_index/$1/$2')], ['POST', new Route('admin/companyOffices/area_store/$1/$2')]],
+    'admin/companies/(:num)/offices/(:num)/area/(:num)'  => [['DELETE', new Route('admin/companyOffices/area_destroy/$1/$2/$3')]],
+
+    'admin/company_features'                             => [['GET', new Route('admin/companyFeatures/index')], ['POST', new Route('admin/companyFeatures/store')]],
+    'admin/company_features/(:num)/edit'                 => [['GET', new Route('admin/companyFeatures/edit/$1')]],
+    'admin/company_features/(:num)'                      => [['POST', new Route('admin/companyFeatures/update/$1')], ['DELETE', new Route('admin/companyFeatures/delete/$1')]],
+    
+    'admin/reviews'                                      => [['GET', new Route('admin/reviews/index')], ['POST', new Route('admin/reviews/store')]],
+    'admin/reviews/(:num)/edit'                          => [['GET', new Route('admin/reviews/edit/$1')]],
+    'admin/reviews/(:num)'                               => [['POST', new Route('admin/reviews/update/$1')], ['DELETE', new Route('admin/reviews/delete/$1')]],
+    
+
+    /**
+     * Partner
+     */
+    'partner/estimates'                                    => [['GET', new Route('partner/estimates/index')]],
+    'partner/estimates/(:num)'                             => [['GET', new Route('partner/estimates/edit/$1')]],
 );

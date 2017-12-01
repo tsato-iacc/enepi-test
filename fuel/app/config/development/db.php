@@ -5,14 +5,6 @@
 
 return array(
     'default' => array(
-        'type'        => 'mysqli',
-        'connection'  => array(
-            'hostname'   => 'db',
-            'port'       => '3306',
-            'database'   => 'ebdb',
-            'username'   => 'root',
-            'password'   => 'root',
-        ),
         'profiling' => true
     ),
 );

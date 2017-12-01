@@ -274,7 +274,6 @@ return array(
 		 */
 		'packages' => [
 			'orm',
-			'auth',
 		],
 
 		/**
