@@ -8,7 +8,6 @@
 
 
 
-
 <div class="panel" id="knowing">
   <div class="panel-inner">
     <div class="qa-box">
