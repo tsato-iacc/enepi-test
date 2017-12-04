@@ -23,8 +23,8 @@ return array(
     'lpgas/support_map'                 => 'front/lpgas/supportMap',
     'agreement'                         => 'front/lpgas/agreement',
 
-    'categories/(:any)/articles'        => 'front/categoryArticles',
-    'categories/(:any)'                 => 'front/categories',
+    'categories/(:any)/articles'        => 'front/categoryArticles/index/$1',
+    'categories/(:any)'                 => 'front/categories/index/$1',
 
     'local_contents'                    => 'front/localContents',
     'local_contents/(:num)'             => 'front/localContents/prefecture/$1',

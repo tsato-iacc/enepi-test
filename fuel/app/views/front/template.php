@@ -13,9 +13,7 @@
 <body>
   <?= render('front/header'); ?>
 
-  <div class="container">
-    <?= $content; ?>
-  </div>
+  <?= $content; ?>
 
   <?= render('front/footer'); ?>
   

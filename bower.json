@@ -11,7 +11,7 @@
     "lpgas",
     "propan"
   ],
-  "homepage": "https://github.com/iacc/enepi-fuel.git",
+  "homepage": "https://github.com/iacc/enepi.git",
   "private": true,
   "ignore": [
     "**/.*",

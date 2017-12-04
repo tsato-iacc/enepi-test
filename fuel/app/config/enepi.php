@@ -25,4 +25,13 @@ return [
             'twitter_card_site' => '@enepi_jp',
         ],
     ],
+
+    /**
+     * CMS Settings
+     */
+    'cms' => [
+        'host' => getenv('CMS_ADDR'),
+        'site' => getenv('CMS_SITE_ID'),
+        'key'  => getenv('CMS_AUTH_KEY'),
+    ]
 ];

@@ -4,8 +4,9 @@
 * Third Party
 */
 $fa-font-path: "/assets/font-awesome/fonts";
-@import "../../bower_components/normalize-css/normalize.css";
+// @import "../../bower_components/normalize-css/normalize.css";
 @import "../../bower_components/swiper/dist/css/swiper.css";
+@import "../../bower_components/bootstrap/scss/bootstrap";
 
 /*
 * Custom
@@ -22,5 +23,5 @@ $fa-font-path: "/assets/font-awesome/fonts";
 
 /* Custom styles */
 @import "front/estimate_form";
-@import "front/top";
+@import "front/old/top";
 
