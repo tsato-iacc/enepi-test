@@ -38,7 +38,33 @@ class Controller_Front_Categories extends Controller_Front
         try
         {
             $content = $client->getCategory($category);
-            $category_children = $client->getCategoryChildren($category, $depth = 1);
+            $sub_categories = $client->getSubCategory($category, ['depth' => 1]);
+
+            $condition = [
+                'page' => 1,
+                'per' => \Config::get('enepi.category.articles.per_page'),
+            ];
+
+            foreach ($sub_categories as $k => $v)
+            {
+                $condition['category_path'] = $v['path_name_prog'];
+                $sub_categories[$k]['content'] = $client->getArticles($condition);
+            }
+
+            $condition['category_path'] = $category;
+            $articles = $client->getArticles($condition);
+
+
+            $condition['category_path'] = \Config::get('enepi.cms.category_path.citygas');
+            $condition['per'] = \Config::get('enepi.category.popular.per_page');
+            $condition['sort'] = \Config::get('enepi.category.popular.sort');
+
+            $popular = $client->getArticles($condition);
+
+            if ($category == 'lpgas_before')
+                $category = str_replace('_before', '', $category);
+
+            $pickup = $client->getArticlesByModule('pickup_' . $category);
         }
         catch (ClientException $e)
         {
@@ -50,20 +76,23 @@ class Controller_Front_Categories extends Controller_Front
         if ($content['article']['redirect_url'])
             return Response::redirect($content['article']['redirect_url'], 'location', 301);
 
-
-        // print var_dump($category);exit;
-
+        // FIX ME!
         $meta = [
             ['name' => 'description', 'content' => 'OOooOOppp'],
             ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
             ['name' => 'puka', 'content' => 'suka'],
         ];
 
+        // FIX ME!
         $this->template->title = 'local_contents';
         $this->template->meta = $meta;
+        
         $this->template->content = View::forge('front/categories/index', [
             'category' => $content,
-            'category_dancestors' => $category_children,
+            'sub_categories' => $sub_categories,
+            'popular' => $popular,
+            'pickup' => $pickup,
+            'mini_nav' => true,
         ]);
     }
 }

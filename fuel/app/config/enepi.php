@@ -33,5 +33,23 @@ return [
         'host' => getenv('CMS_ADDR'),
         'site' => getenv('CMS_SITE_ID'),
         'key'  => getenv('CMS_AUTH_KEY'),
-    ]
+        'category_path' => [
+            'lpgas' => 'lpgas',
+            'citygas' => 'citygas',
+            'electricity' => 'electricity',
+        ],
+    ],
+
+    /**
+     * Categories
+     */
+    'category' => [
+        'articles' => [
+            'per_page' => 5,
+        ],
+        'popular' => [
+            'per_page' => 4,
+            'sort' => 'access_count.desc',
+        ],
+    ],
 ];
