@@ -37,13 +37,19 @@ class Controller_Front_Categories extends Controller_Front
 
         try
         {
+            // Combine subcategory's path
             $category_path = rtrim(implode('/', [$category, $subOne, $subTwo, $subThree]), '/');
+
             $category_header = $client->getCategory($category_path);
+
+            if ($category_header['article']['redirect_url'])
+                return Response::redirect($category_header['article']['redirect_url'], 'location', 301);
+
             $category_content = $client->getCategoryContent($category_path, ['depth' => 1]);
 
             $condition = [
                 'page' => 1,
-                'per' => \Config::get('enepi.category.articles.per_page'),
+                'per' => \Config::get('enepi.category.index.per_page'),
             ];
 
             foreach ($category_content as $k => $v)
@@ -55,16 +61,8 @@ class Controller_Front_Categories extends Controller_Front
             $condition['category_path'] = $category_path;
             $articles = $client->getArticles($condition);
 
-            $condition['category_path'] = \Config::get('enepi.cms.category_path.citygas');
-            $condition['per'] = \Config::get('enepi.category.popular.per_page');
-            $condition['sort'] = \Config::get('enepi.category.popular.sort');
-
-            $popular = $client->getArticles($condition);
-
-            if ($category == 'lpgas_before')
-                $category = str_replace('_before', '', $category);
-
-            $pickup = $client->getArticlesByModule('pickup_' . $category);
+            $popular = $this->get_popular($client);
+            $pickup = $this->get_pickup($client, $category);
         }
         catch (ClientException $e)
         {
@@ -72,9 +70,6 @@ class Controller_Front_Categories extends Controller_Front
 
             throw new HttpNotFoundException();
         }
-
-        if ($category_header['article']['redirect_url'])
-            return Response::redirect($category_header['article']['redirect_url'], 'location', 301);
 
         // FIX ME!
         $meta = [
@@ -94,5 +89,92 @@ class Controller_Front_Categories extends Controller_Front
             'pickup' => $pickup,
             'mini_nav' => true,
         ]);
+    }
+
+    /**
+     * Show Category's Articles
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_articles($category, $subOne = null, $subTwo = null, $subThree = null)
+    {
+        $client = new Client(\Config::get('enepi.cms.host'), \Config::get('enepi.cms.site'), \Config::get('enepi.cms.key'));
+
+        try
+        {
+            // Combine subcategory's path
+            $category_path = rtrim(implode('/', [$category, $subOne, $subTwo, $subThree]), '/');
+
+            $category_header = $client->getCategory($category_path);
+            $category_content = $client->getCategoryContent($category_path, ['depth' => 1]);
+
+            $condition = [
+                'page' => \Input::get('page', '1'),
+                'per' => \Config::get('enepi.category.articles.per_page'),
+                'category_path' => $category_path,
+            ];
+
+            $articles = $client->getArticles($condition);
+
+            $pager = \Pagination::forge('default', [
+                'total_items' => $articles['total_count'],
+                'per_page' => $condition['per'],
+                'pagination_url' => \Uri::current(),
+                'uri_segment' => 'page',
+            ]);
+
+            $condition['category_path'] = \Config::get('enepi.cms.category_path.citygas');
+            $condition['per'] = \Config::get('enepi.category.popular.per_page');
+            $condition['sort'] = \Config::get('enepi.category.popular.sort');
+
+            $popular = $this->get_popular($client);
+            $pickup = $this->get_pickup($client, $category);
+        }
+        catch (ClientException $e)
+        {
+            \Log::error($e->getMessage());
+
+            throw new HttpNotFoundException();
+        }
+
+        // FIX ME!
+        $meta = [
+            ['name' => 'description', 'content' => 'OOooOOppp'],
+            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
+            ['name' => 'puka', 'content' => 'suka'],
+        ];
+
+        // FIX ME!
+        $this->template->title = 'local_contents';
+        $this->template->meta = $meta;
+
+        $this->template->content = View::forge('front/categories/articles', [
+            'category' => $category_header,
+            'category_content' => $category_content,
+            'popular' => $popular,
+            'pickup' => $pickup,
+            'mini_nav' => true,
+        ]);
+    }
+
+    private function get_popular(&$client)
+    {
+        $condition = [
+            'page' => '1',
+            'category_path' => \Config::get('enepi.cms.category_path.citygas'),
+            'per' => \Config::get('enepi.category.popular.per_page'),
+            'sort' => \Config::get('enepi.category.popular.sort'),
+        ];
+
+        return $client->getArticles($condition);
+    }
+
+    private function get_pickup(&$client, &$category)
+    {
+        if ($category == 'lpgas_before')
+            $category = str_replace('_before', '', $category);
+
+        return $client->getArticlesByModule('pickup_' . $category);
     }
 }

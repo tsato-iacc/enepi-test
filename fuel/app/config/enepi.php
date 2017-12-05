@@ -44,8 +44,11 @@ return [
      * Categories
      */
     'category' => [
-        'articles' => [
+        'index' => [
             'per_page' => 5,
+        ],
+        'articles' => [
+            'per_page' => 30,
         ],
         'popular' => [
             'per_page' => 4,
