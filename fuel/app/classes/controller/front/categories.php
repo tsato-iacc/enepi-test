@@ -31,29 +31,29 @@ class Controller_Front_Categories extends Controller_Front
      * @access  public
      * @return  Response
      */
-    public function action_index($category)
+    public function action_index($category, $subOne = null, $subTwo = null, $subThree = null)
     {
         $client = new Client(\Config::get('enepi.cms.host'), \Config::get('enepi.cms.site'), \Config::get('enepi.cms.key'));
 
         try
         {
-            $content = $client->getCategory($category);
-            $sub_categories = $client->getSubCategory($category, ['depth' => 1]);
+            $category_path = rtrim(implode('/', [$category, $subOne, $subTwo, $subThree]), '/');
+            $category_header = $client->getCategory($category_path);
+            $category_content = $client->getCategoryContent($category_path, ['depth' => 1]);
 
             $condition = [
                 'page' => 1,
                 'per' => \Config::get('enepi.category.articles.per_page'),
             ];
 
-            foreach ($sub_categories as $k => $v)
+            foreach ($category_content as $k => $v)
             {
                 $condition['category_path'] = $v['path_name_prog'];
-                $sub_categories[$k]['content'] = $client->getArticles($condition);
+                $category_content[$k]['content'] = $client->getArticles($condition);
             }
 
-            $condition['category_path'] = $category;
+            $condition['category_path'] = $category_path;
             $articles = $client->getArticles($condition);
-
 
             $condition['category_path'] = \Config::get('enepi.cms.category_path.citygas');
             $condition['per'] = \Config::get('enepi.category.popular.per_page');
@@ -73,8 +73,8 @@ class Controller_Front_Categories extends Controller_Front
             throw new HttpNotFoundException();
         }
 
-        if ($content['article']['redirect_url'])
-            return Response::redirect($content['article']['redirect_url'], 'location', 301);
+        if ($category_header['article']['redirect_url'])
+            return Response::redirect($category_header['article']['redirect_url'], 'location', 301);
 
         // FIX ME!
         $meta = [
@@ -86,10 +86,10 @@ class Controller_Front_Categories extends Controller_Front
         // FIX ME!
         $this->template->title = 'local_contents';
         $this->template->meta = $meta;
-        
+
         $this->template->content = View::forge('front/categories/index', [
-            'category' => $content,
-            'sub_categories' => $sub_categories,
+            'category' => $category_header,
+            'category_content' => $category_content,
             'popular' => $popular,
             'pickup' => $pickup,
             'mini_nav' => true,

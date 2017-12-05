@@ -23,7 +23,7 @@
   <div class="article-list-v3-panel">
     <div class="panel-inner article-list-v3-panel-container">
       <div class="main">
-        <?php foreach ($sub_categories as $cat): ?>
+        <?php foreach ($category_content as $cat): ?>
         
           <?php if ($cat['content']['articles']): ?>
             <h2><?= $cat['name'] ?> <span class="article-count">(記事数: <?= $cat['article_count'] ?>)</span></h2>

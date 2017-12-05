@@ -24,7 +24,7 @@ return array(
     'agreement'                         => 'front/lpgas/agreement',
 
     'categories/(:any)/articles'        => 'front/categoryArticles/index/$1',
-    'categories/(:any)'                 => 'front/categories/index/$1',
+    'categories/(:any)(:everything)(:everything)(:everything)' => 'front/categories/index/$1/$2/$3/$4',
 
     'local_contents'                    => 'front/localContents',
     'local_contents/(:num)'             => 'front/localContents/prefecture/$1',
