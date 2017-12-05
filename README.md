@@ -19,7 +19,7 @@ FuelPHP is fully PHP 7 compatible.
 ```bash
 $ docker-compose build
 $ docker-compose up
-$ docker-compose exec web php composer.phar install
+$ php composer.phar install
 ```
 
 ### Create database 'ebdb'

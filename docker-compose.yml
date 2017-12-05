@@ -18,6 +18,13 @@ services:
       - RDS_DB_NAME=ebdb
       - RDS_USERNAME=root
       - RDS_PASSWORD=root
+      - CMS_ADDR=iacc-cms.elasticbeanstalk.com:80
+      - CMS_AUTH_KEY=f1e446e0292fd6d8a7a4365a115adf69
+      - CMS_SITE_ID=PPS
+      - API_ENDPOINT=https://h2xmfbiaa8.execute-api.ap-northeast-1.amazonaws.com/development
+      - TWILLIO_AUTH_TOKEN=693a15e0708e521d9cf8dbeee8fb097a
+      - "TWILLIO_ACCOUNT_SID=ACedda9750010d541d955c58564b7403b1TWILLIO_TEL_FROM=+815031887682"
+      - "TWILLIO_SMS_FROM=+12027967716"
       # - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       # - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
     volumes:

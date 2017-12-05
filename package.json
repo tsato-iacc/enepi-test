@@ -6,7 +6,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git@github.com:iacc/enepi-fuel.git"
+    "url": "git@github.com:iacc/enepi.git"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
