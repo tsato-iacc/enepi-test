@@ -55,4 +55,17 @@ return [
             'sort' => 'access_count.desc',
         ],
     ],
+
+    /**
+     * Articles
+     */
+    'articles' => [
+        'index' => [
+            'per_page' => 30,
+        ],
+        'popular' => [
+            'per_page' => 4,
+            'sort' => 'access_count.desc',
+        ],
+    ],
 ];
