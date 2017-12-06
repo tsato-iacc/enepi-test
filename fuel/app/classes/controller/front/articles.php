@@ -126,6 +126,7 @@ class Controller_Front_Articles extends Controller_Front
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/articles/show', [
             'article' => $article,
+            'pickup' => $pickup,
         ], false);
     }
 }
