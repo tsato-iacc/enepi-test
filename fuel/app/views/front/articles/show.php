@@ -1,24 +1,24 @@
-<%= render 'shared/article_common', article: @article, url: article_url(@article['id']) %>
+<?= render 'shared/article_common', article: @article, url: article_url(@article['id']) ?>
 
 <div itemscope itemtype="http://schema.org/Article">
-<meta itemprop="datePublished" content="<%= @article['created_at'] %>">
-<meta itemprop="dateModified" content="<%= @article['updated_at'] %>">
-<meta itemprop="image" content="<%= @article['thumbnail_url'] %>">
+<meta itemprop="datePublished" content="<?= @article['created_at'] ?>">
+<meta itemprop="dateModified" content="<?= @article['updated_at'] ?>">
+<meta itemprop="image" content="<?= @article['thumbnail_url'] ?>">
 
 <div class="article-maintitle-area">
   <div class="inner">
     <div class="image">
-    <%= image_tag @article['thumbnail_cover_256_url'] %>
+    <?= MyView::image_tag(@article['thumbnail_cover_256_url'] ?>
     </div>
     <div class="text">
-      <h1 class="title" itemprop="headline"><%= @article['title'] %></h1>
+      <h1 class="title" itemprop="headline"><?= @article['title'] ?></h1>
       <ul class="categories">
-        <% @article['categories'].each do |category| %>
-        <li><i class="icon icon-tag"></i><%= link_to category['full'].map { |c| c['name'] }.join("/"), category_path(category) %></li>
-        <% end %>
+        <? @article['categories'].each { |category| ?>
+        <li><i class="icon icon-tag"></i><?= MyView::link_to(category['full'].map { |c| c['name'] }.join("/"), category_path(category) ?></li>
+        <? } ?>
       </ul>
       <p class="description" itemprop="description">
-          <%= @article['description'] %></p>
+          <?= @article['description'] ?></p>
     </div>
   </div>
 </div>
@@ -28,22 +28,22 @@
     <div class="article-list-v3-panel">
       <div class="panel-inner article-list-v3-panel-container">
         <div class="main">
-          <%= render "shared/social_buttons" %>
+          <?= render "shared/social_buttons" ?>
 
         <div class="toc">
           <p class="toc-title accordion">この記事の目次</p>
           <div class="accordion-box">
-            <%= raw @article['toc_html'] %>
+            <?= raw @article['toc_html'] ?>
           </div>
         </div>
 
         <div class="body" itemprop="articleBody">
-          <%= raw @article['body_html'] %>
+          <?= raw @article['body_html'] ?>
         </div>
 
         <div class="social-recommends-area">
           <div class="image">
-            <%= image_tag @article['thumbnail_cover_256_url'] %>
+            <?= MyView::image_tag(@article['thumbnail_cover_256_url'] ?>
           </div>
           <div class="text">
             <div class="recommend-ttl">この記事はいかがでしたか？</div>
@@ -52,50 +52,50 @@
           </div>
         </div>
 
-        <%= render "shared/social_buttons" %>
+        <?= render "shared/social_buttons" ?>
 
-        <% if @article['prev_article'] || @article['next_article'] %>
+        <? if @article['prev_article'] || @article['next_article'] ?>
           <div class="around_articles">
             <div class="prev">
-              <% if @article['prev_article'] %>
-                <span>前の記事</span> <%= link_to article_path(@article['prev_article']['id']) do %>
-                  <%= @article['prev_article']['title'] %>
-                <% end %>
-              <% end %>
+              <? if @article['prev_article'] ?>
+                <span>前の記事</span> <?= MyView::link_to(article_path(@article['prev_article']['id']) { ?>
+                  <?= @article['prev_article']['title'] ?>
+                <? } ?>
+              <? } ?>
             </div>
 
             <div class="next">
-              <% if @article['next_article'] %>
-                <span>次の記事</span> <%= link_to article_path(@article['next_article']['id']) do %>
-                  <%= @article['next_article']['title'] %>
-                <% end %>
-              <% end %>
+              <? if @article['next_article'] ?>
+                <span>次の記事</span> <?= MyView::link_to(article_path(@article['next_article']['id']) { ?>
+                  <?= @article['next_article']['title'] ?>
+                <? } ?>
+              <? } ?>
             </div>
           </div>
-        <% end %>
+        <? } ?>
 
-        <% if @article['related_to_articles'].size > 0 %>
+        <? if @article['related_to_articles'].size > 0 ?>
             <h2 class="page-title">この記事と関連する記事</h2>
             <div class="article-list">
               <ul>
-                <% @article['related_to_articles'].each do |article| %>
-                  <%= render 'front/articles/list_item', article: article, mini: true %>
-                <% end %>
+                <? @article['related_to_articles'].each { |article| ?>
+                  <?= render 'front/articles/list_item', article: article, mini: true ?>
+                <? } ?>
               </ul>
             </div>
-        <% end %>
+        <? } ?>
 
         </div>
-        <%= render "shared/articles_sidebar" %>
+        <?= render "shared/articles_sidebar" ?>
       </div>
     </div>
   </div>
 </div>
 
-<%# https://iacc.backlog.jp/view/RSD-1132 %>
-<%= content_for :tail do %>
-<% if @article['categories'].map { |cate| cate['path_name_prog'] }.include?('lpgas/column') %>
-<%= render 'shared/yahoo_retargeting' %>
-<%= render 'shared/google_remarketing' %>
-<% end %>
-<% end %>
+<?// https://iacc.backlog.jp/view/RSD-1132 ?>
+<?= content_for :tail { ?>
+<? if @article['categories'].map { |cate| cate['path_name_prog'] }.include?('lpgas/column') ?>
+<?= render 'shared/yahoo_retargeting' ?>
+<?= render 'shared/google_remarketing' ?>
+<? } ?>
+<? } ?>

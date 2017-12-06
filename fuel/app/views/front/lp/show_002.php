@@ -2,21 +2,21 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <% set_meta_tags title: '大家さん必見！1番安いガス料金を比較し、お得に乗り換えよう！enepi（エネピ）', site: nil %>
-  <% description 'enepi（エネピ）は、LPガスの料金を「比べて」、よりお得なプランに「乗り換える」ために必要な、お得な情報をご紹介します。最適な料金プランを選んで、ガス代を節約したい方は、enepi（エネピ）をチェック！' %>
-  <% keywords %W(電気料金 ガス料金 比較 ガス自由化 ガス代 enepi エネピ 大家　アパート　マンション) %>
+  <? set_meta_tags title: '大家さん必見！1番安いガス料金を比較し、お得に乗り換えよう！enepi（エネピ）', site: nil ?>
+  <? MyView::description('enepi（エネピ）は、LPガスの料金を「比べて」、よりお得なプランに「乗り換える」ために必要な、お得な情報をご紹介します。最適な料金プランを選んで、ガス代を節約したい方は、enepi（エネピ）をチェック！' ?>
+  <? keywords %W(電気料金 ガス料金 比較 ガス自由化 ガス代 enepi エネピ 大家　アパート　マンション) ?>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:700' rel='stylesheet' type='text/css'>
 
-  <%= display_meta_tags({
+  <?= display_meta_tags({
     site: Dh::Application.config.site_name,
     separator: "|",
     charset: 'utf-8',
     reverse: true,
-  })%>
+  })?>
 
-  <%= stylesheet_link_tag 'lp/lp', media: 'all' %>
-  <%= javascript_include_tag 'lp' %>
-  <%= csrf_meta_tags %>
+  <?= stylesheet_link_tag 'lp/lp', media: 'all' ?>
+  <?= javascript_include_tag 'lp' ?>
+  <?= csrf_meta_tags ?>
 
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -166,7 +166,7 @@ capv();
         <div class="keyvisual">
           <div class="keyvisual__inner fadeInDown">
             <h2 class="keyvisual__main-txt">
-            <%= image_tag "lp/002/img_catch.png", :alt => "集合住宅にお住いの大家さん必見！" %>
+            <?= MyView::image_tag("lp/002/img_catch.png", :alt => "集合住宅にお住いの大家さん必見！" ?>
             <div class="keyvisual__action-area">
             <div class="hidden_pc">
               <p><span>複数のプロパンガス会社</span>の提案を比較！</p>
@@ -175,14 +175,14 @@ capv();
               <p><span>複数のプロパンガス会社</span>の<br>提案を比較！</p>
             </div>
             <div class="hidden_pc">
-                <%= link_to Rails.application.config.form_path + "?apartment_form=1" do %>
+                <?= MyView::link_to(Rails.application.config.form_path + "?apartment_form=1"]); { ?>
                   <div class="estimate_btn">【無料】今すぐ相談する</div>
-                <% end %>
+                <? } ?>
               </div>
               <div class="hidden_sp">
-                <%= link_to Rails.application.config.form_path + "?apartment_form=1" do %>
-                  <%= image_tag "lp/002/bt_estimate_mainview_off.png", :alt => "【無料】今すぐ相談する" %>
-                <% end %>
+                <?= MyView::link_to(Rails.application.config.form_path + "?apartment_form=1"]); { ?>
+                  <?= MyView::image_tag("lp/002/bt_estimate_mainview_off.png", :alt => "【無料】今すぐ相談する" ?>
+                <? } ?>
               </div>
             </div>
             </h2>
@@ -233,12 +233,12 @@ capv();
         <h3 class="contents-title">プロパンガス料金の仕組み</h3>
         <div class="hidden_pc">
           <div class="mechanism__glaph-img">
-            <%= image_tag "lp/002/img_glaph.png" %>
+            <?= MyView::image_tag("lp/002/img_glaph.png" ?>
           </div>
         </div>
         <div class="hidden_sp">
           <div class="mechanism__glaph-img">
-            <%= image_tag "lp/002/img-glaph_sp.png" %>
+            <?= MyView::image_tag("lp/002/img-glaph_sp.png" ?>
           </div>
         </div>
         <div class="estimate__contents">
@@ -246,17 +246,17 @@ capv();
             <dt>
               <p><span>無料で一番安いLPガス会社</span>を見つけよう！！</p>
               <div class="hidden_pc">
-                <%= link_to Rails.application.config.form_path + "?apartment_form=1" do %>
+                <?= MyView::link_to(Rails.application.config.form_path + "?apartment_form=1"]); { ?>
                   <div class="estimate_btn_bottom">無料一括見積もり依頼をする</div>
-                <% end %>
+                <? } ?>
               </div>
               <div class="hidden_sp">
-                <%= link_to Rails.application.config.form_path + "?apartment_form=1" do %>
-                  <%= image_tag "lp/002/bt_estimate-sp.png", :alt => "【完全無料】一括見積もり依頼をする" %>
-                <% end %>
+                <?= MyView::link_to(Rails.application.config.form_path + "?apartment_form=1"]); { ?>
+                  <?= MyView::image_tag("lp/002/bt_estimate-sp.png", :alt => "【完全無料】一括見積もり依頼をする" ?>
+                <? } ?>
               </div>
             </dt>
-            <dd><%= image_tag "lp/002/img_estimate.png" %></dd>
+            <dd><?= MyView::image_tag("lp/002/img_estimate.png" ?></dd>
           </dl>
         </div>
       </div>
@@ -339,7 +339,7 @@ capv();
         <div class="user__voice-box">
           <h3>ガス設備を新しいものに<br>切り替えて頂きました。</h3>
           <div class="thumb">
-            <%= image_tag "lp/002/img_user1.png" %>
+            <?= MyView::image_tag("lp/002/img_user1.png" ?>
           </div>
           <p>13年程前より、10戸のアパートのオーナーになりましたが、なかなか入居者候補の内覧から契約に結びつくことが難しい状態でした。そんな中、管理会社からenepi（エネピ）の紹介を受け、問い合わせてみると、トントン拍子で新しいガス会社との契約に至りました。</p>
 
@@ -349,7 +349,7 @@ capv();
         <div class="user__voice-box">
           <h3>ガス料金を<br>下げることができました。</h3>
           <div class="thumb">
-            <%= image_tag "lp/002/img_user2.png" %>
+            <?= MyView::image_tag("lp/002/img_user2.png" ?>
           </div>
           <p>以前より、入居者からプロパンガス代が高いという苦情をもらっていたのですが、昔からお付き合いのあるガス会社だったので、ガス会社の切り替えに二の足を踏んでいました。ただ、enepi（エネピ）事務局の方とお話することで、ガス会社を変えてみようと決心できました。</p>
           <p>とてもスムーズに切り替えることができ、入居者からも感謝の声が聞けたので、思い切ってガス会社を変えて良かったと思っています。</p>
@@ -360,7 +360,7 @@ capv();
         <div class="user__voice-box">
           <h3>ガス会社によって<br>提案内容は全然違います。</h3>
           <div class="thumb">
-            <%= image_tag "lp/002/img_user3.png" %>
+            <?= MyView::image_tag("lp/002/img_user3.png" ?>
           </div>
           <p>複数の会社から見積もりがもらえるとのことで、enepi（エネピ）に相談してみました。地元の付き合いのガス会社の他、enepi（エネピ）事務局から2社のガス会社をご紹介頂き、計3社から見積もりをもらったのですが、提案内容はまったく違っていました。</p>
 
@@ -370,7 +370,7 @@ capv();
         <div class="user__voice-box">
           <h3>簡単に切り替えることが<br>できました。</h3>
           <div class="thumb">
-            <%= image_tag "lp/002/img_user4.png" %>
+            <?= MyView::image_tag("lp/002/img_user4.png" ?>
           </div>
           <p>パソコンはあまり慣れていませんが、電話を通じて丁寧に対応してもらい、気持ちよくお話することができました。</p>
 
@@ -456,17 +456,17 @@ capv();
           <dt>
               <p><span>無料で一番安いLPガス会社</span>を見つけよう！！</p>
               <div class="hidden_pc">
-                <%= link_to Rails.application.config.form_path + "?apartment_form=1" do %>
+                <?= MyView::link_to(Rails.application.config.form_path + "?apartment_form=1"]); { ?>
                   <div class="estimate_btn_bottom">無料一括見積もり依頼をする</div>
-                <% end %>
+                <? } ?>
               </div>
               <div class="hidden_sp">
-                <%= link_to Rails.application.config.form_path + "?apartment_form=1" do %>
-                  <%= image_tag "lp/002/bt_estimate-sp.png", :alt => "【完全無料】一括見積もり依頼をする" %>
-                <% end %>
+                <?= MyView::link_to(Rails.application.config.form_path + "?apartment_form=1"]); { ?>
+                  <?= MyView::image_tag("lp/002/bt_estimate-sp.png", :alt => "【完全無料】一括見積もり依頼をする" ?>
+                <? } ?>
               </div>
             </dt>
-          <dd><%= image_tag "lp/002/img_estimate.png" %></dd>
+          <dd><?= MyView::image_tag("lp/002/img_estimate.png" ?></dd>
         </dl>
       </div>
     </div>
@@ -487,7 +487,7 @@ capv();
 
     <div class="top-scroll">
       <a href="#top">
-        <%= image_tag "lp/001/scrolltop-icon.png" %>
+        <?= MyView::image_tag("lp/001/scrolltop-icon.png" ?>
       </a>
     </div>
 

@@ -1,12 +1,12 @@
-<%= simple_form_for [:admin, @company.notification_emails.build], url: admin_partner_company_emails_path(@company) do |f| %>
-  <%= f.error_notification %>
+<?= simple_form_for [:admin, @company.notification_emails.build], url: admin_partner_company_emails_path(@company) { |f| ?>
+  <?= f.error_notification ?>
   <div class="form-group">
     <div class="form-inline">
-      <%= f.input :email %>
+      <?= f.input :email ?>
     </div>
   </div>
-  <%= f.button :submit %>
-<% end %>
+  <?= f.button :submit ?>
+<? } ?>
 
 <table class="table table-condensed table-striped table-hover">
   <thead>
@@ -15,19 +15,19 @@
   <tbody>
     <tr>
       <td>
-        <%= @company.email %>
+        <?= @company.email ?>
       </td>
       <td></td>
     </tr>
-    <% @company.notification_emails.select { |e| e.persisted? }.each do |email| %>
+    <? @company.notification_emails.select { |e| e.persisted? }.each { |email| ?>
       <tr>
         <td>
-          <%= email.email %>
+          <?= email.email ?>
         </td>
         <td>
-          <%= link_to "削除", admin_partner_company_email_path(@company, email), data: {confirm: 1, method: 'delete'}, class: 'btn btn-danger btn-xs' %>
+          <?= MyView::link_to("削除", admin_partner_company_email_path(@company, email), data: {confirm: 1, ["method" => 'delete'}, ["class" => 'btn btn-danger btn-xs' ?>
         </td>
       </tr>
-    <% end %>
+    <? } ?>
   </tbody>
 </table>

@@ -43,6 +43,24 @@ class Controller_Front_Welcome extends Controller_Front
         // return Response::forge(View::forge('welcome/index'));
     }
 
+
+    public function action_index2()
+    {
+    	$meta = [
+    			['name' => 'description', 'content' => 'OOooOOppp'],
+    			['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
+    			['name' => 'puka', 'content' => 'suka'],
+    	];
+
+    	$this->template->title = 'TOP';
+    	$this->template->meta = $meta;
+    	$this->template->content = View::forge('front/welcome/index2', [
+    			'test' => 'test'
+    	]);
+    	// return Response::forge(View::forge('welcome/index'));
+    }
+
+
     /**
      * The 404 action for the application.
      *

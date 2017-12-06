@@ -1,11 +1,11 @@
-<%= render partial: "front/citygas/panel" %>
+<?= render partial: "front/citygas/panel" ?>
 
 <div class="panel">
   <div class="panel-inner">
     <h2>都市ガス自由化とは</h2>
 
     <h3>都市ガス自由化により可能になること</h3>
-    <%= image_tag asset_url("citygas-liberalization.png") %>
+    <?= MyView::image_tag(asset_url("citygas-liberalization.png") ?>
 
     <p>
       ガスは大きく分けて都市ガス・簡易ガス・プロパンガス(LPガス)の3タイプがありますが、2017年4月に自由化の対象となるのは、都市ガス・簡易ガスをご利用の家庭が対象です。
@@ -35,7 +35,7 @@
       </p>
     </div>
 
-    <%= image_tag asset_url("citygas-schedule.png") %>
+    <?= MyView::image_tag(asset_url("citygas-schedule.png") ?>
   </div>
 </div>
 
@@ -49,7 +49,7 @@
     </p>
 
     <div class="merit">
-      <h4><%= image_tag("circle-yellow.png") %> メリット</h4>
+      <h4><?= image_tag("circle-yellow.png") ?> メリット</h4>
       <ul>
         <li>競争によって料金が下がる</li>
         <li>多様なサービス・プランの登場</li>
@@ -57,7 +57,7 @@
       </ul>
     </div>
     <div class="demerit">
-      <h4><%= image_tag("cross-yellow.png") %> デメリット</h4>
+      <h4><?= image_tag("cross-yellow.png") ?> デメリット</h4>
       <ul>
         <li>価格が不安定になる可能性がある</li>
         <li>首都圏では選択肢が多く、<br>地方では選択できないことも</li>
@@ -89,7 +89,7 @@
 
       <cite>
         参照 : 資源エネルギー庁
-        （<%= link_to "http://www.enecho.meti.go.jp/category/electricity_and_gas/energy_system_reform/", "http://www.enecho.meti.go.jp/category/electricity_and_gas/energy_system_reform/", target: "_blank" %>）
+        （<?= MyView::link_to("http://www.enecho.meti.go.jp/category/electricity_and_gas/energy_system_reform/", "http://www.enecho.meti.go.jp/category/electricity_and_gas/energy_system_reform/", target: "_blank" ?>）
     </cite>
     </div>
   </div>
@@ -107,7 +107,7 @@
       <li>
         <h4 class="title">イギリスでのガス自由化</h4>
         <div class="split">
-          <%= image_tag asset_url("gbr.png") %>
+          <?= MyView::image_tag(asset_url("gbr.png") ?>
           <div class="text">
             <p class="description">EU全体でのガス小売自由化に先立ち、1980年代から段階的な自由化が進み、1998年には家庭向けの小売事業が全面自由化されています。Big6と呼ばれる大手6事業者が99％のシェアを占め、ガス自由化後には料金が高騰していますが、消費者のスイッチング率は高く、ガス自由化に成功している国といえます。</p>
           </div>
@@ -116,7 +116,7 @@
       <li>
         <h4 class="title">アメリカでのガス自由化</h4>
         <div class="split">
-          <%= image_tag asset_url("usa.png") %>
+          <?= MyView::image_tag(asset_url("usa.png") ?>
           <div class="text">
             <p class="description">アメリカにおけるガス自由化は州ごとに行われており、状況は州によって異なります。家庭用の小売り全面自由化を実施しているのは8州で、主なところではニューヨーク州・カリフォルニア州がありますが、それぞれ切り替え率が20％程度と1％程度と、州によって切り替えの状況も州によって様々です。</p>
           </div>
@@ -126,7 +126,7 @@
         <h4 class="title">ドイツでのガス自由化</h4>
 
         <div class="split">
-          <%= image_tag asset_url("deu.png") %>
+          <?= MyView::image_tag(asset_url("deu.png") ?>
           <div class="text">
             <p class="description">ドイツは大きな国営企業なども存在していなかったこともあり、1998年に電力とあわせて全面自由化が実施されました。ガス自由化後に切り替えを実施した消費者は2011年で18％と、比較的高くなっています。</p>
           </div>
@@ -136,7 +136,7 @@
         <h4 class="title">イタリアでのガス自由化</h4>
 
         <div class="split">
-          <%= image_tag asset_url("ita.png") %>
+          <?= MyView::image_tag(asset_url("ita.png") ?>
           <div class="text">
             <p class="description">イタリアでは2003年に家庭向け小売も含む全面自由化が実施されました。300を超える事業者が存在しており、上位5社がマーケットシェア61％を占めています。イタリアでは近年スイッチング率があがり、2011年では5％を超えています。</p>
           </div>
@@ -146,7 +146,7 @@
         <h4>フランスでのガス自由化</h4>
 
         <div class="split">
-          <%= image_tag asset_url("fra.png") %>
+          <?= MyView::image_tag(asset_url("fra.png") ?>
           <div class="text">
             <p class="description">2000年から順次自由化が開始され、2007年には家庭向けを含む全面自由化が実施されましたが、自由化後も総合エネルギー大手のGaz de France Suezが80％以上のシェアを占めています。</p>
           </div>
@@ -166,7 +166,7 @@
       <p>また、包括的にエネルギーを提供する会社が増えることで、提供プランの多様化やライフスタイルにあわせたセット割の選択などができるようになるでしょう。</p>
     </div>
 
-    <%= image_tag asset_url("citygas-future.png") %>
+    <?= MyView::image_tag(asset_url("citygas-future.png") ?>
   </div>
 </div>
 
@@ -174,14 +174,14 @@
   <div class="panel-inner article-list">
     <h3>都市ガスの最新ニュース</h3>
     <ul>
-      <%= render(
+      <?= render(
         partial: 'front/articles/list_item',
         collection: @news['articles'].take(4),
         as: :article,
         locals: {
           mini: false
         })
-      %>
+      ?>
     </ul>
   </div>
 </div>
@@ -193,7 +193,7 @@
     <p>しかし、最有力の事業者は東京電力や関西電力などの大手電力会社や、石油会社、大手総合商社などです。彼らは、発電やガソリンとしての提供などですでに大量のガスを取り扱っており、1995年以降段階的に進められてきた、大口需要家向けの自由化では販売量でも上位に位置しています。特に、関西電力・JX日鉱日石エネルギーや石油資源開発、国際石油開発帝石、中部電力、東京電力などが目立ちます。また、電力自由化と同様に、携帯電話やインターネットプロバイダ事業者も参入すると言われています。</p>
 
     <span class="citygas-players-header">＼ 他業種もぞくぞく参入! ／</span>
-    <%= image_tag asset_url("citygas-players.png") %>
+    <?= MyView::image_tag(asset_url("citygas-players.png") ?>
   </div>
 </div>
 
@@ -252,7 +252,7 @@
     <p class="h-pad">
       毎月支払うガス料金は、固定の基本料金と、使用料に応じて支払う従量料金の合計金額となります。ここでは、一般的なガス機器を使用している場合の料金プランを例に、計算方法を紹介します。
     </p>
-    <%= image_tag asset_url("citygas-calc.png"), class: 'gas-calc' %>
+    <?= MyView::image_tag(asset_url("citygas-calc.png"), ["class" => 'gas-calc' ?>
     <p class="note">
       基本料金は、毎月のガス使用料から算出します。
     </p>
@@ -286,7 +286,7 @@
       ほとんどの家庭が都市ガスとプロパンガス（LPガス）のどちらかを使用していますが、この2つにはいくつか異なる点があります。具体的には原料・供給方法・価格が大きく違います、それぞれの特徴を比較してみましょう。
     </p>
 
-    <%= image_tag asset_url("citygas-lpgas.png"), style: "text-align: center; display: block; margin: 20px auto;" %>
+    <?= MyView::image_tag(asset_url("citygas-lpgas.png"), style: "text-align: center; display: block; margin: 20px auto;" ?>
 
     <p>
       プロパンガスの原料はブタンやプロパンを主成分に持つ液化石油ガス(LGP)です。供給方法は各家庭へそれぞれガスボンベで運ばれますが、低い圧力で液化するため、ボンベに充填して運搬しやすいのが理由で、ガス管が整備されていない郊外や地方での使用が多いです。
@@ -314,7 +314,7 @@
         にある会社・プランを比較検討して決めましょう。
       </p>
     </div>
-    <%= image_tag asset_url("citygas-selection.png") %>
+    <?= MyView::image_tag(asset_url("citygas-selection.png") ?>
   </div>
 </div>
 
@@ -399,50 +399,50 @@
 <div class="article-list-v2-panel">
   <div class="panel-inner article-list-v2-panel-container">
     <ul>
-      <%= render(
+      <?= render(
         partial: 'front/articles/list_item',
         collection: @news['articles'],
         as: :article,
         locals: {
           mini: false
         })
-      %>
+      ?>
     </ul>
     <div class="sidebar">
       <h3>人気記事ランキング</h3>
       <ul>
-        <%= render(
+        <?= render(
           partial: 'front/articles/list_item',
           collection: @populars['articles'],
           as: :article,
           locals: {
             mini: true
           })
-        %>
+        ?>
       </ul>
 
       <h3>enepiおすすめ記事</h3>
       <ul>
-        <% if pickup_articles_module_type('citygas') %>
-          <%= render(
+        <? if pickup_articles_module_type('citygas') ?>
+          <?= render(
             partial: 'front/articles/list_item',
             collection: pickup_articles_module_type('citygas')['items'],
             as: :article,
             locals: {
               mini: true
             })
-          %>
-        <% end %>
+          ?>
+        <? } ?>
       </ul>
 
-      <%= image_tag asset_url("merit-banner.png") %>
+      <?= MyView::image_tag(asset_url("merit-banner.png") ?>
 
       <div class="fb-page" data-href="https://www.facebook.com/enepijp" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" data-show-posts="false"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/enepijp"><a href="https://www.facebook.com/enepijp">エネピ（enepi）</a></blockquote></div></div>
     </div>
   </div>
   <div class="more_link">
-    <%= link_to "都市ガスに関する記事を詳しくみる", category_path(CMS_CITYGAS) %>
+    <?= MyView::link_to("都市ガスに関する記事を詳しくみる", category_path(CMS_CITYGAS) ?>
   </div>
 </div>
 
-<%= render 'front/welcome/panel' %>
+<?= render 'front/welcome/panel' ?>

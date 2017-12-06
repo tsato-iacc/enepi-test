@@ -2,20 +2,20 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <% set_meta_tags title: '1番安いガス料金を比較し、お得に乗り換えよう！enepi（エネピ）', site: nil %>
-    <% description 'enepi（エネピ）は、LPガスの料金を「比べて」、よりお得なプランに「乗り換える」ために必要な、お得な情報をご紹介します。最適な料金プランを選んで、ガス代を節約したい方は、enepi（エネピ）をチェック！' %>
-    <% keywords %W(電気料金 ガス料金 比較 ガス自由化 ガス代 enepi エネピ) %>
+    <? set_meta_tags title: '1番安いガス料金を比較し、お得に乗り換えよう！enepi（エネピ）', site: nil ?>
+    <? MyView::description('enepi（エネピ）は、LPガスの料金を「比べて」、よりお得なプランに「乗り換える」ために必要な、お得な情報をご紹介します。最適な料金プランを選んで、ガス代を節約したい方は、enepi（エネピ）をチェック！' ?>
+    <? keywords %W(電気料金 ガス料金 比較 ガス自由化 ガス代 enepi エネピ) ?>
 
-    <%= display_meta_tags({
+    <?= display_meta_tags({
       site: Dh::Application.config.site_name,
       separator: "|",
       charset: 'utf-8',
       reverse: true,
-    })%>
+    })?>
 
-  <%= stylesheet_link_tag 'lp/lp', media: 'all' %>
-  <%= javascript_include_tag 'lp' %>
-  <%= csrf_meta_tags %>
+  <?= stylesheet_link_tag 'lp/lp', media: 'all' ?>
+  <?= javascript_include_tag 'lp' ?>
+  <?= csrf_meta_tags ?>
 
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -118,15 +118,15 @@ capv();
   </div>
   <header>
     <div class="container">
-      <% unless Rails.env.production? %>
+      <? unless Rails.env.production? ?>
         <div style="padding: 0.4em; background-color: #EFEFEF;">
-          <%= form_tag url_for, method: 'GET' do %>
-            (<%= Rails.env %>) 経由元: <%= pr_tracking_parameter.try(:name) || "無し" %>
-            デバッグ用: <%= text_field_tag :now, @now, class: 'datepicker' %> 10:31
-            <%= submit_tag '現在時刻を変更' %>
-          <% end %>
+          <?= MyView::form_tag url_for, ["method" => 'GET' { ?>
+            (<?= Rails.env ?>) 経由元: <?= pr_tracking_parameter.try(:name) || "無し" ?>
+            デバッグ用: <?= text_field_tag :now, @now, ["class" => 'datepicker' ?> 10:31
+            <?= submit_tag '現在時刻を変更' ?>
+          <? } ?>
         </div>
-      <% end %>
+      <? } ?>
 
       <div class="logo-lp"></div>
       <div class="tel">
@@ -141,12 +141,12 @@ capv();
     <div class="container">
       <div class="inner">
         <div class="hidden_pc" style="margin-top: 40px;">
-          <h1 class="fadeInDown"><%= image_tag "lp/001/catch/catch_mainview07.png", alt: '簡単3分！ガス料金を徹底比較！' %></h1>
+          <h1 class="fadeInDown"><?= MyView::image_tag("lp/001/catch/catch_mainview07.png", alt: '簡単3分！ガス料金を徹底比較！' ?></h1>
         </div>
         <div class="hidden_sp">
-          <h1 class="fadeInDown"><%= image_tag "lp/001/catch-sp/catch_mainview07.png", alt: '簡単3分！ガス料金を徹底比較！' %></h1>
+          <h1 class="fadeInDown"><?= MyView::image_tag("lp/001/catch-sp/catch_mainview07.png", alt: '簡単3分！ガス料金を徹底比較！' ?></h1>
         </div>
-        <%= link_to "無料一括見積もり依頼はこちら", Rails.application.config.form_path, class: "btn btn-large btn-estimate" %>
+        <?= MyView::link_to("無料一括見積もり依頼はこちら", Rails.application.config.form_path, ["class" => "btn btn-large btn-estimate" ?>
       </div>
     </div>
   </div>
@@ -163,7 +163,7 @@ capv();
           </ul>
         </div>
         <div class="trouble-img">
-          <%= image_tag "lp/001/trouble-img.png" %>
+          <?= MyView::image_tag("lp/001/trouble-img.png" ?>
         </div>
       </div><!-- /.row -->
     </div>
@@ -174,19 +174,19 @@ capv();
       <div class="row">
         <h2 class="maintitle-contents ttl-orange">エネピが選ばれている、3つの理由</h2>
         <div class="reason-box">
-          <%= image_tag "lp/001/img-reason1.png" %>
+          <?= MyView::image_tag("lp/001/img-reason1.png" ?>
           <h3>比較するから<br>安くできる！</h3>
           <p>見積もりを比較することで、料金は安くなり、より安心して選択していただくことができます。</p>
           <p>特定のガス会社に偏らない、中立な立場で運営しているエネピだからこそできるのです。</p>
         </div>
         <div class="reason-box">
-          <%= image_tag "lp/001/img-reason2.png" %>
+          <?= MyView::image_tag("lp/001/img-reason2.png" ?>
           <h3>厳選したLPガス会社を<br>ご紹介</h3>
           <p>LPガス会社は、全国に20,000社以上も存在します。</p>
           <p>エネピがご紹介する会社は、「会社の信頼性」、「適正なガス料金価格」、「保安体制を含めたサービス内容」といった3つの基準から、加盟企業を厳選しています。</p>
         </div>
         <div class="reason-box">
-          <%= image_tag "lp/001/img-reason3.png" %>
+          <?= MyView::image_tag("lp/001/img-reason3.png" ?>
           <h3>カスタマーサポートによる<br>完全個別対応</h3>
           <p>エネピは、複数のガス会社から見積もりを受け取り、お客様にご納得いただける意思決定をしていただくまで様々なご相談に親身にお受けしています。</p>
           <p>もちろん、お見積もり結果にご納得頂けない場合は、遠慮なくお断りください！</p>
@@ -194,7 +194,7 @@ capv();
       </div><!-- /.row -->
       <div class="cta-area-top">
         <p>光熱費が最もかかる冬をお得に乗り越えるために…！<br><span>無料で一番安いLPガス会社を見つけよう！！</span></p>
-        <%= link_to "無料一括見積もり依頼はこちら", Rails.application.config.form_path, class: "btn btn-large btn-estimate" %>
+        <?= MyView::link_to("無料一括見積もり依頼はこちら", Rails.application.config.form_path, ["class" => "btn btn-large btn-estimate" ?>
       </div>
     </div>
   </div>
@@ -204,7 +204,7 @@ capv();
       <div class="row">
         <h2 class="maintitle-contents ttl-orange">LPガス変更の流れ</h2>
         <div class="estimate-simulation">
-          <%= image_tag "lp/001/img-estimate-simulation.jpg" %>
+          <?= MyView::image_tag("lp/001/img-estimate-simulation.jpg" ?>
         </div>
         <h2 class="maintitle-contents">LPガス会社の変更は<br>すべてエネピと新ガス会社が代行します</h2>
       </div>
@@ -243,7 +243,7 @@ capv();
       </div><!-- /.row -->
       <div class="cta-area">
         <p>光熱費が最もかかる冬をお得に乗り越えるために…！<br><span>無料で一番安いLPガス会社を見つけよう！！</span></p>
-        <%= link_to "無料一括見積もり依頼はこちら", Rails.application.config.form_path, class: "btn btn-large btn-estimate" %>
+        <?= MyView::link_to("無料一括見積もり依頼はこちら", Rails.application.config.form_path, ["class" => "btn btn-large btn-estimate" ?>
       </div>
     </div>
   </div>
@@ -257,7 +257,7 @@ capv();
           <div class="user-voice-box">
             <h3>相見積もりで、ガス料金が<br>すごく安くなりました！</h3>
             <div class="thumb">
-              <%= image_tag "lp/001/img-voice04.png" %>
+              <?= MyView::image_tag("lp/001/img-voice04.png" ?>
             </div>
             <p>もう少しガス料金が安くならないかな…と思い、試しに見積もり依頼をしてみました。結果的に、3社のプロパンガス会社の見積もりをもらい、納得して選ぶことができました。半額近くの料金になり、とても満足しています。</p>
             <p class="user-profile">東京都/40代　女性</p>
@@ -268,7 +268,7 @@ capv();
           <div class="user-voice-box">
             <h3>ガス会社を変えられるとは<br>知りませんでした。</h3>
             <div class="thumb">
-              <%= image_tag "lp/001/img-voice02.png" %>
+              <?= MyView::image_tag("lp/001/img-voice02.png" ?>
             </div>
             <p>もう20年近く同じプロパンガス会社を利用していたので、ガス会社を変えられると知ってビックリしました。実際に変えてみて、ガス料金はとても安くなりましたし、こんなに簡単に変えられると分かってまたビックリしました！</p>
             <p class="user-profile">宮城県/50代　男性</p>
@@ -279,7 +279,7 @@ capv();
           <div class="user-voice-box">
             <h3>カスタマーサポートが丁寧に<br>説明してくれてよかったです。</h3>
             <div class="thumb">
-              <%= image_tag "lp/001/img-voice03.png" %>
+              <?= MyView::image_tag("lp/001/img-voice03.png" ?>
             </div>
             <p>エネピのカスタマーサポートの人が、分かりやすく丁寧に説明してくれたため、新しいガス会社にスムーズに切り替えることができました。ガス会社と個別に話す必要がなく、大変効率が良かったです。</p>
             <p class="user-profile">福岡県/40代　男性</p>
@@ -290,7 +290,7 @@ capv();
           <div class="user-voice-box">
             <h3>かんたんに見積もり依頼が<br>できました。</h3>
             <div class="thumb">
-              <%= image_tag "lp/001/img-voice01.png" %>
+              <?= MyView::image_tag("lp/001/img-voice01.png" ?>
             </div>
             <p>入力項目がわかりやすく、スマートフォンから簡単に見積もりできました。わからない項目もあったのですが、カスタマーサポートの人が後で電話で説明してくれたので大丈夫でした。</p>
             <p class="user-profile">青森県/30代　女性</p>
@@ -365,7 +365,7 @@ capv();
           </dl>
           <div class="cta-area-bottom">
             <p>光熱費が最もかかる冬をお得に乗り越えるために…！<br><span>無料で一番安いLPガス会社を見つけよう！！</span></p>
-            <%= link_to "無料一括見積もり依頼はこちら", Rails.application.config.form_path, class: "btn btn-large btn-estimate" %>
+            <?= MyView::link_to("無料一括見積もり依頼はこちら", Rails.application.config.form_path, ["class" => "btn btn-large btn-estimate" ?>
           </div>
         </div><!-- /.row -->
       </div>
@@ -384,19 +384,19 @@ capv();
 
   <div class="top-scroll">
     <a href="#top">
-      <%= image_tag "lp/001/scrolltop-icon.png" %>
+      <?= MyView::image_tag("lp/001/scrolltop-icon.png" ?>
     </a>
   </div>
 
-  <%= render "shared/lp_footer_privacy" %>
+  <?= render "shared/lp_footer_privacy" ?>
 
-  <%# /lp/001 でクロスマーケのCVタグを表示 %>
-  <% if pr_tracking_parameter.try(:name) == "xmarke" %>
-    <%= conversion_image_tag "https://rsch.jp/common/prom/connectlpimg.php?eqid=8def6277d77504dbc3b8bbaf8e447c56546cb41c&po=0022" %>
-  <% end %>
+  <?// /lp/001 でクロスマーケのCVタグを表示 ?>
+  <? if pr_tracking_parameter.try(:name) == "xmarke" ?>
+    <?= conversion_MyView::image_tag("https://rsch.jp/common/prom/connectlpimg.php?eqid=8def6277d77504dbc3b8bbaf8e447c56546cb41c&po=0022" ?>
+  <? } ?>
 
-  <%# https://iacc.backlog.jp/view/RSD-1132 %>
-  <%= render 'shared/yahoo_retargeting' %>
-  <%= render 'shared/google_remarketing' %>
+  <?// https://iacc.backlog.jp/view/RSD-1132 ?>
+  <?= render 'shared/yahoo_retargeting' ?>
+  <?= render 'shared/google_remarketing' ?>
 </body>
 </html>

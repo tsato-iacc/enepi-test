@@ -3,6 +3,7 @@
 return array(
     '_root_'  => 'front/welcome/index',
     '_404_'   => 'front/welcome/404',
+	'index2'  => 'front/welcome/index2',
 
     /**
      * Front
@@ -70,7 +71,7 @@ return array(
     'admin/companies/(:num)/estimates'                   => [['GET', new Route('admin/companies/estimates_index/$1')]],
     'admin/companies/(:num)/ng'                          => [['GET', new Route('admin/companies/ng_index/$1')], ['POST', new Route('admin/companies/ng_store/$1')]],
     'admin/companies/(:num)/ng/(:num)'                   => [['DELETE', new Route('admin/companies/ng_destroy/$1')]],
-    
+
     'admin/companies/(:num)/offices'                     => [['GET', new Route('admin/companyOffices/index/$1')], ['POST', new Route('admin/companyOffices/store/$1')]],
     'admin/companies/(:num)/offices/(:num)'              => [['DELETE', new Route('admin/companyOffices/destroy/$1/$2')]],
     'admin/companies/(:num)/offices/(:num)/price'        => [['GET', new Route('admin/companyOffices/price_index/$1/$2')]],
@@ -81,11 +82,11 @@ return array(
     'admin/company_features'                             => [['GET', new Route('admin/companyFeatures/index')], ['POST', new Route('admin/companyFeatures/store')]],
     'admin/company_features/(:num)/edit'                 => [['GET', new Route('admin/companyFeatures/edit/$1')]],
     'admin/company_features/(:num)'                      => [['POST', new Route('admin/companyFeatures/update/$1')], ['DELETE', new Route('admin/companyFeatures/delete/$1')]],
-    
+
     'admin/reviews'                                      => [['GET', new Route('admin/reviews/index')], ['POST', new Route('admin/reviews/store')]],
     'admin/reviews/(:num)/edit'                          => [['GET', new Route('admin/reviews/edit/$1')]],
     'admin/reviews/(:num)'                               => [['POST', new Route('admin/reviews/update/$1')], ['DELETE', new Route('admin/reviews/delete/$1')]],
-    
+
 
     /**
      * Partner
