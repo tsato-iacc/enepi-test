@@ -217,7 +217,7 @@
                 <div class="label">住所</div>
                 <div class="field-prefecture">
                   <?= render('test/prefectures'); ?>
-                  <!-- <? f.collection_select :new_prefecture_code, JpPrefecture::Prefecture.all, :code, :name, {include_blank: '選択してください'}, {id: 'pref', name: 'pref'} ?> -->
+                  <!-- <? /* f.collection_select :new_prefecture_code, JpPrefecture::Prefecture.all, :code, :name, {include_blank: '選択してください'}, {id: 'pref', name: 'pref'} */ ?> -->
                 </div>
               </div>
               <div class="address-box input-wrap error-wrap">
@@ -285,7 +285,7 @@
 
               <div class="address-box input-wrap gas-wrap mb-0">
                 <div class="label3">使用量・料金<span class="optional can-hide">(任意)</span></div>
-                
+
                 <div class="row-wrap">
                   <div class="field-capacity error-wrap remove-error">
                     <input type="tel" name="lpgas_contact[gas_meter_checked_month]" value="">

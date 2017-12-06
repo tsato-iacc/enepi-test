@@ -29,6 +29,11 @@ class MyView{
 
 	}
 
+	public static function asset_url($url, $hash = null){
+
+	}
+
+
 
 
 	private static function multi_tag($tag_type, $name, $hash){
