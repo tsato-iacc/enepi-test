@@ -1,27 +1,27 @@
-<%= form_tag admin_lpgas_company_company_geocode_zip_codes_path(@company, @geocode), method: 'POST' do %>
+<?= MyView::form_tag admin_lpgas_company_company_geocode_zip_codes_path(@company, @geocode), ["method" => 'POST' { ?>
   <p>
     改行して複数の郵便番号を登録できます。
   </p>
   <p>
     市区町村からも選べます。
-    <%= collection_select(
+    <?= collection_select(
       'pref',
       :code,
       JpPrefecture::Prefecture.all,
       :code,
       :name,
       include_blank: '選択してください',
-    ) %>
+    ) ?>
     <select id="city_name">
     </select>
   </p>
   <div class="form-group">
-    <%= text_area_tag :zip_code, "", class: "form-control", rows: "10" %>
+    <?= text_area_tag :zip_code, "", ["class" => "form-control", rows: "10" ?>
   </div>
   <div class="form-group">
-    <%= submit_tag "追加", class: 'btn btn-primary' %>
+    <?= submit_tag "追加", ["class" => 'btn btn-primary' ?>
   </div>
-<% end %>
+<? } ?>
 
 <table class="table table-striped table-hover" style="margin-bottom: 0">
   <thead>
@@ -32,23 +32,23 @@
     </tr>
   </thead>
   <tbody>
-    <% @zip_codes.each do |z| %>
+    <? @zip_codes.each { |z| ?>
       <tr>
-        <td><%= z.zip_code %></td>
-        <td><%= z.notes %></td>
+        <td><?= z.zip_code ?></td>
+        <td><?= z.notes ?></td>
         <td>
-          <%= link_to(
+          <?= link_to(
             "削除",
             admin_lpgas_company_company_geocode_zip_code_path(@geocode.company, @geocode, z),
-            data: {method: 'delete', confirm: 1}, class: 'btn btn-danger btn-xs'
-          ) %>
+            data: {["method" => 'delete', confirm: 1}, ["class" => 'btn btn-danger btn-xs'
+          ) ?>
         </td>
       </tr>
-    <% end %>
+    <? } ?>
   </tbody>
 </table>
 
-<%= paginate @zip_codes %>
+<?= paginate @zip_codes ?>
 
 <script>
   var cityName = document.querySelector('#city_name');

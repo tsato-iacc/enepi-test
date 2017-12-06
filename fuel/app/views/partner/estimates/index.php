@@ -1,21 +1,21 @@
-<%= search_form_for [:partner, @q] do |f| %>
+<?= search_form_for [:partner, @q] { |f| ?>
   <div class="form-group">
     <div class="form-inline">
-      <%= f.input :status_eq, collection: ::Lpgas::Estimate.as_enum_collection_i18n_for_ransack(:status), required: false, label: "ステータス" %>
-      <%= f.input :contact_prefecture_code_eq, collection: JpPrefecture::Prefecture.all, required: false, label: "都道府県", value_method: :code %>
-      <%= f.input :contact_name_eq, required: false, label: "名前が等しい" %>
-      <%= f.input :contact_name_cont, required: false, label: "名前を含む" %>
-      <%= f.input :company_contact_name_cont, required: false, label: "担当者名(含む)" %>
+      <?= f.input :status_eq, collection: ::Lpgas::Estimate.as_enum_collection_i18n_for_ransack(:status), required: false, label: "ステータス" ?>
+      <?= f.input :contact_prefecture_code_eq, collection: JpPrefecture::Prefecture.all, required: false, label: "都道府県", value_["method" => :code ?>
+      <?= f.input :contact_name_eq, required: false, label: "名前が等しい" ?>
+      <?= f.input :contact_name_cont, required: false, label: "名前を含む" ?>
+      <?= f.input :company_contact_name_cont, required: false, label: "担当者名(含む)" ?>
     </div>
   </div>
   <label>紹介日</label>
   <div class="form-group">
     <div class="form-inline">
-      <%= text_field_tag :created_at_gte, params[:created_at_gte], class: 'datepicker form-control left-side' %> ~
-      <%= text_field_tag :created_at_lte, params[:created_at_lte], class: 'datepicker form-control' %>
+      <?= text_field_tag :created_at_gte, params[:created_at_gte], ["class" => 'datepicker form-control left-side' ?> ~
+      <?= text_field_tag :created_at_lte, params[:created_at_lte], ["class" => 'datepicker form-control' ?>
     </div>
   </div>
-  <% if !smart_phone? %>
+  <? if !smart_phone? ?>
     <label>希望連絡時間</label>
     <div class="form-group">
       <div class="form-inline">
@@ -29,18 +29,18 @@
         </select>
       </div>
     </div>
-  <% end %>
-  <%= f.button :submit %>
-<% end %>
+  <? } ?>
+  <?= f.button :submit ?>
+<? } ?>
 
 <div class="form-group">
   <div class="btn-group" role="group" aria-label="...">
-    <span class="btn btn-default">検索結果: <%= @estimates.total_count %>件</span>
-    <% if @estimates.total_count < 1000 %>
-      <%= link_to "現在の検索条件でCSVをダウンロード", url_for(params.merge(format: :csv)), class: 'btn btn-default' %>
-    <% else %>
-      <%= link_to "現在の検索条件でCSVをダウンロード", 'javascript:void(0)', class: 'btn btn-default', disabled: true %>
-    <% end %>
+    <span class="btn btn-default">検索結果: <?= @estimates.total_count ?>件</span>
+    <? if @estimates.total_count < 1000 ?>
+      <?= MyView::link_to("現在の検索条件でCSVをダウンロード", url_for(params.merge(format: :csv)), ["class" => 'btn btn-default' ?>
+    <? else ?>
+      <?= MyView::link_to("現在の検索条件でCSVをダウンロード", 'javascript:void(0)', ["class" => 'btn btn-default', disabled: true ?>
+    <? } ?>
   </div>
 </div>
 
@@ -48,16 +48,16 @@
   <thead>
     <tr>
       <th> </th>
-      <% if !smart_phone? %>
+      <? if !smart_phone? ?>
         <th> 緊急度 </th>
-      <% end %>
+      <? } ?>
       <th>
         問い合わせID
-        <%= link_to "▼", sort: "id" %>
+        <?= MyView::link_to("▼", sort: "id" ?>
       </th>
       <th>お名前</th>
       <th>紹介日時</th>
-      <% if !smart_phone? %>
+      <? if !smart_phone? ?>
         <th>電話番号</th>
         <th>開設先都道府県</th>
         <th>開設先市区町村</th>
@@ -65,107 +65,107 @@
         <th>市区町村(現住所)</th>
         <th>物件種別</th>
         <th>ガス機器</th>
-      <% end %>
+      <? } ?>
       <th>ステータス</th>
-      <% if !smart_phone? %>
+      <? if !smart_phone? ?>
         <th>希望連絡時間</th>
-      <% end %>
+      <? } ?>
       <th></th>
-      <% if !smart_phone? %>
+      <? if !smart_phone? ?>
         <th>工事予定日</th>
-      <% end %>
+      <? } ?>
       <th>
         担当者名
-        <%= link_to "▼", sort: "company_contact_name" %>
+        <?= MyView::link_to("▼", sort: "company_contact_name" ?>
       </th>
       <th></th>
     </tr>
   </thead>
   <tbody>
-    <% @estimates.each do |e| %>
+    <? @estimates.each { |e| ?>
       <tr>
         <td>
-          <% if e.is_read == 0 %>
+          <? if e.is_read == 0 ?>
             <span class="label label-danger">未読</span>
-          <% else %>
+          <? else ?>
             <span class="label label-primary">既読</span>
-          <% end %>
+          <? } ?>
         </td>
-        <% if !smart_phone? %>
-          <% if e.priority_degree_i18n == "至急" %>
+        <? if !smart_phone? ?>
+          <? if e.priority_degree_i18n == "至急" ?>
             <td><span style="color: red;">至急</span></td>
-          <% elsif e.priority_degree_i18n == "通常" %>
+          <? elsif e.priority_degree_i18n == "通常" ?>
             <td>通常</td>
-          <% end %>
-        <% end %>
-        <td><%= e.contact_id %></td>
-        <td><%= e.name %></td>
-        <% if e.change_logs.blank? || e.change_logs.detect_latest_verbal_ok.nil? %>
+          <? } ?>
+        <? } ?>
+        <td><?= e.contact_id ?></td>
+        <td><?= e.name ?></td>
+        <? if e.change_logs.blank? || e.change_logs.detect_latest_verbal_ok.nil? ?>
           <td>-</td>
-        <% else %>
-          <td><%= format_datetime! e.change_logs.detect_latest_verbal_ok.created_at %></td>
-        <% end %>
-        <% if !smart_phone? %>
-          <td><%= e.tel %></td>
-          <% if e.new_prefecture_name.present? %>
-            <td><%= e.new_prefecture_name %></td>
-            <td><%= e.new_address %></td>
+        <? else ?>
+          <td><?= format_datetime! e.change_logs.detect_latest_verbal_ok.created_at ?></td>
+        <? } ?>
+        <? if !smart_phone? ?>
+          <td><?= e.tel ?></td>
+          <? if e.new_prefecture_name.present? ?>
+            <td><?= e.new_prefecture_name ?></td>
+            <td><?= e.new_address ?></td>
             <td> </td>
             <td> </td>
-          <% else %>
+          <? else ?>
             <td> </td>
             <td> </td>
-            <td><%= e.prefecture_name %></td>
-            <td><%= e.address %></td>
-          <% end %>
-          <td><%= e.house_kind_name %></td>
-          <td><%= e.using_gas_machines_name %></td>
-        <% end %>
+            <td><?= e.prefecture_name ?></td>
+            <td><?= e.address ?></td>
+          <? } ?>
+          <td><?= e.house_kind_name ?></td>
+          <td><?= e.using_gas_machines_name ?></td>
+        <? } ?>
         <td>
-          <span class="status <%= e.status %>"><%= e.enum_value_i18n(:status) %></span>
+          <span class="status <?= e.status ?>"><?= e.enum_value_i18n(:status) ?></span>
         </td>
-        <% if !smart_phone? %>
-         <td><%= e.preferred_contact_time_between_i18n %></td>
-        <% end %>
+        <? if !smart_phone? ?>
+         <td><?= e.preferred_contact_time_between_i18n ?></td>
+        <? } ?>
         <td>
           <ul>
             <li>
-              <% if e.contacted %>
+              <? if e.contacted ?>
                 <span class="status contracted">連絡済み</span>
-              <% else %>
+              <? else ?>
                 <span class="status pending">未連絡</span>
-              <% end %>
+              <? } ?>
             </li>
             <li>
-              <% if e.visited %>
+              <? if e.visited ?>
                 <span class="status contracted">訪問済み</span>
-              <% else %>
+              <? else ?>
                 <span class="status pending">未訪問</span>
-              <% end %>
+              <? } ?>
             </li>
             <li>
-              <% if e.power_of_attorney_acquired %>
+              <? if e.power_of_attorney_acquired ?>
                 <span class="status contracted">委任状獲得済み</span>
-              <% else %>
+              <? else ?>
                 <span class="status pending">委任状未獲得</span>
-              <% end %>
+              <? } ?>
             </li>
           </ul>
         </td>
-        <% if !smart_phone? %>
-          <td><%= e.construction_scheduled_date %></td>
-        <% end %>
-        <td><%= e.company_contact_name %></td>
+        <? if !smart_phone? ?>
+          <td><?= e.construction_scheduled_date ?></td>
+        <? } ?>
+        <td><?= e.company_contact_name ?></td>
         <td>
           <ul>
-            <li><%= link_to '詳細', partner_lpgas_estimate_path(e), target: "_blank" %></li>
-            <% if !e.contracted? && !e.cancelled? %>
-              <li><%= lpgas_estimate_cancel_link(:partner, e) %></li>
-            <% end %>
+            <li><?= MyView::link_to('詳細', partner_lpgas_estimate_path(e), target: "_blank" ?></li>
+            <? if !e.contracted? && !e.cancelled? ?>
+              <li><?= lpgas_estimate_cancel_link(:partner, e) ?></li>
+            <? } ?>
           </ul>
         </td>
       </tr>
-    <% end %>
+    <? } ?>
   </tbody>
 </table>
-<%= paginate @estimates %>
+<?= paginate @estimates ?>
