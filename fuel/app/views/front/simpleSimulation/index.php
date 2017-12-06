@@ -18,6 +18,7 @@ $hash["address"] = "yyy";
 //$hash = ["name" => "ABC", "key" => "xxx", "age" => "12"];  // hash
 
 
+$bill = "";
 
 $simple_simulations_path = "";
 $simple_simulation = "ABC";
@@ -135,7 +136,7 @@ $data->a;
 							</select>
 						</div>
 						<div class="simulation-extra-info" style="margin-bottom: 40px;">
-							<?= label_tag($bill, "だいたいのガス代/月(わかれば)") ?>
+							<?= MyView::label_tag($bill, "だいたいのガス代/月(わかれば)") ?>
 							<?// if(!$data->present && !$data->amount_billed->present){ ?>
 								<?//= text_field :simple_simulation, :bill :value => "#{@data.amount_billed}", :class => 'simulation-form', 'data-hyphen-digits': 1 ?>
 								<? MyView::text_field($simple_simulation, [

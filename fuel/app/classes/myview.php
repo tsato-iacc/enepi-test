@@ -3,11 +3,10 @@
 class MyView{
 
 
-	public static function test(){
-
-		return "!!";
+	public static function label_tag(){
 
 	}
+
 
 	public static function title(){
 
