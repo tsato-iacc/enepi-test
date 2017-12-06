@@ -118,15 +118,14 @@ class Controller_Front_Articles extends Controller_Front
         }
 
         $meta = [
-            ['name' => 'description', 'content' => 'OOooOOppp'],
-            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-            ['name' => 'puka', 'content' => 'suka'],
+            ['name' => 'description', 'content' => $article['meta_description']],
+            ['name' => 'keywords', 'content' => $article['meta_keywords']],
         ];
 
-        $this->template->title = 'local_contents';
+        $this->template->title = $article['title'];
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/articles/show', [
-            'test' => 'test'
-        ]);
+            'article' => $article,
+        ], false);
     }
 }

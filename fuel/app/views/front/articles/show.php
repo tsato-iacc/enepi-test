@@ -1,14 +1,14 @@
 <%= render 'shared/article_common', article: @article, url: article_url(@article['id']) %>
 
 <div itemscope itemtype="http://schema.org/Article">
-<meta itemprop="datePublished" content="<%= @article['created_at'] %>">
-<meta itemprop="dateModified" content="<%= @article['updated_at'] %>">
-<meta itemprop="image" content="<%= @article['thumbnail_url'] %>">
+<meta itemprop="datePublished" content="<?= $article['created_at'] ?>">
+<meta itemprop="dateModified" content="<?= $article['updated_at'] ?>">
+<meta itemprop="image" content="<?= $article['thumbnail_url'] ?>">
 
 <div class="article-maintitle-area">
   <div class="inner">
     <div class="image">
-    <%= image_tag @article['thumbnail_cover_256_url'] %>
+      <img src="<?= $article['thumbnail_cover_256_url']; ?>" alt="<?= $article['title']; ?>">
     </div>
     <div class="text">
       <h1 class="title" itemprop="headline"><%= @article['title'] %></h1>
@@ -18,7 +18,7 @@
         <% end %>
       </ul>
       <p class="description" itemprop="description">
-          <%= @article['description'] %></p>
+          <?= $article['description'] ?></p>
     </div>
   </div>
 </div>
@@ -33,17 +33,17 @@
         <div class="toc">
           <p class="toc-title accordion">この記事の目次</p>
           <div class="accordion-box">
-            <%= raw @article['toc_html'] %>
+            <?= $article['toc_html'] ?>
           </div>
         </div>
 
         <div class="body" itemprop="articleBody">
-          <%= raw @article['body_html'] %>
+          <?= $article['body_html'] ?>
         </div>
 
         <div class="social-recommends-area">
           <div class="image">
-            <%= image_tag @article['thumbnail_cover_256_url'] %>
+            <img src="<?= $article['thumbnail_cover_256_url']; ?>" alt="<?= $article['title']; ?>">
           </div>
           <div class="text">
             <div class="recommend-ttl">この記事はいかがでしたか？</div>
@@ -54,25 +54,25 @@
 
         <%= render "shared/social_buttons" %>
 
-        <% if @article['prev_article'] || @article['next_article'] %>
+        <?php if ($article['prev_article'] || $article['next_article']): ?>
           <div class="around_articles">
             <div class="prev">
-              <% if @article['prev_article'] %>
+              <?php if ($article['prev_article']): ?>
                 <span>前の記事</span> <%= link_to article_path(@article['prev_article']['id']) do %>
-                  <%= @article['prev_article']['title'] %>
+                  <?= $article['prev_article']['title'] ?>
                 <% end %>
-              <% end %>
+              <?php endif; ?>
             </div>
 
             <div class="next">
-              <% if @article['next_article'] %>
+              <?php if ($article['next_article']): ?>
                 <span>次の記事</span> <%= link_to article_path(@article['next_article']['id']) do %>
-                  <%= @article['next_article']['title'] %>
+                  <?= $article['next_article']['title'] ?>
                 <% end %>
-              <% end %>
+              <?php endif; ?>
             </div>
           </div>
-        <% end %>
+        <?php endif; ?>
 
         <% if @article['related_to_articles'].size > 0 %>
             <h2 class="page-title">この記事と関連する記事</h2>
