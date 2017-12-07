@@ -3,11 +3,10 @@
 class MyView{
 
 
-	public static function test(){
-
-		return "!!";
+	public static function label_tag(){
 
 	}
+
 
 	public static function title(){
 
@@ -17,17 +16,36 @@ class MyView{
 
 	}
 
-	public static function image_tag(){
+	public static function image_tag($url){
+
+		printf("<img src=\"%s\" />", $url);
 
 	}
 
-	public static function link_to(){
+	public static function link_to($url, $hash){
+/*
+		$v_name			= (isset($name)) ? $name : "---";
+		$v_class		= (isset($hash["class"])) ? $hash["class"] : "---";
+		$v_value		= (isset($hash["value"])) ? $hash["value"] : "";
+		$v_onclick		= (isset($hash["onclick"])) ? $hash["onclick"] : "";
 
+		printf(" href=''",
+				$tag_type,
+				$v_name,
+				$v_value,
+				$v_class
+				);
+*/
 	}
 
 	public static function form_tag(){
 
 	}
+
+	public static function asset_url($url, $hash = null){
+
+	}
+
 
 
 
