@@ -58,15 +58,16 @@ class Controller_Front_Articles extends Controller_Front
             throw new HttpNotFoundException();
         }
 
-        $meta = [
-            ['name' => 'description', 'content' => 'OOooOOppp'],
-            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-            ['name' => 'puka', 'content' => 'suka'],
+        $meta = [];
+
+        $breadcrumb = [
+            ['url' => \Uri::create('articles'), 'name' => '記事一覧'],
         ];
 
-        $this->template->title = 'local_contents';
+        // $this->template->title = 'local_contents';
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/articles/index', [
+            'breadcrumb' => $breadcrumb,
             'articles' => $articles,
             // 'mini_nav' => true,
         ]);
@@ -93,11 +94,9 @@ class Controller_Front_Articles extends Controller_Front
             if ($article['redirect_url'])
                 return Response::redirect($article['redirect_url'], 'location', 301);
 
-            // print var_dump($article);exit;
             if (count($article['categories']))
             {
                 $category = explode('/', $article['categories'][0]['path_name_prog'])[0];
-                // print var_dump($category);exit;
 
                 if ($category == 'lpgas_before')
                     $category = str_replace('_before', '', $category);
@@ -118,13 +117,31 @@ class Controller_Front_Articles extends Controller_Front
         }
 
         $meta = [
-            ['name' => 'description', 'content' => $article['meta_description']],
-            ['name' => 'keywords', 'content' => $article['meta_keywords']],
+            ['name' => 'description',     'content' => $article['meta_description']],
+            ['name' => 'keywords',        'content' => $article['meta_keywords']],
+            ['name' => 'ogp:type',        'content' => 'article'],
+            ['name' => 'ogp:title',       'content' => $article['meta_title']],
+            ['name' => 'ogp:description', 'content' => $article['meta_description']],
+            ['name' => 'ogp:image',       'content' => $article['thumbnail_url']],
+            ['name' => 'ogp:url',         'content' => \Uri::create("articles/{$article['id']}")],
         ];
+
+        $breadcrumb = [];
+        $url = "";
+
+        foreach ($article['categories'][0]['full'] as $v)
+        {
+            $url .= "/{$v['name_prog']}";
+            $breadcrumb[] = ['url' => \Uri::create("categories{$url}"), 'name' => $v['name']];
+        }
+
+        $breadcrumb[] = ['url' => \Uri::create("categories{$url}/articles"), 'name' => $article['categories'][0]['name'] . "の記事一覧"];
+        $breadcrumb[] = ['url' => \Uri::create("articles/{$id}"), 'name' => $article['title']];
 
         $this->template->title = $article['title'];
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/articles/show', [
+            'breadcrumb' => $breadcrumb,
             'article' => $article,
             'pickup' => $pickup,
         ], false);

@@ -1,9 +1,12 @@
-<%= render 'shared/article_common', article: @article, url: article_url(@article['id']) %>
+<style><?= $article['body_style'] ?></style>
 
 <div itemscope itemtype="http://schema.org/Article">
 <meta itemprop="datePublished" content="<?= $article['created_at'] ?>">
 <meta itemprop="dateModified" content="<?= $article['updated_at'] ?>">
 <meta itemprop="image" content="<?= $article['thumbnail_url'] ?>">
+</div>
+
+<?= render('front/breadcrumb', ['breadcrumb' => $breadcrumb]); ?>
 
 <div class="article-maintitle-area">
   <div class="inner">

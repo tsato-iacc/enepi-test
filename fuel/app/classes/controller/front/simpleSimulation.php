@@ -30,15 +30,18 @@ class Controller_Front_SimpleSimulation extends Controller_Front
     public function get_index()
     {
         $meta = [
-            ['name' => 'description', 'content' => 'OOooOOppp'],
-            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-            ['name' => 'puka', 'content' => 'suka'],
+            ['name' => 'description', 'content' => 'プロパンガス料金シミュレーションは、使用量やガス料金などを入力するだけで切り替え後の料金イメージをラクラク算出できます！さらにガス代が高くてお悩みのお客様には今よりおトクになるガス会社をネット上で無料ご提案します。'],
         ];
 
-        $this->template->title = 'local_contents';
+        $breadcrumb = [
+            ['url' => \Uri::create('categories/lpgas'), 'name' => 'LPガス/プロパンガス'],
+            ['url' => \Uri::create('simple_simulations/new'), 'name' => '料金シミュレーション'],
+        ];
+
+        $this->template->title = '簡単入力！プロパンガス料金シミュレーション';
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/simpleSimulation/index', [
-            'test' => 'test'
+            'breadcrumb' => $breadcrumb,
         ]);
     }
 
@@ -51,15 +54,18 @@ class Controller_Front_SimpleSimulation extends Controller_Front
     public function post_index()
     {
         $meta = [
-            ['name' => 'description', 'content' => 'OOooOOppp'],
-            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-            ['name' => 'puka', 'content' => 'suka'],
+            ['name' => 'description', 'content' => 'プロパンガス料金のシミュレーション結果ページです。ご入力頂いた内容を元に、今のガス代がどれくらい安くなるか算出しています。ガスの見直しにお役立てください。'],
         ];
 
-        $this->template->title = 'local_contents';
+        $breadcrumb = [
+            ['url' => \Uri::create('categories/lpgas'), 'name' => 'LPガス/プロパンガス'],
+            ['url' => \Uri::create('simple_simulations/new'), 'name' => '料金シミュレーション'],
+        ];
+
+        $this->template->title = 'プロパンガス料金シミュレーション 結果';
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/simpleSimulation/show', [
-            'test' => 'test'
+            'breadcrumb' => $breadcrumb,
         ]);
     }
 }

@@ -28,13 +28,14 @@ $data->a;
 
 
 ?>
-<? MyView::title("簡単入力！プロパンガス料金シミュレーション | エネピ") ?>
-<? MyView::description("プロパンガス料金シミュレーションは、使用量やガス料金などを入力するだけで切り替え後の料金イメージをラクラク算出できます！さらにガス代が高くてお悩みのお客様には今よりおトクになるガス会社をネット上で無料ご提案します。") ?>
+
+<?= render('front/breadcrumb', ['breadcrumb' => $breadcrumb]); ?>
+
 <? //if flash[:notice] ?>
-	<div class="alert alert-success" style="color: #3c763d; background-color: #dff0d8; border-color: #d6e9c6; padding: 15px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px;">
-		<i class="fa fa-info-circle"></i>
-		<?//= "flash[:notice]" ?>
-	</div>
+<!-- <div class="alert alert-success" style="color: #3c763d; background-color: #dff0d8; border-color: #d6e9c6; padding: 15px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px;">
+	<i class="fa fa-info-circle"></i>
+	<?//= "flash[:notice]" ?>
+</div> -->
 
 <div class="article-page">
 	<div class="article">

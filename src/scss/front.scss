@@ -6,7 +6,7 @@
 $fa-font-path: "/assets/font-awesome/fonts";
 // @import "../../bower_components/normalize-css/normalize.css";
 @import "../../bower_components/swiper/dist/css/swiper.css";
-@import "../../bower_components/bootstrap/scss/bootstrap";
+// @import "../../bower_components/bootstrap/scss/bootstrap";
 
 /*
 * Custom
@@ -16,6 +16,11 @@ $fa-font-path: "/assets/font-awesome/fonts";
 @import "front/variables";
 @import "front/mixins";
 
+/* Old styles */
+@import "front/old/top";
+@import "front/old/article_list";
+@import "front/old/application_v2";
+
 /* Global layout styles */
 @import "front/layout";
 @import "front/header";
@@ -23,7 +28,4 @@ $fa-font-path: "/assets/font-awesome/fonts";
 
 /* Custom styles */
 @import "front/estimate_form";
-@import "front/old/top";
-@import "front/old/article_list";
-@import "front/old/application_v2";
 

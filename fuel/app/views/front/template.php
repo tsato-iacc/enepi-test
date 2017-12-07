@@ -8,14 +8,13 @@
   <?= Html::meta($meta); ?>
   <title><?= $title; ?></title>
 
-  <?= Asset::css('front.min.css'); ?>
   <?= render('front/ga'); ?>
-
   <?= Asset::css('application.css'); ?>
   <?= Asset::css('application_v2.css'); ?>
   <?= Asset::css('estimate_form.css'); ?>
   <?= Asset::css('simulation_estimate_form.css'); ?>
-
+  <!-- This file must be last -->
+  <?= Asset::css('front.min.css'); ?>
 </head>
 <body>
   <?= render('front/header'); ?>

@@ -1,8 +1,8 @@
 <?php
 $smart_phone = false;
 ?>
-<? MyView::title("全国のプロパンガス(LPガス)の平均利用額はココでチェック!") ?>
-<? MyView::description("全国のプロパンガス料金を知りたい方はこちらをチェック！お住まいの地域をクリックして頂くと、市区町村ごとの詳細なガス代を調べられます。プロパンガス(LPガス)は地域によって料金が異なるので、平均的なガス代を把握し、見直しに役立ててください。") ?>
+<?= render('front/breadcrumb', ['breadcrumb' => $breadcrumb]); ?>
+
 <div class="article-maintitle-area">
   <div class="inner">
     <div class="image">
