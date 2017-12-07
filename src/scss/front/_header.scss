@@ -1,4 +1,7 @@
 header {
+  height: auto;
+  border: none;
+  
   .container-wrap {
     display: flex;
     justify-content: space-between;
@@ -88,12 +91,12 @@ header {
 
     .logo {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      
+      justify-content: center;      
 
       > div {
         max-width: 120px;
+        display: flex;
+        align-items: center;
       }
     }
 

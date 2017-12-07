@@ -16,15 +16,13 @@
   <div class="article-list-v3-panel">
     <div class="panel-inner article-list-v3-panel-container">
       <div class="main">
-        <h2><%= image_tag("article.png") %>すべての記事一覧</h2>
+        <h2><?= \Asset::img('categories/article.png'); ?>すべての記事一覧</h2>
         <ul>
-        <% @articles['articles'].each do |article| %>
-          <%= render 'front/articles/list_item', article: article, mini: false %>
-        <% end %>
-        <%= render "shared/articles_pager" %>
+          <?= render('front/articles/partial/list_items', ['articles' => $articles['articles'], 'mini' => false]); ?>
         </ul>
+        <?= \Pagination::instance()->render(); ?>
       </div>
-      <%= render "shared/articles_sidebar" %>
+      <?= Presenter::Forge('front/sidebar'); ?>
     </div>
   </div>
 </div>

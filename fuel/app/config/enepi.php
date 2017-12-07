@@ -14,10 +14,10 @@ return [
     'meta' => [
         // デフォルトのメタデータ (ページごとにタイトルを指定しない場合に参照)
         'default' => [
-            'title' => 'default',
-            'title_end' => '｜【enepi-エネピ-】',
-            'description' => 'vvv',
-            'keywords' => 'aa',
+            'title' => 'プロパンガス(LPガス)の料金・価格比較でガス代を安く！',
+            'title_end' => '｜【enepi -エネピ-】',
+            'description' => 'プロパンガス(LPガス)の乗り換え・切り替えでガス代をおトクにするなら料金比較サービス「enepi(エネピ)」！厳選したガス会社のご紹介から切り替え完了まですべて無料サポートをするので安心してご利用頂けます',
+            'keywords' => '電気料金, ガス料金, 比較, 電力自由化, ガス自由化, 電気代, ガス代, enepi, エネピ',
             'og_image' => \Uri::create('ogp_large.png'),
             'og_description' => '',
             'twitter_card_type' => 'summary',
@@ -48,6 +48,19 @@ return [
             'per_page' => 5,
         ],
         'articles' => [
+            'per_page' => 30,
+        ],
+        'popular' => [
+            'per_page' => 4,
+            'sort' => 'access_count.desc',
+        ],
+    ],
+
+    /**
+     * Articles
+     */
+    'articles' => [
+        'index' => [
             'per_page' => 30,
         ],
         'popular' => [

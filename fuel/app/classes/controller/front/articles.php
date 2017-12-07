@@ -1,4 +1,8 @@
 <?php
+
+use Cms\Client;
+use Cms\Exceptions\ClientException;
+
 /**
  * Fuel is a fast, lightweight, community driven PHP5 framework.
  *
@@ -29,16 +33,43 @@ class Controller_Front_Articles extends Controller_Front
      */
     public function action_index()
     {
-        $meta = [
-            ['name' => 'description', 'content' => 'OOooOOppp'],
-            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-            ['name' => 'puka', 'content' => 'suka'],
+        $client = new Client(\Config::get('enepi.cms.host'), \Config::get('enepi.cms.site'), \Config::get('enepi.cms.key'));
+
+        try
+        {
+            $condition = [
+                'page' => \Input::get('page', '1'),
+                'per' => \Config::get('enepi.articles.index.per_page'),
+            ];
+
+            $articles = $client->getArticles($condition);
+
+            \Pagination::forge('default', [
+                'total_items' => $articles['total_count'],
+                'per_page' => $condition['per'],
+                'pagination_url' => \Uri::current(),
+                'uri_segment' => 'page',
+            ]);
+        }
+        catch (ClientException $e)
+        {
+            \Log::error($e->getMessage());
+
+            throw new HttpNotFoundException();
+        }
+
+        $meta = [];
+
+        $breadcrumb = [
+            ['url' => \Uri::create('articles'), 'name' => '記事一覧'],
         ];
 
-        $this->template->title = 'local_contents';
+        // $this->template->title = 'local_contents';
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/articles/index', [
-            'test' => 'test'
+            'breadcrumb' => $breadcrumb,
+            'articles' => $articles,
+            // 'mini_nav' => true,
         ]);
     }
 
@@ -48,18 +79,71 @@ class Controller_Front_Articles extends Controller_Front
      * @access  public
      * @return  Response
      */
-    public function action_show($id = null)
+    public function action_show($id)
     {
+        $client = new Client(\Config::get('enepi.cms.host'), \Config::get('enepi.cms.site'), \Config::get('enepi.cms.key'));
+
+        try
+        {
+            $condition = [
+                'increment_access_count' => \Fuel::$env == \Fuel::PRODUCTION || \Input::get('increment_access_count', false),
+            ];
+
+            $article = $client->getArticleById($id, $condition);
+
+            if ($article['redirect_url'])
+                return Response::redirect($article['redirect_url'], 'location', 301);
+
+            if (count($article['categories']))
+            {
+                $category = explode('/', $article['categories'][0]['path_name_prog'])[0];
+
+                if ($category == 'lpgas_before')
+                    $category = str_replace('_before', '', $category);
+
+                $pickup = $client->getArticlesByModule('pickup_' . $category);
+            }
+            else
+            {
+                $pickup = $client->getArticlesByModule('pickup');
+            }
+            
+        }
+        catch (ClientException $e)
+        {
+            \Log::error($e->getMessage());
+
+            throw new HttpNotFoundException();
+        }
+
         $meta = [
-            ['name' => 'description', 'content' => 'OOooOOppp'],
-            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-            ['name' => 'puka', 'content' => 'suka'],
+            ['name' => 'description',     'content' => $article['meta_description']],
+            ['name' => 'keywords',        'content' => $article['meta_keywords']],
+            ['name' => 'ogp:type',        'content' => 'article'],
+            ['name' => 'ogp:title',       'content' => $article['meta_title']],
+            ['name' => 'ogp:description', 'content' => $article['meta_description']],
+            ['name' => 'ogp:image',       'content' => $article['thumbnail_url']],
+            ['name' => 'ogp:url',         'content' => \Uri::create("articles/{$article['id']}")],
         ];
 
-        $this->template->title = 'local_contents';
+        $breadcrumb = [];
+        $url = "";
+
+        foreach ($article['categories'][0]['full'] as $v)
+        {
+            $url .= "/{$v['name_prog']}";
+            $breadcrumb[] = ['url' => \Uri::create("categories{$url}"), 'name' => $v['name']];
+        }
+
+        $breadcrumb[] = ['url' => \Uri::create("categories{$url}/articles"), 'name' => $article['categories'][0]['name'] . "の記事一覧"];
+        $breadcrumb[] = ['url' => \Uri::create("articles/{$id}"), 'name' => $article['title']];
+
+        $this->template->title = $article['title'];
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/articles/show', [
-            'test' => 'test'
-        ]);
+            'breadcrumb' => $breadcrumb,
+            'article' => $article,
+            'pickup' => $pickup,
+        ], false);
     }
 }

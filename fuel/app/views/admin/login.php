@@ -22,7 +22,7 @@
 
     <div class="checkbox">
       <label>
-        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> ログイン状態を保存する
+        <input type="checkbox" name="remember"]); {{ old('remember') ? 'checked' : '' }}> ログイン状態を保存する
       </label>
     </div>
     <button class="btn btn-lg btn-primary btn-block" type="submit">ログイン</button>

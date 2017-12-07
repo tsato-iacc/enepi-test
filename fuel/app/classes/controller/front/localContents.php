@@ -30,15 +30,18 @@ class Controller_Front_LocalContents extends Controller_Front
     public function action_index()
     {
         $meta = [
-            ['name' => 'description', 'content' => 'OOooOOppp'],
-            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-            ['name' => 'puka', 'content' => 'suka'],
+            ['name' => 'description', 'content' => '全国のプロパンガス料金を知りたい方はこちらをチェック！お住まいの地域をクリックして頂くと、市区町村ごとの詳細なガス代を調べられます。プロパンガス(LPガス)は地域によって料金が異なるので、平均的なガス代を把握し、見直しに役立ててください。'],
         ];
 
-        $this->template->title = 'local_contents';
+        $breadcrumb = [
+            ['url' => \Uri::create('categories/lpgas'), 'name' => 'LPガス/プロパンガス'],
+            ['url' => \Uri::create('local_contents'), 'name' => '都道府県料金一覧ページ'],
+        ];
+
+        $this->template->title = '全国のプロパンガス(LPガス)の平均利用額はココでチェック!';
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/localContents/index', [
-            'test' => 'test'
+            'breadcrumb' => $breadcrumb,
         ]);
     }
 
@@ -56,10 +59,16 @@ class Controller_Front_LocalContents extends Controller_Front
             ['name' => 'puka', 'content' => 'suka'],
         ];
 
+        $breadcrumb = [
+            ['url' => \Uri::create('categories/lpgas'), 'name' => 'LPガス/プロパンガス'],
+            ['url' => \Uri::create('local_contents'), 'name' => '都道府県料金一覧ページ'],
+            // ['url' => \Uri::create('simple_simulations/new'), 'name' => '料金シミュレーション'],
+        ];
+
         $this->template->title = 'local_contents';
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/localContents/prefecture', [
-            'test' => 'test'
+            'breadcrumb' => $breadcrumb,
         ]);
     }
 
@@ -77,10 +86,15 @@ class Controller_Front_LocalContents extends Controller_Front
             ['name' => 'puka', 'content' => 'suka'],
         ];
 
+        $breadcrumb = [
+            ['url' => \Uri::create('categories/lpgas'), 'name' => 'LPガス/プロパンガス'],
+            ['url' => \Uri::create('simple_simulations/new'), 'name' => '料金シミュレーション'],
+        ];
+
         $this->template->title = 'local_contents';
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/localContents/city', [
-            'test' => 'test'
+            'breadcrumb' => $breadcrumb,
         ]);
     }
 }

@@ -1,24 +1,28 @@
-<%= render 'shared/article_common', article: @article, url: article_url(@article['id']) %>
+<style><?= $article['body_style'] ?></style>
 
 <div itemscope itemtype="http://schema.org/Article">
-<meta itemprop="datePublished" content="<%= @article['created_at'] %>">
-<meta itemprop="dateModified" content="<%= @article['updated_at'] %>">
-<meta itemprop="image" content="<%= @article['thumbnail_url'] %>">
+<meta itemprop="datePublished" content="<?= $article['created_at'] ?>">
+<meta itemprop="dateModified" content="<?= $article['updated_at'] ?>">
+<meta itemprop="image" content="<?= $article['thumbnail_url'] ?>">
+</div>
+
+<?= render('front/breadcrumb', ['breadcrumb' => $breadcrumb]); ?>
 
 <div class="article-maintitle-area">
   <div class="inner">
     <div class="image">
-    <%= image_tag @article['thumbnail_cover_256_url'] %>
+      <img src="<?= $article['thumbnail_cover_256_url']; ?>" alt="<?= $article['title']; ?>">
     </div>
     <div class="text">
-      <h1 class="title" itemprop="headline"><%= @article['title'] %></h1>
+      <h1 class="title" itemprop="headline"><?= $article['title'] ?></h1>
       <ul class="categories">
-        <% @article['categories'].each do |category| %>
-        <li><i class="icon icon-tag"></i><%= link_to category['full'].map { |c| c['name'] }.join("/"), category_path(category) %></li>
-        <% end %>
+        <?php foreach($article['categories'] as $category): ?>
+          <li><i class="icon icon-tag"></i>
+            <a href="<?= \Uri::create('categories/:prog', ['prog' => implode('/', \Arr::pluck($category['full'], 'name_prog'))]); ?>"><?= implode('/', \Arr::pluck($category['full'], 'name')); ?></a>
+          </li>
+        <?php endforeach; ?>
       </ul>
-      <p class="description" itemprop="description">
-          <%= @article['description'] %></p>
+      <p class="description" itemprop="description"><?= $article['description'] ?></p>
     </div>
   </div>
 </div>
@@ -33,17 +37,17 @@
         <div class="toc">
           <p class="toc-title accordion">この記事の目次</p>
           <div class="accordion-box">
-            <%= raw @article['toc_html'] %>
+            <?= $article['toc_html'] ?>
           </div>
         </div>
 
         <div class="body" itemprop="articleBody">
-          <%= raw @article['body_html'] %>
+          <?= $article['body_html'] ?>
         </div>
 
         <div class="social-recommends-area">
           <div class="image">
-            <%= image_tag @article['thumbnail_cover_256_url'] %>
+            <img src="<?= $article['thumbnail_cover_256_url']; ?>" alt="<?= $article['title']; ?>">
           </div>
           <div class="text">
             <div class="recommend-ttl">この記事はいかがでしたか？</div>
@@ -54,39 +58,34 @@
 
         <%= render "shared/social_buttons" %>
 
-        <% if @article['prev_article'] || @article['next_article'] %>
+        <?php if ($article['prev_article'] || $article['next_article']): ?>
           <div class="around_articles">
             <div class="prev">
-              <% if @article['prev_article'] %>
-                <span>前の記事</span> <%= link_to article_path(@article['prev_article']['id']) do %>
-                  <%= @article['prev_article']['title'] %>
-                <% end %>
-              <% end %>
+              <?php if ($article['prev_article']): ?>
+                <span>前の記事</span> <a href="<?= \Uri::create("articles/{$article['prev_article']['id']}") ?>"><?= $article['prev_article']['title'] ?></a>
+              <?php endif; ?>
             </div>
 
             <div class="next">
-              <% if @article['next_article'] %>
-                <span>次の記事</span> <%= link_to article_path(@article['next_article']['id']) do %>
-                  <%= @article['next_article']['title'] %>
-                <% end %>
-              <% end %>
+              <?php if ($article['next_article']): ?>
+                <span>次の記事</span> <a href="<?= \Uri::create("articles/{$article['next_article']['id']}") ?>"><?= $article['next_article']['title'] ?></a>
+              <?php endif; ?>
             </div>
           </div>
-        <% end %>
+        <?php endif; ?>
 
-        <% if @article['related_to_articles'].size > 0 %>
-            <h2 class="page-title">この記事と関連する記事</h2>
-            <div class="article-list">
-              <ul>
-                <% @article['related_to_articles'].each do |article| %>
-                  <%= render 'front/articles/list_item', article: article, mini: true %>
-                <% end %>
-              </ul>
-            </div>
-        <% end %>
+        <?php if (count($article['related_to_articles'])): ?>
+          <h2 class="page-title">この記事と関連する記事</h2>
+          <div class="article-list">
+            <ul>
+              <?= render('front/articles/partial/list_items', ['articles' => $article['related_to_articles'], 'mini' => true]); ?>
+            </ul>
+          </div>
+        <?php endif; ?>
 
         </div>
-        <%= render "shared/articles_sidebar" %>
+        <?php $view = View::forge('front/sidebar', ['pickup' => $pickup]); ?>
+        <?= Presenter::Forge('front/sidebar', 'popular', null, $view); ?>
       </div>
     </div>
   </div>

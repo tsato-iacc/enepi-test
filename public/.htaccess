@@ -1,7 +1,10 @@
 # Multiple Environment config, set this to development, staging or production
 # SetEnv FUEL_ENV production
 
+
 <IfModule mod_rewrite.c>
+
+
 
 	RewriteEngine on
 
@@ -118,3 +121,4 @@
   Header set Cache-Control "max-age=7200, private"
   </filesmatch>
 </ifmodule>
+

@@ -1,4 +1,4 @@
-<%= render partial: "front/electricity/panel", locals: {kind: :top} %>
+<?= render partial: "front/electricity/panel", locals: {kind: :top} ?>
 
 <div class="panel">
   <div class="panel-inner">
@@ -12,7 +12,7 @@
         <br><br>
         電気料金比較サービス【enepi】は電気料金シミュレーションにより、ライフスタイルにあうプランを探すことができます。
       </p>
-      <%= image_tag asset_url("select-electricity.png") %>
+      <?= MyView::image_tag(asset_url("select-electricity.png") ?>
     </div>
   </div>
 </div>
@@ -24,25 +24,25 @@
       <ul>
         <li>
           <div class="image">
-            <%= image_tag("electricity-merit-clock.png") %>
+            <?= image_tag("electricity-merit-clock.png") ?>
           </div>
           <p>電力を使用する時間帯などに、プランを最適化することで、電気代の無駄が無くなります。</p>
         </li>
         <li>
           <div class="image">
-            <%= image_tag("electricity-merit-house.png") %>
+            <?= image_tag("electricity-merit-house.png") ?>
           </div>
           <p>地産地消、電源構成、再生可能エネルギーなど、自分の価値観やライフスタイルにあった電力会社、プランを選択できます。</p>
         </li>
         <li>
           <div class="image">
-            <%= image_tag("electricity-merit-set.png") %>
+            <?= image_tag("electricity-merit-set.png") ?>
           </div>
           <p>携帯・ガスなどと組み合わせたセット割や各社のポイント還元などを選んで、料金の割引を受けられます。</p>
         </li>
         <li>
           <div class="image">
-            <%= image_tag("electricity-merit-present.png") %>
+            <?= image_tag("electricity-merit-present.png") ?>
           </div>
           <p>料金比較だけでなく、サポート体制や特典、契約期間などに注目することで、各社の個性的な特典も比較できます。</p>
         </li>
@@ -54,50 +54,50 @@
 <div class="article-list-v2-panel">
   <div class="panel-inner article-list-v2-panel-container">
     <ul>
-      <%= render(
+      <?= render(
         partial: 'front/articles/list_item',
         collection: @news['articles'],
         as: :article,
         locals: {
           mini: false
         })
-      %>
+      ?>
     </ul>
     <div class="sidebar">
-      <h3><%= image_tag("crown.png") %> 人気記事ランキング</h3>
+      <h3><?= image_tag("crown.png") ?> 人気記事ランキング</h3>
       <ul class="ranked">
-        <%= render(
+        <?= render(
           partial: 'front/articles/list_item',
           collection: @populars['articles'],
           as: :article,
           locals: {
             mini: true
           })
-        %>
+        ?>
       </ul>
 
-      <h3><%= image_tag("fav.png") %> enepiおすすめ記事</h3>
+      <h3><?= image_tag("fav.png") ?> enepiおすすめ記事</h3>
       <ul>
-        <% if pickup_articles_module_type(CMS_ELECTRICITY) %>
-          <%= render(
+        <? if pickup_articles_module_type(CMS_ELECTRICITY) ?>
+          <?= render(
             partial: 'front/articles/list_item',
             collection: pickup_articles_module_type(CMS_ELECTRICITY)['items'],
             as: :article,
             locals: {
               mini: true
             })
-          %>
-        <% end %>
+          ?>
+        <? } ?>
       </ul>
 
-      <%= image_tag asset_url("merit-banner.png") %>
+      <?= MyView::image_tag(asset_url("merit-banner.png") ?>
 
       <div class="fb-page" data-href="https://www.facebook.com/enepijp" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" data-show-posts="false"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/enepijp"><a href="https://www.facebook.com/enepijp">エネピ（enepi）</a></blockquote></div></div>
     </div>
   </div>
   <div class="more_link">
-    <%= link_to "電気に関する記事を詳しくみる", category_path(CMS_ELECTRICITY) %>
+    <?= MyView::link_to("電気に関する記事を詳しくみる", category_path(CMS_ELECTRICITY) ?>
   </div>
 </div>
 
-<%= render partial: "front/electricity/panel", locals: {kind: :bottom} %>
+<?= render partial: "front/electricity/panel", locals: {kind: :bottom} ?>
