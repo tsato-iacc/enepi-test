@@ -29,8 +29,9 @@ $articles_path = "";
     <h2><span class="orange-color">「知っている」</span>方は<br>今より<?= Asset::img('welcome/img_otoku.png', ['class' => 'goodbuy-img']); ?>になれるこちらのメニューへ</h2>
 
     <div class="introduce_area">
-    <?= MyView::link_to($new_simple_simulation_path, ["class" => "btn blue-button service-detail", "onclick" => "ga('send', 'event', 'top-button', 'click', 'simulation', 1);"]); { ?>
-      <div class="text-area">プロパンガス料金<br>シミュレーション</div><?= MyView::image_tag(MyView::asset_url("top/bt_bg_simulation.png")); ?><div class="arrow-area"></div><? } ?>
+    <a <?= MyView::link_to($new_simple_simulation_path, ["class" => "btn blue-button service-detail", "onclick" => "ga('send', 'event', 'top-button', 'click', 'simulation', 1);"]);?>>
+      <div class="text-area">プロパンガス料金<br>シミュレーション</div><?= MyView::image_tag(MyView::asset_url("top/bt_bg_simulation.png")); ?><div class="arrow-area"></div>
+	</a>
 
       <h3 class="rec-title">こんな方にオススメ！</h3>
       <div class="rec-detail">
