@@ -11,7 +11,7 @@ $smart_phone = false;
     <div class="text">
       <h1 class="title" itemprop="headline">全国のプロパンガス(LPガス)の平均利用額はココでチェック!</h1>
       <ul class="categories">
-        <li><i class="icon icon-tag"></i><?= MyView::link_to("LPガス/プロパンガス", "/categories/lpgas") ?></li>
+        <li><i class="icon icon-tag"></i><?= MyView::link_to("LPガス/プロパンガス", "/categories/lpgas"); ?></li>
       </ul>
       <p class="description" itemprop="description">
         エネピ完全オリジナル！全国47都道府県のプロパンガス料金を調べることができます。石油情報センターより提供される金額を掛け合わせて算出しております。<br>
@@ -32,7 +32,7 @@ $smart_phone = false;
         そこでエネピではプロパンガスの平均利用額を独自で算出し、都道府県ごとに公開をしました。
         ぜひガス料金の見直しにご活用ください。</p>
           <div class="japan-map">
-            <? if(!$smart_phone){ ?>
+            <? if($smart_phone){ ?>
               <div class="japan-map-box-sh">
                 <h3 class="title-price-info">【地域別プロパンガス料金情報】</h3>
                 <?= render("shared/local_contents") ?>

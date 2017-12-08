@@ -2,7 +2,7 @@
 
 cd `dirname $0`
 
-for i in `find . -name "*.php"`
+for i in `find . -name "*.php" | grep shared`
 do
 
 	o="../views_bk/${i}"
@@ -25,6 +25,7 @@ do
 			-e "s/') {/']); {/g" \
 	> swap
 
+	#cp -p swap ${i}
 	cp -p swap ${i}
 	echo ${i}
 

@@ -91,7 +91,8 @@ header {
 
     .logo {
       display: flex;
-      justify-content: center;      
+      justify-content: center;
+      background-image: none;
 
       > div {
         max-width: 120px;
