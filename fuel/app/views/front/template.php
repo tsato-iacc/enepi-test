@@ -17,7 +17,7 @@
   <?= Asset::css('estimate_form.css'); ?>
   <?= Asset::css('simulation_estimate_form.css'); ?>
   <!-- This file must be last -->
-
+  <?= Asset::css('front.min.css'); ?>
 </head>
 <body>
   <?= render('front/header'); ?>
