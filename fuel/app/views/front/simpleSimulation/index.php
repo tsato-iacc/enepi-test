@@ -53,6 +53,7 @@ $data->a;
 				</div>
 				<div class="simulation-form-box">
 					<?= MyView::form_tag($simple_simulations_path, ["method" => 'POST']); { ?>
+					<form action="/simple_simulations" accept-charset="UTF-8" method="post">
 						<div class="form-group" style="width: 70%; margin: 40px auto 20px auto ;">
 							<div class="form-inline">
 								<div class="simulation-address">
@@ -137,8 +138,8 @@ $data->a;
 							</select>
 						</div>
 						<div class="simulation-extra-info" style="margin-bottom: 40px;">
-							<?= MyView::label_tag($bill, "だいたいのガス代/月(わかれば)") ?>
-							<?// if(!$data->present && !$data->amount_billed->present){ ?>
+							<label>だいたいのガス代/月(わかれば)</label>
+							<? if(true){ ?>
 								<?//= text_field :simple_simulation, :bill :value => "#{@data.amount_billed}", :class => 'simulation-form', 'data-hyphen-digits': 1 ?>
 								<? MyView::text_field($simple_simulation, [
                                         								    "bill" => "",
@@ -146,14 +147,14 @@ $data->a;
                                         								    "class" => "simulation-form",
                                         								    "data-hyphen-digits" => "1"]) ?>&nbsp;円
 
-							<?// }else{ ?>
+							<? }else{ ?>
 								<?//= text_field :simple_simulation, :bill, :class => 'simulation-form', 'data-hyphen-digits': 1 ?>
 								<? MyView::text_field($simple_simulation, [
                                         								    "bill" => "",
 								                                            "value" => "",
                                         								    "class" => "simulation-form",
                                         								    "data-hyphen-digits" => "1"]) ?>&nbsp;円
-							<?// } ?>
+							<? } ?>
 						</div>
 						<div class="simulation-link-button-wrapper">
 							<? MyView::submit_tag('さっそく無料診断をする！▶︎', [

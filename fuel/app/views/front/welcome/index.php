@@ -26,7 +26,7 @@ $articles_path = "";
 
 <div class="panel" id="knowing_chooser">
   <div class="panel-inner">
-    <h2><span class="orange-color">「知っている」</span>方は<br>今より<?= Asset::img('welcome/img_otoku.png', ['class' => 'goodbuy-img']); ?>になれるこちらのメニューへ</h2>
+    <h2><span class="orange-color">「知っている」</span>方は<br>今より<?= MyView::image_tag('top/img_otoku.png', ['class' => 'goodbuy-img']); ?>になれるこちらのメニューへ</h2>
 
     <div class="introduce_area">
     <a <?= MyView::link_to($new_simple_simulation_path, ["class" => "btn blue-button service-detail", "onclick" => "ga('send', 'event', 'top-button', 'click', 'simulation', 1);"]);?>>
@@ -42,8 +42,9 @@ $articles_path = "";
     </div>
 
     <div class="introduce_area">
-      <?= MyView::link_to("Rails.application.config.form_path", ["class" => "btn orange-button service-detail", "onclick" => "ga('send', 'event', 'top-button', 'click', 'irai', 1);"]); { ?>
-      <div class="text-area">おトクなガス会社へ<br>無料切り替え依頼</div><?= MyView::image_tag(MyView::asset_url("top/bt_bg_estimate.png")); ?><div class="arrow-area"></div><? } ?>
+      <a <?= MyView::link_to("Rails.application.config.form_path", ["class" => "btn orange-button service-detail", "onclick" => "ga('send', 'event', 'top-button', 'click', 'irai', 1);"]);?>>
+      <div class="text-area">おトクなガス会社へ<br>無料切り替え依頼</div><?= MyView::image_tag(MyView::asset_url("top/bt_bg_estimate.png")); ?><div class="arrow-area"></div>
+      </a>
 
       <h3 class="rec-title">こんな方にオススメ！</h3>
       <div class="rec-detail">
@@ -56,9 +57,9 @@ $articles_path = "";
     </div>
 
     <div class="introduce_area">
-      <?= MyView::link_to($local_contents_path, ["class" =>  "btn green-button service-detail", "onclick" =>  "ga('send', 'event', 'top-button', 'click', 'price-search', 1);"]); { ?>
+      <a <?= MyView::link_to($local_contents_path, ["class" =>  "btn green-button service-detail", "onclick" =>  "ga('send', 'event', 'top-button', 'click', 'price-search', 1);"]);?>>
         <div class="text-area">都道府県別<br>ガス料金を検索</div><?= MyView::image_tag(MyView::asset_url("top/br_bg_search.png")); ?><div class="arrow-area"></div>
-      <? } ?>
+      </a>
 
       <h3 class="rec-title">こんな方にオススメ！</h3>
       <div class="rec-detail">
@@ -627,12 +628,12 @@ $articles_path = "";
 
     <div class="hidden_pc">
       <div class="cta-area">
-        <?= MyView::link_to("Rails.application.config.form_path", ["class" =>  "ctaarea-button with-arrow-right-icon btn-inner", "onclick" =>  "ga('send', 'event', 'estimate-button', 'click', 'top3', 1);"]); { ?>
+        <a <?= MyView::link_to("Rails.application.config.form_path", ["class" =>  "ctaarea-button with-arrow-right-icon btn-inner", "onclick" =>  "ga('send', 'event', 'estimate-button', 'click', 'top3', 1);"]); ?>>
             <span class="free-txt">無料</span>
             <div class="text">
               <span class="main">プロパンガス代が<br>安くなるか確かめる！</span>
             </div>
-        <? } ?>
+        </a>
       </div>
     </div>
   </div>

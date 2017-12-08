@@ -71,6 +71,8 @@ class Controller_Front_Lpgas extends Controller_Front
      */
     public function action_agreement()
     {
+        $this->template = \View::forge('front/template_agreement');
+
         $meta = [
             ['name' => 'description', 'content' => 'OOooOOppp'],
             ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
