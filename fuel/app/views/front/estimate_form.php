@@ -1,3 +1,5 @@
+<? use Fuel\Core\Asset;
+   use Fuel\Core\Form; ?>
 <div class="register-form" id="register_form">
   <div class="mainform-top-text">
     <div class="mainform-text-box">プロパンガスの料金比較で年間<span class="mainform-top-text-catch">8万円</span><span class="mainform-top-note">(※)</span>も安くなる!!</div>
@@ -10,8 +12,8 @@
   </div>
 
   <div class="form-wrap">
-    <?= \Form::open(); ?>
-    <?= \Form::csrf(); ?>
+    <?= Form::open(); ?>
+    <?= Form::csrf(); ?>
       <input type="hidden" name="new_form" value="true">
       <input type="hidden" name="lpgas_contact[zip_code]">
       <input type="hidden" name="lpgas_contact[prefecture_code]">
