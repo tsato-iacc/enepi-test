@@ -9,6 +9,11 @@
             "type": "vcs",
             "url": "https://github.com/iacc/cms-php",
             "no-api": true
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/notfoundsam/jp_prefecture",
+            "no-api": true
         }
     ],
     "require": {
@@ -21,6 +26,7 @@
         "fuel/parser": "1.8.*",
         "fuelphp/upload": "2.0.6",
         "iacc/cms-php": "dev-master",
+        "notfoundsam/jp_prefecture": "dev-master",
         "aws/aws-sdk-php": "^3.36"
     },
     "suggest": {
