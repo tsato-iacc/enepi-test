@@ -3,74 +3,100 @@
 class MyView{
 
 
-	public static function label_tag(){
+    public static function label_tag(){
 
-	}
-
-
-	public static function title(){
-
-	}
-
-	public static function description(){
-
-	}
-
-	public static function image_tag($url){
-
-		printf("<img src=\"%s\" />", $url);
-
-	}
-
-	public static function link_to($url, $hash){
-/*
-		$v_name			= (isset($name)) ? $name : "---";
-		$v_class		= (isset($hash["class"])) ? $hash["class"] : "---";
-		$v_value		= (isset($hash["value"])) ? $hash["value"] : "";
-		$v_onclick		= (isset($hash["onclick"])) ? $hash["onclick"] : "";
-
-		printf(" href=''",
-				$tag_type,
-				$v_name,
-				$v_value,
-				$v_class
-				);
-*/
-	}
-
-	public static function form_tag(){
-
-	}
-
-	public static function asset_url($url, $hash = null){
-
-	}
+    }
 
 
+    public static function title(){
+
+    }
+
+    public static function description(){
+
+    }
+
+    public static function image_tag($url){
+
+        printf("<img src=\"/assets/images/%s\" />", $url);
+
+    }
+
+    /*
+     * 【local_contents(地域別ガス料金検索ページ)の都道府県名】
+     * 元々link_toメソッドを呼んでいたが重複するため新規に作成
+     * 必要があればlink_toメソッドと統一したほうがよい？
+     */
+    public static function link_to_local_contents($name, $url, $hash){
+
+        $v_name        = (isset($name)) ? $name : "---";
+        $v_url         = (isset($url)) ? $url : "---";
+        $v_style       = (isset($hash["style"])) ? $hash["style"] : "";
+
+        printf("<a style=\"%s;\" href=\"%s\">%s</a>",
+            $v_style,
+            $v_url,
+            $v_name
+            );
+    }
+
+    public static function link_to($url, $hash){
+
+    	if(is_array($hash)){
+
+         	$v = "";
+         	$attr = "";
+
+         	foreach($hash as $k => $v){
+         		$attr .= "{$k}=\"${v}\"";
+         	}
+
+         	return " href=\"${url}\" ${attr}";
+
+         }
+
+         return "<a href=\"${hash}\">${url}</a>";
+
+    }
+
+    public static function form_tag(){
+
+    }
+
+    public static function asset_url($url, $hash = null){
+    	return $url;
+    }
 
 
-	private static function multi_tag($tag_type, $name, $hash){
-
-	    $v_name        = (isset($name)) ? $name : "---";
-	    $v_class       = (isset($hash["class"])) ? $hash["class"] : "---";
-	    $v_value       = (isset($hash["value"])) ? $hash["value"] : "";
-
-	    printf("<input type='%s' name='%s' value='%s' class='%s' />",
-	        $tag_type,
-	        $v_name,
-	        $v_value,
-	        $v_class
-	        );
-	}
 
 
-	public static function submit_tag($name, $hash){
-	    Self::multi_tag("submit", $name, $hash);
-	}
+    private static function multi_tag($tag_type, $name, $hash){
 
-	public static function text_field($name, $hash){
-	    Self::multi_tag("text", $name, $hash);
-	}
+        $v_name        = (isset($name)) ? $name : "---";
+        $v_class       = (isset($hash["class"])) ? $hash["class"] : "---";
+        $v_value       = (isset($hash["value"])) ? $hash["value"] : "";
+
+        printf("<input type='%s' name='%s' value='%s' class='%s' />",
+            $tag_type,
+            $v_name,
+            $v_value,
+            $v_class
+            );
+    }
+
+
+    public static function submit_tag($name, $hash){
+        self::multi_tag("submit", $name, $hash);
+    }
+
+    public static function text_field($name, $hash){
+        self::multi_tag("text", $name, $hash);
+    }
+
+    public static function create($uri){
+        //Uri::uri_create($uri);
+        print $uri;
+    }
 
 
 }
