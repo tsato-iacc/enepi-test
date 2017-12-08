@@ -12,7 +12,7 @@
   </div>
 
   <div class="form-wrap">
-    <?= Form::open(); ?>
+    <?= Form::open('lpgas_contacts'); ?>
     <?= Form::csrf(); ?>
       <input type="hidden" name="new_form" value="true">
       <input type="hidden" name="lpgas_contact[zip_code]">

@@ -52,7 +52,8 @@ $data->a;
 					<p class="simulation-title-content2">2.エネピ利用時の節約額</p>
 				</div>
 				<div class="simulation-form-box">
-					<?= MyView::form_tag($simple_simulations_path, ["method" => 'POST']); { ?>
+					<?= Form::open('simple_simulations'); ?>
+					<?= Form::csrf(); ?>
 					<form action="/simple_simulations" accept-charset="UTF-8" method="post">
 						<div class="form-group" style="width: 70%; margin: 40px auto 20px auto ;">
 							<div class="form-inline">
@@ -161,7 +162,7 @@ $data->a;
 							                                                    "class" => 'simple-simulation-button',
 							                                                    "value" => 'さっそく無料診断をする！▶︎']) ?>
 						</div>
-					<? } ?>
+					<?= Form::close(); ?>
 				</div>
 			</div>
 		</div>

@@ -8,10 +8,13 @@
         atag.src = _protocol + 'js.ptengine.jp/pta.js';
         var stag = document.createElement('script'); stag.type = 'text/javascript'; stag.async = true;
         stag.src = _protocol + 'js.ptengine.jp/pts.js';
-        var s = document.getElementsByTagName('script')[0]; 
+        var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(atag, s); s.parentNode.insertBefore(stag, s);
     })();
 </script>
+
+<? $from_kakaku = true;
+   $smart_phone = false?>
 
 <? if from_kakaku? && smart_phone? ?>
 　<script src="//assets.adobedtm.com/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-2baf9a6b9fae7a21c0cfb818c33122e38669f89d.js"></script>
@@ -400,7 +403,7 @@
             <?= error_tag f.object, :zip_code ?>
             <? unless @previewing ?>
             <p class="notice_txt"><i class="fa fa-info-circle" aria-hidden="true"></i>郵便番号を入力すると、下の住所が自動で途中まで入力されます。</p>
-            <? } ?> 
+            <? } ?>
           </td>
         </tr>
         <tr>
@@ -412,7 +415,7 @@
             <?= f.collection_select :prefecture_code, JpPrefecture::Prefecture.all, :code, :name, include_blank: '選択してください' ?>
           <? unless @previewing ?>
           </div>
-          <? } ?>   
+          <? } ?>
             <?= error_tag f.object, :prefecture_code ?>
             <?= f.text_field :address, placeholder: '例）港区新橋' ?>
             <?= error_tag f.object, :address ?>
@@ -558,7 +561,7 @@ $(function(){
       // $(".container").removeClass("bg-blur");
     }
   });
-  
+
   // Hide modal window
   $(".close, .modal").on('click', function(){
     $(".modal").hide();
