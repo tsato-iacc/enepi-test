@@ -92,7 +92,7 @@
       <div class="area-content">
         <div class="area-title accordion">■ LPガス/プロパンガス</div>
         <div class="content-wrap accordion-box">
-          <div><a href="<?= MyView::create('category/CMS_LPGAS'); ?>">プロパンガスに関する記事一覧</a></div>
+          <div><a href="<?= MyView::create('categories/lpgas'); ?>">プロパンガスに関する記事一覧</a></div>
           <div><a href="<?= MyView::create('category/lpgas/saving'); ?>">節約術</a></div>
           <div><a href="<?= MyView::create('category/lpgas/company_list'); ?>">会社一覧</a></div>
           <div><a href="<?= MyView::create('category/lpgas/knowledge'); ?>">基礎知識</a></div>
