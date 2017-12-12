@@ -3,10 +3,15 @@
 class Controller_Base extends Controller_Template
 {
     protected $current_user = null;
+    protected $detect = null;
+
+    protected $smart_phone = false;
 
     public function before()
     {
         parent::before();
+
+        $this->detect = new Mobile_Detect;
 
         // foreach (\Auth::verified() as $driver)
         // {

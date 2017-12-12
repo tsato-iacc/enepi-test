@@ -4,6 +4,22 @@ class Controller_Front extends Controller_Template
 {
     public $template = 'front/template';
 
+    protected $is_mobile = false;
+
+    public function before()
+    {
+        parent::before();
+
+        if (\Session::get('is_mobile') === null)
+        {
+            $detect = new Mobile_Detect;
+            \Session::set('is_mobile', $detect->isMobile());
+        }
+
+        $this->is_mobile = \Session::get('is_mobile');
+        \View::set_global('is_mobile', $this->is_mobile, false);
+    }
+
     public function after($response)
     {
         $template = $this->template;
