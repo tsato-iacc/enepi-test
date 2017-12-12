@@ -79,7 +79,21 @@ return [
             ],
             'key_string' => [
                 'january' => 1, 'february' => 2, 'march' => 3, 'april' => 4, 'may' => 5, 'june' => 6, 'july' => 7, 'august' => 8, 'september' => 9, 'october' => 10, 'november' => 11, 'december' => 12
-            ]
-        ]
+            ],
+        ],
+    ],
+
+    /**
+     * Household
+     */
+    'household' => [
+        'key_string' => [
+            'two_or_less_person_household'   => '2人以下',
+            'three_person_household'         => '3人',
+            'four_person_household'          => '4人',
+            'five_person_household'          => '5人',
+            'six_person_household'           => '6人',
+            'seven_or_more_person_household' => '7人以上',
+        ],
     ],
 ];

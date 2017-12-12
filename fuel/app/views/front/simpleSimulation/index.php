@@ -19,7 +19,7 @@ use JpPrefecture\JpPrefecture;
 					<p class="simulation-title-content2">2.エネピ利用時の節約額</p>
 				</div>
 				<div class="simulation-form-box">
-					<?= \Form::open(['id' => 'simple_simulation']); ?>
+					<?= \Form::open(['id' => 'simple_simulation', 'action' => \Uri::create('simple_simulations')]); ?>
     			<?= \Form::csrf(); ?>
 						<div class="form-group" style="width: 70%; margin: 40px auto 20px auto ;">
 							<div class="form-inline">

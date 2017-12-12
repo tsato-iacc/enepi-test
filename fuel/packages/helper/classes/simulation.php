@@ -10,23 +10,22 @@
 
 namespace Helper;
 
-use Fuel\Core\Validation;
 use JpPrefecture\JpPrefecture;
 
 class Simulation
 {
-		protected $_val = null;
-
 		private $region;
 		
 		private $basic_rate;
 		private $prefecture_name;
 		private $household_average_rate;
 
+    private $estimated_bill                   = 0;
     private $city_average_commodity_charge    = 0;
 		private $commodity_charge                 = 0;
     private $nationwide_reduction             = 0;
     private $new_enepi_reduction_average      = 0;
+    private $average_reduction_rate           = 0;
 
     private $monthly_estimated_price          = [];
     private $monthly_average_price            = [];
@@ -36,59 +35,58 @@ class Simulation
 		 * Prepare Helper for work
 		 * @param Fuel\Core\Validation $val Recieve validation object
 		 */
-		public function __construct(Validation $val)
+		public function __construct(\Validation $val)
 		{
-				$this->_val = $val;
-
         $household                    = $val->validated('household');
         $month                        = $val->validated('month');
         $bill                         = $val->validated('bill');
 
 				$city                         = \Model_LocalContentCity::find($val->validated('city_code'));
-				$prefecture                   = \Model_LocalContentPrefecture::find($city->prefecture_code);
+				$this->prefecture             = \Model_LocalContentPrefecture::find($city->prefecture_code);
 				$this->region                 = \Model_Region::find($city->city_code);
 				$this->prefecture_name        = JpPrefecture::findByCode($city->prefecture_code)->nameKanji;
+				
 
-        $annual_average               = $prefecture->annual_average;
+        $annual_average               = $this->prefecture->annual_average;
         $sum = [];
 
 				$this->basic_rate             = (int) $city->basic_rate;
-        $this->household_average_rate = (float) $prefecture[$month] / (float) $annual_average * (float) $prefecture[$household];
+        $this->household_average_rate = (float) $this->prefecture[$month] / (float) $annual_average * (float) $this->prefecture[$household];
 
         if ($bill)
         {
-            $city_average_commodity_charge = (int) $city->commodity_charge == 0 ? $prefecture->commodity_charge_criterion : $city->commodity_charge;
-            $this->commodity_charge        = round(((int) $bill / 1.08 - $this->basic_rate) / $this->household_average_rate, 2);
+            $this->city_average_commodity_charge = (int) $city->commodity_charge == 0 ? $this->prefecture->commodity_charge_criterion : $city->commodity_charge;
+            $this->commodity_charge              = ((int) $bill / 1.08 - $this->basic_rate) / $this->household_average_rate;
         }
         else
         {
-            $this->commodity_charge = (int) $city->commodity_charge == 0 ? $prefecture->commodity_charge_criterion : $city->commodity_charge;
+            $this->commodity_charge = (int) $city->commodity_charge == 0 ? $this->prefecture->commodity_charge_criterion : $city->commodity_charge;
             $this->estimated_bill   = ($this->basic_rate + $this->household_average_rate * $this->commodity_charge) * 1.08;
         }
 
         foreach (\Config::get('enepi.simulation.month.key_numeric') as $m)
         {
-            $monthly_average_usage = $prefecture[$m];
-            $sum[] = $monthly_average_usage;
+            $monthly_average_usage = $this->prefecture[$m];
+            $sum[]                 = $monthly_average_usage;
 
             $monthly_estimated_usage         = $this->household_average_rate / $annual_average * $monthly_average_usage;
             $this->monthly_estimated_price[] = $monthly_estimated_usage * $this->commodity_charge + $this->basic_rate;
-            $this->monthly_average_price[]   = (int) $city->commodity_charge == 0 ? $this->basic_rate + $prefecture->commodity_charge_criterion * $monthly_estimated_usage : $this->basic_rate + $city->commodity_charge * $monthly_estimated_usage;
+            $this->monthly_average_price[]   = (int) $city->commodity_charge == 0 ? $this->basic_rate + $this->prefecture->commodity_charge_criterion * $monthly_estimated_usage : $this->basic_rate + $city->commodity_charge * $monthly_estimated_usage;
         }
 
         $pref = \Arr::filter_recursive(\Arr::pluck(\Model_LocalContentPrefecture::find('all'), 'average_reduction_rate'), function($item){ return $item !== '0'; });
-        $this->nationwide_reduction = round(array_sum($pref) / count($pref), 2);
+        $this->nationwide_reduction = array_sum($pref) / count($pref);
 
         $usage_sum = array_sum($sum);
 
-        $reduction = (int) $prefecture->average_reduction_rate == 0 ? $this->nationwide_reduction : (int) $prefecture->average_reduction_rate;
+        $reduction = (int) $this->prefecture->average_reduction_rate == 0 ? $this->nationwide_reduction : (int) $this->prefecture->average_reduction_rate;
 
         foreach (\Config::get('enepi.simulation.month.key_numeric') as $m)
         {
-            $this->new_enepi_reduction[] = round($reduction / $usage_sum * $prefecture[$m], 0);
+            $this->new_enepi_reduction[] = round($reduction / $usage_sum * $this->prefecture[$m], 0);
         }
 
-        $this->new_enepi_reduction_average = round(array_sum($this->new_enepi_reduction) / 12, 0);
+        $this->new_enepi_reduction_average = array_sum($this->new_enepi_reduction) / 12;
 		}
 
 		public function getRegion()
@@ -108,7 +106,7 @@ class Simulation
 
 		public function getHouseholdAverageRate()
 		{
-				return $this->household_average_rate;
+				return round($this->household_average_rate, 2);
 		}
 
 		public function getCityAverageCommodityCharge()
@@ -116,19 +114,24 @@ class Simulation
 				return $this->city_average_commodity_charge;
 		}
 
+		public function getEstimatedBill()
+		{
+				return round($this->estimated_bill, 0);
+		}
+
 		public function getCommodityCharge()
 		{
-				return $this->commodity_charge;
+				return round($this->commodity_charge, 2);
 		}
 
 		public function getNationwideReduction()
 		{
-				return $this->nationwide_reduction;
+				return round($this->nationwide_reduction, 2);
 		}
 
 		public function getNewEnepiReductionAverage()
 		{
-				return $this->new_enepi_reduction_average;
+				return round($this->new_enepi_reduction_average, 0);
 		}
 
 		public function getNewEnepiReduction()
@@ -144,6 +147,11 @@ class Simulation
 		public function getMonthlyAveragePrice()
 		{
 				return $this->monthly_average_price;
+		}
+
+		public function getAverageReductionRate()
+		{
+				return $this->prefecture->average_reduction_rate;
 		}
 
 		public function getMonthlyEstimatedPriceAverage()

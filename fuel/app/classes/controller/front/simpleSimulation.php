@@ -41,14 +41,7 @@ class Controller_Front_SimpleSimulation extends Controller_Front
             ['url' => \Uri::create('simple_simulations/new'), 'name' => '料金シミュレーション'],
         ];
 
-        $household = [
-            'two_or_less_person_household'   => '2人以下',
-            'three_person_household'         => '3人',
-            'four_person_household'          => '4人',
-            'five_person_household'          => '5人',
-            'six_person_household'           => '6人',
-            'seven_or_more_person_household' => '7人以上',
-        ];
+        $household = \Config::get('enepi.household.key_string');
 
         $month = \Config::get('enepi.simulation.month.key_string');
 
@@ -121,14 +114,19 @@ class Controller_Front_SimpleSimulation extends Controller_Front
         $this->template->title = 'プロパンガス料金シミュレーション 結果';
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/simpleSimulation/show', [
-            'breadcrumb' => $breadcrumb,
-            'household' => $household,
-            'month' => $month,
-            'bill' => $bill,
-            'basic_rate' => $simulationHelper->getBasicRate(),
-            'household_average_rate' => $simulationHelper->getHouseholdAverageRate(),
-            'prefecture_name' => $simulationHelper->getPrefectureName(),
-            'city_name' => $region->city_name,
+            'breadcrumb'                    => $breadcrumb,
+            'household'                     => $household,
+            'month'                         => $month,
+            'bill'                          => $bill,
+            'basic_rate'                    => $simulationHelper->getBasicRate(),
+            'household_average_rate'        => $simulationHelper->getHouseholdAverageRate(),
+            'commodity_charge'              => $simulationHelper->getCommodityCharge(),
+            'city_average_commodity_charge' => $simulationHelper->getCityAverageCommodityCharge(),
+            'estimated_bill'                => $simulationHelper->getEstimatedBill(),
+            'prefecture_name'               => $simulationHelper->getPrefectureName(),
+            'average_reduction_rate'        => $simulationHelper->getAverageReductionRate(),
+            'nationwide_reduction'          => $simulationHelper->getNationwideReduction(),
+            'city_name'                     => $region->city_name,
         ]);
     }
 }
