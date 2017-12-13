@@ -41,10 +41,6 @@ class Controller_Front_SimpleSimulation extends Controller_Front
             ['url' => \Uri::create('simple_simulations/new'), 'name' => '料金シミュレーション'],
         ];
 
-        $household = \Config::get('enepi.household.key_string');
-
-        $month = \Config::get('enepi.simulation.month.key_string');
-
         // FIX ME
         $month_selected = '10';
 
@@ -52,8 +48,6 @@ class Controller_Front_SimpleSimulation extends Controller_Front
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/simpleSimulation/index', [
             'breadcrumb' => $breadcrumb,
-            'household' => $household,
-            'month' => $month,
             'month_selected' => $month_selected,
         ]);
     }
@@ -115,18 +109,24 @@ class Controller_Front_SimpleSimulation extends Controller_Front
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/simpleSimulation/show', [
             'breadcrumb'                    => $breadcrumb,
+            'zip'                           => $zip,
             'household'                     => $household,
             'month'                         => $month,
             'bill'                          => $bill,
-            'basic_rate'                    => $simulationHelper->getBasicRate(),
-            'household_average_rate'        => $simulationHelper->getHouseholdAverageRate(),
-            'commodity_charge'              => $simulationHelper->getCommodityCharge(),
-            'city_average_commodity_charge' => $simulationHelper->getCityAverageCommodityCharge(),
-            'estimated_bill'                => $simulationHelper->getEstimatedBill(),
-            'prefecture_name'               => $simulationHelper->getPrefectureName(),
-            'average_reduction_rate'        => $simulationHelper->getAverageReductionRate(),
-            'nationwide_reduction'          => $simulationHelper->getNationwideReduction(),
             'city_name'                     => $region->city_name,
+            'prefecture_name'               => $simulationHelper->getPrefectureName(),
+            'household_average_rate'        => $simulationHelper->getHouseholdAverageRate(),
+            'basic_rate'                    => number_format($simulationHelper->getBasicRate()),
+            'commodity_charge'              => number_format($simulationHelper->getCommodityCharge()),
+            'city_average_commodity_charge' => number_format($simulationHelper->getCityAverageCommodityCharge()),
+            'estimated_bill'                => number_format($simulationHelper->getEstimatedBill()),
+            'average_reduction_rate'        => number_format($simulationHelper->getAverageReductionRate()),
+            'nationwide_reduction'          => number_format($simulationHelper->getNationwideReduction()),
+            'monthly_average_price'         => $simulationHelper->getMonthlyAveragePrice(),
+            'new_enepi_reduction'           => $simulationHelper->getNewEnepiReduction(),
+            'new_enepi_reduction_average'   => $simulationHelper->getNewEnepiReductionAverage(),
+            'monthly_average_price_average' => $simulationHelper->getMonthlyAveragePriceAverage(),
+            'google_chart_json_data'        => $simulationHelper->getGoogleChartJsonData(),
         ]);
     }
 }

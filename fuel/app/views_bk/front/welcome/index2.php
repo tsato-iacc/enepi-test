@@ -1,4 +1,4 @@
-<?= render('front/estimate_form'); ?>
+<?= render('shared/estimate_form'); ?>
 
 <style>
 .cvb_btn:hover{

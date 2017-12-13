@@ -2,18 +2,19 @@
   <h3>↓↓このままガス会社の料金プランを見る↓↓<div class="info scroll"><i class="fa fa-info-circle" aria-hidden="true"></i><span>詳しくはことら</span></div></h3>
 
   <div class="form-wrap">
-    <?= form_for @lpgas_contact, url: @form_url, ["method" => 'POST' { |f| ?>
+    <?= \Form::open(['action' => \Uri::create('lpgas_contacts')]); ?>
+    <?= \Form::csrf(); ?>
       <input type="hidden" name="new_form" value="true">
       <input type="hidden" name="simple_simulation" value="true">
-      <input type="hidden" name="zip" value="<?= @zip.zip_code ?>">
-      <input type="hidden" name="pref" value="<?= @zip.prefecture_code ?>">
-      <input type="hidden" name="addr" value="<?= @zip.city_name ?>">
+      <input type="hidden" name="zip" value="<?= $zip->zip_code ?>">
+      <input type="hidden" name="pref" value="<?= $zip->prefecture_code ?>">
+      <input type="hidden" name="addr" value="<?= $zip->city_name ?>">
 
       <input type="hidden" name="lpgas_contact[house_kind]" value="detached">
-      <input type="hidden" name="lpgas_contact[house_hold]" value="<?= @hh ?>">
-      <input type="hidden" name="lpgas_contact[gas_meter_checked_month]" value="<?= @month ?>">
-      <input type="hidden" name="lpgas_contact[gas_used_amount]" value="<?= @household_average_rate.round(1) ?>">
-      <input type="hidden" name="lpgas_contact[gas_latest_billing_amount]" value="<?= defined?(@bill) ? @bill : @estimated_bill ?>">
+      <input type="hidden" name="lpgas_contact[house_hold]" value="<?= $household ?>">
+      <input type="hidden" name="lpgas_contact[gas_meter_checked_month]" value="<?= $month ?>">
+      <input type="hidden" name="lpgas_contact[gas_used_amount]" value="<?= $household_average_rate ?>">
+      <input type="hidden" name="lpgas_contact[gas_latest_billing_amount]" value="<?= $bill ? $bill : $estimated_bill ?>">
 
       <input type="hidden" name="lpgas_contact[zip_code]">
       <input type="hidden" name="lpgas_contact[prefecture_code]">
@@ -32,16 +33,16 @@
         <div class="house-kind input-wrap remove-error error-wrap">
           <input type="radio" name="lpgas_contact[estimate_kind]" value="change_contract" id="change_contract">
           <label class="image-wrap hand-navi-label" for="change_contract">
-            <div class="normal"><?= MyView::image_tag(asset_url("estimate_form/off-btn-current.png") ?></div>
-            <div class="invert"><?= MyView::image_tag(asset_url("estimate_form/on-btn-current.png") ?></div>
+            <div class="normal"><?= Asset::img('estimate_form/off-btn-current.png'); ?></div>
+            <div class="invert"><?= Asset::img('estimate_form/on-btn-current.png'); ?></div>
             <div><p class="pl-new">現在のお住まい</p></div>
           </label>
         </div>
         <div class="house-kind input-wrap remove-error error-wrap">
           <input type="radio" name="lpgas_contact[estimate_kind]" value="new_contract" id="new_contract">
           <label class="image-wrap hand-navi-label" for="new_contract">
-            <div class="normal"><?= MyView::image_tag(asset_url("estimate_form/off-btn-move.png") ?></div>
-            <div class="invert"><?= MyView::image_tag(asset_url("estimate_form/on-btn-move.png") ?></div>
+            <div class="normal"><?= Asset::img('estimate_form/off-btn-move.png'); ?></div>
+            <div class="invert"><?= Asset::img('estimate_form/on-btn-move.png'); ?></div>
             <div><p>引越し先</p></div>
           </label>
         </div>
@@ -50,7 +51,7 @@
 
       <!-- OTHER KIND START -->
       <div class="other-kind-wrap">
-        <?= MyView::link_to('戸建以外の方はこちら', '/lpgas_contacts/new_form', "onclick" => "ga('send', 'event', 'simulation-other-contract', 'btn-click', '', 0);"]); ?>
+        <a href="<?= \Uri::create('lpgas_contacts/new_form'); ?>" onclick="ga('send', 'event', 'simulation-other-contract', 'btn-click', '', 0);">戸建以外の方はこちら</a>
       </div>
       <!-- OTHER KIND END -->
 
@@ -63,7 +64,7 @@
               <input type="checkbox" name="lpgas_contact[using_cooking_stove]" value="1" id="cooking_stove">
               <label for="cooking_stove">
                 <div>
-                  <?= MyView::image_tag(asset_url("estimate_form/check-blue.png") ?>
+                  <?= Asset::img('estimate_form/check-blue.png'); ?>
                 </div>
                 <span>ガスコンロ</span>
               </label>
@@ -72,7 +73,7 @@
               <input type="checkbox" name="lpgas_contact[using_bath_heater_with_gas_hot_water_supply]" value="1" id="bath_heater">
               <label for="bath_heater">
                 <div>
-                  <?= MyView::image_tag(asset_url("estimate_form/check-blue.png") ?>
+                  <?= Asset::img('estimate_form/check-blue.png'); ?>
                 </div>
                 <span>給湯器</span>
               </label>
@@ -81,7 +82,7 @@
               <input type="checkbox" name="lpgas_contact[using_other_gas_machine]" value="1" id="other_gas_machine">
               <label for="other_gas_machine">
                 <div>
-                  <?= MyView::image_tag(asset_url("estimate_form/check-blue.png") ?>
+                  <?= Asset::img('estimate_form/check-blue.png'); ?>
                 </div>
                 <span>ストーブその他</span>
               </label>
@@ -96,7 +97,7 @@
         <div class="gas-detail-input-wrap">
           <div class="input-wrap left-column month-left-column">
             <div class="label label-left">使用月</div>
-            <div class="field-month"><?= @month ?>月</div>
+            <div class="field-month"><?= \Config::get('enepi.simulation.month.key_string.'.$month) ?>月</div>
           </div>
 
           <div class="input-wrap error-wrap">
@@ -146,11 +147,11 @@
       <div class="btn-wrap">
         <div class="simulation-page-button color-gray" id="contact_btn">
           <div class="simulation-page-button-itself">
-            <div class="free-img img-hide"><?= MyView::image_tag(asset_url("simulations/free-tooltip.png") ?></div>
+            <div class="free-img img-hide"><?= Asset::img('simulations/free-tooltip.png'); ?></div>
             <p>どちらかを選んでください</p>
           </div>
         </div>
       </div>
-    <? } ?>
+    <?= Form::close(); ?>
   </div>
 </div>

@@ -4,7 +4,7 @@ $local_contents_path = "";
 $articles_path = "";
 
 ?>
-<?= render('front/estimate_form'); ?>
+<?= render('shared/estimate_form'); ?>
 
 <style>
 .cvb_btn:hover{

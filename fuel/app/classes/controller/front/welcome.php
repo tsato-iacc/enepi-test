@@ -29,6 +29,25 @@ class Controller_Front_Welcome extends Controller_Front
      */
     public function action_index()
     {
+        // if params[:contact_id].present?
+        //   @lpgas_contact = ::Lpgas::Contact.find(params[:contact_id]).dup
+        //   if @lpgas_contact.house_kind.present?
+        //     @house_kind = @lpgas_contact.house_kind
+        //   end
+        //   if @lpgas_contact.estimate_kind.present?
+        //     @estimate_kind = @lpgas_contact.estimate_kind
+        //   end
+        //   if @lpgas_contact.token != params[:token]
+        //     params.delete(:contact_id)
+        //     params.delete(:token)
+        //     redirect_to url_for(params)
+        //   end
+        // else
+        //   @lpgas_contact = ::Lpgas::Contact.new
+        // end
+
+        // @slots = ::Admin::BatchEstimatePrice.order(estimate_created_at: :desc).limit(20)
+        
         $meta = [
             ['name' => 'description', 'content' => 'OOooOOppp'],
             ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
@@ -38,7 +57,8 @@ class Controller_Front_Welcome extends Controller_Front
         $this->template->title = 'TOP';
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/welcome/index', [
-            'test' => 'test'
+            'contact' => new \Model_Contact(),
+            'month_selected' => '',
         ]);
         // return Response::forge(View::forge('welcome/index'));
     }

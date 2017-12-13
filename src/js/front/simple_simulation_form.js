@@ -33,8 +33,6 @@ if ($('form#simple_simulation').length) {
     }
 
     if (error === false) {
-      // console.log('nOOOO');
-      // return false;
       // POST FORM
       sendForm($(this));
     } else {

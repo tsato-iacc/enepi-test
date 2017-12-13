@@ -46,16 +46,15 @@ class Simulation
 				$this->region                 = \Model_Region::find($city->city_code);
 				$this->prefecture_name        = JpPrefecture::findByCode($city->prefecture_code)->nameKanji;
 				
-
         $annual_average               = $this->prefecture->annual_average;
         $sum = [];
 
 				$this->basic_rate             = (int) $city->basic_rate;
-        $this->household_average_rate = (float) $this->prefecture[$month] / (float) $annual_average * (float) $this->prefecture[$household];
+        $this->household_average_rate = $this->prefecture[$month] / $annual_average * $this->prefecture[$household];
 
         if ($bill)
         {
-            $this->city_average_commodity_charge = (int) $city->commodity_charge == 0 ? $this->prefecture->commodity_charge_criterion : $city->commodity_charge;
+            $this->city_average_commodity_charge = (int) $city->commodity_charge == 0 ? (int) $this->prefecture->commodity_charge_criterion : (int) $city->commodity_charge;
             $this->commodity_charge              = ((int) $bill / 1.08 - $this->basic_rate) / $this->household_average_rate;
         }
         else
@@ -111,7 +110,7 @@ class Simulation
 
 		public function getCityAverageCommodityCharge()
 		{
-				return $this->city_average_commodity_charge;
+				return round($this->city_average_commodity_charge, 0);
 		}
 
 		public function getEstimatedBill()
@@ -121,7 +120,7 @@ class Simulation
 
 		public function getCommodityCharge()
 		{
-				return round($this->commodity_charge, 2);
+				return round($this->commodity_charge, 0);
 		}
 
 		public function getNationwideReduction()
@@ -156,11 +155,31 @@ class Simulation
 
 		public function getMonthlyEstimatedPriceAverage()
 		{
-				return round(array_sum($this->monthly_estimated_price) / 12, 2);
+				return round(array_sum($this->monthly_estimated_price) / 12, 0);
 		}
 
 		public function getMonthlyAveragePriceAverage()
 		{
-				return round(array_sum($this->monthly_average_price) / 12, 2);
+				return round(array_sum($this->monthly_average_price) / 12, 0);
+		}
+
+		public function getGoogleChartJsonData()
+		{
+				$data = [
+						'cols' => [
+								['id' => '','label' => '月','pattern' => '','type' => 'string'],
+								['id' => '','label' => '地域平均','pattern' => '','type' => 'number'],
+								['id' => '','label' => 'エネピ平均削減額','pattern' => '','type' => 'number'],
+						],
+						'rows' => [],
+				];
+
+				foreach (\Config::get('enepi.simulation.month.key_numeric') as $k => $v)
+				{
+						$key = $k - 1;
+						$data['rows'][] = ['c' => [['v' => "{$k}月"], ['v' => round($this->monthly_average_price[$key], 0)], ['v' => round($this->new_enepi_reduction[$key], 0)]]];
+				}
+
+				return json_encode($data);
 		}
 }
