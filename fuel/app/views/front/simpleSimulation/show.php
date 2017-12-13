@@ -99,8 +99,10 @@
               <?php endif; ?>
             </div>
           <?php endif; ?>
-
-          <%= render "shared/simulation_estimate_form" %>
+          
+          <!-- SIMULATION ESTIMATE FORM START -->
+          <?= render('shared/simulation_estimate_form', ['zip' => $zip, 'household' => $household, 'month' => $month, 'household_average_rate' => $household_average_rate, 'bill' => $bill, 'estimated_bill' => $estimated_bill]); ?>
+          <!-- SIMULATION ESTIMATE FORM END -->
           
           <div class="simulation-result-title" style="margin-top: 3em;">
             <div class="simulation-result-paragraph">エネピ利用時の節約額</div>
@@ -116,9 +118,11 @@
             ガス料金の<span style="color: red; font-size: 150%;">節約</span>が期待できます!!
           </div>
           <?php if (!$this->is_mobile): ?>
+            <!-- GOOGLE CHART START -->
             <div id='simulation_chart'></div>
             <input type="hidden" name="google_chart_json_data" value="<?= $google_chart_json_data ?>">
-  　        <%= render_chart(@chart, 'chart') %>
+            <!-- GOOGLE CHART END -->
+
             <div class="simulation-table-wrapper">
               <table class="simulation-table" border="1" style="color: black; font-size: 90%;">
                 <thead>
@@ -164,8 +168,8 @@
               <p style=" font-size: 110%;">もう一度シミュレーションをする →</p>
             </a>
           </div>
-          <h4 class="simulation-bottom-link"><span style="font-size: 120%;">＼</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;今すぐおトクになるかも&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: 120%;">／</span></h4>
-          <a href="#" class="simulation-page-button" style="height: auto; margin-top: 60px;">
+          <h4 class="simulation-bottom-link"><span style="font-size: 120%;">＼</span>　　今すぐおトクになるかも　　<span style="font-size: 120%;">／</span></h4>
+          <a href="#" class="simulation-page-button" style="height: auto;">
             <div class="simulation-page-button-itself">
               <div class="free-img"><?= Asset::img('simulations/free-tooltip.png'); ?></div>
               <p>Webで提案を見てみる→</p>

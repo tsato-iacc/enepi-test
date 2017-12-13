@@ -35,9 +35,9 @@ use JpPrefecture\JpPrefecture;
 						</div>
 						<div class="simulation-extra-info">
 							<label>世帯人数(必須)</label>
-							<?= Form::select('household', 'two_or_less_person_household', $household, ['class' => 'household-selector']); ?>
+							<?= Form::select('household', 'two_or_less_person_household', \Config::get('enepi.household.key_string'), ['class' => 'household-selector']); ?>
 							<label>使用月</label>
-							<?= Form::select('month', $month_selected, $month, ['class' => 'household-selector']); ?>
+							<?= Form::select('month', $month_selected, \Config::get('enepi.simulation.month.key_string'), ['class' => 'household-selector']); ?>
 						</div>
 						<div class="simulation-extra-info" style="margin-bottom: 40px;">
 							<label for="bill">だいたいのガス代/月(わかれば)</label>
@@ -52,101 +52,3 @@ use JpPrefecture\JpPrefecture;
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-/*
-	function simulation_search_city(obj){
-		var idx = obj.selectedIndex;
-		var value = obj.options[idx].value;
-		if($('option').hasClass('city_option')){
-			$('.city_option').remove();
-		}
-		$.ajax({
-				type: 'GET',
-				url: '/simple_simulations/search_city',
-				data: {
-					prefecture_code: value
-				},
-				dataType: 'json'
-		})
-
-		.done(function(data) {
-			$.each(data, function(i , city) {
-				var city_name = city.city_name
-				var city_code = city.id
-				var city_select = $('<option class="city_option" value= '+ city_code +'>'+ city_name + '</option>');
-				$('#city_list').append(city_select);
-			});
-			$('.provisional_label').remove();
-		})
-		.fail(function() {
-			alert('error');
-		});
-	}
-	*/
-</script>
-<script type="text/javascript">
-/*
-	window.onload = function() {
-		var value = $('.address-selector-prefecture').val()
-		if (value != "選択してください") {
-			if($('option').hasClass('city_option')){
-				$('.city_option').remove();
-			}
-			$.ajax({
-					type: 'GET',
-					url: '/simple_simulations/search_city',
-					data: {
-						prefecture_code: value
-					},
-					dataType: 'json'
-			})
-
-			.done(function(data) {
-				$.each(data, function(i , city) {
-					var city_name = city.city_name
-					var city_code = city.id
-					var city_select = $('<option class="city_option" value= '+ city_code +'>'+ city_name + '</option>');
-					$('#city_list').append(city_select);
-				});
-				$('.provisional_label').remove();
-			})
-			.fail(function() {
-				alert('error');
-			});
-		}
-	};
-	*/
-</script>
-<?// if(!$data->present && $data->prefecture_code){ ?>
-	<script type="text/javascript">
-	/*
-		$(document).ready(function(){
-			var value = this.getElementById( "selected-prefecture" ).value ;
-			if($('option').hasClass('city_option')){
-			$('.city_option').remove();
-			}
-			$.ajax({
-					type: 'GET',
-					url: '/simple_simulations/search_city',
-					data: {
-						prefecture_code: value
-					},
-					dataType: 'json'
-			})
-
-			.done(function(data) {
-				$.each(data, function(i , city) {
-					var city_name = city.city_name
-					var city_code = city.id
-					var city_select = $('<option class="city_option" value= '+ city_code +'>'+ city_name + '</option>');
-					$('#city_list').append(city_select);
-				});
-				$('.provisional_label').remove();
-			})
-			.fail(function() {
-				alert('error');
-			});
-		});
-		*/
-	</script>
-<?// } ?>

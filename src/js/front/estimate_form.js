@@ -1,10 +1,10 @@
 if ($('#register_form').length) {
   var swiper = new Swiper('.steps-container', {
-      simulateTouch: false,
-      shortSwipes: false,
-      longSwipes: false,
-      autoHeight: true,
-      effect: 'fade'
+    simulateTouch: false,
+    shortSwipes: false,
+    longSwipes: false,
+    autoHeight: true,
+    effect: 'fade'
   });
 
   swiper.lockSwipes = function() {
@@ -20,6 +20,7 @@ if ($('#register_form').length) {
   swiper.lockSwipes();
 
   var route2 = false;
+  var have_bill = null;
   var fadeSpeed = 0;
   var sending_form = false;
 
@@ -62,7 +63,7 @@ if ($('#register_form').length) {
         swiper.unlockSwipes();
         swiper.slideTo(1, fadeSpeed, true);
         swiper.lockSwipes();
-        ga('send', 'event', 'goToStep2-1', 'btn-click', '', 0);
+        ga('send', 'event', 'goToStep2-' + houseKind, 'btn-click', '', 0);
       } else if (houseKind == 'apartment') {
         route2 = true;
         $('.step2-1').addClass('invisible-slide');
@@ -72,7 +73,7 @@ if ($('#register_form').length) {
         swiper.unlockSwipes();
         swiper.slideTo(2, fadeSpeed, true);
         swiper.lockSwipes();
-        ga('send', 'event', 'goToStep2-2', 'btn-click', '', 0);
+        ga('send', 'event', 'goToStep2-' + houseKind, 'btn-click', '', 0);
       }
     } else {
       isError(true, $(this), error_messages.slide_1.choice);
@@ -91,7 +92,7 @@ if ($('#register_form').length) {
       } else if (estimateKind == 'new_contract') {
         $('.slide-content-4 .can-hide').show();
       }
-      nextSlide($(this));
+      nextSlide($(this), '-' + estimateKind);
     } else {
       isError(true, $(this), error_messages.slide_2_1.choice);
     }
@@ -111,7 +112,7 @@ if ($('#register_form').length) {
 
     if (roomsCount && activeRooms) {
       isError(false, $(this));
-      nextSlide($(this));
+      nextSlide($(this), '-apartment');
       alignFormToTop();
     } else {
       isError(true, $(this), error_messages.slide_2_2.choice);
@@ -155,20 +156,27 @@ if ($('#register_form').length) {
     }
 
     if (estimateKind == 'change_contract') {
-      var gasMonth = isNumberValid('lpgas_contact\\[gas_meter_checked_month\\]');
-      var gasUsedAmount = isFloatValid('lpgas_contact\\[gas_used_amount\\]');
+      var gasMonth = isSelectValid('lpgas_contact_gas_meter_checked_month');
       var gasBillingAmount = isNumberValid('lpgas_contact\\[gas_latest_billing_amount\\]');
       var gasCompany = isInputValid('lpgas_contact\\[gas_contracted_shop_name\\]');
 
-      if (!gasMonth || !gasUsedAmount || !gasBillingAmount || !gasCompany) {
-        error = true;
+      if (have_bill === null || have_bill === true) {
+        var gasUsedAmount = isFloatValid('lpgas_contact\\[gas_used_amount\\]');
+
+        if (!gasMonth || !gasUsedAmount || !gasBillingAmount || !gasCompany)
+          error = true;
+      } else {
+        var houseHold = isSelectValid('house_hold');
+        
+        if (!houseHold || !gasMonth || !gasBillingAmount || !gasCompany)
+          error = true;
       }
     } else {
-      var gasMonthPresent = $('input[name=lpgas_contact\\[gas_meter_checked_month\\]]').val();
+      var houseHoldPresent = $('input[name=lpgas_contact\\[house_hold\\]]').val();
       var gasUsedAmountPresent = $('input[name=lpgas_contact\\[gas_used_amount\\]]').val();
       var gasBillingAmountPresent = $('input[name=lpgas_contact\\[gas_latest_billing_amount\\]]').val();
 
-      if (gasMonthPresent && !isNumberValid('lpgas_contact\\[gas_meter_checked_month\\]')) {
+      if (houseHoldPresent && !isNumberValid('lpgas_contact\\[house_hold\\]')) {
         error = true;
       }
 
@@ -209,6 +217,28 @@ if ($('#register_form').length) {
       sendForm($(this));
     } else {
       isError(true, $(this), error_messages.slide_5.input);
+    }
+  });
+
+  /*
+   * STEP 6 (ONLY lp/005)
+   */
+  $('#have_bill_btn').on('click', function() {
+    var haveBill = $('input[name=lpgas_contact\\[have_bill\\]]:checked').val();
+
+    if (haveBill) {
+      if (haveBill == 'yes') {
+        have_bill = true;
+        $('.have-bill-no').addClass('hidden');
+        $('.have-bill-yes').removeClass('hidden');
+      } else if (haveBill == 'no') {
+        have_bill = false;
+        $('.have-bill-no').removeClass('hidden');
+        $('.have-bill-yes').addClass('hidden');
+      }
+      nextSlide($(this), '-' + haveBill);
+    } else {
+      isError(true, $(this), error_messages.slide_2_1.choice);
     }
   });
 
@@ -306,6 +336,11 @@ if ($('#register_form').length) {
       addrHidden.val(addr);
     }
 
+    if (have_bill !== null && !have_bill) {
+      $('input[name=lpgas_contact\\[house_hold\\]]').val($('#house_hold').val());
+      $('input[name=lpgas_contact\\[gas_used_amount\\]]').val('');
+    }
+
     $('#contact_btn .btn-text').text('送信中...');
     if (sending_form !== true) {
       sending_form = true;
@@ -323,7 +358,7 @@ if ($('#register_form').length) {
     }
   }
 
-  function nextSlide(el) {
+  function nextSlide(el, ga_add) {
     var nextStep = parseInt(el.attr('data-next-step'));
     
     goToNextStep(nextStep);
@@ -331,7 +366,7 @@ if ($('#register_form').length) {
     swiper.slideTo(nextStep, fadeSpeed, true);
     swiper.lockSwipes();
 
-    ga('send', 'event', 'goToStep' + nextStep, 'btn-click', '', 0);
+    ga('send', 'event', 'goToStep' + nextStep + (ga_add ? ga_add : ''), 'btn-click', '', 0);
   }
 
   function goToNextStep(step) {
@@ -411,9 +446,9 @@ if ($('#register_form').length) {
     var select = $('#' + name).val();
 
     if (select) {
-      $('#' + name).closest('.input-wrap').removeClass('input-error');
+      $('#' + name).closest('.error-wrap').removeClass('input-error');
     } else {
-      $('#' + name).closest('.input-wrap').addClass('input-error');
+      $('#' + name).closest('.error-wrap').addClass('input-error');
       return false;
     }
 

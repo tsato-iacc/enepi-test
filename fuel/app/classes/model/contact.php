@@ -56,7 +56,7 @@ class Model_Contact extends \Orm\Model_Soft
         'preferred_contact_time_between',
         'reason_not_auto_sendable',
         'is_seen',
-        'house_hold'
+        'house_hold',
         'created_at',
         'updated_at',
         'deleted_at',

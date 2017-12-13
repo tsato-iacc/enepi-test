@@ -43,7 +43,8 @@ class Controller_Front_LpgasContacts extends Controller_Front
         $this->template->title = 'local_contents';
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/lpgasContacts/index', [
-            'test' => 'test'
+            'contact' => new \Model_Contact(),
+            'month_selected' => '',
         ]);
         // return Response::forge(View::forge('welcome/index'));
     }

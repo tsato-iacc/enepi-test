@@ -41,10 +41,6 @@ class Controller_Front_SimpleSimulation extends Controller_Front
             ['url' => \Uri::create('simple_simulations/new'), 'name' => '料金シミュレーション'],
         ];
 
-        $household = \Config::get('enepi.household.key_string');
-
-        $month = \Config::get('enepi.simulation.month.key_string');
-
         // FIX ME
         $month_selected = '10';
 
@@ -52,8 +48,6 @@ class Controller_Front_SimpleSimulation extends Controller_Front
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/simpleSimulation/index', [
             'breadcrumb' => $breadcrumb,
-            'household' => $household,
-            'month' => $month,
             'month_selected' => $month_selected,
         ]);
     }
@@ -115,6 +109,7 @@ class Controller_Front_SimpleSimulation extends Controller_Front
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/simpleSimulation/show', [
             'breadcrumb'                    => $breadcrumb,
+            'zip'                           => $zip,
             'household'                     => $household,
             'month'                         => $month,
             'bill'                          => $bill,

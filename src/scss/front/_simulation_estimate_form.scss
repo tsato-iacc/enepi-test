@@ -1,0 +1,395 @@
+// ----
+// Sass (v3.4.21)
+// Compass (v1.0.3)
+// ----
+
+.simulation-register-form {
+  font-family: "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,Osaka,"ＭＳ Ｐゴシック","MS PGothic",sans-serif;
+  line-height: 1.42857143;
+  color: #222;
+
+  @media screen and (max-device-width: $device-max-width) {
+    clear: both;
+  }
+  
+  @include input_wrap();
+  @include input_wrap2();
+  @include input_error();
+
+  h3 {
+    position: relative;
+    color: #222;
+
+    .info {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      color: #00a0e9;
+      cursor: pointer;
+
+      span {
+        margin-left: 5px;
+      }
+    }
+
+    @media screen and (min-device-width: $device-min-width) {
+      margin: 10px auto;
+      width: 640px;
+      font-size: 20px;
+    }
+
+    @media screen and (max-device-width: $device-max-width) {
+      font-size: 4vw;
+      margin-top: 10%;
+
+      .info {
+        top: -6vw;
+        right: 2vw;
+      }
+    }
+  }
+  
+  .form-wrap {
+    margin: 0 auto;
+    border-radius: 4px;
+    
+    @media screen and (min-device-width: $device-min-width) {
+      padding: 10px 0 0;
+      width: 850px;
+      border: 1px solid #ccc;
+    }
+  }
+  
+  .content-title {
+    position: relative;
+    padding-top: 15px;
+    
+    p {
+      text-align: center;
+      color: #ff6262;
+      margin: 10px 0;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    @media screen and (max-device-width: $device-max-width) {
+      padding-top: 2vw;
+
+      p {
+        font-size: 3vw;
+        line-height: 1;
+        padding-top: 3%;
+        margin-bottom: 5%
+      }
+    }
+  }
+
+  .step-error {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    opacity: 0;
+    text-align: center;
+    font-size: 14px;
+    color: #ff6262;
+    line-height: 1;
+    box-sizing: border-box;
+    transition: opacity 0.3s linear;
+
+    @media screen and (max-device-width: $device-max-width) {
+      top: 0;
+      box-sizing: border-box;
+      font-size: 3.8vw;
+      padding: 0;
+    }
+  }
+
+  .show-error {
+    opacity: 1;
+  }
+
+  .label {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 15px;
+    font-weight: 700;
+    color: #222;
+    padding-right: 10px;
+    box-sizing: border-box;
+
+    @media screen and (max-device-width: $device-max-width) {
+      padding-right: 4%;
+      font-size: 4vw;
+    }
+  }
+
+  .label-left {
+    width: 120px;
+  }
+
+  .label-right {
+    width: 140px;
+  }
+
+  .left-column {
+    width: 45%;
+  }
+
+  .content-box {
+    margin: 20px 0;
+    padding: 0 180px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    
+    .house-kind {
+      width: 190px;
+      height: 40px;
+      
+      .image-wrap > div {
+        padding: 10px 0 10px 10px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+      }
+      
+      .image-wrap p {
+        padding-left: 35px;
+        color: #4b4b4b;
+        font-size: 16px;
+        font-weight: 700;
+        text-align: left;
+      }
+
+      .image-wrap .pl-new {
+        padding-left: 45px;
+      }
+    }
+    
+    @media screen and (max-device-width: $device-max-width) {
+      padding: 0;
+      margin: 2% 0;
+
+      .house-kind {
+        width: 42vw;
+        height: 10vw;
+
+        .image-wrap > div {
+          padding: 0;
+        }
+
+        .image-wrap p {
+          padding-left: 10vw;
+          left: 0;
+          bottom: 6%;
+          font-size: 3.8vw;
+        }
+        .image-wrap img {
+          height: 4vw;
+          margin-left: 2vw;
+        }
+
+        .image-wrap .pl-new {
+          padding-left: 12vw;
+        }
+      }
+    }
+  }
+
+  .other-kind-wrap {
+    margin: 20px;
+
+    a {
+      font-size: 14px;
+      color: #00a0e9;
+
+      &:hover, &:visited, &:focus {
+        color: #00a0e9;
+      }
+    }
+
+    @media screen and (max-device-width: $device-max-width) {
+      margin: 5% 0 0;
+
+      a {
+        font-size: 4vw;
+      }
+    }
+  }
+
+  .gas-usage-wrap {
+    margin: 15px 0;
+
+    .row-wrap {
+      display: flex;
+    }
+
+    .input-wrap2 {
+      margin: 15px 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .remove-error {
+      margin-right: 20px;
+    }
+
+    @media screen and (max-device-width: $device-max-width) {
+      margin: 0;
+
+      .input-wrap2 {
+        margin: 4% 0;
+        flex-direction: column;
+      }
+
+      .label {
+        justify-content: flex-start;
+      }
+
+      .remove-error {
+        margin-right: 2vw;
+      }
+    }    
+  }
+
+  .gas-detail-wrap {
+    margin: 15px 0;
+
+    .gas-detail-input-wrap {
+      padding: 0 20px;
+      display: flex;
+    }
+
+    .input-wrap {
+      display: flex;
+    }
+
+    .field-month {
+      width: 90px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding-left: 10px;
+    }
+
+    .field-contracted-shop {
+      width: 240px;
+    }
+
+    @media screen and (max-device-width: $device-max-width) {
+      margin: 0;
+
+      .gas-detail-input-wrap {
+        padding: 0;
+        flex-direction: column;
+      }
+      .input-wrap {
+        flex-direction: column;
+        margin-bottom: 4%;
+      }
+
+      .label {
+        justify-content: flex-start;
+      }
+
+      .field-contracted-shop {
+        width: 100%;
+      }
+
+      .month-left-column {
+        flex-direction: row;
+      }
+    }
+  }
+
+  .contact-name-wrap {
+    margin: 15px 0;
+    padding: 0 20px;
+    display: flex;
+
+    .input-wrap {
+      display: flex;
+    }
+
+    .field-name {
+      width: 240px;
+    }
+
+    @media screen and (max-device-width: $device-max-width) {
+      margin: 0;
+      padding: 0;
+      flex-direction: column;
+
+      .input-wrap {
+        flex-direction: column;
+        width: 100%;
+        margin-bottom: 4%;
+      }
+
+      .label {
+        justify-content: flex-start;
+      }
+
+      .field-name {
+        width: 100%;
+      }
+    }
+  }
+
+  .contact-detail-wrap {
+    @extend .contact-name-wrap;
+  }
+
+  .simulation-page-button-itself {
+    
+  }
+
+  .btn-wrap {
+    @media screen and (min-device-width: $device-min-width) {
+      background-color: #efefef;
+      padding: 20px 0 25px;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+
+    @media screen and (max-device-width: $device-max-width) {
+      padding: 4vw 0 4.5vw;
+    }
+  }
+
+  .simulation-page-button {
+    height: auto;
+    cursor: pointer;
+
+    &.color-gray {
+      background-color: #9a9a9a;
+    }
+
+    p {
+      font-size: 21px;
+    }
+    
+    @media screen and (max-device-width: $device-max-width) {
+      p {
+        font-size: 5.5vw;
+      }
+    }
+  }
+
+  .optional {
+    font-weight: 100;
+    font-size: 11px;
+    padding-left: 5px;
+    color: #666;
+  }
+
+  .hidden-field, .img-hide {
+    display: none;
+  }
+}
