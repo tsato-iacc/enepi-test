@@ -7,6 +7,9 @@
 
 
 	RewriteEngine on
+  
+  # Remove Trailing Slashes
+  RewriteRule ^(.+[^/])/$ http://%{HTTP_HOST}/$1 [R=301,L]
 
 	# NOTICE: If you get a 404 play with combinations of the following commented out lines
 	#AllowOverride All
@@ -43,6 +46,8 @@
 	# Send request via index.php if not a real file or directory
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
+
+
 
 	# deal with php-fcgi first
 	<IfModule mod_fcgid.c>

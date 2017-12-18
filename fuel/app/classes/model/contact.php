@@ -14,23 +14,35 @@ class Model_Contact extends \Orm\Model_Soft
         'zip_code',
         'prefecture_code',
         'address',
-        'address2',
+        'address2' => [
+            'default' => '',
+        ],
         'new_zip_code',
         'new_prefecture_code',
         'new_address',
-        'new_address2',
+        'new_address2' => [
+            'default' => '',
+        ],
         'house_age',
         'tel',
         'email',
         'original_contact_id',
-        'from_kakaku',
-        'from_enechange',
-        'sent_auto_estimate_req',
+        'from_kakaku' => [
+            'default' => false,
+        ],
+        'from_enechange' => [
+            'default' => false,
+        ],
+        'sent_auto_estimate_req' => [
+            'default' => false,
+        ],
         'gas_meter_checked_month',
         'gas_used_years',
         'gas_used_amount',
         'gas_latest_billing_amount',
-        'gas_contracted_shop_name',
+        'gas_contracted_shop_name' => [
+            'default' => '',
+        ],
         'moving_scheduled_date',
         'body',
         'house_kind',
@@ -40,23 +52,47 @@ class Model_Contact extends \Orm\Model_Soft
         'number_of_rooms',
         'number_of_active_rooms',
         'estate_management_company_name',
-        'using_cooking_stove',
-        'using_bath_heater_with_gas_hot_water_supply',
-        'using_other_gas_machine',
-        'status',
-        'status_reason',
-        'user_status',
-        'terminal',
+        'using_cooking_stove' => [
+            'default' => false,
+        ],
+        'using_bath_heater_with_gas_hot_water_supply' => [
+            'default' => false,
+        ],
+        'using_other_gas_machine' => [
+            'default' => false,
+        ],
+        'status' => [
+            'default' => 0,
+        ],
+        'status_reason' => [
+            'default' => 0,
+        ],
+        'user_status' => [
+            'default' => 0,
+        ],
+        'terminal' => [
+            'default' => 0,
+        ],
         'token',
         'pin',
         'admin_memo',
         'pr_tracking_parameter_id',
-        'priority_degree',
-        'desired_option',
-        'preferred_contact_time_between',
+        'priority_degree' => [
+            'default' => 0,
+        ],
+        'desired_option' => [
+            'default' => 0,
+        ],
+        'preferred_contact_time_between' => [
+            'default' => 0,
+        ],
         'reason_not_auto_sendable',
-        'is_seen',
-        'house_hold',
+        'is_seen' => [
+            'default' => 0,
+        ],
+        'house_hold' => [
+            'default' => 0,
+        ],
         'created_at',
         'updated_at',
         'deleted_at',
@@ -75,6 +111,161 @@ class Model_Contact extends \Orm\Model_Soft
     ];
 
     protected static $_belongs_to = [
-        'pr_tracking_parameter',
+        'tracking',
     ];
+
+    /**
+     * [validate description]
+     * @param  string $factory Validation rules factory
+     * @return mixed           Return Fuel\Core\Validation object or null if factory is null
+     */
+    public static function validate($factory = null)
+    {
+        $val = Validation::forge();
+
+        $val->add_field('lpgas_contact.house_hold', 'house_hold', 'numeric_between[2,7]');
+        $val->add_field('lpgas_contact.house_kind', 'house_kind', 'required|match_collection[detached,store_ex,apartment]');
+        $val->add_field('lpgas_contact.estimate_kind', 'estimate_kind', 'required|match_collection[change_contract,new_contract]');
+
+        $val->add_field('lpgas_contact.using_cooking_stove', 'using_cooking_stove', 'match_value[1]');
+        $val->add_field('lpgas_contact.using_bath_heater_with_gas_hot_water_supply', 'using_bath_heater_with_gas_hot_water_supply', 'match_value[1]');
+        $val->add_field('lpgas_contact.using_other_gas_machine', 'using_other_gas_machine', 'match_value[1]');
+
+        $val->add_field('lpgas_contact.name', 'name', 'required|max_length[20]');
+        $val->add_field('lpgas_contact.furigana', 'furigana', 'max_length[20]');
+        $val->add_field('lpgas_contact.tel', 'tel', 'required|match_pattern[/^(\d{10,11})$/]');
+        $val->add_field('lpgas_contact.email', 'email', 'required|valid_email');
+
+        if (\Input::post('lpgas_contact.zip_code'))
+        {
+            $val->add_field('lpgas_contact.zip_code', 'zip_code', 'required|valid_string[numeric]');
+            $val->add_field('lpgas_contact.prefecture_code', 'prefecture_code', 'required_with[lpgas_contact.zip_code]|valid_string[numeric]');
+            $val->add_field('lpgas_contact.address', 'address', 'required_with[lpgas_contact.zip_code]');
+        }
+        else
+        {
+            $val->add_field('lpgas_contact.new_zip_code', 'new_zip_code', 'required|valid_string[numeric]');
+            $val->add_field('lpgas_contact.new_prefecture_code', 'new_prefecture_code', 'required_with[lpgas_contact.new_zip_code]|valid_string[numeric]');
+            $val->add_field('lpgas_contact.new_address', 'new_address', 'required_with[lpgas_contact.new_zip_code]');
+        }
+
+        switch ($factory)
+        {
+            case 'old_form':
+                # code...
+                break;
+
+            case 'change_contract':
+                if (!\Input::post('lpgas_contact.house_hold'))
+                {
+                    $val->add_field('lpgas_contact.gas_used_amount', 'gas_used_amount', 'required|match_pattern[/^[0-9]*[.]?[0-9]+$/]');
+                }
+                else
+                {
+                    $val->add_field('lpgas_contact.gas_used_amount', 'gas_used_amount', 'match_pattern[/^[0-9]*[.]?[0-9]+$/]');
+                }
+
+                $val->add_field('lpgas_contact.gas_meter_checked_month', 'gas_meter_checked_month', 'required|match_collection[january,february,march,april,may,june,july,august,september,october,november,december]');
+                $val->add_field('lpgas_contact.gas_latest_billing_amount', 'gas_latest_billing_amount', 'required|valid_string[numeric]');
+                $val->add_field('lpgas_contact.gas_contracted_shop_name', 'gas_contracted_shop_name', 'required|max_length[50]');
+
+                break;
+
+            case 'new_contract':
+                if (!\Input::post('lpgas_contact.house_hold'))
+                {
+                    $val->add_field('lpgas_contact.gas_used_amount', 'gas_used_amount', 'required|match_pattern[/^[0-9]*[.]?[0-9]+$/]');
+                }
+                else
+                {
+                    $val->add_field('lpgas_contact.gas_used_amount', 'gas_used_amount', 'match_pattern[/^[0-9]*[.]?[0-9]+$/]');
+                }
+
+                $val->add_field('lpgas_contact.gas_meter_checked_month', 'gas_meter_checked_month', 'match_collection[january,february,march,april,may,june,july,august,september,october,november,december]');
+                $val->add_field('lpgas_contact.gas_latest_billing_amount', 'gas_latest_billing_amount', 'valid_string[numeric]');
+                $val->add_field('lpgas_contact.gas_contracted_shop_name', 'gas_contracted_shop_name', 'max_length[50]');
+                break;
+
+            case 'apartment':
+                if (!\Input::post('lpgas_contact.house_hold'))
+                {
+                    $val->add_field('lpgas_contact.gas_used_amount', 'gas_used_amount', 'match_pattern[/^[0-9]*[.]?[0-9]+$/]');
+                }
+
+                $val->add_field('lpgas_contact.gas_meter_checked_month', 'gas_meter_checked_month', 'match_collection[january,february,march,april,may,june,july,august,september,october,november,december]');
+                $val->add_field('lpgas_contact.gas_latest_billing_amount', 'gas_latest_billing_amount', 'valid_string[numeric]');
+                $val->add_field('lpgas_contact.gas_contracted_shop_name', 'gas_contracted_shop_name', 'max_length[50]');
+
+                $val->add_field('lpgas_contact.number_of_rooms', 'number_of_rooms', 'required|valid_string[numeric]');
+                $val->add_field('lpgas_contact.number_of_active_rooms', 'number_of_active_rooms', 'valid_string[numeric]');
+                $val->add_field('lpgas_contact.estate_management_company_name', 'estate_management_company_name', 'max_length[50]');
+                break;
+            
+            default:
+                return null;
+
+                break;
+        }
+        
+        return $val;
+    }
+
+    /**
+     * Wrapper for save model
+     * @param  [type]  $cascade         [description]
+     * @param  boolean $use_transaction [description]
+     * @return bool                     Return parrent result
+     */
+    public function save($cascade = null, $use_transaction = false)
+    {
+        if ($this->is_new())
+        {
+            $this->token = \Str::random('hexdec', 32);
+            $this->pin   = \Str::random('numeric', 4);
+
+            if ($result = parent::save($cascade, $use_transaction))
+            {
+                $this->try_auto_sending_estimates();
+                $this->notify_received_contact();
+                $this->thanks();
+            }
+
+            return $result;
+        }
+        else
+        {
+            return parent::save($cascade, $use_transaction);
+        }
+    }
+
+    private function try_auto_sending_estimates()
+    {
+        // print var_dump('aaa');exit;
+        $this->sent_auto_estimate_req = true;
+        $this->save();
+
+        if (false)
+        {
+            $this->send_sms();
+        }
+        else
+        {
+            // reasons_not_auto_sendable
+        }
+    }
+
+    private function notify_received_contact()
+    {
+
+    }
+
+    private function thanks()
+    {
+
+    }
+
+    private function send_sms()
+    {
+
+    }
 }
