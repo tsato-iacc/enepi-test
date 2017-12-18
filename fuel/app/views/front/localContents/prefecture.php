@@ -1,5 +1,6 @@
 <? MyView::title("【#{@prefecture_itself.name}】プロパンガス(LPガス)料金の適正価格と相場！") ?>
 <? MyView::description("#{@prefecture_itself.name}のプロパンガス料金を知りたい方はこちらをチェック！お住まいの地域ごとに平均的なガス代を調べられます。プロパンガス(LPガス)は地域によって料金が異なるので、平均的なガス代を把握し、見直しに役立ててください。") ?>
+<?= render('front/breadcrumb', ['breadcrumb' => $breadcrumb]); ?>
 <div class="article-maintitle-area">
   <div class="inner">
     <div class="image">
@@ -243,7 +244,8 @@
         <?= render ("shared/local_contents_bottom_part") ?>
         </div>
         </div>
-        <?= render ("shared/articles_sidebar") ?>
+        <?//= render("shared/articles_sidebar") ?>
+        <?= Presenter::Forge('front/sidebar'); ?>
       </div>
     </div>
   </div>

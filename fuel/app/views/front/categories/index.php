@@ -1,10 +1,12 @@
-<%= render 'shared/article_common', article: @category['article'], url: category_url(@category) %>
+<?= render('front/breadcrumb', ['breadcrumb' => $breadcrumb]); ?>
 
 <div itemscope itemtype="http://schema.org/Article">
   <meta itemprop="datePublished" content="<?= $category['article']['created_at'] ?>">
   <meta itemprop="dateModified" content="<?= $category['article']['updated_at'] ?>">
   <meta itemprop="image" content="<?= $category['article']['thumbnail_url'] ?>">
-  <%= render "shared/mini_nav" %>
+
+  <?= render ("shared/mini_nav") ?>
+
   <div class="panel-inner">
     <div class="article-mainview">
       <div  class="image">
@@ -24,14 +26,14 @@
     <div class="panel-inner article-list-v3-panel-container">
       <div class="main">
         <?php foreach ($category_content as $cat): ?>
-        
+
           <?php if ($cat['content']['articles']): ?>
             <h2><?= $cat['name'] ?> <span class="article-count">(記事数: <?= $cat['article_count'] ?>)</span></h2>
             <ul>
               <?= render('front/articles/partial/list_items', ['articles' => $cat['content']['articles'], 'mini' => false]); ?>
             </ul>
             <div class="more_link">
-              <%= link_to "もっと見る", category_article_path(cat) %>
+              <?= MyView::link_to("もっと見る", $cat["path_name_prog"]) ?>
             </div>
           <?php endif; ?>
         <?php endforeach; ?>
@@ -43,7 +45,7 @@
           </ul>
 
           <div class="more_link">
-            <%= link_to "もっと見る", category_article_path(@category) %>
+            <?=  MyView::link_to("もっと見る", $category["path_name_prog"]."/articles") ?>
           </div>
         <?php endif; ?>
       </div>
@@ -51,11 +53,3 @@
     </div>
   </div>
 </div>
-
-    <%# https://iacc.backlog.jp/view/RSD-1132 %>
-    <%= content_for :tail do %>
-    <% if @category['path_name_prog'] == 'lpgas/column' %>
-    <%= render 'shared/yahoo_retargeting' %>
-    <%= render 'shared/google_remarketing' %>
-    <% end %>
-    <% end %>

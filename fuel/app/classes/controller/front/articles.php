@@ -44,9 +44,10 @@ class Controller_Front_Articles extends Controller_Front
 
             $articles = $client->getArticles($condition);
 
+
             \Pagination::forge('default', [
                 'total_items' => $articles['total_count'],
-                'per_page' => $condition['per'],
+                'per_page' => '13',
                 'pagination_url' => \Uri::current(),
                 'uri_segment' => 'page',
             ]);
@@ -69,6 +70,7 @@ class Controller_Front_Articles extends Controller_Front
         $this->template->content = View::forge('front/articles/index', [
             'breadcrumb' => $breadcrumb,
             'articles' => $articles,
+
             // 'mini_nav' => true,
         ]);
     }
@@ -107,7 +109,7 @@ class Controller_Front_Articles extends Controller_Front
             {
                 $pickup = $client->getArticlesByModule('pickup');
             }
-            
+
         }
         catch (ClientException $e)
         {

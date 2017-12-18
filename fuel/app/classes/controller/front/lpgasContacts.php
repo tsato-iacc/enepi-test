@@ -268,4 +268,25 @@ class Controller_Front_LpgasContacts extends Controller_Front
             $contact->gas_used_amount = round($city[$house_hold], 1);
         }
     }
+
+
+    public function post_index()
+    {
+
+        $meta = [
+            ['name' => 'description', 'content' => 'プロパンガス料金のシミュレーション結果ページです。ご入力頂いた内容を元に、今のガス代がどれくらい安くなるか算出しています。ガスの見直しにお役立てください。'],
+        ];
+
+        $breadcrumb = [
+            ['url' => \Uri::create('categories/lpgas'), 'name' => 'LPガス/プロパンガス'],
+            ['url' => \Uri::create('simple_simulations/new'), 'name' => '料金シミュレーション'],
+        ];
+
+        $this->template->title = 'プロパンガス料金シミュレーション 結果';
+        $this->template->meta = $meta;
+        $this->template->content = View::forge('front/lpgasContacts/old', [
+            'breadcrumb' => $breadcrumb,
+        ]);
+
+    }
 }

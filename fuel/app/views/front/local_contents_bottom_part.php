@@ -30,10 +30,11 @@
 <?= render("shared/social_buttons") ?>
 
 <div class="popular-articles">
-  <h2 class="popular-article-titles">人気記事一覧</h2>
+  <h2 class="popular-article-titles">このページに関連する記事一覧</h2>
   <div class="article-list">
     <ul>
-      <?//= render('front/articles/partial/list_items', ['articles' => $static_articles['articles'], 'mini' => true]); ?>
+      <?//= var_dump($popular) ?>
+      <?//= render('front/articles/partial/list_items', ['articles' => $popular['articles'], 'mini' => true]); ?>
     </ul>
   </div>
 </div>

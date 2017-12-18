@@ -102,4 +102,6 @@ class Presenter_Front_Sidebar extends Presenter
             throw new HttpNotFoundException();
         }
     }
+
+
 }
