@@ -14,7 +14,7 @@ use JpPrefecture\JpPrefecture;
   </div>
 
   <div class="form-wrap">
-    <?= \Form::open(['action' => isset($from_kakaku) ? 'kakaku/lpgas/contacts' : 'lpgas_contacts']); ?>
+    <?= \Form::open(['action' => $estimate_post_url]); ?>
     <?= \Form::csrf(); ?>
       <?php if (!$contact->is_new()): ?>
       <input type="hidden" name="contact_id" value="<?= $contact->id ?>">
@@ -320,13 +320,13 @@ use JpPrefecture\JpPrefecture;
                   <!-- IF DON'T HAVE A GAS BILL -->
                   <div class="field-house-hold error-wrap remove-error have-bill-no hidden select-arrow">
                     <i class="fa fa-sort" aria-hidden="true"></i>
-                    <?= Form::select('house_hold', 'two_or_less_person_household', \Config::get('enepi.household.key_string'), ['id' => 'house_hold']); ?>
+                    <?= Form::select('house_hold', 'two_or_less_person_household', \Config::get('enepi.household.key_numeric'), ['id' => 'house_hold']); ?>
                   </div>
                   <div class="reference have-bill-no hidden">で</div>
 
                   <div class="field-month error-wrap remove-error select-arrow">
                     <i class="fa fa-sort" aria-hidden="true"></i>
-                    <?= Form::select('gas_meter_checked_month', $month_selected, ['' => '選択'] + \Config::get('enepi.simulation.month.key_string'), ['id' => 'lpgas_contact_gas_meter_checked_month']); ?>
+                    <?= Form::select('lpgas_contact[gas_meter_checked_month]', $month_selected, ['' => '選択'] + \Config::get('enepi.simulation.month.key_string'), ['id' => 'lpgas_contact_gas_meter_checked_month']); ?>
                   </div>
                   <!-- IF DON'T HAVE A GAS BILL -->
                   <div class="reference have-bill-no hidden">月のガス料金が</div>

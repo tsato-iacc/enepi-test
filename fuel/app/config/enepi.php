@@ -87,6 +87,14 @@ return [
      * Household
      */
     'household' => [
+        'key_numeric' => [
+            2 => '2人以下',
+            3 => '3人',
+            4 => '4人',
+            5 => '5人',
+            6 => '6人',
+            7 => '7人以上',
+        ],
         'key_string' => [
             'two_or_less_person_household'   => '2人以下',
             'three_person_household'         => '3人',
@@ -95,5 +103,32 @@ return [
             'six_person_household'           => '6人',
             'seven_or_more_person_household' => '7人以上',
         ],
+        'key_numeric_string' => [
+            2 => 'two_or_less_person_household',
+            3 => 'three_person_household',
+            4 => 'four_person_household',
+            5 => 'five_person_household',
+            6 => 'six_person_household',
+            7 => 'seven_or_more_person_household',
+        ],
+        'key_string_numeric' => [
+            'two_or_less_person_household'   => 2,
+            'three_person_household'         => 3,
+            'four_person_household'          => 4,
+            'five_person_household'          => 5,
+            'six_person_household'           => 6,
+            'seven_or_more_person_household' => 7,
+        ],
+    ],
+
+    /**
+     * Terminal types [mobile, pc etc.]
+     */
+    'terminal_types'   => [
+        'unknown'      => 0,
+        'pc'           => 10,
+        'mobile'       => 20,
+        'smart_phone'  => 30,
+        'tablet'       => 40,
     ],
 ];

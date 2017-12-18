@@ -110,7 +110,7 @@ class Controller_Front_SimpleSimulation extends Controller_Front
         $this->template->content = View::forge('front/simpleSimulation/show', [
             'breadcrumb'                    => $breadcrumb,
             'zip'                           => $zip,
-            'household'                     => $household,
+            'household'                     => \Config::get('enepi.household.key_string_numeric.'.$household),
             'month'                         => $month,
             'bill'                          => $bill,
             'city_name'                     => $region->city_name,

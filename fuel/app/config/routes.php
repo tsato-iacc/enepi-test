@@ -8,10 +8,13 @@ return array(
     /**
      * Front
      */
-    'lpgas_contacts/new_form'           => 'front/lpgasContacts',
+    'lpgas_contacts/new_form'           => [['GET', new Route('front/lpgasContacts/index')]],
+    'lpgas_contacts'                    => [['POST', new Route('front/lpgasContacts/store')]],
     'lpgas_contacts/new'                => 'front/lpgasContacts/old',
     'lpgas_contacts/done'               => 'front/lpgasContacts/done',
-    ':media/lpgas/contacts/new'         => 'front/lpgasContacts',
+    'lpgas/contacts/(:num)'             => [['GET', new Route('front/lpgasContacts/sms_confirm/$1')]],
+    ':media/lpgas/contacts/new'         => [['GET', new Route('front/lpgasContacts/index')]],
+    ':media/lpgas/contacts'             => [['POST', new Route('front/lpgasContacts/store')]],
     ':media/lpgas/contacts/done'        => 'front/lpgasContacts/done',
 
     'simple_simulations/new'            => 'front/simpleSimulation',

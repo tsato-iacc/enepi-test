@@ -1,4 +1,4 @@
-<? if @slots.present? ?>
+<?php if (isset($slots)): ?>
   <? if smart_phone? ?>
   <div class="estimate-ticker">
     <div class="ticker-wrap<?= ' wrap-fixed' if controller.controller_name == "welcome" && controller.action_name == "index" ?>">
@@ -22,4 +22,4 @@
       </div>
     </div>
   <? } ?>
-<? } ?>
+<?php endif; ?>
