@@ -27,8 +27,8 @@ return array(
     'lpgas/support_map'                 => 'front/lpgas/supportMap',
     'agreement'                         => 'front/lpgas/agreement',
 
-    'categories/(:any)(:everything)(:everything)(:everything)/articles' => 'front/categories/articles/$1/$2/$3/$4',
-    'categories/(:any)(:everything)(:everything)(:everything)'          => 'front/categories/index/$1/$2/$3/$4',
+    'categories/(:any)(:everything)(:everything)(:everything)/articles'  => 'front/categories/articles/$1/$2/$3/$4',
+    'categories/(:any)(:everything)(:everything)(:everything)'           => 'front/categories/index/$1/$2/$3/$4',
 
     'local_contents'                    => 'front/localContents',
     'local_contents/(:num)'             => 'front/localContents/prefecture/$1',

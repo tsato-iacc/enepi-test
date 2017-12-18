@@ -1,7 +1,8 @@
 <?
-$new_simple_simulation_path = "";
-$local_contents_path = "";
-$articles_path = "";
+$new_simple_simulation_path = "/simple_simulations/new";
+$form_path = "/lpgas_contacts/new_form";
+$local_contents_path = "/local_contents";
+$articles_path = "/articles";
 
 ?>
 <?= render('shared/estimate_form', ['contact' => $contact, 'month_selected' => $month_selected]); ?>
@@ -42,7 +43,7 @@ $articles_path = "";
     </div>
 
     <div class="introduce_area">
-      <a <?= MyView::link_to("Rails.application.config.form_path", ["class" => "btn orange-button service-detail", "onclick" => "ga('send', 'event', 'top-button', 'click', 'irai', 1);"]);?>>
+      <a <?= MyView::link_to($form_path, ["class" => "btn orange-button service-detail", "onclick" => "ga('send', 'event', 'top-button', 'click', 'irai', 1);"]);?>>
       <div class="text-area">おトクなガス会社へ<br>無料切り替え依頼</div><?= MyView::image_tag(MyView::asset_url("top/bt_bg_estimate.png")); ?><div class="arrow-area"></div>
       </a>
 
@@ -295,11 +296,11 @@ $articles_path = "";
 
           <p class="benefit-txt">1ヶ月だと<span class="amount">3,600円</span>おトクに！<br>1年間では<span class="yearly-amount">43,200円</span>おトクに！</p>
 
-          <?= MyView::link_to($new_simple_simulation_path, ["class" =>  "simulation-button with-arrow-right-icon"]); { ?>
+          <a <?= MyView::link_to($new_simple_simulation_path, ["class" =>  "simulation-button with-arrow-right-icon"]); ?>>
             <div class="text">
               <span class="main">料金シミュレーションをする！</span>
             </div>
-          <? } ?>
+          </a>
         </dd>
       </dl>
 
@@ -311,11 +312,11 @@ $articles_path = "";
 
           <p class="benefit-txt">1ヶ月だと<span class="amount">4,500円</span>おトクに！<br>1年間では<span class="yearly-amount">54,000円</span>おトクに！</p>
 
-          <?= MyView::link_to($new_simple_simulation_path, ["class" =>  "simulation-button with-arrow-right-icon"]); { ?>
+          <a <?= MyView::link_to($new_simple_simulation_path, ["class" =>  "simulation-button with-arrow-right-icon"]); ?>>
             <div class="text">
               <span class="main">料金シミュレーションをする！</span>
             </div>
-          <? } ?>
+          </a>
         </dd>
       </dl>
 
@@ -326,11 +327,11 @@ $articles_path = "";
           <?= MyView::image_tag(MyView::asset_url("top/img_price-compare-6.png")); ?>
 
           <p class="benefit-txt">1ヶ月だと<span class="amount">8,700円</span>おトクに！<br>1年間では<span class="yearly-amount">104,400円</span>おトクに！</p>
-          <?= MyView::link_to($new_simple_simulation_path, ["class" =>  "simulation-button with-arrow-right-icon"]); { ?>
+          <a <?= MyView::link_to($new_simple_simulation_path, ["class" =>  "simulation-button with-arrow-right-icon"]); ?>>
             <div class="text">
               <span class="main">料金シミュレーションをする！</span>
             </div>
-          <? } ?>
+          </a>
         </dd>
       </dl>
     </div>
@@ -350,11 +351,11 @@ $articles_path = "";
           <p class="benefit-txt">1ヶ月だと<span class="amount">3,600円</span><br>おトクに！
           1年間では<br><span class="yearly-amount">43,200円</span>おトクに！</p>
 
-          <?= MyView::link_to($new_simple_simulation_path, ["class" =>  "simulation-button with-arrow-right-icon"]); { ?>
+          <a <?= MyView::link_to($new_simple_simulation_path, ["class" =>  "simulation-button with-arrow-right-icon"]); ?>>
             <div class="text">
               <span class="main"> 料金シミュレーションをする！</span>
             </div>
-          <? } ?>
+          </a>
         </td>
         <td class="contents_case_four">
           <?= MyView::image_tag(MyView::asset_url("top/img_case4.png")); ?>
@@ -363,11 +364,11 @@ $articles_path = "";
           <p class="benefit-txt">1ヶ月だと<span class="amount">4,500円</span><br>おトクに！
           1年間では<br><span class="yearly-amount">54,000円</span>おトクに！</p>
 
-          <?= MyView::link_to($new_simple_simulation_path, ["class" =>  "simulation-button with-arrow-right-icon"]); { ?>
+          <a <?= MyView::link_to($new_simple_simulation_path, ["class" =>  "simulation-button with-arrow-right-icon"]); ?>>
             <div class="text">
               <span class="main"> 料金シミュレーションをする！</span>
             </div>
-          <? } ?>
+          </a>
         </td>
         <td class="contents_case_six">
           <?= MyView::image_tag(MyView::asset_url("top/img_case6.png")); ?>
@@ -375,11 +376,11 @@ $articles_path = "";
 
           <p class="benefit-txt">1ヶ月だと<span class="amount">8,700円</span><br>おトクに！
           1年間では<br><span class="yearly-amount">104,400円</span>おトクに！</p>
-          <?= MyView::link_to($new_simple_simulation_path, ["class" =>  "simulation-button with-arrow-right-icon"]); { ?>
+          <a <?= MyView::link_to($new_simple_simulation_path, ["class" =>  "simulation-button with-arrow-right-icon"]); ?>>
             <div class="text">
               <span class="main"> 料金シミュレーションをする！</span>
             </div>
-          <? } ?>
+          </a>
         </td>
       </table>
     </div>
@@ -617,7 +618,7 @@ $articles_path = "";
       <div class="cta-area-sp">
         <h2>プロパンガス会社の見直しでもっと<?= MyView::image_tag(MyView::asset_url("top/img_otoku.png"), ["class" => 'goodbuy-img']); ?>になる！</h2>
         <?= MyView::image_tag(MyView::asset_url("top/img-cta-balloon.png"), ["class" => 'goodbuy-img', "alt"=> 'まずはエネピに相談！']);  ?>
-        <?= MyView::link_to("Rails.application.config.form_path", ["class" =>  "ctaarea-button with-arrow-right-icon btn-inner"]); { ?>
+        <?= MyView::link_to($form_path, ["class" =>  "ctaarea-button with-arrow-right-icon btn-inner"]); { ?>
           <span class="free-txt">無料</span>
           <div class="text">
             <span class="main">プロパンガス代が<br>安くなるか確かめる！</span>
@@ -628,7 +629,7 @@ $articles_path = "";
 
     <div class="hidden_pc">
       <div class="cta-area">
-        <a <?= MyView::link_to("Rails.application.config.form_path", ["class" =>  "ctaarea-button with-arrow-right-icon btn-inner", "onclick" =>  "ga('send', 'event', 'estimate-button', 'click', 'top3', 1);"]); ?>>
+        <a <?= MyView::link_to($form_path, ["class" =>  "ctaarea-button with-arrow-right-icon btn-inner", "onclick" =>  "ga('send', 'event', 'estimate-button', 'click', 'top3', 1);"]); ?>>
             <span class="free-txt">無料</span>
             <div class="text">
               <span class="main">プロパンガス代が<br>安くなるか確かめる！</span>

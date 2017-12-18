@@ -32,7 +32,7 @@
     <div class="article-list-v3-panel">
       <div class="panel-inner article-list-v3-panel-container">
         <div class="main">
-          <%= render "shared/social_buttons" %>
+          <?= render("shared/social_buttons") ?>
 
         <div class="toc">
           <p class="toc-title accordion">この記事の目次</p>
@@ -56,7 +56,7 @@
           </div>
         </div>
 
-        <%= render "shared/social_buttons" %>
+        <?= render("shared/social_buttons") ?>
 
         <?php if ($article['prev_article'] || $article['next_article']): ?>
           <div class="around_articles">
@@ -90,11 +90,3 @@
     </div>
   </div>
 </div>
-
-<%# https://iacc.backlog.jp/view/RSD-1132 %>
-<%= content_for :tail do %>
-<% if @article['categories'].map { |cate| cate['path_name_prog'] }.include?('lpgas/column') %>
-<%= render 'shared/yahoo_retargeting' %>
-<%= render 'shared/google_remarketing' %>
-<% end %>
-<% end %>

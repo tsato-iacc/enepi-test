@@ -41,31 +41,49 @@ class Controller_Front_Categories extends Controller_Front
             $category_path = rtrim(implode('/', [$category, $subOne, $subTwo, $subThree]), '/');
 
             $category_header = $client->getCategory($category_path);
+//            var_dump($category_header);
 
             if ($category_header['article']['redirect_url'])
                 return Response::redirect($category_header['article']['redirect_url'], 'location', 301);
 
-            $category_content = $client->getCategoryContent($category_path, ['depth' => 1]);
+                $category_content = $client->getCategoryContent($category_path, ['depth' => 1]);
 
-            $condition = [
-                'page' => 1,
-                'per' => \Config::get('enepi.category.index.per_page'),
-            ];
+                $condition = [
+                    'page' => 1,
+                    'per' => \Config::get('enepi.category.index.per_page'),
+                ];
 
-            foreach ($category_content as $k => $v)
-            {
-                $condition['category_path'] = $v['path_name_prog'];
-                $category_content[$k]['content'] = $client->getArticles($condition);
-            }
+                foreach ($category_content as $k => $v)
+                {
+                    $condition['category_path'] = $v['path_name_prog'];
+                    $category_content[$k]['content'] = $client->getArticles($condition);
+                }
 
-            $condition['category_path'] = $category_path;
-            $articles = $client->getArticles($condition);
+                $condition['category_path'] = $category_path;
+                $articles = $client->getArticles($condition);
         }
         catch (ClientException $e)
         {
             \Log::error($e->getMessage());
 
             throw new HttpNotFoundException();
+        }
+
+        $arr = $category_header["full"];
+        $breadcrumb = array();
+        $i = 0;
+        foreach($arr as $ar){
+            if($i == 0){
+                $breadcrumb_Individual = [
+                    ['url' => \Uri::create('/categories/'.$ar["name_prog"]), 'name' => $ar["name"]],
+                ];
+            }else{
+                $breadcrumb_Individual = [
+                    ['url' => \Uri::create($breadcrumb[$i-1]["url"].'/'.$ar["name_prog"]), 'name' => $ar["name"]],
+                ];
+            }
+            $i++;
+            $breadcrumb = array_merge($breadcrumb, $breadcrumb_Individual);
         }
 
         // FIX ME!
@@ -80,12 +98,15 @@ class Controller_Front_Categories extends Controller_Front
         $this->template->meta = $meta;
 
         $this->template->content = View::forge('front/categories/index', [
+            'breadcrumb' => $breadcrumb,
             'category' => $category_header,
             'category_content' => $category_content,
             'articles' => $articles,
             // 'mini_nav' => true,
         ]);
     }
+
+
 
     /**
      * Show Category's Articles
@@ -113,7 +134,7 @@ class Controller_Front_Categories extends Controller_Front
 
             $articles = $client->getArticles($condition);
 
-            \Pagination::forge('default', [
+            \Pagination::forge('articles_page', [
                 'total_items' => $articles['total_count'],
                 'per_page' => $condition['per'],
                 'pagination_url' => \Uri::current(),
@@ -131,6 +152,28 @@ class Controller_Front_Categories extends Controller_Front
             throw new HttpNotFoundException();
         }
 
+        $arr = $category_header["full"];
+        $breadcrumb = array();
+        $i = 0;
+        foreach($arr as $ar){
+            if($i == 0){
+                $breadcrumb_Individual = [
+                    ['url' => \Uri::create('/categories/'.$ar["name_prog"]), 'name' => $ar["name"]],
+                ];
+            }else{
+                $breadcrumb_Individual = [
+                    ['url' => \Uri::create($breadcrumb[$i-1]["url"].'/'.$ar["name_prog"]), 'name' => $ar["name"]],
+                ];
+            }
+            $i++;
+            $breadcrumb = array_merge($breadcrumb, $breadcrumb_Individual);
+        }
+        $breadcrumb_Individual = [
+            ['url' => \Uri::create('/categories/'.$category_header["path_name_prog"].'/articles'), 'name' => $category_header["name"]."の記事一覧"],
+        ];
+        $breadcrumb = array_merge($breadcrumb, $breadcrumb_Individual);
+
+
         // FIX ME!
         $meta = [
             ['name' => 'description', 'content' => 'OOooOOppp'],
@@ -143,6 +186,7 @@ class Controller_Front_Categories extends Controller_Front
         $this->template->meta = $meta;
 
         $this->template->content = View::forge('front/categories/articles', [
+            'breadcrumb' => $breadcrumb,
             'category' => $category_header,
             'category_content' => $category_content,
             'articles' => $articles,
