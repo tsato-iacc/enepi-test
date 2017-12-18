@@ -48,10 +48,12 @@ $smart_phone = false;
               </div>
             </div>
           <? } ?>
-        <?= render("shared/local_contents_bottom_part") ?>
+        <?//= var_dump($popular) ?>
+        <?//= render('front/local_contents_bottom_part',$popular); ?>
+        <?= View::forge('front/local_contents_bottom_part',$popular); ?>
         </div>
         </div>
-        <?= render("shared/articles_sidebar") ?>
+        <?= Presenter::Forge('front/sidebar'); ?>
       </div>
     </div>
   </div>

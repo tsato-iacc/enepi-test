@@ -1,5 +1,18 @@
 <? use Fuel\Core\Asset;
    use Fuel\Core\Form; ?>
+<header>
+  <div class="container-wrap">
+    <div class="logo-wrap pos-left">
+      <div class="logo">
+        <div><?= Asset::img('layout/logo.png'); ?></div>
+      </div>
+    <div class="logo-wrap pos-right">
+      <div class="enepi-tel">
+        <div><?= Asset::img('layout/enepi_tel.png'); ?></div>
+      </div>
+    </div>
+  </div>
+</header>
 <div class="register-form" id="register_form">
   <div class="mainform-top-text">
     <div class="mainform-text-box">プロパンガスの料金比較で年間<span class="mainform-top-text-catch">8万円</span><span class="mainform-top-note">(※)</span>も安くなる!!</div>
@@ -395,3 +408,12 @@
     <p class="terms sp">当サービスをご利用頂くにあたり、<br><a href="<?= \Uri::create('agreement'); ?>" target="_blank">「enepi」利用規約</a> に同意したものとみなします。</p>
   </div>
 </div>
+<footer>
+  <div class="container">
+    <ul>
+      <li><a href="/agreement">利用規約</a></li>
+      <li><a href="http://www.iacc.co.jp/privacy" target="_blank">プライバシーポリシー</a></li>
+      <li><a href="http://www.iacc.co.jp" target="_blank">運営会社</a></li>
+    </ul>
+  </div>
+</footer>

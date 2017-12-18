@@ -1,8 +1,9 @@
-<%= render "shared/mini_nav" %>
+<? use Fuel\Core\Pagination ?>
+<?= render ("shared/mini_nav") ?>
 <div class="panel-inner">
   <div class="article-mainview">
     <div class="image">
-      <%= image_tag("img_articles_top.png") %>
+      <?= MyView::image_tag("img_articles_top.png") ?>
     </div>
     <div class="text">
       <h1>プロパンガスすべての記事</h1>
@@ -20,7 +21,7 @@
         <ul>
           <?= render('front/articles/partial/list_items', ['articles' => $articles['articles'], 'mini' => false]); ?>
         </ul>
-        <?= \Pagination::instance()->render(); ?>
+        <?= \Pagination::instance('default')->render(); ?>
       </div>
       <?= Presenter::Forge('front/sidebar'); ?>
     </div>

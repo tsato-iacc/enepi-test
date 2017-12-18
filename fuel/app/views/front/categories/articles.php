@@ -1,3 +1,6 @@
+<?= render('front/breadcrumb', ['breadcrumb' => $breadcrumb]); ?>
+
+
 <div class="panel-inner" style="margin-top: 30px;" >
   <div class="article-mainview">
     <div  class="image">
@@ -18,7 +21,7 @@
         <ul>
           <?= render('front/articles/partial/list_items', ['articles' => $articles['articles'], 'mini' => false]); ?>
         </ul>
-        <?= \Pagination::instance()->render(); ?>
+        <?= \Pagination::instance('')->render(); ?>
       </div>
       <?= Presenter::Forge('front/sidebar', 'category'); ?>
     </div>

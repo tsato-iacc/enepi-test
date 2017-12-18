@@ -1,5 +1,8 @@
 <?
 
+use JpPrefecture\Config;
+use JpPrefecture\Prefecture;
+
 class MyView{
 
 
@@ -97,7 +100,6 @@ class MyView{
         //Uri::uri_create($uri);
         print $uri;
     }
-
 
 }
 

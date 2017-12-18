@@ -4012,7 +4012,7 @@ text-align:center;
 vertical-align:middle}
 @media screen and (max-width: 620px){header ul li a{font-size:12px}
 }
-header ul li a.active{background-color:#00a0e9;
+header a.active{background-color:#00a0e9;
 color:#FFF}
 header .primary-button{padding-left:5px;
 padding-right:5px;

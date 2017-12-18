@@ -13,54 +13,61 @@
     })();
 </script>
 
-<? $from_kakaku = true;
-   $smart_phone = false?>
-
-<? if from_kakaku? && smart_phone? ?>
+<?// if from_kakaku? && smart_phone? ?>
+<? if(false){?>
 　<script src="//assets.adobedtm.com/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-2baf9a6b9fae7a21c0cfb818c33122e38669f89d.js"></script>
-<? elsif from_kakaku? ?>
+<?// elsif from_kakaku? ?>
+<? } elseif(true) { ?>
   <script src="//assets.adobedtm.com/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-29577dfd7f420978cd93f3d1b2d6ee3a7d40cf53.js"></script>
 <? } ?>
 
-<? if @previewing ?>
-  <? MyView::title("エネピ - お見積もり情報確認" ?>
-<? else ?>
-  <? MyView::title("エネピ - お見積もり情報入力" ?>
+<?// if @previewing ?>
+<? if(true){ ?>
+  <? MyView::title("エネピ - お見積もり情報確認") ?>
+<? }else{ ?>
+  <? MyView::title("エネピ - お見積もり情報入力") ?>
 <? } ?>
 
 <div class="skinny">
-  <? if !(from_kakaku? || from_enechange?) ?>
+  <?// if !(from_kakaku? || from_enechange?) ?>
+  <? if(true){ ?>
     <div class="step-container">
       <div>
-      <?= MyView::image_tag("estimate_presentation/new_step_img_01.png", ["class" => 'lpgas-form-step-image' ?>
+      <?= MyView::image_tag("estimate_presentation/new_step_img_01.png", ["class" => 'lpgas-form-step-image']) ?>
       <p class="step-supply-txt">入力頂いた内容によっては、STEP2で完了する場合がございます。</p>
       </div>
     </div>
   <? } ?>
 
-  <? if from_kakaku? ?>
-    <? if NewYearHoliday.holiday?(@now) ?>
+  <?// if from_kakaku? ?>
+  <? if (true){ ?>
+    <?// if NewYearHoliday.holiday?(@now) ?>
+    <? if (true){ ?>
       <p class="warning-paragraph">
         <?= NewYearHoliday.holiday_text ?>
       </p>
     <? } ?>
-  <? elsif from_enechange? ?>
-  <? else ?>
+  <?// elsif from_enechange? ?>
+  <? } elseif(false) { ?>
+  <?} else {?>
     <h2 class="page-title center">
       エネピなら、お客様にピッタリの<br>プロパンガス会社を簡単ネット見積もり。
     </h2>
   <? } ?>
 
-  <? if from_kakaku? ?>
-    <? if @previewing ?>
+  <?// if from_kakaku? ?>
+  <? if (true){ ?>
+    <?// if @previewing ?>
+    <? if (true){ ?>
       <p class="confirm_txt">入力いただいた内容をご確認のうえ「上記の内容で送信する」ボタンを押してください</p>
-    <? else ?>
+    <? }else{ ?>
       <div class="step">
         <h3 class="step-heading">プロパンガス料金 お見積もりまでの流れ</h3>
         <?= image_tag("kakaku/step.png") ?>
       </div>
     <? } ?>
-  <? elsif from_enechange? ?>
+  <?// elsif from_enechange? ?>
+  <? } elseif(false) { ?>
     <div class="ene-quo-banner-pc"><?= image_tag("enechange/eneQUOheader-5000-pc.png") ?></div>
     <div class="ene-quo-banner-sp"><?= image_tag("enechange/eneQUOheader-5000-sp.png") ?></div>
     <div class="step">
@@ -69,8 +76,10 @@
     </div>
   <? } ?>
 
-  <? unless @previewing ?>
-    <? if @apartment_form ?>
+  <?// unless @previewing ?>
+  <? if (!true){ ?>
+    <?// if @apartment_form ?>
+    <? if (true){ ?>
       <p class="center">このお見積もりフォームは、集合住宅のオーナー様（大家様）専用のものです。ご入居者様からのお問い合わせには対応致しかねますので、ご了承ください。</p>
     <? } ?>
   <? } ?>
@@ -78,23 +87,25 @@
 
 
   <?
-      to_obj = if from_kakaku?
-                 [:kakaku, @lpgas_contact]
-               elsif from_enechange?
-                 [:enechange, @lpgas_contact]
-               else
-                 @lpgas_contact
-               end
+     // to_obj = if from_kakaku?
+     //            [:kakaku, @lpgas_contact]
+     //          elsif from_enechange?
+     //            [:enechange, @lpgas_contact]
+     //          else
+     //            @lpgas_contact
+     //          end
   ?>
 
-  <?= form_for to_obj, html: {["class" => 'table-form'} { |f| ?>
-    <?= hidden_field_tag :token, params[:token] if params[:token].present? ?>
-    <?= hidden_field_tag :contact_id, params[:contact_id] if params[:contact_id].present? ?>
-    <? if from_kakaku? ?>
-      <?= hidden_field_tag :previewed, 1 if @previewing ?>
+  <?//= form_for to_obj, html: {["class" => 'table-form'} { |f| ?>
+    <?//= hidden_field_tag :token, params[:token] if params[:token].present? ?>
+    <?//= hidden_field_tag :contact_id, params[:contact_id] if params[:contact_id].present? ?>
+    <?// if from_kakaku? ?>
+    <? if (true){ ?>
+      <?//= hidden_field_tag :previewed, 1 if @previewing ?>
     <? } ?>
-    <? if @apartment_form ?>
-      <?= hidden_field_tag :apartment_form, 1 if @apartment_form ?>
+    <?// if @apartment_form ?>
+    <? if (true){ ?>
+      <?//= hidden_field_tag :apartment_form, 1 if @apartment_form ?>
     <? } ?>
 
     <h3 class="table-form-header"><i class="fa fa-building" aria-hidden="true"></i>ガスを見直したい物件</h3>
