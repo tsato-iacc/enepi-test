@@ -2,6 +2,7 @@
 
 use \Helper\Email;
 use \Helper\ValidateReplacer;
+use \Helper\Simulation;
 
 /**
  * class Lpgas::CompanyServiceFeature
@@ -120,6 +121,8 @@ class Model_Contact extends \Orm\Model_Soft
     protected static $_belongs_to = [
         'tracking',
     ];
+
+    private $_unit_price = null;
 
     /**
      * [validate description]
@@ -264,6 +267,9 @@ class Model_Contact extends \Orm\Model_Soft
 
     private function try_auto_sending_estimates()
     {
+        $this->unit_price();
+        if (!$this->isAutoSendable())
+            return;
         // print var_dump('aaa');exit;
         // $this->sent_auto_estimate_req = true;
         $this->save();
@@ -278,18 +284,50 @@ class Model_Contact extends \Orm\Model_Soft
         }
     }
 
-    private function notify_received_contact()
+    private function isAutoSendable()
     {
+        // Test contact
+        if (in_array($this->name, ['テスト', 'てすと', 'test', 'TEST']))
+            return false;
 
-    }
+        // Borrowed apartment
+        if ($this->house_kind == \Config::get('models.contact.house_kind.apartment') && $this->ownership_kind == \Config::get('models.contact.ownership_kind.borrower'))
+            return false;
 
-    private function thanks()
-    {
+        // Store
+        if ($this->house_kind == \Config::get('models.contact.house_kind.store_ex'))
+            return false;
 
+        // Apartment owner
+        if ($this->apartment_owner)
+            return false;
+        $this->unit_price();
     }
 
     private function send_sms()
     {
 
     }
+
+    private function unit_price()
+    {
+        if ($this->_unit_price === null)
+        {
+            if ($this->gas_latest_billing_amount && $this->gas_used_amount)
+            {
+                $s = Simulation::getBasicPrice(12);
+                print var_dump($v);exit;
+            }
+            else
+            {
+                $this->_unit_price = 0;
+            }
+        }
+
+        
+
+        return $this->_unit_price;
+    }
+
+    // \Config::get('enepi.taxes.jp_acquisition_tax')
 }

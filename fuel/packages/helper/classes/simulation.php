@@ -55,12 +55,12 @@ class Simulation
         if ($bill)
         {
             $this->city_average_commodity_charge = (int) $city->commodity_charge == 0 ? (int) $this->prefecture->commodity_charge_criterion : (int) $city->commodity_charge;
-            $this->commodity_charge              = ((int) $bill / 1.08 - $this->basic_rate) / $this->household_average_rate;
+            $this->commodity_charge              = ((int) $bill / \Config::get('enepi.taxes.jp_acquisition_tax') - $this->basic_rate) / $this->household_average_rate;
         }
         else
         {
             $this->commodity_charge = (int) $city->commodity_charge == 0 ? $this->prefecture->commodity_charge_criterion : $city->commodity_charge;
-            $this->estimated_bill   = ($this->basic_rate + $this->household_average_rate * $this->commodity_charge) * 1.08;
+            $this->estimated_bill   = ($this->basic_rate + $this->household_average_rate * $this->commodity_charge) * \Config::get('enepi.taxes.jp_acquisition_tax');
         }
 
         foreach (\Config::get('enepi.simulation.month.key_numeric') as $m)
@@ -182,4 +182,14 @@ class Simulation
 
 				return json_encode($data);
 		}
+
+    /**
+     * STATIC METHODS
+     */
+    public static function getBasicPrice($pref_code)
+    {
+        \Config::load('simulation');
+        
+        return \Config::get('simulation.basic_price.'.$pref_code, \Config::get('simulation.basic_price_default'));
+    }
 }

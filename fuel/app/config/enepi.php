@@ -84,6 +84,13 @@ return [
     ],
 
     /**
+     * Taxes
+     */
+    'taxes' => [
+        'jp_acquisition_tax' => 1.08,
+    ],
+
+    /**
      * Household
      */
     'household' => [
