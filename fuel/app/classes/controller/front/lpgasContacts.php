@@ -86,7 +86,9 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         if ($val->run())
         {
-            $contact->set($val->validated('lpgas_contact'));
+            // $v = $val->validated('lpgas_contact', 'contact');
+            // print var_dump($v);exit;
+            $contact->set($val->validated('lpgas_contact', 'contact'));
 
             // Calculate gas usage by house hold
             if (!$contact->gas_used_amount && $contact->house_hold)
@@ -129,6 +131,8 @@ class Controller_Front_LpgasContacts extends Controller_Front
             }
             
         }
+
+        print var_dump($val);exit;
 
         $meta = [
             ['name' => 'description', 'content' => 'OOooOOppp'],
@@ -178,7 +182,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
      */
     public function get_done()
     {
-        print var_dump(\Session::get('front.pr_tracking_id'));
         $this->template = \View::forge('front/template_contact');
 
         $contact_id = str_replace('LPGAS-', '', \Input::get('conversion_id'));
@@ -192,8 +195,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
         }
 
         Tracking::unsetTracking();
-
-        print var_dump(\Session::get('front.pr_tracking_id'));exit;
 
         $meta = [
             ['name' => 'description', 'content' => 'OOooOOppp'],
@@ -225,6 +226,8 @@ class Controller_Front_LpgasContacts extends Controller_Front
             \Log::warning("conversion id {$contact_id} not found");
             throw new HttpNotFoundException();
         }
+
+        Tracking::unsetTracking();
 
         $meta = [
             ['name' => 'description', 'content' => 'OOooOOppp'],

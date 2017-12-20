@@ -15,5 +15,6 @@
 	 * Helper classes.
 	 */
   'Helper\\Simulation'                        => __DIR__.'/classes/simulation.php',
-	'Helper\\Tracking'                          => __DIR__.'/classes/tracking.php',
+  'Helper\\Tracking'                          => __DIR__.'/classes/tracking.php',
+  'Helper\\ValidateReplacer'                  => __DIR__.'/classes/validate_replacer.php',
 ));

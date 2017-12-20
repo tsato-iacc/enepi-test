@@ -72,5 +72,7 @@ class Tracking
     public static function unsetTracking()
     {
         \Session::delete('front.pr_tracking_id');
+        \Session::delete('front.from_kakaku');
+        \Session::delete('front.from_enechange');
     }
 }

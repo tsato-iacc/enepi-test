@@ -32,7 +32,7 @@ return array(
 	 * Security settings
 	 */
 	'security' => array(
-		'csrf_autoload'            => true,
+    'csrf_autoload'            => true,
 
 		/**
 		 * A salt to make sure the generated security tokens are not predictable
@@ -133,7 +133,8 @@ return array(
 		 * If you don't want the config in a group use null as groupname.
 		 */
 		'config'  => [
-			'enepi'
+      'enepi',
+			'models',
 		],
 
 	),
