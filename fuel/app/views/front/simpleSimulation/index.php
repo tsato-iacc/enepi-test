@@ -2,6 +2,8 @@
 use JpPrefecture\JpPrefecture;
 ?>
 
+!!!
+
 <?= render('front/breadcrumb', ['breadcrumb' => $breadcrumb]); ?>
 
 <div class="article-page">
