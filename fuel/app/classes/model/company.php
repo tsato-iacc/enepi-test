@@ -50,9 +50,11 @@ class Model_Company extends \Orm\Model
     ];
 
     protected static $_has_many = [
-        'ng_companies',
-        'area' => [
-            'model_to' => 'Model_Company_Area',
+        'ng_companies' => [
+            'model_to' => 'Model_NgCompany',
+        ],
+        'geocodes' => [
+            'model_to' => 'Model_Company_Geocode',
         ],
         'estimates',
         'offices' => [
@@ -64,8 +66,8 @@ class Model_Company extends \Orm\Model
     ];
 
     protected static $_many_many = [
-        'features' => [
-            'table_through' => 'lpgas_company_features',
-        ]
+        // 'features' => [
+        //     'table_through' => 'lpgas_company_features',
+        // ]
     ];
 }

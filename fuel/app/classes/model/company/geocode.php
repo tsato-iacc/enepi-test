@@ -3,7 +3,7 @@
 /**
  * class Lpgas::CompanyGeocode
  */
-class Model_Company_Area extends \Orm\Model
+class Model_Company_Geocode extends \Orm\Model
 {
     protected static $_table_name = 'lpgas_company_geocodes';
 
@@ -18,5 +18,14 @@ class Model_Company_Area extends \Orm\Model
 
     protected static $_observers = [
         'Orm\\Observer_Typing'
+    ];
+
+    protected static $_has_many = [
+        'zip_codes' => [
+            'model_to' => 'Model_Company_GeocodeZipCode',
+        ],
+        'price_rules' => [
+            'model_to' => 'Model_PriceRule',
+        ],
     ];
 }

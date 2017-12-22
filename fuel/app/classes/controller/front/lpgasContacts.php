@@ -86,8 +86,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         if ($val->run())
         {
-            // $v = $val->validated('lpgas_contact', 'contact');
-            // print var_dump($v);exit;
             $contact->set($val->validated('lpgas_contact', 'contact'));
 
             // Calculate gas usage by house hold
@@ -110,6 +108,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
                 if ($contact->sent_auto_estimate_req)
                 {
                     $query['token'] = $contact->token;
+
                     return \Response::redirect("lpgas/contacts/{$contact->id}?".http_build_query($query));
                 }
                 else
@@ -128,11 +127,10 @@ class Controller_Front_LpgasContacts extends Controller_Front
             {
                 \Log::error($e);
                 \DB::rollback_transaction();
+                // FIX ME
+                throw $e;
             }
-            
         }
-
-        print var_dump($val);exit;
 
         $meta = [
             ['name' => 'description', 'content' => 'OOooOOppp'],
@@ -147,7 +145,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
             'val' => $val,
             'month_selected' => '',
         ]);
-        // return Response::forge(View::forge('welcome/index'));
     }
 
     /**
