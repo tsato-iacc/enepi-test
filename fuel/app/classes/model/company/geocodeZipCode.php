@@ -3,7 +3,7 @@
 /**
  * class Lpgas::CompanyGeocodeZipCode
  */
-class Model_Company_AreaZipCode extends \Orm\Model
+class Model_Company_GeocodeZipCode extends \Orm\Model
 {
     protected static $_table_name = 'lpgas_company_geocode_zip_codes';
 
