@@ -46,6 +46,7 @@ class Controller_Front_LocalContents extends Controller_Front
                 'sort'          => \Config::get('enepi.articles.popular.sort'),
             ];
 
+            $result = $this->article_titles();
             $popular = $client->getArticles($condition);
         }
         catch (ClientException $e)
@@ -70,8 +71,8 @@ class Controller_Front_LocalContents extends Controller_Front
         $this->template->content = View::forge('front/localContents/index', [
             'breadcrumb' => $breadcrumb,
             'popular' => $popular,
+            'result' => $result,
         ]);
-//        $this->template->content -> set_global('local_contents_bottom_part',$popular);
     }
 
     /**
@@ -128,5 +129,26 @@ class Controller_Front_LocalContents extends Controller_Front
         $this->template->content = View::forge('front/localContents/city', [
             'breadcrumb' => $breadcrumb,
         ]);
+    }
+
+    private function article_titles(){
+        $client = new Client(\Config::get('enepi.cms.host'), \Config::get('enepi.cms.site'), \Config::get('enepi.cms.key'));
+        $array = ['401', '402', '426'];
+        $result = [];
+        try
+        {
+            foreach($array as $arr){
+              $condition = [
+                'increment_access_count' => false,
+              ];
+              $result[]= $client->getArticleById($arr, $condition);
+            }
+        }
+        catch (ClientException $e)
+        {
+            \Log::error($e->getMessage());
+            throw new HttpNotFoundException();
+        }
+        return $result;
     }
 }

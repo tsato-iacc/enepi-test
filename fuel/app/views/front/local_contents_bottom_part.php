@@ -33,8 +33,41 @@
   <h2 class="popular-article-titles">このページに関連する記事一覧</h2>
   <div class="article-list">
     <ul>
-      <?//= var_dump($popular) ?>
-      <?//= render('front/articles/partial/list_items', ['articles' => $popular['articles'], 'mini' => true]); ?>
+      <?//= render('front/articles/partial/list_items', ['articles' => $result['articles'], 'mini' => true]); ?>
+
+
+    <li class="article">
+      <div class="image">
+        <img src="/assets/images/area_contents.png" alt="Area contents" />
+      </div>
+      <div class="text">
+        <h3 class="title mini">
+          <a data-block-link=".article" href="/simple_simulations/new">いくら安くなる？プロパンガス料金の無料シミュレーション</a>
+        </h3>
+      </div>
+    </li>
+    <li class="article">
+      <div class="image">
+        <img src="/assets/images/japan-map.png" alt="Japan map" />
+      </div>
+      <div class="text">
+        <h3 class="title mini">
+          <a data-block-link=".article" href="/local_contents">適正価格をチェック！都道府県別プロパンガス料金検索</a>
+        </h3>
+      </div>
+    </li>
+    <? foreach($result as $value){ ?>
+        <li class="article">
+          <div class="image">
+            <img src="<?= $value['thumbnail_cover_256_url'] ?>" />
+          </div>
+          <div class="text">
+            <h3 class="title mini">
+              <a data-block-link=".article" href="/articles/<?= $value['id'] ?>"><?= $value['title'] ?></a>
+            </h3>
+          </div>
+        </li>
+    <? } ?>
     </ul>
   </div>
 </div>
