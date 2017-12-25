@@ -7,7 +7,9 @@ class Model_Calling extends \Orm\Model
     protected static $_properties = [
         'id',
         'contact_id',
-        'archived',
+        'archived' => [
+            'default' => false,
+        ],
         'created_at',
         'updated_at',
     ];

@@ -2,10 +2,12 @@
 
 return [
     'company' => [
+        'service_name' => 'エネピ',
         'zip_code' => '105-0004',
         'address' => '東京都港区新橋1-18-16 日本生命新橋ビル5F',
         'tel' => '03-5510-8015',
         'fax' => '03-5510-8016',
+        'email' => 'info@enepi.jp',
     ],
 
     /**
