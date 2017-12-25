@@ -259,7 +259,8 @@
               </ul>
             </div>
           <? } ?>
-        <?= render ("shared/local_contents_bottom_part") ?>
+            <? View::set_global('result',$result); ?>
+            <?= View::forge('front/local_contents_bottom_part',$result); ?>
         </div>
         </div>
         <?//= render("shared/articles_sidebar") ?>

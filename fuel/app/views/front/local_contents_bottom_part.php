@@ -29,6 +29,25 @@
 </div>
 <?= render("shared/social_buttons") ?>
 
+<? if(isset($code)){ ?>
+  <div class="around_articles">
+  <? if($code != 1) {?>
+    <div class="prev">
+      <span>前の記事</span>
+      <? $link_prev = intval($code)-1; ?>
+      <?= MyView::link_to($prefecture_prev[key($prefecture_prev)].'のプロパンガス(LPガス)料金', '/local_contents/'.$link_prev) ?>
+    </div>
+  <? } ?>
+  <? if($code != 47) {?>
+    <div class="next">
+      <span>次の記事</span>
+      <? $link_next = intval($code)+1; ?>
+      <?= MyView::link_to($prefecture_next[key($prefecture_next)].'のプロパンガス(LPガス)料金', '/local_contents/'.$link_next) ?>
+    </div>
+  </div>
+  <? } ?>
+<? } ?>
+
 <div class="popular-articles">
   <h2 class="popular-article-titles">このページに関連する記事一覧</h2>
   <div class="article-list">
