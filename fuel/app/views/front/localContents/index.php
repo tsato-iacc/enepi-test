@@ -48,9 +48,13 @@ $smart_phone = false;
               </div>
             </div>
           <? } ?>
-        <?//= var_dump($popular) ?>
-        <?//= render('front/local_contents_bottom_part',$popular); ?>
-        <?= View::forge('front/local_contents_bottom_part',$popular); ?>
+          <div class="popular-articles">
+            <? View::set_global('result',$result); ?>
+            <? View::set_global('code',$code); ?>
+            <? View::set_global('prefecture_prev',$prefecture_prev); ?>
+            <? View::set_global('prefecture_next',$prefecture_next); ?>
+            <?= View::forge('front/local_contents_bottom_part',$result); ?>
+          </div>
         </div>
         </div>
         <?= Presenter::Forge('front/sidebar'); ?>
