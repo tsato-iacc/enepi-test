@@ -138,4 +138,31 @@ return [
         'smart_phone'  => 30,
         'tablet'       => 40,
     ],
+
+    /**
+     * Estimate
+     */
+    'estimate' => [
+        'unit_price' => 250,
+    ],
+
+    /**
+     * Contact
+     */
+    'contact' => [
+        'reasons' => [
+            'test' => 'テスト用の文言使用',
+            'borrowed_apartment' => '賃貸アパート',
+            'store' => '店舗',
+            'apartment_owner' => 'マンションオーナー',
+            'unit_price_less' => '推定従量単価が250円以下',
+            'unit_price_zero' => '使用月、使用量、請求額が無い',
+            'pr_tracking' => 'pr tracking is not auto sendable',
+            'no_savings' => '年間削減効果額がマイナス',
+            'unsupported_area' => 'エリア外',
+            'ng_companies' => 'NG企業のみ',
+            'unknown_reason' => 'Unknown reason',
+            'from_kakaku' => '価格コム経由',
+        ],
+    ],
 ];

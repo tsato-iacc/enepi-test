@@ -1,7 +1,7 @@
 <?php
 
 return [
-  'used_amount' = [
+  'used_amount' => [
     1 => [
       1 => 1.0,
       2 => 0.8863636363636362,
@@ -662,7 +662,7 @@ return [
     ]
   ],
 
-  'basic_price' = [
+  'basic_price' => [
     1 => 2107,
     2 => 1869,
     3 => 1955,

@@ -23,12 +23,14 @@ class Model_PriceRule extends \Orm\Model
     ];
 
     protected static $_belongs_to = [
-        'company_area',
+        'company_geocode',
     ];
 
     protected static $_has_many = [
         'prices' => [
-            'model_to' => 'Model_Estimate_Price',
+            'model_to' => 'Model_PriceRule_Price',
+            'key_from' => 'id',
+            'key_to' => 'price_rule_id',
         ],
     ];
 }

@@ -77,6 +77,7 @@ class Controller_Front_Articles extends Controller_Front
 
             // 'mini_nav' => true,
         ]);
+
     }
 
     /**

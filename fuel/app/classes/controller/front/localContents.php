@@ -45,6 +45,7 @@ class Controller_Front_LocalContents extends Controller_Front
                 'sort'          => \Config::get('enepi.articles.popular.sort'),
             ];
 
+            $result = $this->article_titles();
             $popular = $client->getArticles($condition);
             $result = $this->article_titles();
         }
@@ -77,7 +78,6 @@ class Controller_Front_LocalContents extends Controller_Front
             'prefecture_prev' => $prefecture_prev,
             'prefecture_next' => $prefecture_next,
         ]);
-//        $this->template->content -> set_global('local_contents_bottom_part',$popular);
     }
 
     /**

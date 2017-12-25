@@ -1,6 +1,6 @@
 <?php
 
-class Model_PartnerCompany extends \Orm\Model
+class Model_Partner_Company extends \Orm\Model
 {
     protected static $_table_name = 'partner_companies';
 

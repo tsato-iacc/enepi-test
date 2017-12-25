@@ -188,8 +188,15 @@ class Simulation
      */
     public static function getBasicPrice($pref_code)
     {
-        \Config::load('simulation');
+        \Config::load('simulation', true);
         
         return \Config::get('simulation.basic_price.'.$pref_code, \Config::get('simulation.basic_price_default'));
+    }
+
+    public static function getUsedAmount($pref_code)
+    {
+        \Config::load('simulation', true);
+        
+        return \Config::get('simulation.used_amount.'.$pref_code, \Config::get('simulation.used_amount_default'));
     }
 }
