@@ -28,7 +28,9 @@ class Model_LocalContentCity extends \Orm\Model
     ];
 
     protected static $_belongs_to = [
-        'local_content_prefecture',
-        'region',
+        'region' => [
+            'key_from' => 'city_code',
+            'key_to' => 'id',
+        ],
     ];
 }

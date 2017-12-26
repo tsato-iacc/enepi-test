@@ -32,4 +32,12 @@ class Model_Review extends \Orm\Model
         // ],
         'Orm\\Observer_Typing'
     ];
+
+
+    protected static $_belongs_to = [
+        'region' => [
+            'key_from' => 'city_code',
+            'key_to' => 'id',
+        ],
+    ];
 }

@@ -20,8 +20,8 @@
         <h2><?= $category['name'] ?>の新着記事</h2>
         <ul>
           <?= render('front/articles/partial/list_items', ['articles' => $articles['articles'], 'mini' => false]); ?>
+          <?= \Pagination::instance('')->render(); ?>
         </ul>
-        <?= \Pagination::instance('')->render(); ?>
       </div>
       <?= Presenter::Forge('front/sidebar', 'category'); ?>
     </div>
