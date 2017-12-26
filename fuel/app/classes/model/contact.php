@@ -1,8 +1,8 @@
 <?php
 
-use \Helper\Email;
 use \Helper\ValidateReplacer;
 use \Helper\Simulation;
+use JpPrefecture\JpPrefecture;
 
 /**
  * class Lpgas::CompanyServiceFeature
@@ -130,6 +130,11 @@ class Model_Contact extends \Orm\Model_Soft
         'estimates',
     ];
 
+    protected static $_has_one = [
+        'calling',
+        'contact_geocode',
+    ];
+
     private $_unit_price = null;
     private $_reasons = [];
 
@@ -147,7 +152,6 @@ class Model_Contact extends \Orm\Model_Soft
         $val = ValidateReplacer::forge();
 
         $val->add_field('lpgas_contact.house_hold', 'house_hold', 'numeric_between[2,7]');
-        $val->add_field('lpgas_contact.house_kind', 'house_kind', 'required|match_collection[detached,store_ex,apartment]');
 
         $val->add_field('lpgas_contact.using_cooking_stove', 'using_cooking_stove', 'match_value[1]');
         $val->add_field('lpgas_contact.using_bath_heater_with_gas_hot_water_supply', 'using_bath_heater_with_gas_hot_water_supply', 'match_value[1]');
@@ -158,23 +162,50 @@ class Model_Contact extends \Orm\Model_Soft
         $val->add_field('lpgas_contact.tel', 'tel', 'required|match_pattern[/^(\d{10,11})$/]');
         $val->add_field('lpgas_contact.email', 'email', 'required|valid_email');
 
-        if (\Input::post('lpgas_contact.zip_code'))
+
+        if ($factory != 'old_form')
         {
-            $val->add_field('lpgas_contact.zip_code', 'zip_code', 'required|valid_string[numeric]');
-            $val->add_field('lpgas_contact.prefecture_code', 'prefecture_code', 'required_with[lpgas_contact.zip_code]|valid_string[numeric]');
-            $val->add_field('lpgas_contact.address', 'address', 'required_with[lpgas_contact.zip_code]');
-        }
-        else
-        {
-            $val->add_field('lpgas_contact.new_zip_code', 'new_zip_code', 'required|valid_string[numeric]');
-            $val->add_field('lpgas_contact.new_prefecture_code', 'new_prefecture_code', 'required_with[lpgas_contact.new_zip_code]|valid_string[numeric]');
-            $val->add_field('lpgas_contact.new_address', 'new_address', 'required_with[lpgas_contact.new_zip_code]');
+            $val->add_field('lpgas_contact.house_kind', 'house_kind', 'required|match_collection[detached,store_ex,apartment]');
+
+            if (\Input::post('lpgas_contact.zip_code'))
+            {
+                $val->add_field('lpgas_contact.zip_code', 'zip_code', 'required|valid_string[numeric]');
+                $val->add_field('lpgas_contact.prefecture_code', 'prefecture_code', 'required_with[lpgas_contact.zip_code]|valid_string[numeric]');
+                $val->add_field('lpgas_contact.address', 'address', 'required_with[lpgas_contact.zip_code]');
+            }
+            else
+            {
+                $val->add_field('lpgas_contact.new_zip_code', 'new_zip_code', 'required|valid_string[numeric]');
+                $val->add_field('lpgas_contact.new_prefecture_code', 'new_prefecture_code', 'required_with[lpgas_contact.new_zip_code]|valid_string[numeric]');
+                $val->add_field('lpgas_contact.new_address', 'new_address', 'required_with[lpgas_contact.new_zip_code]');
+            }
         }
 
         switch ($factory)
         {
             case 'old_form':
-                # code...
+                $val->add_field('lpgas_contact.estimate_kind', 'estimate_kind', 'required|match_collection[change_contract,new_contract]');
+                $val->add_field('lpgas_contact.ownership_kind', 'ownership_kind', 'required|match_collection[change_contract,new_contract]');
+
+                $val->add_field('lpgas_contact.zip_code', 'zip_code', 'required|valid_string[numeric]');
+                $val->add_field('lpgas_contact.prefecture_code', 'prefecture_code', 'required_with[lpgas_contact.zip_code]|valid_string[numeric]');
+                $val->add_field('lpgas_contact.address', 'address', 'required_with[lpgas_contact.zip_code]');
+
+                if (\Input::post('apartment_form') || \Input::post('lpgas_contact.estimate_kind') == 'new_contract')
+                {
+                    $val->add_field('lpgas_contact.new_zip_code', 'new_zip_code', 'required|valid_string[numeric]');
+                    $val->add_field('lpgas_contact.new_prefecture_code', 'new_prefecture_code', 'required_with[lpgas_contact.new_zip_code]|valid_string[numeric]');
+                    $val->add_field('lpgas_contact.new_address', 'new_address', 'required_with[lpgas_contact.new_zip_code]');
+
+                    $val->add_field('lpgas_contact.gas_meter_checked_month', 'gas_meter_checked_month', 'numeric_between[1,12]');
+                    $val->add_field('lpgas_contact.gas_latest_billing_amount', 'gas_latest_billing_amount', 'valid_string[numeric]');
+                    $val->add_field('lpgas_contact.gas_contracted_shop_name', 'gas_contracted_shop_name', 'max_length[50]');
+                }
+                if (\Input::post('apartment_form'))
+                {
+
+                }
+
                 break;
 
             case 'change_contract':
@@ -239,60 +270,63 @@ class Model_Contact extends \Orm\Model_Soft
     public function save($cascade = null, $use_transaction = false)
     {
         $result = false;
-        // before_save -> {
-        //   if cancelled? || contracted?
-        //     self.user_status = :no_action
-        //   end
-        // }
+
+        $this->updateGeocode();
         
         if ($this->is_new())
         {
             $this->token = \Str::random('hexdec', 32);
             $this->pin   = \Str::random('numeric', 4);
 
-            // FIX ME
-            // after_create :add_to_callings, unless: :sent_auto_estimate_req?
+            $has_estimates = $this->tryToSendEstimates();
+
+            if ($has_estimates == false)
+            {
+                $this->reason_not_auto_sendable = implode(',', $this->_reasons);
+                $this->calling = new \Model_Calling();
+            }
 
             if ($result = parent::save($cascade, $use_transaction))
             {
-                if ($this->tryToSendEstimates() == false)
-                {
-                    $this->reason_not_auto_sendable = implode(',', $this->_reasons);
-                    $this->save();
-                }
-
                 $this->notifyAdminNewCustomer();
                 $this->notifyNewCustomer();
+                
+                if ($has_estimates)
+                    $this->sendSmsToNewCustomer();
             }
         }
         else
         {
+            if ($this->status == \Config::get('models.contact.status.cancelled') || $this->status == \Config::get('models.contact.status.contracted'))
+                $this->user_status = \Config::get('models.contact.user_status.no_action');
+
             $result = parent::save($cascade, $use_transaction);
         }
 
-        // after_save :save_geocode
-        
         return $result;
     }
 
     public function notifyAdminNewCustomer()
     {
-        \Package::load('email');
-        $email = \Email::forge();
-        $email->to('info@enepi.jp', 'Enepi');
-        $email->subject("{$this->name}様よりLPガスに関する問い合わせがありました");
-        $email->html_body(\View::forge('email/notifyAdminNewCustomer', ['contact' => $this]));
-        $email->send();
+        \Log::info('notifyAdminNewCustomer');
+        // FIX ME (move to package?)
+        // \Package::load('email');
+        // $email = \Email::forge();
+        // $email->to(\Config::get('enepi.company.email'), \Config::get('enepi.company.service_name'));
+        // $email->subject("{$this->name}様よりLPガスに関する問い合わせがありました");
+        // $email->html_body(\View::forge('email/notifyAdminNewCustomer', ['contact' => $this]));
+        // $email->send();
     }
 
     public function notifyNewCustomer()
     {
-        \Package::load('email');
-        $email = \Email::forge();
-        $email->to($this->email, $this->name);
-        $email->subject('お問い合わせ頂き、ありがとうございます／プロパンガス一括見積もりサービス enepi（エネピ）運営事務局');
-        $email->html_body(\View::forge('email/notifyNewCustomer', ['contact' => $this]));
-        $email->send();
+        \Log::info('notifyNewCustomer');
+        // \Package::load('email');
+        // $email = \Email::forge();
+        // $email->to($this->email, $this->name);
+        // $email->subject('お問い合わせ頂き、ありがとうございます／プロパンガス一括見積もりサービス enepi（エネピ）運営事務局');
+        // $email->html_body(\View::forge('email/notifyNewCustomer', ['contact' => $this]));
+        // $email->send();
     }
 
     public function getZipCode()
@@ -469,7 +503,7 @@ class Model_Contact extends \Orm\Model_Soft
 
             $estimates[] = $estimate;
 
-            if (!$has_savings && $estimate->total_savings_in_year() >= 0)
+            if (!$has_savings && $estimate->total_savings_in_year($this) >= 0)
             {
                 $has_savings = true;
             }
@@ -479,13 +513,9 @@ class Model_Contact extends \Orm\Model_Soft
         {
             $this->estimates = $estimates;
             $this->sent_auto_estimate_req = true;
+            $this->status = \Config::get('models.contact.status.sent_estimate_req');
             
-            // Send sms after successful saving 
-            if ($this->save())
-            {
-                $this->sendSmsToNewCustomer();
-                return true;
-            }
+            return true;
         }
         elseif ($estimates && !$has_savings)
         {
@@ -562,7 +592,7 @@ class Model_Contact extends \Orm\Model_Soft
 
     private function sendSmsToNewCustomer()
     {
-
+        \Log::info('sendSmsToNewCustomer');
     }
 
     private function getNearestGeocodeId(&$company)
@@ -578,4 +608,45 @@ class Model_Contact extends \Orm\Model_Soft
 
         return null;
     }
+
+    private function updateGeocode()
+    {
+        $address = JpPrefecture::findByCode($this->getPrefectureCode())->nameKanji . " " . $this->getAddress();
+
+        if ($this->contact_geocode)
+        {
+            if ($this->contact_geocode->address != $gaddress || $gcode->lat && $gcode->lng)
+            {
+                $this->contact_geocode = $gaddress;
+                // FIX ME
+                // self.lat, self.lng = GeocodeFetcher.fetch_from_address(address)
+                // $gcode->lat = 0.0;
+                // $gcode->lat = 0.0;
+            }
+        }
+        else
+        {
+            $this->contact_geocode = new \Model_Contact_Geocode(['address' => $address]);
+            // FIX ME
+            // self.lat, self.lng = GeocodeFetcher.fetch_from_address(address)
+            // $gcode->lat = 0.0;
+            // $gcode->lat = 0.0;
+        }
+    }
+
+    // private function addToCallingList()
+    // {
+    //     $condition = [
+    //         'where' => [
+    //             ['contact_id', $this->id],
+    //             ['archived', false],
+    //         ],
+    //     ];
+
+    //     if (\Model_Calling::find('first', $condition))
+    //     {
+    //         $calling = new \Model_Calling(['contact_id' => $this->id]);
+    //         $calling->save();
+    //     }
+    // }
 }

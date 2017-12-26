@@ -1,0 +1,1 @@
+<?= $estimate->uuid ?>/紹介 (<?= $estimate->company->display_name ? $estimate->company->display_name : $estimate->company->partner_company->company_name ?>)

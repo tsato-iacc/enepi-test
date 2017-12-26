@@ -20,8 +20,6 @@ use JpPrefecture\JpPrefecture;
       <input type="hidden" name="contact_id" value="<?= $contact->id ?>">
       <input type="hidden" name="token" value="<?= $contact->token ?>">
       <?php endif; ?>
-      <!-- IF KAKAKU ??? -->
-      <!-- <%= hidden_field_tag :previewed, 1 if from_kakaku? %> -->
       <input type="hidden" name="new_form" value="true">
       <input type="hidden" name="lpgas_contact[zip_code]">
       <input type="hidden" name="lpgas_contact[prefecture_code]">

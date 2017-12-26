@@ -1,6 +1,6 @@
 <?php
 
 return array(
-    'profiling' => false,
+    'profiling' => true,
     'log_threshold' => Fuel::L_ALL,
 );

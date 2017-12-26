@@ -44,9 +44,11 @@ class Tracking
         if ($tracking_name && $tracking = \Model_Tracking::find('first', ['where' => [['name', $tracking_name]]]))
         {
             $this->pr_tracking_id = $tracking->id;
+            $this->pr_tracking_name = $tracking->name;
         }
 
         \Session::set('front.pr_tracking_id', $this->pr_tracking_id);
+        \Session::set('front.pr_tracking_name', $this->pr_tracking_name);
         \Session::set('front.from_kakaku', $this->from_kakaku);
         \Session::set('front.from_enechange', $this->from_enechange);
     }
@@ -72,6 +74,7 @@ class Tracking
     public static function unsetTracking()
     {
         \Session::delete('front.pr_tracking_id');
+        \Session::delete('front.pr_tracking_name');
         \Session::delete('front.from_kakaku');
         \Session::delete('front.from_enechange');
     }
