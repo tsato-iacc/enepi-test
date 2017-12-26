@@ -152,7 +152,6 @@ class Model_Contact extends \Orm\Model_Soft
         $val = ValidateReplacer::forge();
 
         $val->add_field('lpgas_contact.house_hold', 'house_hold', 'numeric_between[2,7]');
-        $val->add_field('lpgas_contact.house_kind', 'house_kind', 'required|match_collection[detached,store_ex,apartment]');
 
         $val->add_field('lpgas_contact.using_cooking_stove', 'using_cooking_stove', 'match_value[1]');
         $val->add_field('lpgas_contact.using_bath_heater_with_gas_hot_water_supply', 'using_bath_heater_with_gas_hot_water_supply', 'match_value[1]');
@@ -163,23 +162,50 @@ class Model_Contact extends \Orm\Model_Soft
         $val->add_field('lpgas_contact.tel', 'tel', 'required|match_pattern[/^(\d{10,11})$/]');
         $val->add_field('lpgas_contact.email', 'email', 'required|valid_email');
 
-        if (\Input::post('lpgas_contact.zip_code'))
+
+        if ($factory != 'old_form')
         {
-            $val->add_field('lpgas_contact.zip_code', 'zip_code', 'required|valid_string[numeric]');
-            $val->add_field('lpgas_contact.prefecture_code', 'prefecture_code', 'required_with[lpgas_contact.zip_code]|valid_string[numeric]');
-            $val->add_field('lpgas_contact.address', 'address', 'required_with[lpgas_contact.zip_code]');
-        }
-        else
-        {
-            $val->add_field('lpgas_contact.new_zip_code', 'new_zip_code', 'required|valid_string[numeric]');
-            $val->add_field('lpgas_contact.new_prefecture_code', 'new_prefecture_code', 'required_with[lpgas_contact.new_zip_code]|valid_string[numeric]');
-            $val->add_field('lpgas_contact.new_address', 'new_address', 'required_with[lpgas_contact.new_zip_code]');
+            $val->add_field('lpgas_contact.house_kind', 'house_kind', 'required|match_collection[detached,store_ex,apartment]');
+
+            if (\Input::post('lpgas_contact.zip_code'))
+            {
+                $val->add_field('lpgas_contact.zip_code', 'zip_code', 'required|valid_string[numeric]');
+                $val->add_field('lpgas_contact.prefecture_code', 'prefecture_code', 'required_with[lpgas_contact.zip_code]|valid_string[numeric]');
+                $val->add_field('lpgas_contact.address', 'address', 'required_with[lpgas_contact.zip_code]');
+            }
+            else
+            {
+                $val->add_field('lpgas_contact.new_zip_code', 'new_zip_code', 'required|valid_string[numeric]');
+                $val->add_field('lpgas_contact.new_prefecture_code', 'new_prefecture_code', 'required_with[lpgas_contact.new_zip_code]|valid_string[numeric]');
+                $val->add_field('lpgas_contact.new_address', 'new_address', 'required_with[lpgas_contact.new_zip_code]');
+            }
         }
 
         switch ($factory)
         {
             case 'old_form':
-                # code...
+                $val->add_field('lpgas_contact.estimate_kind', 'estimate_kind', 'required|match_collection[change_contract,new_contract]');
+                $val->add_field('lpgas_contact.ownership_kind', 'ownership_kind', 'required|match_collection[change_contract,new_contract]');
+
+                $val->add_field('lpgas_contact.zip_code', 'zip_code', 'required|valid_string[numeric]');
+                $val->add_field('lpgas_contact.prefecture_code', 'prefecture_code', 'required_with[lpgas_contact.zip_code]|valid_string[numeric]');
+                $val->add_field('lpgas_contact.address', 'address', 'required_with[lpgas_contact.zip_code]');
+
+                if (\Input::post('apartment_form') || \Input::post('lpgas_contact.estimate_kind') == 'new_contract')
+                {
+                    $val->add_field('lpgas_contact.new_zip_code', 'new_zip_code', 'required|valid_string[numeric]');
+                    $val->add_field('lpgas_contact.new_prefecture_code', 'new_prefecture_code', 'required_with[lpgas_contact.new_zip_code]|valid_string[numeric]');
+                    $val->add_field('lpgas_contact.new_address', 'new_address', 'required_with[lpgas_contact.new_zip_code]');
+
+                    $val->add_field('lpgas_contact.gas_meter_checked_month', 'gas_meter_checked_month', 'numeric_between[1,12]');
+                    $val->add_field('lpgas_contact.gas_latest_billing_amount', 'gas_latest_billing_amount', 'valid_string[numeric]');
+                    $val->add_field('lpgas_contact.gas_contracted_shop_name', 'gas_contracted_shop_name', 'max_length[50]');
+                }
+                if (\Input::post('apartment_form'))
+                {
+
+                }
+
                 break;
 
             case 'change_contract':

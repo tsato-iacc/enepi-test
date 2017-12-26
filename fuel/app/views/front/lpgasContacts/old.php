@@ -1,3 +1,7 @@
+<?php
+use JpPrefecture\JpPrefecture;
+?>
+
 <script type="text/javascript">
     window._pt_lt = new Date().getTime();
     window._pt_sp_2 = [];
@@ -8,290 +12,231 @@
         atag.src = _protocol + 'js.ptengine.jp/pta.js';
         var stag = document.createElement('script'); stag.type = 'text/javascript'; stag.async = true;
         stag.src = _protocol + 'js.ptengine.jp/pts.js';
-        var s = document.getElementsByTagName('script')[0];
+        var s = document.getElementsByTagName('script')[0]; 
         s.parentNode.insertBefore(atag, s); s.parentNode.insertBefore(stag, s);
     })();
 </script>
 
-<?// if from_kakaku? && smart_phone? ?>
-<? if(false){?>
+<?php if ($this->from_kakaku && $this->is_mobile): ?>
 　<script src="//assets.adobedtm.com/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-2baf9a6b9fae7a21c0cfb818c33122e38669f89d.js"></script>
-<?// elsif from_kakaku? ?>
-<? } elseif(true) { ?>
+<?php elseif ($this->from_kakaku): ?>
   <script src="//assets.adobedtm.com/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-29577dfd7f420978cd93f3d1b2d6ee3a7d40cf53.js"></script>
-<? } ?>
-
-<?// if @previewing ?>
-<? if(true){ ?>
-  <? MyView::title("エネピ - お見積もり情報確認") ?>
-<? }else{ ?>
-  <? MyView::title("エネピ - お見積もり情報入力") ?>
-<? } ?>
+<?php endif; ?>
 
 <div class="skinny">
-  <?// if !(from_kakaku? || from_enechange?) ?>
-  <? if(true){ ?>
+  <?php if (!($this->from_kakaku || $this->from_enechange)): ?>
     <div class="step-container">
       <div>
-      <?= MyView::image_tag("estimate_presentation/new_step_img_01.png", ["class" => 'lpgas-form-step-image']) ?>
-      <p class="step-supply-txt">入力頂いた内容によっては、STEP2で完了する場合がございます。</p>
+        <?= Asset::img('estimate_presentation/new_step_img_01.png', ['class' => 'lpgas-form-step-image']); ?>
+        <p class="step-supply-txt">入力頂いた内容によっては、STEP2で完了する場合がございます。</p>
       </div>
     </div>
-  <? } ?>
+  <?php endif; ?>
 
-  <?// if from_kakaku? ?>
-  <? if (true){ ?>
-    <?// if NewYearHoliday.holiday?(@now) ?>
-    <? if (true){ ?>
-      <p class="warning-paragraph">
-        <?= NewYearHoliday.holiday_text ?>
-      </p>
-    <? } ?>
-  <?// elsif from_enechange? ?>
-  <? } elseif(false) { ?>
-  <?} else {?>
-    <h2 class="page-title center">
-      エネピなら、お客様にピッタリの<br>プロパンガス会社を簡単ネット見積もり。
-    </h2>
-  <? } ?>
+  <h2 class="page-title center">
+    エネピなら、お客様にピッタリの<br>プロパンガス会社を簡単ネット見積もり。
+  </h2>
 
-  <?// if from_kakaku? ?>
-  <? if (true){ ?>
-    <?// if @previewing ?>
-    <? if (true){ ?>
-      <p class="confirm_txt">入力いただいた内容をご確認のうえ「上記の内容で送信する」ボタンを押してください</p>
-    <? }else{ ?>
-      <div class="step">
-        <h3 class="step-heading">プロパンガス料金 お見積もりまでの流れ</h3>
-        <?= image_tag("kakaku/step.png") ?>
-      </div>
-    <? } ?>
-  <?// elsif from_enechange? ?>
-  <? } elseif(false) { ?>
-    <div class="ene-quo-banner-pc"><?= image_tag("enechange/eneQUOheader-5000-pc.png") ?></div>
-    <div class="ene-quo-banner-sp"><?= image_tag("enechange/eneQUOheader-5000-sp.png") ?></div>
+  <?php if ($this->from_enechange): ?>
+    <div class="ene-quo-banner-pc"><%= image_tag("enechange/eneQUOheader-5000-pc.png") %></div>
+    <div class="ene-quo-banner-sp"><%= image_tag("enechange/eneQUOheader-5000-sp.png") %></div>
     <div class="step">
       <h3 class="step-heading">プロパンガス料金 お見積もりまでの流れ</h3>
-      <?= image_tag("enechange/step.png") ?>
+      <?= Asset::img('enechange/step.png'); ?>
     </div>
-  <? } ?>
+  <?php endif; ?>
 
-  <?// unless @previewing ?>
-  <? if (!true){ ?>
-    <?// if @apartment_form ?>
-    <? if (true){ ?>
-      <p class="center">このお見積もりフォームは、集合住宅のオーナー様（大家様）専用のものです。ご入居者様からのお問い合わせには対応致しかねますので、ご了承ください。</p>
-    <? } ?>
-  <? } ?>
-
-
-
-  <?
-     // to_obj = if from_kakaku?
-     //            [:kakaku, @lpgas_contact]
-     //          elsif from_enechange?
-     //            [:enechange, @lpgas_contact]
-     //          else
-     //            @lpgas_contact
-     //          end
-  ?>
-
-  <?//= form_for to_obj, html: {["class" => 'table-form'} { |f| ?>
-    <?//= hidden_field_tag :token, params[:token] if params[:token].present? ?>
-    <?//= hidden_field_tag :contact_id, params[:contact_id] if params[:contact_id].present? ?>
-    <?// if from_kakaku? ?>
-    <? if (true){ ?>
-      <?//= hidden_field_tag :previewed, 1 if @previewing ?>
-    <? } ?>
-    <?// if @apartment_form ?>
-    <? if (true){ ?>
-      <?//= hidden_field_tag :apartment_form, 1 if @apartment_form ?>
-    <? } ?>
+  
+  <?php if ($apartment_form): ?>
+    <p class="center">このお見積もりフォームは、集合住宅のオーナー様（大家様）専用のものです。ご入居者様からのお問い合わせには対応致しかねますので、ご了承ください。</p>
+  <?php endif; ?>
+  
+  
+  <?= \Form::open(['action' => $this->estimate_post_url, 'class' => 'table-form']); ?>
+  <?= \Form::csrf(); ?>
+    <input type="hidden" name="token" value="<?= isset($token) ? $token : '' ?>">
+    <input type="hidden" name="contact_id" value="<?=  isset($contact_id) ? $contact_id : '' ?>">
+    <input type="hidden" name="apartment_form" value="<?= $apartment_form ? '1' : '' ?>">
 
     <h3 class="table-form-header"><i class="fa fa-building" aria-hidden="true"></i>ガスを見直したい物件</h3>
 
     <div class="form-bg">
     <table>
-      <? unless @apartment_form ?>
+      <?php if (!$apartment_form): ?>
         <tr>
-          <th><i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :estimate_kind, 'ガスを見直したい物件は', ["class" => 'required' ?></th>
+          <th>
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <label class="required" for="lpgas_contact_estimate_kind">ガスを見直したい物件は</label>
+          </th>
           <td>
-            <? f.object.as_enum_collection_i18n(:estimate_kind).each { |ek| ?>
-              <? if ek.first == "現在住居の見積もり" ?>
-                <?= f.radio_button :estimate_kind, ek.last, {:checked => true} ?>
-                <?= f.label :estimate_kind, ek.first, value: ek.last, ["class" => "checkbox_label_margin" ?>
-              <? else ?>
-                <?= f.radio_button :estimate_kind, ek.last ?>
-                <?= f.label :estimate_kind, ek.first, value: ek.last, ["class" => "checkbox_label_margin" ?>
-              <? } ?>
-            <? } ?>
-            <?= error_tag f.object, :estimate_kind ?>
-          </td>
-        </tr>
-      <? } ?>
-      <? unless @apartment_form ?>
-        <tr>
-          <th><i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :zip_code, '現在お住まいの郵便番号は？', ["class" => 'required' ?></th>
-          <td>
-            〒 <?= f.text_field :zip_code, 'data-hyphen-digits': 1 ?> <span class="example">(例: 1500022)</span>
-            <?= error_tag f.object, :zip_code ?>
-            <? unless @previewing ?>
-              <p class="notice_txt"><i class="fa fa-info-circle" aria-hidden="true"></i>郵便番号を入力すると、下の住所が自動で途中まで入力されます。</p>
-            <? } ?>
+            <input type="radio" value="change_contract" checked="checked" name="lpgas_contact[estimate_kind]" id="lpgas_contact_estimate_kind_change_contract">
+            <label class="checkbox_label_margin" for="lpgas_contact_estimate_kind_change_contract">現在住居の見積もり</label>
+            <input type="radio" value="new_contract" name="lpgas_contact[estimate_kind]" id="lpgas_contact_estimate_kind_new_contract">
+            <label class="checkbox_label_margin" for="lpgas_contact_estimate_kind_new_contract">新規開設の見積もり</label>
+            <div></div>
           </td>
         </tr>
         <tr>
-          <th><i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :prefecture_code, '現在お住まいの住所は？', ["class" => 'required' ?></th>
+          <th>
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <label class="required" for="lpgas_contact_zip_code">現在お住まいの郵便番号は？</label>
+          </th>
           <td>
-          <? unless @previewing ?>
-          <div class="select-wrap styled-select">
-          <? } ?>
-          <div><?= f.collection_select :prefecture_code, JpPrefecture::Prefecture.all, :code, :name, include_blank: '選択してください', ["class" => 'select-right' ?></div>
-          <? unless @previewing ?>
-          </div>
-        　<? } ?>
-            <?= error_tag f.object, :prefecture_code ?>
-            <?= f.text_field :address, placeholder: '例）港区新橋' ?>
-            <?= error_tag f.object, :address ?>
-            <?= f.text_field :address2, placeholder: '例）1-18-16' ?>
-            <?= error_tag f.object, :address2 ?>
-          </td>
-        </tr>
-      <? } ?>
-      <tr class="<?= @apartment_form ? '' : 'js-show-on-estimate-type-new-contract' ?>">
-        <? if @apartment_form ?>
-          <th><i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :new_zip_code, '物件の郵便番号は？', ["class" => 'required' ?></th>
-        <? else ?>
-          <th><i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :new_zip_code, '開設先の郵便番号は？', ["class" => 'required' ?></th>
-        <? } ?>
-        <td>
-          〒 <?= f.text_field :new_zip_code, 'data-hyphen-digits': 1 ?> <span class="example">(例: 1500022)</span>
-          <?= error_tag f.object, :new_zip_code ?>
-          <? unless @previewing ?>
+            〒 <input data-hyphen-digits="1" type="text" name="lpgas_contact[zip_code]" id="lpgas_contact_zip_code"> <span class="example">(例: 1500022)</span>
+            <div></div>
             <p class="notice_txt"><i class="fa fa-info-circle" aria-hidden="true"></i>郵便番号を入力すると、下の住所が自動で途中まで入力されます。</p>
-          <? } ?>
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <label class="required" for="lpgas_contact_prefecture_code">現在お住まいの住所は？</label>
+          </th>
+          <td>
+            <div class="select-wrap styled-select">
+              <div><?= Form::select('lpgas_contact[prefecture_code]', $contact->zip_code, ['' => '選択してください'] + JpPrefecture::allKanjiAndCode(), ['id' => 'lpgas_contact_prefecture_code']); ?></div>
+            </div>
+            
+            <div></div>
+            <input placeholder="例）港区新橋" type="text" name="lpgas_contact[address]" id="lpgas_contact_address">
+            <div></div>
+            <input placeholder="例）1-18-16" type="text" value="" name="lpgas_contact[address2]" id="lpgas_contact_address2">
+            <div></div>
+          </td>
+        </tr>
+      <?php endif; ?>
+      <tr class="<?= $apartment_form ? '' : 'js-show-on-estimate-type-new-contract' ?>">
+        <?php if ($apartment_form): ?>
+          <th>
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <label class="required" for="lpgas_contact_new_zip_code">物件の郵便番号は？</label>
+          </th>
+        <?php else: ?>
+          <th>
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <label class="required" for="lpgas_contact_new_zip_code">開設先の郵便番号は？</label>
+          </th>
+        <?php endif; ?>
+        <td>
+          〒 <input data-hyphen-digits="1" type="text" name="lpgas_contact[new_zip_code]" id="lpgas_contact_new_zip_code">
+          <span class="example">(例: 1500022)</span>
+          <div></div>
+          <p class="notice_txt"><i class="fa fa-info-circle" aria-hidden="true"></i>郵便番号を入力すると、下の住所が自動で途中まで入力されます。</p>
         </td>
       </tr>
-      <tr class="<?= @apartment_form ? '' : 'js-show-on-estimate-type-new-contract' ?>">
-        <? if @apartment_form ?>
-          <th><i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :new_prefecture_code, '物件の住所は？', ["class" => 'required' ?></th>
-        <? else ?>
-          <th><i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :new_prefecture_code, '開設先の住所は？', ["class" => 'required' ?></th>
-        <? } ?>
+      <tr class="<%= @apartment_form ? '' : 'js-show-on-estimate-type-new-contract' %>">
+        <?php if ($apartment_form): ?>
+          <th>
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <label class="required" for="lpgas_contact_new_prefecture_code">物件の住所は？</label>
+          </th>
+        <?php else: ?>
+          <th>
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <label class="required" for="lpgas_contact_new_prefecture_code">開設先の住所は？</label>
+          </th>
+        <?php endif; ?>
         <td>
-        <? unless @previewing ?>
           <div class="select-wrap styled-select">
-        <? } ?>
-          <div><?= f.collection_select :new_prefecture_code, JpPrefecture::Prefecture.all, :code, :name, include_blank: '選択してください', ["class" => 'select-right' ?></div>
-        <? unless @previewing ?>
+          <div><?= Form::select('lpgas_contact[new_prefecture_code]', $contact->zip_code, ['' => '選択してください'] + JpPrefecture::allKanjiAndCode(), ['id' => 'lpgas_contact_new_prefecture_code']); ?></div>
         </div>
-        <? } ?>
-          <?= error_tag f.object, :new_prefecture_code ?>
-          <?= f.text_field :new_address, placeholder: '例）港区新橋' ?>
-          <?= error_tag f.object, :new_address ?>
-          <!--<?= f.text_field :new_address2 ?>
-          <?= error_tag f.object, :new_address2 ?>-->
+          <div></div>
+          <input placeholder="例）港区新橋" type="text" name="lpgas_contact[new_address]" id="lpgas_contact_new_address">
+          <div></div>
         </td>
       </tr>
 
-      <? unless @apartment_form ?>
+      <?php if (!$apartment_form): ?>
         <tr>
-          <th><i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :ownership_kind, '住居の種類は?', ["class" => 'required' ?></th>
+          <th>
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <label class="required" for="lpgas_contact_ownership_kind">住居の種類は?</label>
+          </th>
           <td>
             <div class="house-kind-area">
               <div class="select-area">
-              <? if !@previewing ?>
                 <p style="margin: 0; font-weight: bold;">一戸建ての場合</p>
-              <? } ?>
-              <? if @previewing &&  @lpgas_contact.house_kind == "detached" ?>
-                <p style="margin: 0; font-weight: bold;">一戸建て</p>
-              <? } ?>
-              <? f.object.as_enum_collection_i18n(:ownership_kind).each { |ok| ?>
-                <? if ok.last == "owner" ?>
-                   <?= f.radio_button :ownership_kind, ok.last, {:checked => true} ?>
-                   <?= f.label :ownership_kind, ok.first, value: ok.last, ["class" => "checkbox_label_margin" ?>
-                <? } ?>
-              <? } ?>
-              <? if !@previewing ?>
+                <input type="radio" value="owner" checked="checked" name="lpgas_contact[ownership_kind]" id="lpgas_contact_ownership_kind_owner">
+                <label class="checkbox_label_margin" for="lpgas_contact_ownership_kind_owner">所有(持ち家)</label>
                 <p style="margin: 0; font-weight: bold;">店舗(業務用)の場合</p>
-              <? } ?>
-              <? if @previewing &&  @lpgas_contact.house_kind == "store_ex" ?>
-                <p style="margin: 0; font-weight: bold;">店舗(業務用)</p>
-              <? } ?>
-              <? f.object.as_enum_collection_i18n(:ownership_kind).each { |ok| ?>
-                <? if ok.last != "owner" ?>
-                  <?= f.radio_button :ownership_kind, ok.last ?>
-                  <?= f.label :ownership_kind, ok.first, value: ok.last, ["class" => "checkbox_label_margin" ?>
-                <? } ?>
-              <? } ?>
+                <input type="radio" value="borrower" name="lpgas_contact[ownership_kind]" id="lpgas_contact_ownership_kind_borrower">
+                <label class="checkbox_label_margin" for="lpgas_contact_ownership_kind_borrower">賃貸(借り主)</label>
+                <input type="radio" value="unit_owner" name="lpgas_contact[ownership_kind]" id="lpgas_contact_ownership_kind_unit_owner">
+                <label class="checkbox_label_margin" for="lpgas_contact_ownership_kind_unit_owner">所有</label>
               </div>
               <div class="btn-link" style="margin-left: 50px; padding-top: 35px;">
-                <? if !(@previewing) ?>
-                  <? if from_kakaku? ?>
-                    <?=  MyView::link_to("マンションオーナーの方はこちら", new_kakaku_lpgas_contact_path({apartment_form: "1"}), ["class" => 'owner-form-link-btn' ?>
-                  <? elsif from_enechange? ?>
-                    <?=  MyView::link_to("マンションオーナーの方はこちら", new_enechange_lpgas_contact_path({apartment_form: "1"}), ["class" => 'owner-form-link-btn' ?>
-                  <? else ?>
-                    <?=  MyView::link_to("マンションオーナーの方はこちら", new_lpgas_contact_path({apartment_form: "1"}), ["class" => 'owner-form-link-btn' ?>
-                  <? } ?>
-                <? } ?>
+                <?php if ($this->from_enechange): ?>
+                  <a class="owner-form-link-btn" href="/enechange/lpgas/contacts/new?apartment_form=1">マンションオーナーの方はこちら</a>
+                <?php else: ?>
+                  <a class="owner-form-link-btn" href="/lpgas_contacts/new?apartment_form=1">マンションオーナーの方はこちら</a>
+                <?php endif; ?>
               </div>
-              <? if !@previewing ?>
-                <p class="notice_txt"><i class="fa fa-info-circle" aria-hidden="true"></i>マンション・アパートにお住まいの方はご登録頂けません。</p>
-              <? } ?>
+              <p class="notice_txt"><i class="fa fa-info-circle" aria-hidden="true"></i>マンション・アパートにお住まいの方はご登録頂けません。</p>
             </div>
-            <?= error_tag f.object, :ownership_kind ?>
+            <div></div>
           </td>
         </tr>
-      <? } ?>
+      <?php endif; ?>
 
       <tr>
-        <th><i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :house_age, '築年数は？' ?></th>
+        <th>
+          <i class="fa fa-pencil" aria-hidden="true"></i>
+          <label for="lpgas_contact_house_age">築年数は？</label>
+        </th>
         <td>
-          <?= f.text_field :house_age, 'data-hyphen-digits': 1 ?> <span class="unit">年</span>
-          <?= error_tag f.object, :house_age ?>
-          <? unless @previewing ?>
-            <p class="notice_txt"><i class="fa fa-info-circle" aria-hidden="true"></i>だいたいでOKです。</p>
-          <? } ?>
+          <input data-hyphen-digits="1" type="text" name="lpgas_contact[house_age]" id="lpgas_contact_house_age">
+          <span class="unit">年</span>
+          <div></div>
+          <p class="notice_txt"><i class="fa fa-info-circle" aria-hidden="true"></i>だいたいでOKです。</p>
         </td>
       </tr>
 
-      <? if @apartment_form ?>
+      <?php if ($apartment_form): ?>
         <tr>
-          <th><i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :number_of_rooms, ["class" => 'required' ?></th>
+          <th>
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <label class="required" for="lpgas_contact_number_of_rooms">部屋数</label>
+          </th>
           <td>
-            <?= f.text_field :number_of_rooms, 'data-hyphen-digits': 1 ?>
-            <?= error_tag f.object, :number_of_rooms ?>
+            <input data-hyphen-digits="1" type="text" name="lpgas_contact[number_of_rooms]" id="lpgas_contact_number_of_rooms">
+            <div></div>
           </td>
         </tr>
         <tr>
-          <th><i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :number_of_active_rooms ?></th>
+          <th>
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <label for="lpgas_contact_number_of_active_rooms">入居済み部屋数</label>
+          </th>
           <td>
-            <?= f.text_field :number_of_active_rooms, 'data-hyphen-digits': 1 ?>
-            <?= error_tag f.object, :number_of_active_rooms ?>
+            <input data-hyphen-digits="1" type="text" name="lpgas_contact[number_of_active_rooms]" id="lpgas_contact_number_of_active_rooms">
+            <div></div>
           </td>
         </tr>
         <tr>
-          <th><i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :estate_management_company_name ?></th>
+          <th>
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <label for="lpgas_contact_estate_management_company_name">管理会社名</label>
+          </th>
           <td>
-            <?= f.text_field :estate_management_company_name ?>
-            <?= error_tag f.object, :estate_management_company_name ?>
+            <input type="text" name="lpgas_contact[estate_management_company_name]" id="lpgas_contact_estate_management_company_name">
+            <div></div>
           </td>
         </tr>
-      <? } ?>
+      <?php endif; ?>
 
-      <? unless @apartment_form ?>
+      <?php if (!$apartment_form): ?>
         <tr class="js-show-on-estimate-type-new-contract">
-          <th><i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :moving_scheduled_date, '引越し予定日は？' ?></th>
+          <th>
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <label for="lpgas_contact_moving_scheduled_date">引越し予定日は？</label>
+          </th>
           <td>
-            <?= f.text_field :moving_scheduled_date, ["class" => 'datepicker' ?>
-            <?= error_tag f.object, :moving_scheduled_date ?>
-            <? unless @previewing ?>
-              <p class="notice_txt"><i class="fa fa-info-circle" aria-hidden="true"></i>だいたいでOKです。</p>
-            <? } ?>
+            <input class="datepicker" type="text" name="lpgas_contact[moving_scheduled_date]" id="lpgas_contact_moving_scheduled_date" aria-label="Use the arrow keys to pick a date">
+            <div></div>
+            <p class="notice_txt"><i class="fa fa-info-circle" aria-hidden="true"></i>だいたいでOKです。</p>
           </td>
         </tr>
-      <? } ?>
+      <?php endif; ?>
     </table>
     </div>
 
@@ -301,186 +246,131 @@
     <table>
       <tr>
         <th>
-          <i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :gas_contracted_shop_name, '契約中のガス会社は？' ?>
-          <? unless @previewing ?>
-            <a href="#my-modal" class="md-btn one"><i class="fa fa-question" aria-hidden="true"></i></a>
-          <? } ?>
+          <i class="fa fa-pencil" aria-hidden="true"></i>
+          <label for="lpgas_contact_gas_contracted_shop_name" class="required">契約中のガス会社は？</label>
+          <a href="#my-modal" class="md-btn one"><i class="fa fa-question" aria-hidden="true"></i></a>
         </th>
         <td>
-          <?= f.text_field :gas_contracted_shop_name ?>
-          <?= error_tag f.object, :gas_contracted_shop_name ?>
+          <input type="text" value="" name="lpgas_contact[gas_contracted_shop_name]" id="lpgas_contact_gas_contracted_shop_name">
+          <div></div>
         </td>
       </tr>
       <tr>
         <th>
-          <? if @apartment_form ?>
-            <i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :gas_meter_checked_month, '最近のガス使用量・料金は？'?>
-          <? else ?>
-            <i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :gas_meter_checked_month, '最近のガス使用量・料金は？', ["class" => 'required' ?>
-          <? } ?>
-          <? unless @previewing ?>
-            <a href="#my-modal" class="md-btn one adjustment-box"><i class="fa fa-question" aria-hidden="true"></i></a>
-          <? } ?>
+          <?php if ($apartment_form): ?>
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <label for="lpgas_contact_gas_meter_checked_month">最近のガス使用量・料金は？</label>
+          <?php else: ?>
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <label class="required" for="lpgas_contact_gas_meter_checked_month">最近のガス使用量・料金は？</label>
+          <?php endif; ?>
+          <a href="#my-modal" class="md-btn one adjustment-box"><i class="fa fa-question" aria-hidden="true"></i></a>
         </th>
         <td>
-          <?= f.text_field :gas_meter_checked_month, 'data-hyphen-digits': 1 ?>  <span class="unit">月のガス使用量が</span>
-          <?= f.text_field :gas_used_amount, 'data-hyphen-digits': 1 ?>  <span class="unit">m³で</span>
-          <?= f.text_field :gas_latest_billing_amount, 'data-hyphen-digits': 1 ?> <span class="unit">円(税込)</span>
-          <?= error_tag f.object, :gas_meter_checked_month ?>
-          <?= error_tag f.object, :gas_used_amount ?>
-          <?= error_tag f.object, :gas_latest_billing_amount ?>
-          <? unless @previewing ?>
-            <p class="notice_txt"><i class="fa fa-info-circle" aria-hidden="true"></i>わからない方はだいたいでOKです。</p>
-          <? } ?>
+          <input data-hyphen-digits="1" type="text" name="lpgas_contact[gas_meter_checked_month]" id="lpgas_contact_gas_meter_checked_month">  <span class="unit">月のガス使用量が</span>
+          <input data-hyphen-digits="1" type="text" name="lpgas_contact[gas_used_amount]" id="lpgas_contact_gas_used_amount">  <span class="unit">m³で</span>
+          <input data-hyphen-digits="1" type="text" name="lpgas_contact[gas_latest_billing_amount]" id="lpgas_contact_gas_latest_billing_amount"> <span class="unit">円(税込)</span>
+          <div></div>
+          <div></div>
+          <div></div>
+          <p class="notice_txt"><i class="fa fa-info-circle" aria-hidden="true"></i>わからない方はだいたいでOKです。</p>
         </td>
       </tr>
       <tr>
-        <th><i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :gas_used_years, '今のガス会社の使用年数は？' ?></th>
+        <th><i class="fa fa-pencil" aria-hidden="true"></i><label for="lpgas_contact_gas_used_years">今のガス会社の使用年数は？</label></th>
         <td>
-          <?= f.text_field :gas_used_years, 'data-hyphen-digits': 1 ?>  <span class="unit">年</span>
-          <?= error_tag f.object, :gas_used_years ?>
+          <input data-hyphen-digits="1" type="text" name="lpgas_contact[gas_used_years]" id="lpgas_contact_gas_used_years">  <span class="unit">年</span>
+          <div></div>
         </td>
       </tr>
-
       <tr>
-        <th><i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :gas_machines, 'ガスを利用するものは？' ?></th>
+        <th><i class="fa fa-pencil" aria-hidden="true"></i><label for="lpgas_contact_gas_machines">ガスを利用するものは？</label></th>
         <td>
-          <?= f.check_box :using_cooking_stove ?>
-          <?= f.label :using_cooking_stove, ["class" => "checkbox_label_margin" ?>
+          <input name="lpgas_contact[using_cooking_stove]" type="hidden" value="0"><input type="checkbox" value="1" name="lpgas_contact[using_cooking_stove]" id="lpgas_contact_using_cooking_stove">
+          <label class="checkbox_label_margin" for="lpgas_contact_using_cooking_stove">ガスコンロ</label>
 
-          <?= f.check_box :using_bath_heater_with_gas_hot_water_supply ?>
-          <?= f.label :using_bath_heater_with_gas_hot_water_supply, ["class" => "checkbox_label_margin" ?>
+          <input name="lpgas_contact[using_bath_heater_with_gas_hot_water_supply]" type="hidden" value="0"><input type="checkbox" value="1" name="lpgas_contact[using_bath_heater_with_gas_hot_water_supply]" id="lpgas_contact_using_bath_heater_with_gas_hot_water_supply">
+          <label class="checkbox_label_margin" for="lpgas_contact_using_bath_heater_with_gas_hot_water_supply">給湯器</label>
 
-          <?= f.check_box :using_other_gas_machine ?>
-          <?= f.label :using_other_gas_machine ?>
-          <? unless @previewing ?>
-            <p class="notice_txt"><i class="fa fa-info-circle" aria-hidden="true"></i>当てはまる全ての選択肢にチェックしてください。</p>
-          <? } ?>
+          <input name="lpgas_contact[using_other_gas_machine]" type="hidden" value="0"><input type="checkbox" value="1" name="lpgas_contact[using_other_gas_machine]" id="lpgas_contact_using_other_gas_machine">
+          <label for="lpgas_contact_using_other_gas_machine">ストーブその他</label>
+          <p class="notice_txt"><i class="fa fa-info-circle" aria-hidden="true"></i>当てはまる全ての選択肢にチェックしてください。</p>
         </td>
       </tr>
-
       <tr>
-        <th><i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :body, 'ご相談・ご要望は？' ?></th>
+        <th><i class="fa fa-pencil" aria-hidden="true"></i><label for="lpgas_contact_body">ご相談・ご要望は？</label></th>
         <td>
-          <?= f.text_area :body, placeholder: '例）ガス会社の変更希望、適正料金の相談など' ?>
-          <?= error_tag f.object, :body ?>
+          <textarea placeholder="例）ガス会社の変更希望、適正料金の相談など" name="lpgas_contact[body]" id="lpgas_contact_body"></textarea>
+          <div></div>
         </td>
       </tr>
     </table>
     </div>
 
-    <? unless @previewing ?>
-      <p class="notice_info_txt"><i class="fa fa-info-circle" aria-hidden="true"></i>お客様の情報が一般に公開されることはありませんのでご安心ください。</p>
-    <? } ?>
+    <p class="notice_info_txt"><i class="fa fa-info-circle" aria-hidden="true"></i>お客様の情報が一般に公開されることはありませんのでご安心ください。</p>
 
     <h3 class="table-form-header"><i class="fa fa-user" aria-hidden="true"></i>お客様の情報</h3>
 
     <div class="form-bg">
     <table>
       <tr>
-        <th><i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :name, 'お名前は？', ["class" => 'required' ?></th>
+        <th><i class="fa fa-pencil" aria-hidden="true"></i><label class="required" for="lpgas_contact_name">お名前は？</label></th>
         <td>
-          <?= f.text_field :name ?> <span class="example">(例: 山田 太郎)</span>
-          <?= error_tag f.object, :name ?>
+          <input type="text" name="lpgas_contact[name]" id="lpgas_contact_name"> <span class="example">(例: 山田 太郎)</span>
+          <div></div>
         </td>
       </tr>
 
       <tr>
-        <th><i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :tel, '電話番号は？', ["class" => 'required' ?></th>
+        <th><i class="fa fa-pencil" aria-hidden="true"></i><label class="required" for="lpgas_contact_tel">電話番号は？</label></th>
         <td>
-          <?= f.text_field :tel, 'data-hyphen-digits': 1 ?> <span class="example">(例: 09011112222)</span>
-          <? if !@previewing ?>
+          <input data-hyphen-digits="1" type="text" name="lpgas_contact[tel]" id="lpgas_contact_tel"> <span class="example">(例: 09011112222)</span>
             <p class="notice_txt"><i class="fa fa-info-circle" aria-hidden="true"></i>繋がりやすい電話番号をご記入ください。</p>
-          <? } ?>
-          <?= error_tag f.object, :tel ?>
+          <div></div>
         </td>
       </tr>
 
       <tr>
-        <th><i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :email, 'メールアドレスは？', ["class" => 'required' ?></th>
+        <th><i class="fa fa-pencil" aria-hidden="true"></i><label class="required" for="lpgas_contact_email">メールアドレスは？</label></th>
         <td>
-          <?= f.text_field :email ?> <span class="example">(例: info@enepi.jp)</span>
-          <?= error_tag f.object, :email ?>
+          <input type="text" name="lpgas_contact[email]" id="lpgas_contact_email"> <span class="example">(例: info@enepi.jp)</span>
+          <div></div>
         </td>
       </tr>
 
-      <? if @apartment_form ?>
+      <?php if ($apartment_form): ?>
         <tr>
-          <th><i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :zip_code, '郵便番号は？', ["class" => 'required' ?></th>
+          <th><i class="fa fa-pencil" aria-hidden="true"></i><label class="required" for="lpgas_contact_zip_code">郵便番号は？</label></th>
           <td>
-            〒 <?= f.text_field :zip_code ?>
+            〒 <input type="text" name="lpgas_contact[zip_code]" id="lpgas_contact_zip_code">
             <span class="example">(例: 1500022)</span>
-
-            <?= error_tag f.object, :zip_code ?>
-            <? unless @previewing ?>
+            <div></div>
             <p class="notice_txt"><i class="fa fa-info-circle" aria-hidden="true"></i>郵便番号を入力すると、下の住所が自動で途中まで入力されます。</p>
-            <? } ?>
           </td>
         </tr>
         <tr>
-          <th><i class="fa fa-pencil" aria-hidden="true"></i><?= f.label :prefecture_code, '都道府県は？', ["class" => 'required' ?></th>
+          <th><i class="fa fa-pencil" aria-hidden="true"></i><label class="required" for="lpgas_contact_prefecture_code">都道府県は？</label></th>
           <td>
-          <? unless @previewing ?>
             <div class="select-wrap styled-select">
-          <? } ?>
-            <?= f.collection_select :prefecture_code, JpPrefecture::Prefecture.all, :code, :name, include_blank: '選択してください' ?>
-          <? unless @previewing ?>
-          </div>
-          <? } ?>
-            <?= error_tag f.object, :prefecture_code ?>
-            <?= f.text_field :address, placeholder: '例）港区新橋' ?>
-            <?= error_tag f.object, :address ?>
-            <?= f.text_field :address2, placeholder: '例）1-18-16' ?>
-            <?= error_tag f.object, :address2 ?>
+              <?= Form::select('lpgas_contact[new_prefecture_code]', $contact->zip_code, ['' => '選択してください'] + JpPrefecture::allKanjiAndCode(), ['id' => 'lpgas_contact_new_prefecture_code']); ?>
+            </div>
+            <div></div>
+            <input placeholder="例）港区新橋" type="text" name="lpgas_contact[address]" id="lpgas_contact_address">
+            <div></div>
+            <input placeholder="例）1-18-16" type="text" value="" name="lpgas_contact[address2]" id="lpgas_contact_address2">
+            <div></div>
           </td>
         </tr>
-      <? } ?>
+      <?php endif; ?>
     </table>
     </div>
 
-    <? if @previewing ?>
-      <?// 送信 ?>
-      <? if from_kakaku? ?>
-        <?= image_submit_tag(
-          "kakaku/btn-estimate-submit.jpg",
-          onmouseover: "this.src='#{asset_path("kakaku/btn-estimate-submit-on.jpg")}'",
-          onmouseout: "this.src='#{asset_path("kakaku/btn-estimate-submit.jpg")}'",
-          "onclick" => "DisableButton(this);"]);,
-        ) ?>
-      <? } ?>
-    <? else ?>
-      <?// 確認画面へ ?>
-      <? if from_kakaku? ?>
-        <p style="font-size: 0.9em">
-          プロパンガス料金見積もりサービスは、株式会社アイアンドシー・クルーズが運営するサービスです。ご入力いただいた内容を株式会社カカクコムは保持せず、株式会社アイアンドシー・クルーズが取得し、同社がプライバシーポリシーに基づき管理いたします。
-        </p>
+    <input type="submit" name="commit" value="登録する" data-disable-with="送信中...">
 
-        <h3 style="font-size: 1rem">「利用規約」・「個人情報の取り扱いについて」</h3>
-        <div class="agreement-iframe">
-          <iframe src="https://enepi.jp/agreement?iframe=1"></iframe>
-        </div>
-        <?= image_submit_tag(
-          "kakaku/btn-estimate.jpg",
-          onmouseover: "this.src='#{asset_path("kakaku/btn-estimate-on.jpg")}'",
-          onmouseout: "this.src='#{asset_path("kakaku/btn-estimate.jpg")}'",
-        ) ?>
-      <? else ?>
-        <?= f.submit '登録する', data: {disable_with: '送信中...'} ?>
-      <? } ?>
-
-      <? unless from_kakaku? ?>
-        <p class="before_preview">
-          当サービスをご利用頂くにあたり、<?= MyView::link_to('「enepi」利用規約',  'http://enepi.jp/agreement', target: '_blank' ?>に同意したものとみなします。同意いただけない場合、相談を利用することはできません。
-        </p>
-      <? } ?>
-    <? } ?>
-
-    <? if from_kakaku? ?>
-      <div style="margin-top: 20px">
-        <?= image_tag("kakaku/tel.png") ?>
-      </div>
-    <? } ?>
-  <? } ?>
+    <p class="before_preview">
+      当サービスをご利用頂くにあたり、<a target="_blank" href="<?= \Uri::create('agreement') ?>">「enepi」利用規約</a>に同意したものとみなします。同意いただけない場合、相談を利用することはできません。
+    </p>
+  <?= Form::close(); ?>
 </div>
 
 <section class="modal-area" id="my-modal">
@@ -500,22 +390,22 @@
 
 <script>
 $(function() {
-  <? if !@previewing ?>
-    var houseKindSelect = $('[name="lpgas_contact\[house_kind\]"]');
-    var ownershipKindSelect = $('[name="lpgas_contact\[ownership_kind\]"]');
-    houseKindSelect.on('change', function(e) {
-      var v = $(e.target).val();
-      var txt = ownershipKindSelect.parent().find(".js-text");
-      if (v === "detached") {
-        ownershipKindSelect.val("owner").hide();
-        txt.text(ownershipKindSelect.find('option:selected').text());
-      } else {
-        ownershipKindSelect.val('').show();
-        txt.text('');
-      }
-    });
-    houseKindSelect.trigger('change');
-  <? } ?>
+  
+  var houseKindSelect = $('[name="lpgas_contact\[house_kind\]"]');
+  var ownershipKindSelect = $('[name="lpgas_contact\[ownership_kind\]"]');
+  houseKindSelect.on('change', function(e) {
+    var v = $(e.target).val();
+    var txt = ownershipKindSelect.parent().find(".js-text");
+    if (v === "detached") {
+      ownershipKindSelect.val("owner").hide();
+      txt.text(ownershipKindSelect.find('option:selected').text());
+    } else {
+      ownershipKindSelect.val('').show();
+      txt.text('');
+    }
+  });
+  houseKindSelect.trigger('change');
+  
   var estimateTypeRadio = $('input[name="lpgas_contact\[estimate_kind\]"]');
   estimateTypeRadio.on('change', estimateTypeChanged);
   estimateTypeRadio.trigger('change');
@@ -544,14 +434,13 @@ $(function() {
 });
 </script>
 
-<? if !@previewing && !from_kakaku? && !from_enechange? ?>
-  <? if Rails.env.staging? ?>
-    <script src="//app.gorilla-efo.com/js/efo.158_test.js" type="text/javascript"></script>
-  <? } ?>
-  <? if Rails.env.production? ?>
+<?php if (!$this->from_enechange): ?>
+  <?php if (\Fuel::$env == \Fuel::PRODUCTION): ?>
     <script src="//app.gorilla-efo.com/js/efo.158.js" type="text/javascript"></script>
-  <? } ?>
-<? } ?>
+  <?php elseif (\Fuel::$env == \Fuel::STAGING): ?>
+    <script src="//app.gorilla-efo.com/js/efo.158_test.js" type="text/javascript"></script>
+  <?php endif; ?>
+<?php endif; ?>
 
 <script type="text/javascript">
 $(function(){
@@ -572,7 +461,7 @@ $(function(){
       // $(".container").removeClass("bg-blur");
     }
   });
-
+  
   // Hide modal window
   $(".close, .modal").on('click', function(){
     $(".modal").hide();
@@ -581,89 +470,14 @@ $(function(){
 });
 </script>
 
-<? if @previewing ?>
-  <script>
-    $('input, textarea').attr('readonly', true);
-    $('input, textarea').attr('placeholder', '');
+<script>
+  window.onbeforeunload = function(e){
+    e.returnValue = 'このサイトを離れてもよろしいですか？';
+  }
+  $('input[type="submit"], input[type="image"], input[type="button"]').on('click', function() {
+    window.onbeforeunload = null;
+  });
+</script>
 
-    $('input[type="text"][readonly]').each(function(i, node) {
-      var $textField = $(node);
-      if (!$textField.val()) {
-        $textField.closest('td').find('.unit').hide();
-      } else {
-        var $span = $("<span>").text($textField.val());
-        $span.insertBefore($textField);
-        $textField.hide();
-      }
-    });
-
-
-    $('input[type="radio"][readonly], input[type="checkbox"][readonly]').each(function(_, n) {
-      var $n = $(n);
-      // チェックボックスは隠す
-      $n.css({display: 'none'});
-
-      // チェックされていないチェックボックスに対応するラベルは隠す
-      if (!$n.prop('checked')) {
-        $('label[for="' + $n.attr('id') + '"]').css({display: 'none'})
-      }
-    });
-
-    $('td .example').hide();
-
-    $('select').hide();
-    $('select').each(function(i, node) {
-      var $select = $(node);
-      if ($select.val()) {
-        var selectedOptionLabel = $select.find("option:selected").text();
-        var $el = $("<span>");
-        $el.text(selectedOptionLabel);
-        $select.parent().append($el);
-      }
-    });
-  </script>
-<? } ?>
-
-<? if from_kakaku? ?>
-  <script type="text/javascript">
-    if(typeof _satellite !== "undefined"){
-        _satellite.pageBottom();
-    }
-  </script>
-<? } ?>
-
-<?= content_for :tail { ?>
-  <? if pr_tracking_parameter.try(:name) == "xmarke" ?>
-    <?// 入力画面でクロスマーケのCVタグを表示 ?>
-    <? if @previewing ?>
-      <?// 確認画面はなし ?>
-    <? else ?>
-      <?= conversion_MyView::image_tag("https://rsch.jp/common/prom/connectlpimg.php?eqid=8def6277d77504dbc3b8bbaf8e447c56546cb41c&po=0023" ?>
-    <? } ?>
-  <? } ?>
-<? } ?>
-
-<?= content_for :tail { ?>
-  <script>
-    window.onbeforeunload = function(e){
-      e.returnValue = 'このサイトを離れてもよろしいですか？';
-    }
-
-    $('input[type="submit"], input[type="image"], input[type="button"]').on('click', function() {
-      window.onbeforeunload = null;
-    });
-  </script>
-
-  <? unless @previewing ?>
-    <?= render 'shared/yahoo_retargeting' ?>
-    <?= render 'shared/google_remarketing' ?>
-  <? } ?>
-
-  <? if from_kakaku? && Rails.env.production? ?>
-    <? if @previewing ?>
-      <?= render 'shared/kakaku/tracking_preview' ?>
-    <? else ?>
-      <?= render 'shared/kakaku/tracking_new' ?>
-    <? } ?>
-  <? } ?>
-<? } ?>
+<?= render('shared/yahoo_retargeting'); ?>
+<?= render('shared/google_remarketing'); ?>

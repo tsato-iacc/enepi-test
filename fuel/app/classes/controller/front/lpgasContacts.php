@@ -71,18 +71,35 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         $validation_factory = 'new_contract';
 
-        if (\Input::post('lpgas_contact.house_kind') == 'apartment')
+        // Is it the new form
+        if (\Input::post('new_form'))
         {
-            $validation_factory = 'apartment';
-            $contact->apartment_owner = true;
+            if (\Input::post('lpgas_contact.house_kind') == 'apartment')
+            {
+                $validation_factory = 'apartment';
+                $contact->apartment_owner = true;
+            }
+            elseif (\Input::post('lpgas_contact.estimate_kind') == 'change_contract')
+            {
+                $validation_factory = 'change_contract';
+            }
         }
-        elseif (\Input::post('lpgas_contact.estimate_kind') == 'change_contract')
+        else
         {
-            $validation_factory = 'change_contract';
+            // Old form
+            $validation_factory = 'old_form';
+
+            if (\Input::post('lpgas_contact.ownership_kind') == 'owner')
+            {
+                $contact->house_kind = \Config::get('models.contact.house_kind.detached');
+            }
+            elseif (\Input::post('lpgas_contact.ownership_kind') == 'borrower' || \Input::post('lpgas_contact.ownership_kind') == 'unit_owner')
+            {
+                $contact->house_kind = \Config::get('models.contact.house_kind.store_ex');
+            }
         }
 
         $val = Model_Contact::validate($validation_factory);
-        
 
         if ($val->run())
         {
@@ -158,17 +175,16 @@ class Controller_Front_LpgasContacts extends Controller_Front
         $this->template = \View::forge('front/template_contact');
 
         $meta = [
-            ['name' => 'description', 'content' => 'OOooOOppp'],
-            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-            ['name' => 'puka', 'content' => 'suka'],
+            ['name' => 'description', 'content' => 'プロパンガス会社を簡単ネット見積もり'],
+            ['name' => 'keywords', 'content' => 'プロパンガス,見積もり'],
         ];
 
-        $this->template->title = 'local_contents';
+        $this->template->title = 'お見積もり情報入力';
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/lpgasContacts/old', [
-            'test' => 'test'
+            'contact' => new \Model_Contact(),
+            'apartment_form' => \Input::get('apartment_form') ? true : false,
         ]);
-        // return Response::forge(View::forge('welcome/index'));
     }
 
     /**
