@@ -37,17 +37,21 @@ class Controller_Front_Articles extends Controller_Front
 
         try
         {
+            $NUM = 30;
+
+            // 実際の記事の厳選
             $condition = [
                 'page' => \Input::get('page', '1'),
-                'per' => \Config::get('enepi.articles.index.per_page'),
+                'per' => $NUM,
             ];
 
             $articles = $client->getArticles($condition);
 
-
+            // ページリンクの生成
             \Pagination::forge('default', [
                 'total_items' => $articles['total_count'],
-                'per_page' => '13',
+                'num_links' => floor($articles['total_count']/$NUM)+1,
+                'per_page' => $NUM,
                 'pagination_url' => \Uri::current(),
                 'uri_segment' => 'page',
             ]);
@@ -73,6 +77,7 @@ class Controller_Front_Articles extends Controller_Front
 
             // 'mini_nav' => true,
         ]);
+
     }
 
     /**

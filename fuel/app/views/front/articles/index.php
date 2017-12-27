@@ -1,4 +1,5 @@
 <? use Fuel\Core\Pagination ?>
+<?= render('front/breadcrumb', ['breadcrumb' => $breadcrumb]); ?>
 <?= render ("shared/mini_nav") ?>
 <div class="panel-inner">
   <div class="article-mainview">
