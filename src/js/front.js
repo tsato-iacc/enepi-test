@@ -16,3 +16,8 @@
 //= front/simulation_estimate_form.js
 //= front/accordion.js
 
+/**
+ * Old scripts
+ */
+//= front/old/estimate_form.js
+

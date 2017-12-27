@@ -86,7 +86,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
         }
         else
         {
-            // Old form
+            // Old form or API request
             $validation_factory = 'old_form';
 
             if (\Input::post('lpgas_contact.ownership_kind') == 'owner')
@@ -99,11 +99,13 @@ class Controller_Front_LpgasContacts extends Controller_Front
             }
         }
 
-        $val = Model_Contact::validate($validation_factory);
+        $val = \Model_Contact::validate($validation_factory);
 
         if ($val->run())
         {
             $contact->set($val->validated('lpgas_contact', 'contact'));
+                        print var_dump($val->input('lpgas_contact'));
+                        print var_dump($val->validated('lpgas_contact', 'contact'));exit;
 
             // Calculate gas usage by house hold
             if (!$contact->gas_used_amount && $contact->house_hold)
@@ -149,19 +151,36 @@ class Controller_Front_LpgasContacts extends Controller_Front
             }
         }
 
+        // print var_dump(e($val->error('lpgas_contact.name')));exit;
+
         $meta = [
-            ['name' => 'description', 'content' => 'OOooOOppp'],
-            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-            ['name' => 'puka', 'content' => 'suka'],
+            ['name' => 'description', 'content' => 'プロパンガス会社を簡単ネット見積もり'],
+            ['name' => 'keywords', 'content' => 'プロパンガス,見積もり'],
         ];
 
-        $this->template->title = 'local_contents';
+        // Old form or API request
+        if ($validation_factory == 'old_form')
+        {
+            $this->template = \View::forge('front/template_contact');
+
+            $view = \View::forge('front/lpgasContacts/old', [
+                'contact' => $contact,
+                'val' => $val,
+                'apartment_form' => \Input::post('apartment_form') ? true : false,
+            ]);
+        }
+        else
+        {
+            $view = \View::forge('front/lpgasContacts/index', [
+                'contact' => $contact,
+                'val' => $val,
+                'month_selected' => '',
+            ]);
+        }
+
+        $this->template->title = 'お見積もり情報入力';
         $this->template->meta = $meta;
-        $this->template->content = View::forge('front/lpgasContacts/index', [
-            'contact' => $contact,
-            'val' => $val,
-            'month_selected' => '',
-        ]);
+        $this->template->content = $view;
     }
 
     /**
@@ -182,6 +201,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
         $this->template->title = 'お見積もり情報入力';
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/lpgasContacts/old', [
+            'val' => \Model_Contact::validate('old_form'),
             'contact' => new \Model_Contact(),
             'apartment_form' => \Input::get('apartment_form') ? true : false,
         ]);
