@@ -185,25 +185,47 @@ class Model_Contact extends \Orm\Model_Soft
         {
             case 'old_form':
                 $val->add_field('lpgas_contact.estimate_kind', 'estimate_kind', 'required|match_collection[change_contract,new_contract]');
-                $val->add_field('lpgas_contact.ownership_kind', 'ownership_kind', 'required|match_collection[change_contract,new_contract]');
+                $val->add_field('lpgas_contact.ownership_kind', 'ownership_kind', 'required|match_collection[owner,borrower,unit_owner]');
 
                 $val->add_field('lpgas_contact.zip_code', 'zip_code', 'required|valid_string[numeric]');
-                $val->add_field('lpgas_contact.prefecture_code', 'prefecture_code', 'required_with[lpgas_contact.zip_code]|valid_string[numeric]');
-                $val->add_field('lpgas_contact.address', 'address', 'required_with[lpgas_contact.zip_code]');
+                $val->add_field('lpgas_contact.prefecture_code', 'prefecture_code', 'required|valid_string[numeric]');
+                $val->add_field('lpgas_contact.address', 'address', 'required|max_length[100]');
+                $val->add_field('lpgas_contact.address2', 'address2', 'max_length[100]');
+                $val->add_field('lpgas_contact.house_age', 'house_age', 'valid_string[numeric]');
+                $val->add_field('lpgas_contact.gas_used_years', 'gas_used_years', 'valid_string[numeric]');
+                $val->add_field('lpgas_contact.body', 'body', 'max_length[2000]');
 
                 if (\Input::post('apartment_form') || \Input::post('lpgas_contact.estimate_kind') == 'new_contract')
                 {
                     $val->add_field('lpgas_contact.new_zip_code', 'new_zip_code', 'required|valid_string[numeric]');
-                    $val->add_field('lpgas_contact.new_prefecture_code', 'new_prefecture_code', 'required_with[lpgas_contact.new_zip_code]|valid_string[numeric]');
-                    $val->add_field('lpgas_contact.new_address', 'new_address', 'required_with[lpgas_contact.new_zip_code]');
+                    $val->add_field('lpgas_contact.new_prefecture_code', 'new_prefecture_code', 'required|valid_string[numeric]');
+                    $val->add_field('lpgas_contact.new_address', 'new_address', 'required|max_length[100]');
 
+                    $val->add_field('lpgas_contact.gas_used_amount', 'gas_used_amount', 'match_pattern[/^[0-9]*[.]?[0-9]+$/]');
                     $val->add_field('lpgas_contact.gas_meter_checked_month', 'gas_meter_checked_month', 'numeric_between[1,12]');
                     $val->add_field('lpgas_contact.gas_latest_billing_amount', 'gas_latest_billing_amount', 'valid_string[numeric]');
+                }
+                
+                if (\Input::post('lpgas_contact.estimate_kind') == 'change_contract')
+                {
+                    $val->add_field('lpgas_contact.gas_used_amount', 'gas_used_amount', 'required|match_pattern[/^[0-9]*[.]?[0-9]+$/]');
+                    $val->add_field('lpgas_contact.gas_meter_checked_month', 'gas_meter_checked_month', 'required|numeric_between[1,12]');
+                    $val->add_field('lpgas_contact.gas_latest_billing_amount', 'gas_latest_billing_amount', 'required|valid_string[numeric]');
+                    $val->add_field('lpgas_contact.gas_contracted_shop_name', 'gas_contracted_shop_name', 'required|max_length[50]');
+                }
+
+                if (\Input::post('lpgas_contact.estimate_kind') == 'new_contract')
+                {
+                    $val->add_field('lpgas_contact.moving_scheduled_date', 'moving_scheduled_date', 'match_pattern[/^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$/]');
                     $val->add_field('lpgas_contact.gas_contracted_shop_name', 'gas_contracted_shop_name', 'max_length[50]');
                 }
+
                 if (\Input::post('apartment_form'))
                 {
-
+                    $val->add_field('lpgas_contact.gas_contracted_shop_name', 'gas_contracted_shop_name', 'required|max_length[50]');
+                    $val->add_field('lpgas_contact.number_of_rooms', 'number_of_rooms', 'required|valid_string[numeric]');
+                    $val->add_field('lpgas_contact.number_of_active_rooms', 'number_of_active_rooms', 'valid_string[numeric]');
+                    $val->add_field('lpgas_contact.estate_management_company_name', 'estate_management_company_name', 'max_length[50]');
                 }
 
                 break;
