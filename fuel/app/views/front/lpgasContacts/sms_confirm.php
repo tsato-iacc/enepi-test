@@ -8,7 +8,7 @@
         atag.src = _protocol + 'js.ptengine.jp/pta.js';
         var stag = document.createElement('script'); stag.type = 'text/javascript'; stag.async = true;
         stag.src = _protocol + 'js.ptengine.jp/pts.js';
-        var s = document.getElementsByTagName('script')[0]; 
+        var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(atag, s); s.parentNode.insertBefore(stag, s);
     })();
 </script>
@@ -53,7 +53,7 @@
               <dd>切替費用<br>手続不要</dd>
             </dl>
           </div>
-        </div> 
+        </div>
 
         <% if @contact.sent_estimate_req? %>
         <div class="text-center estimate_btn_area">
@@ -93,7 +93,7 @@
           </div>
           <% end %>
         </div>
-        <% end %>     
+        <% end %>
       </div>
     </div>
 
@@ -131,7 +131,7 @@
               <dd>切替費用・手続不要</dd>
             </dl>
           </div>
-        </div> 
+        </div>
         <div class="case_btn_area">
         <a href="#case-contents" class="btn_cases"　onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_link_btn', {'nonInteraction': 1});"><i class="fa fa-flag" aria-hidden="true"></i>どう選べばいいの？</a>
         </div>
@@ -187,7 +187,7 @@
           </div>
           <% end %>
         </div>
-        <% end %>       
+        <% end %>
       </div>
     </div>
 
@@ -197,7 +197,7 @@
     <div class="hidden_sp">
       <h2 class="ttl_matching_main">ご希望にマッチした会社一覧</h2>
     </div>
-    
+
     <% est.each.with_index do |e, i| %>
     <div class="hidden_sp">
       <div class="panel matching-list-area estimate <%= "has-price" if e.has_price? %>">
@@ -211,7 +211,7 @@
                 <label role="button" for="estimate_ids_<%= i %>"></label>
               </div>
             <h3><%= e.company.name %></h3>
-            
+
             <% if e.verbal_ok? %>
               <span class="label label_matching_done">
                 連絡希望チェック済み
@@ -347,7 +347,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="hidden_pc">
       <div class="panel panel-default estimate <%= "has-price" if e.has_price? %>">
         <div class="panel-heading">
@@ -536,7 +536,7 @@
         <li><a href="#tab4" data-toggle="tab" onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_tab4', {'nonInteraction': 1});">店舗で切り替え予定の方</a></li>
         <li><a href="#tab5" data-toggle="tab" onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_tab5', {'nonInteraction': 1});">集合住宅のオーナー様</a></li>
       </ul>
-   
+
       <div class="tab-content">
         <div class="tab-pane active" id="tab1" style="overflow: hidden;">
           <div class="case-contents">
