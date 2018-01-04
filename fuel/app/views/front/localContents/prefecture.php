@@ -237,6 +237,8 @@
           <? } ?>
             <? View::set_global('result',$result); ?>
             <? View::set_global('code',$code); ?>
+            <? View::set_global('category',$category); ?>
+            <? View::set_global('region_count',$region_count); ?>
             <? View::set_global('prefecture_prev',$prefecture_prev); ?>
             <? View::set_global('prefecture_next',$prefecture_next); ?>
             <?= View::forge('front/local_contents_bottom_part',$result, $code, $prefecture_prev, $prefecture_next); ?>

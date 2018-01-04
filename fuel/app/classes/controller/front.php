@@ -10,6 +10,7 @@ class Controller_Front extends Controller_Template
     protected $is_mobile      = false;
 
     protected $pr_tracking_id = null;
+    protected $pr_tracking_name = null;
     protected $from_kakaku    = false;
     protected $from_enechange = false;
 
@@ -122,10 +123,12 @@ class Controller_Front extends Controller_Template
 
         // Set for usage in Controller
         $this->pr_tracking_id = \Session::get('front.pr_tracking_id');
+        $this->pr_tracking_name = \Session::get('front.pr_tracking_name');
         $this->from_kakaku    = \Session::get('front.from_kakaku');
         $this->from_enechange = \Session::get('front.from_enechange');
 
         // Set for usage in View
+        \View::set_global('pr_tracking_name', $this->pr_tracking_name, false);
         \View::set_global('from_kakaku', $this->from_kakaku, false);
         \View::set_global('from_enechange', $this->from_enechange, false);
         \View::set_global('estimate_post_url', $this->estimate_post_url, false);

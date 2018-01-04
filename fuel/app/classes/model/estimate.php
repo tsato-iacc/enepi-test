@@ -91,6 +91,7 @@ class Model_Estimate extends \Orm\Model
     public function save($cascade = null, $use_transaction = false)
     {
         $result = false;
+        // FIX ME
         // before_update { self.status_updated_at = Time.now if status_changed? }
         
         if ($this->is_new())
@@ -100,24 +101,34 @@ class Model_Estimate extends \Orm\Model
 
             if ($result = parent::save($cascade, $use_transaction))
             {
-                // FIX ME
-                // Send mail
-                // ::Lpgas::EstimatesMailer.notify_sent_to_lpgas_company_to_admin(self).deliver_now
+                // FIX ME (move to package?)
+                // \Package::load('email');
+                // $email = \Email::forge();
+                // $email->to(\Config::get('enepi.company.email'), \Config::get('enepi.company.service_name'));
+                // $email->subject("紹介");
+                // $email->html_body(\View::forge('email/admin/companyIntroduction', ['estimate' => $this]));
+                // $email->send();
             }
         }
         else
         {
             $result = parent::save($cascade, $use_transaction);
+            // FIX ME
+            // after_save :update_contact_status
+            // after_save { contact.add_to_callings if (sent_estimate_to_user? || verbal_ok?) && !auto? }
+            // after_save :log_changes, if: -> { changed? }
         }
-
-        // after_save :update_contact_status
-        // after_save { contact.add_to_callings if (sent_estimate_to_user? || verbal_ok?) && !auto? }
-        // after_save :log_changes, if: -> { changed? }
         
         return $result;
     }
 
-    public function savings_by_month()
+    // FIX ME
+    // public function delete()
+    // {
+    //     // after_destroy :update_contact_status_on_destroy
+    // }
+
+    public function savings_by_month(&$contact)
     {
         if (!$this->basic_price)
             return null;
@@ -126,17 +137,17 @@ class Model_Estimate extends \Orm\Model
         {
             $savings_by_month = [];
 
-            $pref_model = Simulation::getUsedAmount($this->contact->getPrefectureCode());
+            $pref_model = Simulation::getUsedAmount($contact->getPrefectureCode());
 
-            $a = 1.0 / $pref_model[$this->contact->gas_meter_checked_month];
+            $a = 1.0 / $pref_model[$contact->gas_meter_checked_month];
 
             foreach(range(1, 12) as $month)
             {
-                $used_amount = $this->contact->gas_used_amount * $a * $pref_model[$month];
+                $used_amount = $contact->gas_used_amount * $a * $pref_model[$month];
 
                 $savings_by_month[$month] = [
                     'used_amount' => $used_amount,
-                    'before_price' => round($this->contact->basicPrice() + $this->contact->unitPrice() * $used_amount, 0),
+                    'before_price' => round($contact->basicPrice() + $contact->unitPrice() * $used_amount, 0),
                     'after_price' => round($this->basic_price + $this->calculateDemandCost($used_amount), 0),
                 ];
             }
@@ -147,9 +158,9 @@ class Model_Estimate extends \Orm\Model
         return $this->_savings_by_month;
     }
 
-    public function total_savings_in_year()
+    public function total_savings_in_year(&$contact)
     {
-        $savings_by_month = $this->savings_by_month();
+        $savings_by_month = $this->savings_by_month($contact);
 
 
         if (!$savings_by_month)
