@@ -184,9 +184,6 @@ class Model_Contact extends \Orm\Model_Soft
         switch ($factory)
         {
             case 'old_form':
-                $val->add_field('lpgas_contact.estimate_kind', 'estimate_kind', 'required|match_collection[change_contract,new_contract]');
-                $val->add_field('lpgas_contact.ownership_kind', 'ownership_kind', 'required|match_collection[owner,borrower,unit_owner]');
-
                 $val->add_field('lpgas_contact.zip_code', 'zip_code', 'required|valid_string[numeric]');
                 $val->add_field('lpgas_contact.prefecture_code', 'prefecture_code', 'required|valid_string[numeric]');
                 $val->add_field('lpgas_contact.address', 'address', 'required|max_length[100]');
@@ -222,10 +219,18 @@ class Model_Contact extends \Orm\Model_Soft
 
                 if (\Input::post('apartment_form'))
                 {
+                    $val->add_field('lpgas_contact.house_kind', 'house_kind', 'required|match_value[apartment]');
+                    $val->add_field('lpgas_contact.apartment_owner', 'apartment_owner', 'required|match_value[1]');
+
                     $val->add_field('lpgas_contact.gas_contracted_shop_name', 'gas_contracted_shop_name', 'required|max_length[50]');
                     $val->add_field('lpgas_contact.number_of_rooms', 'number_of_rooms', 'required|valid_string[numeric]');
                     $val->add_field('lpgas_contact.number_of_active_rooms', 'number_of_active_rooms', 'valid_string[numeric]');
                     $val->add_field('lpgas_contact.estate_management_company_name', 'estate_management_company_name', 'max_length[50]');
+                }
+                else
+                {
+                    $val->add_field('lpgas_contact.ownership_kind', 'ownership_kind', 'required|match_collection[owner,borrower,unit_owner]');
+                    $val->add_field('lpgas_contact.estimate_kind', 'estimate_kind', 'required|match_collection[change_contract,new_contract]');
                 }
 
                 break;

@@ -36,7 +36,11 @@ use JpPrefecture\JpPrefecture;
   <?= \Form::csrf(); ?>
     <input type="hidden" name="token" value="<?= isset($token) ? $token : '' ?>">
     <input type="hidden" name="contact_id" value="<?=  isset($contact_id) ? $contact_id : '' ?>">
-    <input type="hidden" name="apartment_form" value="<?= $apartment_form ? '1' : '' ?>">
+    <?php if ($apartment_form): ?>
+    <input type="hidden" name="apartment_form" value="1">
+    <input type="hidden" name="lpgas_contact[house_kind]" value="apartment">
+    <input type="hidden" name="lpgas_contact[apartment_owner]" value="1">
+    <?php endif; ?>
 
     <h3 class="table-form-header"><i class="fa fa-building" aria-hidden="true"></i>ガスを見直したい物件</h3>
 
