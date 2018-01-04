@@ -14,6 +14,7 @@ class Tracking
 {
     protected $media          = null;
     protected $pr_tracking_id = null;
+    protected $pr_tracking_name = null;
     protected $from_kakaku    = false;
     protected $from_enechange = false;
 

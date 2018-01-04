@@ -104,8 +104,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
         if ($val->run())
         {
             $contact->set($val->validated('lpgas_contact', 'contact'));
-                        print var_dump($val->input('lpgas_contact'));
-                        print var_dump($val->validated('lpgas_contact', 'contact'));exit;
 
             // Calculate gas usage by house hold
             if (!$contact->gas_used_amount && $contact->house_hold)
@@ -150,8 +148,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
                 throw $e;
             }
         }
-
-        // print var_dump(e($val->error('lpgas_contact.name')));exit;
 
         $meta = [
             ['name' => 'description', 'content' => 'プロパンガス会社を簡単ネット見積もり'],
