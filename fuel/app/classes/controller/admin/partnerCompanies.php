@@ -49,6 +49,15 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
         ]);
     }
 
+    public function action_new()
+    {
+    	$this->template->title = 'local_contents';
+    	$this->template->content = View::forge('admin/partnerCompanies/create', [
+    			'test' => 'test'
+    	]);
+    }
+
+
     /**
      * Store
      *
