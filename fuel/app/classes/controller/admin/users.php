@@ -49,6 +49,18 @@ class Controller_Admin_Users extends Controller_Admin
         ]);
     }
 
+
+
+    public function get_new()
+    {
+    	$this->template->title = 'local_contents';
+    	$this->template->content = View::forge('admin/users/create', [
+    			'test' => 'test'
+    	]);
+    }
+
+
+
     /**
      * Save new user
      *
