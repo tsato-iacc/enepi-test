@@ -40,6 +40,9 @@ return array(
     /**
      * Admin
      */
+    'admin/users'                                        => [['GET', new Route('admin/users/index')], ['POST', new Route('admin/users/store')]],
+    'admin/users/create'                                 => [['GET', new Route('admin/users/create')]],
+
     'admin/tracking'                                     => [['GET', new Route('admin/tracking/index')], ['POST', new Route('admin/tracking/store')]],
     'admin/tracking/(:num)/edit'                         => [['GET', new Route('admin/tracking/edit/$1')]],
     'admin/tracking/(:num)'                              => [['POST', new Route('admin/tracking/update/$1')]],

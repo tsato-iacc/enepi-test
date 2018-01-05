@@ -7,8 +7,8 @@
  * Navbar
  */
 .navbar {
-  border-bottom: 1px solid rgba(0,0,0,.125);
   margin-bottom: 20px;
+  border-bottom: 1px solid rgba(0,0,0,.125);
 }
 
 /**
@@ -25,6 +25,13 @@
   i {
     margin-right: 4px;
   }
+}
+
+/**
+ * Tables
+ */
+table.small-row {
+  font-size: 14px;
 }
 
 /**
@@ -48,4 +55,15 @@
 .list-group-item-heading {
   color: #333;
   background-color: #f5f5f5;
+}
+
+footer {
+  margin-top: 20px;
+  border-top: 1px solid rgba(0,0,0,.125);
+
+  .co-ltd {
+    padding: 6px 0;
+    font-size: 12px;
+    text-align: center;
+  }
 }

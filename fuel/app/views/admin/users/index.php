@@ -1,25 +1,10 @@
-<? //@page = "Users"
-$new_admin_user_path = "/admin/users/new";
-
-class Users{
-	var $email = "test@test";
-	var $created_at;
-	var $updated_at;
-}
-
-$users = [
-		new Users(),
-		new Users(),
-		new Users(),
-];
-
-?>
-
-<div class="btn-group" role="group" aria-label="...">
-  <?= MyView::link_to('新規作成', $new_admin_user_path, ["class" => "btn btn-default"]) ?>
+<div class="form-group row">
+  <div class="col-12">
+    <a class="btn btn-secondary" href="<?= \Uri::create('admin/users/create'); ?>" role="button">新規作成</a>
+  </div>
 </div>
 
-<table class="table table-condensed table-striped table-hover">
+<table class="table table-sm table-hover small-row">
   <thead>
     <tr>
       <th>メールアドレス</th>
@@ -30,14 +15,13 @@ $users = [
   </thead>
   <tbody>
 
-    <? foreach($users as $u){ ?>
+    <?php foreach($users as $u): ?>
       <tr>
         <td><?= $u->email ?></td>
-        <td><?= MyView::format_datetime($u->created_at) ?></td>
-        <td><?= MyView::format_datetime($u->updated_at) ?></td>
-        <td> <?= MyView::link_to_local_contents('削除', MyView::admin_user_path($u), ["method" => 'delete', "confirm" => "1"]) ?> </td>
+        <td><?= Carbon\Carbon::parse($u->created_at)->setTimezone('Asia/Tokyo')->format('Y-m-d H:i') ?></td>
+        <td><?= $u->updated_at ?></td>
+        <td><a href="/admin/users/1/delete" onclick="return confirm('本当によろしいですか?')">削除</a></td>
       </tr>
-    <? } ?>
-
+    <?php endforeach; ?>
   </tbody>
 </table>

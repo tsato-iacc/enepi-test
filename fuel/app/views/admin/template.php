@@ -20,14 +20,12 @@
       </div>
 
       <div class="col-md-10">
-        <ol class="breadcrumb">
-          <%= render_breadcrumbs tag: 'li', separator: "" %>
-        </ol>        
         <?= $content; ?>
       </div>
     </div>
   </div>
-  
+
+  <?= render('admin/footer'); ?>
   <?= Asset::js('admin.min.js'); ?>
   <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
 </body>

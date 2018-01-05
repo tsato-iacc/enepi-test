@@ -29,9 +29,9 @@ class Controller_Admin_Users extends Controller_Admin
      */
     public function get_index()
     {
-        $this->template->title = 'local_contents';
+        $this->template->title = '管理者一覧';
         $this->template->content = View::forge('admin/users/index', [
-            'test' => 'test'
+            'users' => \Model_AdminUser::find('all'),
         ]);
     }
 
