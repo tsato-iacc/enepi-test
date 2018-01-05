@@ -1,0 +1,51 @@
+
+/**
+ * Global styles
+ */
+
+/**
+ * Navbar
+ */
+.navbar {
+  border-bottom: 1px solid rgba(0,0,0,.125);
+  margin-bottom: 20px;
+}
+
+/**
+ * Sidebar
+ */
+.list-group.sidebar {
+  margin-bottom: 20px;
+  font-size: 14px;
+
+  .list-group-item {
+    padding: 10px 15px;
+  }
+
+  i {
+    margin-right: 4px;
+  }
+}
+
+/**
+ * Bootstrap list additional colors
+ */
+.list-group-item-light {
+  color: #818182;
+  background-color: #fdfdfe;
+}
+
+.list-group-item-secondary {
+  color: #464a4e;
+  background-color: #dddfe2;
+}
+
+.list-group-item-dark {
+  color: #1b1e21;
+  background-color: #c6c8ca;
+}
+
+.list-group-item-heading {
+  color: #333;
+  background-color: #f5f5f5;
+}

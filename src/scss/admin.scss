@@ -3,9 +3,10 @@
 /*
 * Third Party
 */
-$fa-font-path: "/assets/font-awesome/fonts";
+// $fa-font-path: "/assets/font-awesome/fonts";
 
 @import "../../bower_components/bootstrap/scss/bootstrap";
+@import "../../bower_components/components-font-awesome/scss/font-awesome";
 
 /*
 * Custom
@@ -16,7 +17,7 @@ $fa-font-path: "/assets/font-awesome/fonts";
 // @import "front/mixins";
 
 /* Global layout styles */
-// @import "front/layout";
+@import "admin/layout";
 // @import "front/header";
 // @import "front/footer";
 
