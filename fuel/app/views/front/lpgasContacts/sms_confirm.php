@@ -1,3 +1,18 @@
+<div class="estimate">
+<div class="container">
+
+<div class="container pc">
+  <?= MyView::image_tag("estimate_presentation/new_step_img_03.png", ["alt" => "New step img 03"]); ?>
+</div>
+<div class="hidden_pc">
+  <div class="catch_area">
+    <h1>連絡を希望する会社を選びましょう！</h1>
+  </div>
+</div>
+<div class="hidden_sp">
+  <h1>連絡を希望する会社を選びましょう！</h1>
+</div>
+
 <script type="text/javascript">
     window._pt_lt = new Date().getTime();
     window._pt_sp_2 = [];
@@ -13,135 +28,140 @@
     })();
 </script>
 
-    <% _est = @lpgas_contact.sent_estimates.to_a %>
-    <% est = (_est.select(&:has_price?) + _est.reject(&:has_price?)) %>
+<?
+//    foreach ($contact->estimate as $e) {
+//      print var_dump($e->company);
+//    }
+?>
+
+    <?// _est = $lpgas_contact.sent_estimates.to_a ?>
+    <?// est = (_est.select(&:has_price?) + _est.reject(&:has_price?)) ?>
 
     <div class="container section">
-      <%= form_tag ok_tentatively_lpgas_contact_estimates_path(@lpgas_contact, token: @lpgas_contact.token) do %>
+      <?//= form_tag ok_tentatively_lpgas_contact_estimates_path($lpgas_contact, token: $lpgas_contact.token) do ?>
 
      <div class="hidden_sp">
       <div class="planning_box-sp">
-        <h2 class="ttl_mypage"><%= @contact.name %>様専用のマイページ</h2>
+        <h2 class="ttl_mypage"><?= $contact->name ?>様専用のマイページ</h2>
         <div class="inner">
           <div class="inner_left">
             <h3>推定使用状況</h3>
             <dl class="currant_info_list">
               <dt>地域:</dt>
-              <dd><%= @contact.prefecture_name %></dd>
+              <dd><?= $prefecture_kanji[key($prefecture_kanji)] ?></dd>
             </dl>
             <dl class="currant_info_list">
               <dt>ガス使用量:</dt>
-              <dd><%= @contact.gas_used_amount %>m3 (<%= @contact.gas_meter_checked_month %>月)</dd>
+              <dd><?= number_format($contact->gas_used_amount, 1) ?>m3 (<?= $contact->gas_meter_checked_month ?>月)</dd>
             </dl>
             <dl class="currant_info_list">
               <dt>お支払い額(税込):</dt>
-              <dd><%= number_to_currency @contact.gas_latest_billing_amount %></dd>
+              <dd><?= number_format($contact->gas_latest_billing_amount) ?>円</dd>
             </dl>
           </div>
           <div class="inner_right">
             <h3>エネピの紹介会社条件</h3>
             <dl class="recommend_using_info">
-              <dt><%= image_tag "estimate_presentation/img_track.png" %></dt>
+              <dt><?= MyView::image_tag("estimate_presentation/img_track.png") ?></dt>
               <dd>30分以内<br>で駆けつけ</dd>
             </dl>
             <dl class="recommend_using_info">
-              <dt><%= image_tag "estimate_presentation/img_glaph.png" %></dt>
+              <dt><?= MyView::image_tag("estimate_presentation/img_glaph.png") ?></dt>
               <dd>不当な<br>値上げなし</dd>
             </dl>
             <dl class="recommend_using_info">
-              <dt><%= image_tag "estimate_presentation/img_pc.png" %></dt>
+              <dt><?= MyView::image_tag("estimate_presentation/img_pc.png") ?></dt>
               <dd>切替費用<br>手続不要</dd>
             </dl>
           </div>
         </div>
 
-        <% if @contact.sent_estimate_req? %>
+        <?// if($contact->status->sent_estimate_req == false){ ?>
         <div class="text-center estimate_btn_area">
           <div class="hidden_pc">
             <p class="big">
-              上記をクリアした<span style="color: #f93f3f"><%= est.size %>社</span>のプランをご提案します<br>
+              上記をクリアした<span style="color: #f93f3f"><?//= est.size ?>社</span>のプランをご提案します<br>
             </p>
           </div>
           <div class="hidden_sp">
             <p class="big">
-              上記をクリアした<span style="color: #f93f3f"><%= est.size %>社</span>の<br>プランをご提案します
+              上記をクリアした<span style="color: #f93f3f"><?//= est.size ?>社</span>の<br>プランをご提案します
             </p>
           </div>
           <div class="hidden_pc">
-            <%= submit_tag 'チェックを入れた会社からの連絡を希望する', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching', 'click', 'submit_btn', {'nonInteraction': 1});" %>
+            <?= MyView::submit_tag("commit", ["value" => "チェックを入れた会社からの連絡を希望する", "class" => "btn btn-primary", "onclick" => "ga(&#39;send&#39;, &#39;event&#39;, &#39;matching&#39;, &#39;click&#39;, &#39;submit_btn&#39;, {&#39;nonInteraction&#39;: 1});"]) ?>
           </div>
           <div class="hidden_sp">
-            <%= submit_tag 'チェック済会社の連絡希望', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching', 'click', 'submit_btn_sp', {'nonInteraction': 1});" %>
+            <?= MyView::submit_tag("commit", ["value" => "チェック済会社の連絡希望", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn_sp', {'nonInteraction': 1});"]) ?>
           </div>
         </div>
-        <% else %>
+        <?// }else{ ?>
         <div class="text-center estimate_btn_area">
           <ul class="big" style="color: #f93f3f">
-            <% est.each.with_index do |e, i| %>
-            <% if e.verbal_ok? %>
-            <li><%= e.company.name %>への連絡希望を承りました。</li>
-            <% end %>
-            <% end %>
+            <?// est.each.with_index do |e, i| ?>
+            <?// if e.verbal_ok? ?>
+            <li><?//= e.company.name ?>への連絡希望を承りました。</li>
+            <?// } ?>
+            <?// } ?>
           </ul>
-          <% if @lpgas_contact.estimates.select(&:sent_estimate_to_user?).size > 0 %>
+          <?// if $lpgas_contact.estimates.select(&:sent_estimate_to_user?).size > 0 ?>
           <p class="big">追加の連絡希望がございましたら以下よりお選びください。</p>
           <div class="hidden_pc">
-            <%= submit_tag 'チェックを入れた会社からの連絡を希望する', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching', 'click', 'submit_btn', {'nonInteraction': 1});" %>
+            <?= MyView::submit_tag("commit", ["value" => "チェックを入れた会社からの連絡を希望する", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn', {'nonInteraction': 1});"]) ?>
           </div>
           <div class="hidden_sp">
-            <%= submit_tag 'チェック済会社の連絡希望', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching', 'click', 'submit_btn_sp', {'nonInteraction': 1});" %>
+            <?= MyView::submit_tag("commit", ["value" => "チェック済会社の連絡希望", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn_sp', {'nonInteraction': 1});"]) ?>
           </div>
-          <% end %>
+          <?// } ?>
         </div>
-        <% end %>
+        <?// } ?>
       </div>
     </div>
-
     <div class="hidden_pc">
       <div class="planning_box">
-        <h2 class="ttl_mypage"><%= @contact.name %>様専用のマイページ</h2>
+        <h2 class="ttl_mypage"><?= $contact->name ?>様専用のマイページ</h2>
         <div class="inner">
           <div class="inner_left">
             <h3>推定使用状況</h3>
             <dl class="currant_using_info">
               <dt>地域</dt>
-              <dd><%= @contact.prefecture_name %></dd>
+              <dd><?= $prefecture_kanji[key($prefecture_kanji)] ?></dd>
             </dl>
             <dl class="currant_using_info">
               <dt>ガス使用量</dt>
-              <dd><%= @contact.gas_used_amount %>m3 (<%= @contact.gas_meter_checked_month %>月)</dd>
+              <dd><?= number_format($contact->gas_used_amount, 1) ?>m3 (<?= $contact->gas_meter_checked_month ?>月)</dd>
             </dl>
             <dl class="currant_using_info">
               <dt>お支払い額(税込)</dt>
-              <dd><%= number_to_currency @contact.gas_latest_billing_amount %></dd>
+              <dd><?= number_format($contact->gas_latest_billing_amount) ?>円</dd>
             </dl>
           </div>
           <div class="inner_right">
             <h3>エネピの紹介会社条件</h3>
             <dl class="recommend_using_info">
-              <dt><%= image_tag "estimate_presentation/img_track.png" %></dt>
+              <dt><?= MyView::image_tag("estimate_presentation/img_track.png") ?></dt>
               <dd>30分以内で駆けつけ</dd>
             </dl>
             <dl class="recommend_using_info">
-              <dt><%= image_tag "estimate_presentation/img_glaph.png" %></dt>
+              <dt><?= MyView::image_tag("estimate_presentation/img_glaph.png") ?></dt>
               <dd>不当な値上げなし</dd>
             </dl>
             <dl class="recommend_using_info">
-              <dt><%= image_tag "estimate_presentation/img_pc.png" %></dt>
+              <dt><?= MyView::image_tag("estimate_presentation/img_pc.png") ?></dt>
               <dd>切替費用・手続不要</dd>
             </dl>
           </div>
         </div>
         <div class="case_btn_area">
-        <a href="#case-contents" class="btn_cases"　onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_link_btn', {'nonInteraction': 1});"><i class="fa fa-flag" aria-hidden="true"></i>どう選べばいいの？</a>
+        <a href="#case-contents" class="btn_cases" onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_link_btn', {'nonInteraction': 1});"><i class="fa fa-flag" aria-hidden="true"></i>どう選べばいいの？</a>
         </div>
-        <% if @contact.sent_estimate_req? %>
+        <?// if $contact.sent_estimate_req? ?>
         <div class="text-center estimate_btn_area">
           <p class="big">
-            上記をクリアした<span style="color: #f93f3f"><%= est.size %>社</span>のプランをご提案します<br>
+            上記をクリアした<span style="color: #f93f3f"><?//= est.size ?>社</span>のプランをご提案します<br>
           </p>
           <div class="hidden_pc">
-            <%= submit_tag 'チェックを入れた会社からの連絡を希望する', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching', 'click', 'submit_btn', {'nonInteraction': 1});" %>
+            <?= MyView::submit_tag("commit", ["value" => "チェックを入れた会社からの連絡を希望する", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn', {'nonInteraction': 1});"]) ?>
           </div>
           <p class="big" style="margin: 1% 0 1% 0;">ご希望条件がありましたら下記を選択の上、希望ボタンを押してください</p>
           <div>
@@ -165,29 +185,29 @@
             <label class="radio-inline"><input type="radio" name="desired_option" value="0" checked>しない</label>
           </div>
           <div class="hidden_sp">
-            <%= submit_tag 'チェック済会社の連絡希望', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching', 'click', 'submit_btn_sp', {'nonInteraction': 1});" %>
+            <?= MyView::submit_tag("commit", ["value" => "チェック済会社の連絡希望", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn_sp', {'nonInteraction': 1});"]) ?>
           </div>
         </div>
-        <% else %>
+        <?// else ?>
         <div class="text-center estimate_btn_area">
           <ul class="big" style="color: #f93f3f">
-            <% est.each.with_index do |e, i| %>
-            <% if e.verbal_ok? %>
-            <li><%= e.company.name %>への連絡希望を承りました。</li>
-            <% end %>
-            <% end %>
+            <?// est.each.with_index do |e, i| ?>
+            <?// if e.verbal_ok? ?>
+            <li><?//= e.company.name ?>への連絡希望を承りました。</li>
+            <?// } ?>
+            <?// } ?>
           </ul>
-          <% if @lpgas_contact.estimates.select(&:sent_estimate_to_user?).size > 0 %>
+          <?// if $lpgas_contact.estimates.select(&:sent_estimate_to_user?).size > 0 ?>
           <p class="big">追加の連絡希望がございましたら以下よりお選びください。</p>
           <div class="hidden_sp">
-            <%= submit_tag 'チェックを入れた会社からの連絡を希望する', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching', 'click', 'submit_btn', {'nonInteraction': 1});" %>
+            <?= MyView::submit_tag("commit", ["value" => "チェックを入れた会社からの連絡を希望する", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn', {'nonInteraction': 1});"]) ?>
           </div>
           <div class="hidden_sp">
-            <%= submit_tag 'チェック済会社の連絡希望', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching', 'click', 'submit_btn_sp', {'nonInteraction': 1});" %>
+            <?= MyView::submit_tag("commit", ["value" => "チェック済会社の連絡希望", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn_sp', {'nonInteraction': 1});"]) ?>
           </div>
-          <% end %>
+          <?// end ?>
         </div>
-        <% end %>
+        <?// end ?>
       </div>
     </div>
 
@@ -198,33 +218,39 @@
       <h2 class="ttl_matching_main">ご希望にマッチした会社一覧</h2>
     </div>
 
-    <% est.each.with_index do |e, i| %>
+
+
+
+
+    <?$count = 0; ?>
+    <? foreach ($contact->estimate as $e) { ?>
     <div class="hidden_sp">
-      <div class="panel matching-list-area estimate <%= "has-price" if e.has_price? %>">
+      <div class="panel matching-list-area estimate">
         <div class="matching-list-heading">
           <div class="company-name-ttl">
           <div class="checkbox-big-sp">
-                <% if e.sent_estimate_to_user? %>
-                <%= check_box_tag :"estimate_ids[#{i}]", e.uuid, false, id: "estimate_ids_#{i}", class: 'form-control' %>
-                <% end %>
+                <?// if e.sent_estimate_to_user? ?>
+                <?=  MyView::checkbox_tag("estimate_ids[".$count."]", ["id" => "estimate_ids_".$count, "value" => $e->uuid, "class" => "form-control",]) ?>
+                <?// end ?>
 
-                <label role="button" for="estimate_ids_<%= i %>"></label>
+                <label role="button" for="estimate_ids_<?= $count ?>"></label>
               </div>
-            <h3><%= e.company.name %></h3>
+            <h3><?= $e->company->display_name ?></h3>
 
-            <% if e.verbal_ok? %>
+            <?// if e.verbal_ok? ?>
               <span class="label label_matching_done">
                 連絡希望チェック済み
               </span>
-            <% end %>
+            <?// end ?>
           </div>
-          <p class="invite_date">紹介日時:<%= format_datetime e.created_at %></p>
+          <p class="invite_date">紹介日時:<?//= format_datetime e.created_at ?></p>
         </div>
 
         <div class="inner">
           <div style="clear:both;">
             <div class="company-logo">
-              <%= image_tag e.company.lpgas_company_logo.try!(:url), class: "media-object" %>
+              <?= MyView::image_tag($e->company->lpgas_company_logo, ["class" => "media-object"]); ?>
+              <?//= image_tag e.company.lpgas_company_logo.try!(:url), class: "media-object" ?>
             </div>
             <div style="width: 50%; float:right;">
               <table class="table yearly_saving_price_table">
@@ -233,39 +259,39 @@
                 </tr>
                 <tr>
                   <td>
-                    <% if e.has_price? %>
-                      <span><%= number_to_currency e.total_savings_in_year %></span>
-                    <% else %>
+                    <?// if e.has_price? ?>
+                      <span><?//= number_to_currency e.total_savings_in_year ?></span>
+                    <?// else ?>
                       <p class="privacy_price">料金非公開</p>
-                    <% end %>
+                    <?// end ?>
                   </td>
               </table>
             </div>
           </div>
 
-          <table class="table relation_price_table <%= "has-price" if e.has_price? %>">
+          <table class="table relation_price_table <?//= "has-price" if e.has_price? ?>">
             <tr>
-              <th>違約金<a href="#" data-toggle="tooltip" title="契約後、解約した場合、違約金が発生する期間・料金がない会社かどうかを表示しています。"><%= image_tag "estimate_presentation/ico_question.png", :class => 'ico_question' %></a></th>
-              <td><%= e.company.master_company_features.map(&:name).include?("違約金なし") ? "なし" : "あり" %></td>
-              <th>セット割<a href="#" data-toggle="tooltip" title="プロパンガスの契約の際に、セットで契約するとお得になるプランがある会社を表示しています。"><%= image_tag 'estimate_presentation/ico_question.png', :class => 'ico_question' %></a></th>
-              <td><%= e.company.master_company_features.map(&:name).include?("セット割") ? "あり" : "なし" %></td>
+              <th>違約金<a href="#" data-toggle="tooltip" title="契約後、解約した場合、違約金が発生する期間・料金がない会社かどうかを表示しています。"><?= MyView::image_tag("estimate_presentation/ico_question.png", ["class" => "ico_question"]); ?></a></th>
+              <td><?//= e.company.master_company_features.map(&:name).include?("違約金なし") ? "なし" : "あり" ?></td>
+              <th>セット割<a href="#" data-toggle="tooltip" title="プロパンガスの契約の際に、セットで契約するとお得になるプランがある会社を表示しています。"><?= MyView::image_tag("estimate_presentation/ico_question.png", ["class" => "ico_question"]); ?></a></th>
+              <td><?//= e.company.master_company_features.map(&:name).include?("セット割") ? "あり" : "なし" ?></td>
             </tr>
           </table>
 
-          <% if e.has_price? %>
+          <?// if e.has_price? ?>
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title accordion-toggle">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne-<%= i %>">おすすめポイント
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne-<?//= i ?>">おすすめポイント
                 </a>
               </h4>
             </div>
-            <div id="collapseOne-<%= i %>" class="panel-collapse collapse">
+            <div id="collapseOne-<?//= i ?>" class="panel-collapse collapse">
               <div class="panel-body">
                 <ul class="recommend_point">
-                  <% e.company.company_service_features.each do |feat| %>
-                    <li><%= image_tag "estimate_presentation/ico_checkpoint.png", :class => 'ico_checkpoint' %><%= feat.title %></li>
-                  <% end %>
+                  <?// e.company.company_service_features.each do |feat| ?>
+                    <li><?= MyView::image_tag("estimate_presentation/ico_checkpoint.png", ["class" => "ico_checkpoint"]); ?><?//= feat.title ?></li>
+                  <?// end ?>
                 </ul>
               </div>
             </div>
@@ -274,11 +300,11 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title accordion-toggle">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo-<%= i %>">ご提案料金（概算）
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo-<?//= i ?>">ご提案料金（概算）
                 </a>
               </h4>
             </div>
-            <div id="collapseTwo-<%= i %>" class="panel-collapse collapse">
+            <div id="collapseTwo-<?//= i ?>" class="panel-collapse collapse">
               <div class="panel-body">
                 <table class="table table-bordered proposal_price_table">
                   <thead>
@@ -290,36 +316,36 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td><%= number_to_currency e.basic_price %></td>
+                      <td><?//= number_to_currency e.basic_price ?></td>
                       <td>
-                        <% if e.unit_prices.size == 1 %>
-                          <%= number_to_currency e.unit_prices.first.unit_price %>
-                        <% else %>
+                        <?// if e.unit_prices.size == 1 ?>
+                          <?//= number_to_currency e.unit_prices.first.unit_price ?>
+                        <?// else ?>
                           <ul>
-                            <% e.unit_prices.each do |u| %>
+                            <?// e.unit_prices.each do |u| ?>
                             <li>
-                              <b><%= u.range_text %>:</b> <%= number_to_currency u.unit_price %>
+                              <b><?//= u.range_text ?>:</b> <?//= number_to_currency u.unit_price ?>
                             </li>
-                            <% end %>
+                            <?// end ?>
                           </ul>
-                        <% end %>
+                        <?// end ?>
                       </td>
-                      <td><%= number_to_currency e.fuel_adjustment_cost %></td>
+                      <td><?//= number_to_currency e.fuel_adjustment_cost ?></td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
-          <% else %>
+          <?// else ?>
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title accordion-toggle">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo-<%= i %>">ご提案料金（概算）
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo-<?//= i ?>">ご提案料金（概算）
                 </a>
               </h4>
             </div>
-            <div id="collapseTwo-<%= i %>" class="panel-collapse collapse">
+            <div id="collapseTwo-<?//= i ?>" class="panel-collapse collapse">
               <div class="panel-body">
                 <table class="table table-bordered proposal_price_table">
                   <thead>
@@ -340,78 +366,74 @@
               </div>
             </div>
           </div>
-          <% end %>
+          <?// end ?>
           <div class="bt_company_detail">
-            <%= link_to lpgas_contact_estimate_path(@lpgas_contact, e, token: @lpgas_contact.token, pin: params[:pin]), class: 'btn_detail' do %> 詳しく見る<%= image_tag 'estimate_presentation/ico_arrow.png', :class => 'ico_arrow' %><% end %>
+            <?//= link_to lpgas_contact_estimate_path($lpgas_contact, e, token: $lpgas_contact.token, pin: params[:pin]), class: 'btn_detail' do ?> 詳しく見る<?//= image_tag 'estimate_presentation/ico_arrow.png', :class => 'ico_arrow' ?><?// end ?>
           </div>
         </div>
       </div>
     </div>
 
     <div class="hidden_pc">
-      <div class="panel panel-default estimate <%= "has-price" if e.has_price? %>">
+      <div class="panel panel-default estimate <?//= "has-price" if e.has_price? ?>">
         <div class="panel-heading">
-          <h3><%= e.company.name %>
-            <% if e.verbal_ok? %>
+          <h3><?= $e->company->display_name ?>
+            <?// if e.verbal_ok? ?>
             <span class="label label_matching">連絡希望チェック済み</span>
-            <% end %></h3>
+            <?// end ?></h3>
 
             <dl class="invite_date">
               <dt>紹介日時:</dt>
-              <dd><%= format_datetime e.created_at %></dd>
+              <dd><?//= format_datetime e.created_at ?></dd>
             </dl>
           </div>
 
           <dl class="contacts_list_area">
             <dt>
-              <div class="checkbox-big">
-                <% if e.sent_estimate_to_user? %>
-                <%= check_box_tag :"estimate_ids[#{i}]", e.uuid, false, id: "estimate_ids_#{i}", class: 'form-control' %>
-                <% end %>
 
-                <label role="button" for="estimate_ids_<%= i %>"></label>
-              </div>
             </dt>
             <dd>
               <div class="info_l">
                 <div class="thumb">
-                  <%= image_tag e.company.lpgas_company_logo.try!(:url), class: "media-object" %>
+                  <?= MyView::image_tag($e->company->lpgas_company_logo, ["class" => "media-object"]); ?>
+                  <?//= image_tag e.company.lpgas_company_logo.try!(:url), class: "media-object" ?>
                 </div>
               </div>
 
               <div class="info_r">
                 <table class="table yearly_saving_price_table">
                   <tr>
-                    <th><%= image_tag "estimate_presentation/ico_fire.png", :class => 'ico_fire' %>年間節約費用</th>
+                    <th><?= MyView::image_tag("estimate_presentation/ico_fire.png", ["class" => "ico_fire"]); ?>年間節約費用</th>
                     <td>
-                      <% if e.has_price? %>
-                      <span><%= number_to_currency e.total_savings_in_year %></span>
-                      <% else %>
+                      <?// if e.has_price? ?>
+                      <span><?//= number_to_currency e.total_savings_in_year ?></span>
+                      <?// else ?>
                       <p class="privacy_price">料金非公開<br>（お問い合わせください）</p>
-                      <% end %>
+                      <?// end ?>
                     </td>
                   </tr>
                 </table>
 
-                <table class="table relation_price_table <%= "has-price" if e.has_price? %>">
+                <table class="table relation_price_table <?//= "has-price" if e.has_price? ?>">
                  <tr>
-                   <th><%= image_tag "estimate_presentation/ico_money.png", :class => 'ico_money' %>違約金<a href="#" data-toggle="tooltip" title="契約後、解約した場合、違約金が発生する期間・料金がない会社かどうかを表示しています。"><%= image_tag "estimate_presentation/ico_question.png", :class => 'ico_question' %></a></th>
-                   <td><%= e.company.master_company_features.map(&:name).include?("違約金なし") ? "なし" : "あり" %></td>
-                   <th><%= image_tag "estimate_presentation/ico_discount_tag.png", :class => 'ico_discount_tag' %>セット割<a href="#" data-toggle="tooltip" title="プロパンガスの契約の際に、セットで契約するとお得になるプランがある会社を表示しています。"><%= image_tag 'estimate_presentation/ico_question.png', :class => 'ico_question' %></a></th>
-                   <td><%= e.company.master_company_features.map(&:name).include?("セット割") ? "あり" : "なし" %></td>
+                   <th><?= MyView::image_tag("estimate_presentation/ico_money.png", ["class" => "ico_money"]); ?>違約金<a href="#" data-toggle="tooltip" title="契約後、解約した場合、違約金が発生する期間・料金がない会社かどうかを表示しています。"><?= MyView::image_tag("estimate_presentation/ico_question.png", ["class" => "ico_question"]); ?></a></th>
+                   <td><?//= e.company.master_company_features.map(&:name).include?("違約金なし") ? "なし" : "あり" ?></td>
+                   <th><?= MyView::image_tag("estimate_presentation/ico_discount_tag.png", ["class" => "ico_discount_tag"]); ?>セット割<a href="#" data-toggle="tooltip" title="プロパンガスの契約の際に、セットで契約するとお得になるプランがある会社を表示しています。"><?= MyView::image_tag("estimate_presentation/ico_question.png", ["class" => "ico_question"]); ?></a></th>
+                   <td><?//= e.company.master_company_features.map(&:name).include?("セット割") ? "あり" : "なし" ?></td>
                  </tr>
                </table>
              </div>
-             <% if e.has_price? %>
+             <?// if e.has_price? ?>
              <div class="info_area">
-              <div class="info_l" >
-                <h4 class="subttl">おすすめポイント</h4>
-                <ul class="recommend_point">
-                  <% e.company.company_service_features.each do |feat| %>
-                    <li><%= image_tag "estimate_presentation/ico_checkpoint.png", :class => 'ico_checkpoint' %><%= feat.title %></li>
-                  <% end %>
-                </ul>
-              </div>
+               <div class="info_l" >
+                 <h4 class="subttl">おすすめポイント</h4>
+                 <ul class="recommend_point">
+                   <?// e.company.company_service_features.each do |feat| ?>
+                     <li><?= MyView::image_tag("estimate_presentation/ico_checkpoint.png", ["class" => "ico_checkpoint"]); ?><?//= feat.title ?></li>
+                   <?// end ?>
+                 </ul>
+               </div>
+             </div>
 
               <div class="info_r">
                 <h4 class="subttl">ご提案料金（概算）</h4>
@@ -425,33 +447,34 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td><%= number_to_currency e.basic_price %></td>
+                      <td><?//= number_to_currency e.basic_price ?></td>
                       <td>
-                        <% if e.unit_prices.size == 1 %>
-                        　　<%= number_to_currency e.unit_prices.first.unit_price %>
-                        <% else %>
+                        <?// if e.unit_prices.size == 1 ?>
+                        　　<?//= number_to_currency e.unit_prices.first.unit_price ?>
+                        <?// else ?>
                         <ul>
-                          <% e.unit_prices.each do |u| %>
+                          <?// e.unit_prices.each do |u| ?>
                           <li>
-                            <b><%= u.range_text %>:</b> <%= number_to_currency u.unit_price %>
+                            <b><?//= u.range_text ?>:</b> <?//= number_to_currency u.unit_price ?>
                           </li>
-                          <% end %>
+                          <?// end ?>
                         </ul>
-                        <% end %>
+                        <?// end ?>
                       </td>
-                      <td><%= number_to_currency e.fuel_adjustment_cost %></td>
+                      <td><?//= number_to_currency e.fuel_adjustment_cost ?></td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-            <% else %>
+            <?// else ?>
+<!--
              <div class="info_area">
               <div class="info_l" >
                 <h4 class="subttl">おすすめポイント</h4>
                 <ul class="recommend_point">
-                  <% e.company.company_service_features.each do |feat| %>
-                    <li><%= image_tag "estimate_presentation/ico_checkpoint.png", :class => 'ico_checkpoint' %><%= feat.title %></li>
-                  <% end %>
+                  <?// e.company.company_service_features.each do |feat| ?>
+                    <li><?//= MyView::image_tag("estimate_presentation/ico_checkpoint.png", ["class" => "ico_checkpoint"]); ?><?//= feat.title ?></li>
+                  <?// end ?>
                 </ul>
               </div>
 
@@ -474,28 +497,37 @@
                   </tbody>
                 </table>
               </div>
-              <% end %>
+ -->
+              <?// end ?>
               <div class="bt_company_detail">
-                <%= link_to lpgas_contact_estimate_path(@lpgas_contact, e, token: @lpgas_contact.token, pin: params[:pin]), class: 'btn_detail' do %> 詳しく見る<%= image_tag 'estimate_presentation/ico_arrow.png', :class => 'ico_arrow' %><% end %>
+                <a<?= MyView::link_to("", ["class" => "btn_detail", ]); ?>>
+                <?//= link_to lpgas_contact_estimate_path($lpgas_contact, e, token: $lpgas_contact.token, pin: params[:pin]), class: 'btn_detail' do ?>
+                  詳しく見る<?= MyView::image_tag("estimate_presentation/ico_arrow.png", ["class" => "ico_arrow"]); ?>
+                <?// end ?>
+                </a>
               </div>
               </div>
             </dd>
           </dl>
         </div>
       </div>
-      <% end %>
 
-        <% if @lpgas_contact.estimates.select(&:sent_estimate_to_user?).size > 0 %>
+
+
+      <?$count++; ?>
+      <? } ?>
+
+        <?// if $lpgas_contact.estimates.select(&:sent_estimate_to_user?).size > 0 ?>
         <div class="text-center estimate_btn_area_bt">
           <div class="hidden_pc">
-            <%= submit_tag 'チェックを入れた会社からの連絡を希望する', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching', 'click', 'submit_btn_bottom', {'nonInteraction': 1});" %>
+            <?//= submit_tag 'チェックを入れた会社からの連絡を希望する', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching', 'click', 'submit_btn_bottom', {'nonInteraction': 1});" ?>
           </div>
           <div class="hidden_sp">
-            <%= submit_tag 'チェック済会社の連絡希望', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching', 'click', 'submit_btn_bottom_sp', {'nonInteraction': 1});"%>
+            <?//= submit_tag 'チェック済会社の連絡希望', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching', 'click', 'submit_btn_bottom_sp', {'nonInteraction': 1});"?>
           </div>
         </div>
-        <% end %>
-        <% end %>
+        <?// end ?>
+        <?// end ?>
 
       <p class="resource_info_txt">お客様専用に開示する情報も含まれますので、内容やURLの第三者への提供・転送は禁止とさせていただきます。</p>
 
@@ -515,7 +547,7 @@
 
       <div class="hidden_pc">
         <div class="price_increasing_info_box">
-          <h2 class="text-center"><%= image_tag "estimate_presentation/ico_moneycost.png", :class => 'ico_moneycost' %>エネピ紹介会社は、適正な価格でのガス供給を約束します</h2>
+          <h2 class="text-center"><?//= image_tag "estimate_presentation/ico_moneycost.png", :class => 'ico_moneycost' ?>エネピ紹介会社は、適正な価格でのガス供給を約束します</h2>
           <h3>世の中には料金を不当に上げる悪質な業者がいます</h3>
           <p>プロパンガスの原料は石油で輸入価格が大きく上がるとガス会社は大きく打撃を受けるので、それを保護するために「原油価格に基づく料金の値上げ」が法律で認められております。しかしその制度を口実として、「輸入価格とは関わりない不当な値上げ」をする・「輸入価格が上下した際、下がった場合はそのまま高止まり」をする悪質な業者があり、「プロパンガスは高い」「徐々に値上げする」というイメージがついてしまっています。</p>
 
@@ -558,7 +590,7 @@
           <div class="case-contents">
             <div class="box">
               <h3>注文住宅と建売住宅で<br>異なる決め方</h3>
-              <p class="clear"">新築の注文住宅の場合は、着工前の段階でガス会社を決めなければいけない場合がほとんどです。また建売住宅では既に決まったガス会社の工事が終わっている場合もあります。いつ頃までにガス会社を決めないといけないのか把握しましょう。</p>
+              <p class="clear">新築の注文住宅の場合は、着工前の段階でガス会社を決めなければいけない場合がほとんどです。また建売住宅では既に決まったガス会社の工事が終わっている場合もあります。いつ頃までにガス会社を決めないといけないのか把握しましょう。</p>
             </div>
             <div class="box">
               <h3>配管や設備の<br>支払い方をチェック</h3>
@@ -628,107 +660,186 @@
     <div class="container faq section_second">
       <div class="row">
         <h2 class="header">よくあるご質問</h2>
-          <div class="faq" id="accordion" role="tablist" aria-multiselectable="true">
-            <dl>
-              <% [
-                [
-                  "LPガスは、電気代や都市ガスのような公共料金ではないの？",
-                  "公共料金ではありません。",
-                  [
-                    "電気料金や都市ガス料金は、いわゆる公共料金という位置づけになるので、契約会社によって極端に料金が高くなったり安くなったりはせず、料金が値上げする場合もちゃんと事前に告知され、使用単価も明確に表記されています。",
-                    "一方LPガスの料金は、ガス会社によって、基本料金も使用する単価もすべて自由に決められるので、地域や業者によって、料金に開きがあり、安い単価と比較すると、3倍以上の料金になる場合もあります。"
-                  ]
-                ],
-                [
-                  "うちのガス料金って高いと思うけど、相場はいくらくらいなの？",
-                  "地域や使用量によって異なります。",
-                  [
-                    "ガス料金には、基本料金＋従量料金（使った分だけ払う料金）で構成されていますが、基本料金も従量料金も業者によってかなり開きがあります。全国平均で見ると基本料金は一戸建て住宅の場合1,600～1,800円前後で、従量単価は300～500円前後になっていて、これが集合住宅の場合は、基本料金、従量料金共に１割程度高くなります。",
-                    "配送コストが安い関東方面の料金は平均値よりも安めで、逆に配送コストがかかる北海道・東北・九州などは高めになっている傾向があります。基本料金や従量料金の単価は、料金表には記載していない業者が実際はかなり多いので、はっきり内訳がわからない場合は、まずはenepiお客様サポートにお問い合わせください。",
-                  ]
-                ],
-                [
-                  "他の業者さんに変えると料金は安くなるの？",
-                  "安くなる可能性が高いです。",
-                  [
-                    "もともとＬＰガス料金は自由化されていて、適正価格を知らずに高い料金を払っていたり、気づかないうちに値上げされていたりするケースは非常に多くあり、それが業者を変えることで適正価格よりもさらに安く契約する事が出来ます。"
-                  ]
-                ],
-                [
-                  "今の業者さんに価格交渉して安くしてもらってはダメなの？",
-                  "信頼できるガス会社かどうか、見極めが必要です。",
-                  [
-                    "価格交渉すれば、業者さんによっては安くしてくれるところはありますが、業者さんの料金に対する考え方や、他のお客さんへの公平性を考えると、あまり好んでは値下げには応じてくれないケースが多くあります。一次出来に料金が値下げされたとしても、途中から様々な理由によって値上げされる可能性は高く、はじめから長期的に安い料金で提供してくれる業者さんとの契約の方がお得です。"
-                  ]
-                ],
-                [
-                  "集合住宅に住んでいる場合も簡単に変更できるの？",
-                  "大家さんの了承が必要です。",
-                  [
-                    "アパートやマンションなどの集合住宅の場合は、大家さんがまとめて業者さんと契約している場合がほとんどなので、まずは大家さんに相談してみることが必要です。直接個人が安い業者さんとの契約は出来なくても、大家さんに安い業者さんと契約するように勧めてみて、うまく安い業者さんと大家さんが契約してくれれば、自分の所のガス料金が安くなることも可能です。"
-                  ],
-                ],
-                [
-                  "ガス会社を変更すると設備の変更などは必要なの？",
-                  "ガスボンベとメーターのみ変更します。",
-                  [
-                    "建物の外にあるガスボンベと、使用量を確認するメーターの差し替えの作業が必要になります。ガス給湯器やガスコンロを使用している場合は、今使っている物を継続してそのまま使うことが出来るので、長時間の作業や大がかりの工事などは不要です。差し替えの工事の時間もおよそ30分程度なので、その間に契約書の記載をしていると、すべての手続きはそれだけで完了します。"
-                  ]
-                ],
-                [
-                  "都市ガスは切替することができるの？",
-                  "申し訳ございません。現時点ではできません。",
-                  [
-                    "LPガス（プロパンガス）は既に小売自由化されていますが、都市ガスは2017年4月より小売全面自由化される予定です。enepiでは、そのタイミングで都市ガスの切替サービスを開始する予定ですので、ご期待ください。"
-                  ]
-                ]
-              ].each.with_index do |qa, idx| %>
-                <dt id="heading-<%= idx %>"  role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-<%= idx %>" aria-expanded="true" aria-controls="collapse-<%= idx %>">
+        <div class="faq" id="accordion" role="tablist" aria-multiselectable="true">
+          <dl>
+<dt id="heading-0"  role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-0" aria-expanded="true" aria-controls="collapse-0">
                   <h3>
                     <a class="q">
-                      <%= qa[0] %>
+                      LPガスは、電気代や都市ガスのような公共料金ではないの？
                     </a>
                   </h3>
                 </dt>
-                <dd id="collapse-<%= idx %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-<%= idx %>">
-                    <h4 class="a"><%= qa[1] %></h4>
-                    <% qa[2].each do |p| %>
-                      <p><%= p %></p>
-                    <% end %>
+                <dd id="collapse-0" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-0">
+                    <h4 class="a">公共料金ではありません。</h4>
+                      <p>電気料金や都市ガス料金は、いわゆる公共料金という位置づけになるので、契約会社によって極端に料金が高くなったり安くなったりはせず、料金が値上げする場合もちゃんと事前に告知され、使用単価も明確に表記されています。</p>
+                      <p>一方LPガスの料金は、ガス会社によって、基本料金も使用する単価もすべて自由に決められるので、地域や業者によって、料金に開きがあり、安い単価と比較すると、3倍以上の料金になる場合もあります。</p>
                 </dd>
-              <% end %>
-              </dl>
-            </div>
-          </div>
+                <dt id="heading-1"  role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
+                  <h3>
+                    <a class="q">
+                      うちのガス料金って高いと思うけど、相場はいくらくらいなの？
+                    </a>
+                  </h3>
+                </dt>
+                <dd id="collapse-1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-1">
+                    <h4 class="a">地域や使用量によって異なります。</h4>
+                      <p>ガス料金には、基本料金＋従量料金（使った分だけ払う料金）で構成されていますが、基本料金も従量料金も業者によってかなり開きがあります。全国平均で見ると基本料金は一戸建て住宅の場合1,600～1,800円前後で、従量単価は300～500円前後になっていて、これが集合住宅の場合は、基本料金、従量料金共に１割程度高くなります。</p>
+                      <p>配送コストが安い関東方面の料金は平均値よりも安めで、逆に配送コストがかかる北海道・東北・九州などは高めになっている傾向があります。基本料金や従量料金の単価は、料金表には記載していない業者が実際はかなり多いので、はっきり内訳がわからない場合は、まずはenepiお客様サポートにお問い合わせください。</p>
+                </dd>
+                <dt id="heading-2"  role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-2" aria-expanded="true" aria-controls="collapse-2">
+                  <h3>
+                    <a class="q">
+                      他の業者さんに変えると料金は安くなるの？
+                    </a>
+                  </h3>
+                </dt>
+                <dd id="collapse-2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-2">
+                    <h4 class="a">安くなる可能性が高いです。</h4>
+                      <p>もともとＬＰガス料金は自由化されていて、適正価格を知らずに高い料金を払っていたり、気づかないうちに値上げされていたりするケースは非常に多くあり、それが業者を変えることで適正価格よりもさらに安く契約する事が出来ます。</p>
+                </dd>
+                <dt id="heading-3"  role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-3" aria-expanded="true" aria-controls="collapse-3">
+                  <h3>
+                    <a class="q">
+                      今の業者さんに価格交渉して安くしてもらってはダメなの？
+                    </a>
+                  </h3>
+                </dt>
+                <dd id="collapse-3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-3">
+                    <h4 class="a">信頼できるガス会社かどうか、見極めが必要です。</h4>
+                      <p>価格交渉すれば、業者さんによっては安くしてくれるところはありますが、業者さんの料金に対する考え方や、他のお客さんへの公平性を考えると、あまり好んでは値下げには応じてくれないケースが多くあります。一次出来に料金が値下げされたとしても、途中から様々な理由によって値上げされる可能性は高く、はじめから長期的に安い料金で提供してくれる業者さんとの契約の方がお得です。</p>
+                </dd>
+                <dt id="heading-4"  role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-4" aria-expanded="true" aria-controls="collapse-4">
+                  <h3>
+                    <a class="q">
+                      集合住宅に住んでいる場合も簡単に変更できるの？
+                    </a>
+                  </h3>
+                </dt>
+                <dd id="collapse-4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-4">
+                    <h4 class="a">大家さんの了承が必要です。</h4>
+                      <p>アパートやマンションなどの集合住宅の場合は、大家さんがまとめて業者さんと契約している場合がほとんどなので、まずは大家さんに相談してみることが必要です。直接個人が安い業者さんとの契約は出来なくても、大家さんに安い業者さんと契約するように勧めてみて、うまく安い業者さんと大家さんが契約してくれれば、自分の所のガス料金が安くなることも可能です。</p>
+                </dd>
+                <dt id="heading-5"  role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-5" aria-expanded="true" aria-controls="collapse-5">
+                  <h3>
+                    <a class="q">
+                      ガス会社を変更すると設備の変更などは必要なの？
+                    </a>
+                  </h3>
+                </dt>
+                <dd id="collapse-5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-5">
+                    <h4 class="a">ガスボンベとメーターのみ変更します。</h4>
+                      <p>建物の外にあるガスボンベと、使用量を確認するメーターの差し替えの作業が必要になります。ガス給湯器やガスコンロを使用している場合は、今使っている物を継続してそのまま使うことが出来るので、長時間の作業や大がかりの工事などは不要です。差し替えの工事の時間もおよそ30分程度なので、その間に契約書の記載をしていると、すべての手続きはそれだけで完了します。</p>
+                </dd>
+                <dt id="heading-6"  role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-6" aria-expanded="true" aria-controls="collapse-6">
+                  <h3>
+                    <a class="q">
+                      都市ガスは切替することができるの？
+                    </a>
+                  </h3>
+                </dt>
+                <dd id="collapse-6" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-6">
+                    <h4 class="a">申し訳ございません。現時点ではできません。</h4>
+                      <p>LPガス（プロパンガス）は既に小売自由化されていますが、都市ガスは2017年4月より小売全面自由化される予定です。enepiでは、そのタイミングで都市ガスの切替サービスを開始する予定ですので、ご期待ください。</p>
+                </dd>
+              <?// [
+//                 [
+//                   "LPガスは、電気代や都市ガスのような公共料金ではないの？",
+//                   "公共料金ではありません。",
+//                   [
+//                     "電気料金や都市ガス料金は、いわゆる公共料金という位置づけになるので、契約会社によって極端に料金が高くなったり安くなったりはせず、料金が値上げする場合もちゃんと事前に告知され、使用単価も明確に表記されています。",
+//                     "一方LPガスの料金は、ガス会社によって、基本料金も使用する単価もすべて自由に決められるので、地域や業者によって、料金に開きがあり、安い単価と比較すると、3倍以上の料金になる場合もあります。"
+//                   ]
+//                 ],
+//                 [
+//                   "うちのガス料金って高いと思うけど、相場はいくらくらいなの？",
+//                   "地域や使用量によって異なります。",
+//                   [
+//                     "ガス料金には、基本料金＋従量料金（使った分だけ払う料金）で構成されていますが、基本料金も従量料金も業者によってかなり開きがあります。全国平均で見ると基本料金は一戸建て住宅の場合1,600～1,800円前後で、従量単価は300～500円前後になっていて、これが集合住宅の場合は、基本料金、従量料金共に１割程度高くなります。",
+//                     "配送コストが安い関東方面の料金は平均値よりも安めで、逆に配送コストがかかる北海道・東北・九州などは高めになっている傾向があります。基本料金や従量料金の単価は、料金表には記載していない業者が実際はかなり多いので、はっきり内訳がわからない場合は、まずはenepiお客様サポートにお問い合わせください。",
+//                   ]
+//                 ],
+//                 [
+//                   "他の業者さんに変えると料金は安くなるの？",
+//                   "安くなる可能性が高いです。",
+//                   [
+//                     "もともとＬＰガス料金は自由化されていて、適正価格を知らずに高い料金を払っていたり、気づかないうちに値上げされていたりするケースは非常に多くあり、それが業者を変えることで適正価格よりもさらに安く契約する事が出来ます。"
+//                   ]
+//                 ],
+//                 [
+//                   "今の業者さんに価格交渉して安くしてもらってはダメなの？",
+//                   "信頼できるガス会社かどうか、見極めが必要です。",
+//                   [
+//                     "価格交渉すれば、業者さんによっては安くしてくれるところはありますが、業者さんの料金に対する考え方や、他のお客さんへの公平性を考えると、あまり好んでは値下げには応じてくれないケースが多くあります。一次出来に料金が値下げされたとしても、途中から様々な理由によって値上げされる可能性は高く、はじめから長期的に安い料金で提供してくれる業者さんとの契約の方がお得です。"
+//                   ]
+//                 ],
+//                 [
+//                   "集合住宅に住んでいる場合も簡単に変更できるの？",
+//                   "大家さんの了承が必要です。",
+//                   [
+//                     "アパートやマンションなどの集合住宅の場合は、大家さんがまとめて業者さんと契約している場合がほとんどなので、まずは大家さんに相談してみることが必要です。直接個人が安い業者さんとの契約は出来なくても、大家さんに安い業者さんと契約するように勧めてみて、うまく安い業者さんと大家さんが契約してくれれば、自分の所のガス料金が安くなることも可能です。"
+//                   ],
+//                 ],
+//                 [
+//                   "ガス会社を変更すると設備の変更などは必要なの？",
+//                   "ガスボンベとメーターのみ変更します。",
+//                   [
+//                     "建物の外にあるガスボンベと、使用量を確認するメーターの差し替えの作業が必要になります。ガス給湯器やガスコンロを使用している場合は、今使っている物を継続してそのまま使うことが出来るので、長時間の作業や大がかりの工事などは不要です。差し替えの工事の時間もおよそ30分程度なので、その間に契約書の記載をしていると、すべての手続きはそれだけで完了します。"
+//                   ]
+//                 ],
+//                 [
+//                   "都市ガスは切替することができるの？",
+//                   "申し訳ございません。現時点ではできません。",
+//                   [
+//                     "LPガス（プロパンガス）は既に小売自由化されていますが、都市ガスは2017年4月より小売全面自由化される予定です。enepiでは、そのタイミングで都市ガスの切替サービスを開始する予定ですので、ご期待ください。"
+//                   ]
+//                 ]
+//               ].each.with_index do |qa, idx| ?>
+                <dt id="heading-<?//= idx ?>"  role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-<?//= idx ?>" aria-expanded="true" aria-controls="collapse-<?//= idx ?>">
+                  <h3>
+                    <a class="q">
+                      <?//= qa[0] ?>
+                    </a>
+                  </h3>
+                </dt>
+                <dd id="collapse-<?//= idx ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-<?//= idx ?>">
+                    <h4 class="a"><?//= qa[1] ?></h4>
+                    <?// qa[2].each do |p| ?>
+                      <p><?//= p ?></p>
+                    <?// end ?>
+                </dd>
+              <?// end ?>
+          </dl>
         </div>
       </div>
+    </div>
+    </div>
 
       <div class="highlighted section_second steps">
-        <%= render "shared/estimate_flow" %>
+        <?//= render "shared/estimate_flow" ?>
       </div>
 
-      <% if conversion_id  %>
-      <%# 見積り完了時 %>
-      <% if @contact.sent_estimate_req? %>
-      <% if @contact.sent_auto_estimate_req? %>
-      <%= content_for :tail do %>
-      <%= render "cv_tags", contact: @contact, cv_point: :cv_point_done_estimate %>
+      <?// if conversion_id  ?>
+      <?//# 見積り完了時 ?>
+      <?// if $contact.sent_estimate_req? ?>
+      <?// if $contact.sent_auto_estimate_req? ?>
+      <?//= content_for :tail do ?>
+      <?//= render "cv_tags", contact: $contact, cv_point: :cv_point_done_estimate ?>
 <script src="https://ca.iacc.tokyo/js/ca.js"></script>
 <script>
-cacv('見積もり完了(自動見積もり)', {ch:'63912289', link:'<%= @contact.id %>', tel:'<%= @contact.tel %>', name:'<%= @contact.name %>', mail:'<%= @contact.email %>', zip:'<%= @contact.zip_code %>', address:'<%= @contact.address %>'});
+cacv('見積もり完了(自動見積もり)', {ch:'63912289', link:'<?//= $contact.id ?>', tel:'<?//= $contact.tel ?>', name:'<?//= $contact.name ?>', mail:'<?//= $contact.email ?>', zip:'<?//= $contact.zip_code ?>', address:'<?//= $contact.address ?>'});
 </script>
-      <% end %>
-      <% end %>
-      <% end %>
-      <%# 送客時 %>
-      <% if @contact.verbal_ok? %>
-      <%= content_for :tail do %>
-      <%= render "cv_tags", contact: @contact, cv_point: :cv_point_done_verbal_ok %>
+      <?// end ?>
+      <?// end ?>
+      <?// end ?>
+      <?//# 送客時 ?>
+      <?// if $contact.verbal_ok? ?>
+      <?//= content_for :tail do ?>
+      <?//= render "cv_tags", contact: $contact, cv_point: :cv_point_done_verbal_ok ?>
 <script src="https://ca.iacc.tokyo/js/ca.js"></script>
 <script>
-cacv('送客完了！', {link:'<%= @contact.id %>', tel:'<%= @contact.tel %>', name:'<%= @contact.name %>', mail:'<%= @contact.email %>', zip:'<%= @contact.zip_code %>', address:'<%= @contact.address %>'});
+cacv('送客完了！', {link:'<?//= $contact.id ?>', tel:'<?//= $contact.tel ?>', name:'<?//= $contact.name ?>', mail:'<?//= $contact.email ?>', zip:'<?//= $contact.zip_code ?>', address:'<?//= $contact.address ?>'});
 </script>
-      <% end %>
-      <% end %>
-      <% end %>
-      <%= render "shared/contact_parts" %>
+      <?// end ?>
+      <?// end ?>
+      <?// end ?>
+      <?//= render "shared/contact_parts" ?>

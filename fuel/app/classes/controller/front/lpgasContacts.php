@@ -1,5 +1,6 @@
 <?php
 
+use JpPrefecture\JpPrefecture;
 use \Helper\Tracking;
 
 /**
@@ -111,7 +112,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
             if (\Input::post('simple_simulation') == true)
                 $contact->body = "「世帯人数：{$contact->house_hold}　シミュレーションにより使用量：{$contact->gas_used_amount}m3で推定入力」";
-            
+
             \DB::start_transaction();
             try
             {
@@ -231,11 +232,14 @@ class Controller_Front_LpgasContacts extends Controller_Front
             ['name' => 'puka', 'content' => 'suka'],
         ];
 
+        $header_decision = 'done';
+
         $this->template->title = 'DONE';
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/lpgasContacts/done', [
             'contact' => $contact
         ]);
+        $this->template->header_decision = $header_decision;
     }
 
     /**
@@ -246,10 +250,36 @@ class Controller_Front_LpgasContacts extends Controller_Front
      */
     public function get_sms_confirm($contact_id)
     {
+//         def show
+//         @lpgas_contact = ::Lpgas::Contact.find(params.require(:id))
+//         @contact = @lpgas_contact
+
+//         ::Lpgas::EstimateUserPageView.create(
+//             authorized: @contact.token == params[:token],
+//             terminal: terminal_type_name,
+//             referrer: referrer,
+//             session_id: session_id,
+//             ip_address: remote_ip,
+//             user_agent: user_agent,
+//             contact_id: params[:id]
+//             )
+//             if params[:pin] == @contact.pin && !AdminSession.new(session: session, params: params).logged_in?
+//             @contact.update(is_seen: 2)
+//             end
+
+//             return render_404 if @contact.token != params[:token]
+
+//             e = @contact.estimates.detect { |e| e.contracted? }
+//             flash[:notice] = "#{e.company.name}と成約済みです" if e
+
+//             render layout: 'estimate_presentation'
+//         end
+
+
+
         $this->template = \View::forge('front/template_contact');
 
         $contact = \Model_Contact::find($contact_id);
-
         if (!$contact)
         {
             \Log::warning("conversion id {$contact_id} not found");
@@ -264,11 +294,20 @@ class Controller_Front_LpgasContacts extends Controller_Front
             ['name' => 'puka', 'content' => 'suka'],
         ];
 
+        $header_decision = 'sms_confirm';
+
+        $prefecture_KanjiAndCode   = JpPrefecture::allKanjiAndCode();
+        $prefecture_kanji          = $this->prefecture_kanji(  $prefecture_KanjiAndCode,
+                                                               $contact['prefecture_code']);
+
         $this->template->title = 'ENTER SMS CODE';
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/lpgasContacts/sms_confirm', [
-            'contact' => $contact
+            'contact' => $contact,
+            'prefecture_kanji' => $prefecture_kanji,
         ]);
+        $this->template->header_decision = $header_decision;
+
     }
 
     private function calculateGasUsage(&$contact)
@@ -320,5 +359,17 @@ class Controller_Front_LpgasContacts extends Controller_Front
             'breadcrumb' => $breadcrumb,
         ]);
 
+    }
+
+
+    private function prefecture_kanji($prefecture_KanjiAndCode, $prefecture_code){
+        $prefecture_kanji = array();
+
+        foreach ($prefecture_KanjiAndCode as $key => $value){
+            if($key == $prefecture_code){
+                $prefecture_kanji = array($key => $value);
+            }
+        }
+        return $prefecture_kanji;
     }
 }

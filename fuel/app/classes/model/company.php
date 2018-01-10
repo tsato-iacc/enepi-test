@@ -46,7 +46,11 @@ class Model_Company extends \Orm\Model
     ];
 
     protected static $_belongs_to = [
-        'partner_company',
+        'estimates'  => [
+            'model_to' => 'Model_Estimate',
+            'key_from' => 'partner_company_id',
+            'key_to' => 'company_id',
+        ],
     ];
 
     protected static $_has_many = [
@@ -56,7 +60,6 @@ class Model_Company extends \Orm\Model
         'geocodes' => [
             'model_to' => 'Model_Company_Geocode',
         ],
-        'estimates',
         'offices' => [
             'model_to' => 'Model_Company_Office',
         ],

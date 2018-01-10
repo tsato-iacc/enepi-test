@@ -127,7 +127,11 @@ class Model_Contact extends \Orm\Model_Soft
     ];
 
     protected static $_has_many = [
-        'estimates',
+        'estimate' => [
+            'model_to' => 'Model_Estimate',
+            'key_from' => 'id',
+            'key_to' => 'contact_id',
+        ],
     ];
 
     protected static $_has_one = [
@@ -202,7 +206,7 @@ class Model_Contact extends \Orm\Model_Soft
                     $val->add_field('lpgas_contact.gas_meter_checked_month', 'gas_meter_checked_month', 'numeric_between[1,12]');
                     $val->add_field('lpgas_contact.gas_latest_billing_amount', 'gas_latest_billing_amount', 'valid_string[numeric]');
                 }
-                
+
                 if (\Input::post('lpgas_contact.estimate_kind') == 'change_contract')
                 {
                     $val->add_field('lpgas_contact.gas_used_amount', 'gas_used_amount', 'required|match_pattern[/^[0-9]*[.]?[0-9]+$/]');
@@ -278,13 +282,13 @@ class Model_Contact extends \Orm\Model_Soft
                 $val->add_field('lpgas_contact.number_of_active_rooms', 'number_of_active_rooms', 'valid_string[numeric]');
                 $val->add_field('lpgas_contact.estate_management_company_name', 'estate_management_company_name', 'max_length[50]');
                 break;
-            
+
             default:
                 return null;
 
                 break;
         }
-        
+
         return $val;
     }
 
@@ -299,7 +303,7 @@ class Model_Contact extends \Orm\Model_Soft
         $result = false;
 
         $this->updateGeocode();
-        
+
         if ($this->is_new())
         {
             $this->token = \Str::random('hexdec', 32);
@@ -317,7 +321,7 @@ class Model_Contact extends \Orm\Model_Soft
             {
                 $this->notifyAdminNewCustomer();
                 $this->notifyNewCustomer();
-                
+
                 if ($has_estimates)
                     $this->sendSmsToNewCustomer();
             }
@@ -541,7 +545,7 @@ class Model_Contact extends \Orm\Model_Soft
             $this->estimates = $estimates;
             $this->sent_auto_estimate_req = true;
             $this->status = \Config::get('models.contact.status.sent_estimate_req');
-            
+
             return true;
         }
         elseif ($estimates && !$has_savings)
@@ -606,7 +610,7 @@ class Model_Contact extends \Orm\Model_Soft
             $this->_reasons[] = \Config::get('enepi.contact.reasons.unit_price_less');
             return false;
         }
-        
+
         // Check PR tracking
         if (!($ignore_pr_tracking || $this->tracking === null || $this->tracking->auto_sendable))
         {
