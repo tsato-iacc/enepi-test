@@ -28,12 +28,6 @@
     })();
 </script>
 
-<?
-//    foreach ($contact->estimate as $e) {
-//      print var_dump($e->company);
-//    }
-?>
-
     <?// _est = $lpgas_contact.sent_estimates.to_a ?>
     <?// est = (_est.select(&:has_price?) + _est.reject(&:has_price?)) ?>
 
@@ -218,10 +212,6 @@
       <h2 class="ttl_matching_main">ご希望にマッチした会社一覧</h2>
     </div>
 
-
-
-
-
     <?$count = 0; ?>
     <? foreach ($contact->estimate as $e) { ?>
     <div class="hidden_sp">
@@ -282,11 +272,11 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title accordion-toggle">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne-<?//= i ?>">おすすめポイント
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne-<?= $count ?>">おすすめポイント
                 </a>
               </h4>
             </div>
-            <div id="collapseOne-<?//= i ?>" class="panel-collapse collapse">
+            <div id="collapseOne-<?= $count ?>" class="panel-collapse collapse">
               <div class="panel-body">
                 <ul class="recommend_point">
                   <?// e.company.company_service_features.each do |feat| ?>
@@ -300,11 +290,11 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title accordion-toggle">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo-<?//= i ?>">ご提案料金（概算）
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo-<?= $count ?>">ご提案料金（概算）
                 </a>
               </h4>
             </div>
-            <div id="collapseTwo-<?//= i ?>" class="panel-collapse collapse">
+            <div id="collapseTwo-<?= $count ?>" class="panel-collapse collapse">
               <div class="panel-body">
                 <table class="table table-bordered proposal_price_table">
                   <thead>
@@ -341,11 +331,11 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title accordion-toggle">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo-<?//= i ?>">ご提案料金（概算）
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo-<?= $count ?>">ご提案料金（概算）
                 </a>
               </h4>
             </div>
-            <div id="collapseTwo-<?//= i ?>" class="panel-collapse collapse">
+            <div id="collapseTwo-<?= $count ?>" class="panel-collapse collapse">
               <div class="panel-body">
                 <table class="table table-bordered proposal_price_table">
                   <thead>
@@ -368,7 +358,9 @@
           </div>
           <?// end ?>
           <div class="bt_company_detail">
-            <?//= link_to lpgas_contact_estimate_path($lpgas_contact, e, token: $lpgas_contact.token, pin: params[:pin]), class: 'btn_detail' do ?> 詳しく見る<?//= image_tag 'estimate_presentation/ico_arrow.png', :class => 'ico_arrow' ?><?// end ?>
+            <a<?= MyView::link_to("/lpgas/contacts/".$contact->id."/estimates/"."$e->uuid"."?pin="."$contact->pin"."&amp;token="."$contact->token", ["class" => "btn_detail", ]); ?>>
+              詳しく見る<?= MyView::image_tag("estimate_presentation/ico_arrow.png", ["class" => "ico_arrow"]); ?>
+            </a>
           </div>
         </div>
       </div>
@@ -390,7 +382,12 @@
 
           <dl class="contacts_list_area">
             <dt>
-
+              <div class="checkbox-big">
+                <?// if e.sent_estimate_to_user? ?>
+                  <?=  MyView::checkbox_tag("estimate_ids[".$count."]", ["id" => "estimate_ids_".$count, "value" => $e->uuid, "class" => "form-control",]) ?>
+                <?//?end ?>
+                <label role="button" for="estimate_ids_<?= $count ?>"></label>
+              </div>
             </dt>
             <dd>
               <div class="info_l">
@@ -450,7 +447,7 @@
                       <td><?//= number_to_currency e.basic_price ?></td>
                       <td>
                         <?// if e.unit_prices.size == 1 ?>
-                        　　<?//= number_to_currency e.unit_prices.first.unit_price ?>
+                          <?//= number_to_currency e.unit_prices.first.unit_price ?>
                         <?// else ?>
                         <ul>
                           <?// e.unit_prices.each do |u| ?>
@@ -473,7 +470,7 @@
                 <h4 class="subttl">おすすめポイント</h4>
                 <ul class="recommend_point">
                   <?// e.company.company_service_features.each do |feat| ?>
-                    <li><?//= MyView::image_tag("estimate_presentation/ico_checkpoint.png", ["class" => "ico_checkpoint"]); ?><?//= feat.title ?></li>
+                    <li><?= MyView::image_tag("estimate_presentation/ico_checkpoint.png", ["class" => "ico_checkpoint"]); ?><?//= feat.title ?></li>
                   <?// end ?>
                 </ul>
               </div>
@@ -500,30 +497,24 @@
  -->
               <?// end ?>
               <div class="bt_company_detail">
-                <a<?= MyView::link_to("", ["class" => "btn_detail", ]); ?>>
-                <?//= link_to lpgas_contact_estimate_path($lpgas_contact, e, token: $lpgas_contact.token, pin: params[:pin]), class: 'btn_detail' do ?>
+                <a<?= MyView::link_to("/lpgas/contacts/".$contact->id."/estimates/"."$e->uuid"."?pin="."$contact->pin"."&amp;token="."$contact->token", ["class" => "btn_detail", ]); ?>>
                   詳しく見る<?= MyView::image_tag("estimate_presentation/ico_arrow.png", ["class" => "ico_arrow"]); ?>
-                <?// end ?>
                 </a>
-              </div>
               </div>
             </dd>
           </dl>
         </div>
       </div>
-
-
-
       <?$count++; ?>
       <? } ?>
 
         <?// if $lpgas_contact.estimates.select(&:sent_estimate_to_user?).size > 0 ?>
         <div class="text-center estimate_btn_area_bt">
           <div class="hidden_pc">
-            <?//= submit_tag 'チェックを入れた会社からの連絡を希望する', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching', 'click', 'submit_btn_bottom', {'nonInteraction': 1});" ?>
+            <?= MyView::submit_tag("commit", ["value" => "チェックを入れた会社からの連絡を希望する", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn_bottom', {'nonInteraction': 1});"]) ?>
           </div>
           <div class="hidden_sp">
-            <?//= submit_tag 'チェック済会社の連絡希望', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching', 'click', 'submit_btn_bottom_sp', {'nonInteraction': 1});"?>
+            <?= MyView::submit_tag("commit", ["value" => "チェック済会社の連絡希望", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn_bottom_sp', {'nonInteraction': 1});"]) ?>
           </div>
         </div>
         <?// end ?>
@@ -547,7 +538,7 @@
 
       <div class="hidden_pc">
         <div class="price_increasing_info_box">
-          <h2 class="text-center"><?//= image_tag "estimate_presentation/ico_moneycost.png", :class => 'ico_moneycost' ?>エネピ紹介会社は、適正な価格でのガス供給を約束します</h2>
+          <h2 class="text-center"><?= MyView::image_tag("estimate_presentation/ico_moneycost.png", ["class" => "ico_moneycost"]); ?>エネピ紹介会社は、適正な価格でのガス供給を約束します</h2>
           <h3>世の中には料金を不当に上げる悪質な業者がいます</h3>
           <p>プロパンガスの原料は石油で輸入価格が大きく上がるとガス会社は大きく打撃を受けるので、それを保護するために「原油価格に基づく料金の値上げ」が法律で認められております。しかしその制度を口実として、「輸入価格とは関わりない不当な値上げ」をする・「輸入価格が上下した際、下がった場合はそのまま高止まり」をする悪質な業者があり、「プロパンガスは高い」「徐々に値上げする」というイメージがついてしまっています。</p>
 
@@ -662,152 +653,76 @@
         <h2 class="header">よくあるご質問</h2>
         <div class="faq" id="accordion" role="tablist" aria-multiselectable="true">
           <dl>
-<dt id="heading-0"  role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-0" aria-expanded="true" aria-controls="collapse-0">
-                  <h3>
-                    <a class="q">
-                      LPガスは、電気代や都市ガスのような公共料金ではないの？
-                    </a>
-                  </h3>
-                </dt>
-                <dd id="collapse-0" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-0">
-                    <h4 class="a">公共料金ではありません。</h4>
-                      <p>電気料金や都市ガス料金は、いわゆる公共料金という位置づけになるので、契約会社によって極端に料金が高くなったり安くなったりはせず、料金が値上げする場合もちゃんと事前に告知され、使用単価も明確に表記されています。</p>
-                      <p>一方LPガスの料金は、ガス会社によって、基本料金も使用する単価もすべて自由に決められるので、地域や業者によって、料金に開きがあり、安い単価と比較すると、3倍以上の料金になる場合もあります。</p>
-                </dd>
-                <dt id="heading-1"  role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
-                  <h3>
-                    <a class="q">
-                      うちのガス料金って高いと思うけど、相場はいくらくらいなの？
-                    </a>
-                  </h3>
-                </dt>
-                <dd id="collapse-1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-1">
-                    <h4 class="a">地域や使用量によって異なります。</h4>
-                      <p>ガス料金には、基本料金＋従量料金（使った分だけ払う料金）で構成されていますが、基本料金も従量料金も業者によってかなり開きがあります。全国平均で見ると基本料金は一戸建て住宅の場合1,600～1,800円前後で、従量単価は300～500円前後になっていて、これが集合住宅の場合は、基本料金、従量料金共に１割程度高くなります。</p>
-                      <p>配送コストが安い関東方面の料金は平均値よりも安めで、逆に配送コストがかかる北海道・東北・九州などは高めになっている傾向があります。基本料金や従量料金の単価は、料金表には記載していない業者が実際はかなり多いので、はっきり内訳がわからない場合は、まずはenepiお客様サポートにお問い合わせください。</p>
-                </dd>
-                <dt id="heading-2"  role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-2" aria-expanded="true" aria-controls="collapse-2">
-                  <h3>
-                    <a class="q">
-                      他の業者さんに変えると料金は安くなるの？
-                    </a>
-                  </h3>
-                </dt>
-                <dd id="collapse-2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-2">
-                    <h4 class="a">安くなる可能性が高いです。</h4>
-                      <p>もともとＬＰガス料金は自由化されていて、適正価格を知らずに高い料金を払っていたり、気づかないうちに値上げされていたりするケースは非常に多くあり、それが業者を変えることで適正価格よりもさらに安く契約する事が出来ます。</p>
-                </dd>
-                <dt id="heading-3"  role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-3" aria-expanded="true" aria-controls="collapse-3">
-                  <h3>
-                    <a class="q">
-                      今の業者さんに価格交渉して安くしてもらってはダメなの？
-                    </a>
-                  </h3>
-                </dt>
-                <dd id="collapse-3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-3">
-                    <h4 class="a">信頼できるガス会社かどうか、見極めが必要です。</h4>
-                      <p>価格交渉すれば、業者さんによっては安くしてくれるところはありますが、業者さんの料金に対する考え方や、他のお客さんへの公平性を考えると、あまり好んでは値下げには応じてくれないケースが多くあります。一次出来に料金が値下げされたとしても、途中から様々な理由によって値上げされる可能性は高く、はじめから長期的に安い料金で提供してくれる業者さんとの契約の方がお得です。</p>
-                </dd>
-                <dt id="heading-4"  role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-4" aria-expanded="true" aria-controls="collapse-4">
-                  <h3>
-                    <a class="q">
-                      集合住宅に住んでいる場合も簡単に変更できるの？
-                    </a>
-                  </h3>
-                </dt>
-                <dd id="collapse-4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-4">
-                    <h4 class="a">大家さんの了承が必要です。</h4>
-                      <p>アパートやマンションなどの集合住宅の場合は、大家さんがまとめて業者さんと契約している場合がほとんどなので、まずは大家さんに相談してみることが必要です。直接個人が安い業者さんとの契約は出来なくても、大家さんに安い業者さんと契約するように勧めてみて、うまく安い業者さんと大家さんが契約してくれれば、自分の所のガス料金が安くなることも可能です。</p>
-                </dd>
-                <dt id="heading-5"  role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-5" aria-expanded="true" aria-controls="collapse-5">
-                  <h3>
-                    <a class="q">
-                      ガス会社を変更すると設備の変更などは必要なの？
-                    </a>
-                  </h3>
-                </dt>
-                <dd id="collapse-5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-5">
-                    <h4 class="a">ガスボンベとメーターのみ変更します。</h4>
-                      <p>建物の外にあるガスボンベと、使用量を確認するメーターの差し替えの作業が必要になります。ガス給湯器やガスコンロを使用している場合は、今使っている物を継続してそのまま使うことが出来るので、長時間の作業や大がかりの工事などは不要です。差し替えの工事の時間もおよそ30分程度なので、その間に契約書の記載をしていると、すべての手続きはそれだけで完了します。</p>
-                </dd>
-                <dt id="heading-6"  role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-6" aria-expanded="true" aria-controls="collapse-6">
-                  <h3>
-                    <a class="q">
-                      都市ガスは切替することができるの？
-                    </a>
-                  </h3>
-                </dt>
-                <dd id="collapse-6" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-6">
-                    <h4 class="a">申し訳ございません。現時点ではできません。</h4>
-                      <p>LPガス（プロパンガス）は既に小売自由化されていますが、都市ガスは2017年4月より小売全面自由化される予定です。enepiでは、そのタイミングで都市ガスの切替サービスを開始する予定ですので、ご期待ください。</p>
-                </dd>
-              <?// [
-//                 [
-//                   "LPガスは、電気代や都市ガスのような公共料金ではないの？",
-//                   "公共料金ではありません。",
-//                   [
-//                     "電気料金や都市ガス料金は、いわゆる公共料金という位置づけになるので、契約会社によって極端に料金が高くなったり安くなったりはせず、料金が値上げする場合もちゃんと事前に告知され、使用単価も明確に表記されています。",
-//                     "一方LPガスの料金は、ガス会社によって、基本料金も使用する単価もすべて自由に決められるので、地域や業者によって、料金に開きがあり、安い単価と比較すると、3倍以上の料金になる場合もあります。"
-//                   ]
-//                 ],
-//                 [
-//                   "うちのガス料金って高いと思うけど、相場はいくらくらいなの？",
-//                   "地域や使用量によって異なります。",
-//                   [
-//                     "ガス料金には、基本料金＋従量料金（使った分だけ払う料金）で構成されていますが、基本料金も従量料金も業者によってかなり開きがあります。全国平均で見ると基本料金は一戸建て住宅の場合1,600～1,800円前後で、従量単価は300～500円前後になっていて、これが集合住宅の場合は、基本料金、従量料金共に１割程度高くなります。",
-//                     "配送コストが安い関東方面の料金は平均値よりも安めで、逆に配送コストがかかる北海道・東北・九州などは高めになっている傾向があります。基本料金や従量料金の単価は、料金表には記載していない業者が実際はかなり多いので、はっきり内訳がわからない場合は、まずはenepiお客様サポートにお問い合わせください。",
-//                   ]
-//                 ],
-//                 [
-//                   "他の業者さんに変えると料金は安くなるの？",
-//                   "安くなる可能性が高いです。",
-//                   [
-//                     "もともとＬＰガス料金は自由化されていて、適正価格を知らずに高い料金を払っていたり、気づかないうちに値上げされていたりするケースは非常に多くあり、それが業者を変えることで適正価格よりもさらに安く契約する事が出来ます。"
-//                   ]
-//                 ],
-//                 [
-//                   "今の業者さんに価格交渉して安くしてもらってはダメなの？",
-//                   "信頼できるガス会社かどうか、見極めが必要です。",
-//                   [
-//                     "価格交渉すれば、業者さんによっては安くしてくれるところはありますが、業者さんの料金に対する考え方や、他のお客さんへの公平性を考えると、あまり好んでは値下げには応じてくれないケースが多くあります。一次出来に料金が値下げされたとしても、途中から様々な理由によって値上げされる可能性は高く、はじめから長期的に安い料金で提供してくれる業者さんとの契約の方がお得です。"
-//                   ]
-//                 ],
-//                 [
-//                   "集合住宅に住んでいる場合も簡単に変更できるの？",
-//                   "大家さんの了承が必要です。",
-//                   [
-//                     "アパートやマンションなどの集合住宅の場合は、大家さんがまとめて業者さんと契約している場合がほとんどなので、まずは大家さんに相談してみることが必要です。直接個人が安い業者さんとの契約は出来なくても、大家さんに安い業者さんと契約するように勧めてみて、うまく安い業者さんと大家さんが契約してくれれば、自分の所のガス料金が安くなることも可能です。"
-//                   ],
-//                 ],
-//                 [
-//                   "ガス会社を変更すると設備の変更などは必要なの？",
-//                   "ガスボンベとメーターのみ変更します。",
-//                   [
-//                     "建物の外にあるガスボンベと、使用量を確認するメーターの差し替えの作業が必要になります。ガス給湯器やガスコンロを使用している場合は、今使っている物を継続してそのまま使うことが出来るので、長時間の作業や大がかりの工事などは不要です。差し替えの工事の時間もおよそ30分程度なので、その間に契約書の記載をしていると、すべての手続きはそれだけで完了します。"
-//                   ]
-//                 ],
-//                 [
-//                   "都市ガスは切替することができるの？",
-//                   "申し訳ございません。現時点ではできません。",
-//                   [
-//                     "LPガス（プロパンガス）は既に小売自由化されていますが、都市ガスは2017年4月より小売全面自由化される予定です。enepiでは、そのタイミングで都市ガスの切替サービスを開始する予定ですので、ご期待ください。"
-//                   ]
-//                 ]
-//               ].each.with_index do |qa, idx| ?>
-                <dt id="heading-<?//= idx ?>"  role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-<?//= idx ?>" aria-expanded="true" aria-controls="collapse-<?//= idx ?>">
-                  <h3>
-                    <a class="q">
-                      <?//= qa[0] ?>
-                    </a>
-                  </h3>
-                </dt>
-                <dd id="collapse-<?//= idx ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-<?//= idx ?>">
-                    <h4 class="a"><?//= qa[1] ?></h4>
-                    <?// qa[2].each do |p| ?>
-                      <p><?//= p ?></p>
-                    <?// end ?>
-                </dd>
-              <?// end ?>
+            <?
+               $faq = [
+                   'faq0' => [
+                       'q'  => 'LPガスは、電気代や都市ガスのような公共料金ではないの？',
+                       'a'  => '公共料金ではありません。',
+                       'answer' => [
+                           'a1' => '電気料金や都市ガス料金は、いわゆる公共料金という位置づけになるので、契約会社によって極端に料金が高くなったり安くなったりはせず、料金が値上げする場合もちゃんと事前に告知され、使用単価も明確に表記されています。',
+                           'a2' => '一方LPガスの料金は、ガス会社によって、基本料金も使用する単価もすべて自由に決められるので、地域や業者によって、料金に開きがあり、安い単価と比較すると、3倍以上の料金になる場合もあります。',
+                       ],
+                   ],
+                   'faq1' => [
+                       'q'  => 'うちのガス料金って高いと思うけど、相場はいくらくらいなの？',
+                       'a'  => '地域や使用量によって異なります。',
+                       'answer' => [
+                           'a1' => 'ガス料金には、基本料金＋従量料金（使った分だけ払う料金）で構成されていますが、基本料金も従量料金も業者によってかなり開きがあります。全国平均で見ると基本料金は一戸建て住宅の場合1,600～1,800円前後で、従量単価は300～500円前後になっていて、これが集合住宅の場合は、基本料金、従量料金共に１割程度高くなります。',
+                           'a2' => '配送コストが安い関東方面の料金は平均値よりも安めで、逆に配送コストがかかる北海道・東北・九州などは高めになっている傾向があります。基本料金や従量料金の単価は、料金表には記載していない業者が実際はかなり多いので、はっきり内訳がわからない場合は、まずはenepiお客様サポートにお問い合わせください。',
+                       ],
+                   ],
+                   'faq2' => [
+                       'q'  => '他の業者さんに変えると料金は安くなるの？',
+                       'a'  => '安くなる可能性が高いです。',
+                       'answer' => [
+                           'a1' => 'もともとＬＰガス料金は自由化されていて、適正価格を知らずに高い料金を払っていたり、気づかないうちに値上げされていたりするケースは非常に多くあり、それが業者を変えることで適正価格よりもさらに安く契約する事が出来ます。',
+                       ],
+                   ],
+                   'faq3' => [
+                       'q'  => '今の業者さんに価格交渉して安くしてもらってはダメなの？',
+                       'a'  => '信頼できるガス会社かどうか、見極めが必要です。',
+                       'answer' => [
+                           'a1' => '価格交渉すれば、業者さんによっては安くしてくれるところはありますが、業者さんの料金に対する考え方や、他のお客さんへの公平性を考えると、あまり好んでは値下げには応じてくれないケースが多くあります。一次出来に料金が値下げされたとしても、途中から様々な理由によって値上げされる可能性は高く、はじめから長期的に安い料金で提供してくれる業者さんとの契約の方がお得です。',
+                       ],
+                   ],
+                   'faq4' => [
+                       'q'  => '集合住宅に住んでいる場合も簡単に変更できるの？',
+                       'a'  => '大家さんの了承が必要です。',
+                       'answer' => [
+                           'a1' => 'アパートやマンションなどの集合住宅の場合は、大家さんがまとめて業者さんと契約している場合がほとんどなので、まずは大家さんに相談してみることが必要です。直接個人が安い業者さんとの契約は出来なくても、大家さんに安い業者さんと契約するように勧めてみて、うまく安い業者さんと大家さんが契約してくれれば、自分の所のガス料金が安くなることも可能です。',
+                       ],
+                   ],
+                   'faq5' => [
+                       'q'  => 'ガス会社を変更すると設備の変更などは必要なの？',
+                       'a'  => 'ガスボンベとメーターのみ変更します。',
+                       'answer' => [
+                           'a1' => '建物の外にあるガスボンベと、使用量を確認するメーターの差し替えの作業が必要になります。ガス給湯器やガスコンロを使用している場合は、今使っている物を継続してそのまま使うことが出来るので、長時間の作業や大がかりの工事などは不要です。差し替えの工事の時間もおよそ30分程度なので、その間に契約書の記載をしていると、すべての手続きはそれだけで完了します。',
+                       ],
+                   ],
+                   'faq6' => [
+                       'q'  => '都市ガスは切替することができるの？',
+                       'a'  => '申し訳ございません。現時点ではできません。',
+                       'answer' => [
+                           'a1' => 'LPガス（プロパンガス）は既に小売自由化されていますが、都市ガスは2017年4月より小売全面自由化される予定です。enepiでは、そのタイミングで都市ガスの切替サービスを開始する予定ですので、ご期待ください。',
+                       ],
+                   ],
+               ];
+               $faq_count = 0;
+            ?>
+            <? foreach ($faq as $f) { ?>
+                <?= "<dt id=\"heading-".$faq_count."\"  role=\"button\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse-".$faq_count."\" aria-expanded=\"true\" aria-controls=\"collapse-".$faq_count."0\" class=\"collapsed\">" ?>
+                <?= "  <h3>" ?>
+                <?= "    <a class=\"q\">" ?><?= $f["q"] ?><?= "</a>" ?>
+                <?= "  </h3>" ?>
+                <?= "</dt>" ?>
+                <?= "<dd id=\"collapse-".$faq_count."\" class=\"panel-collapse collapse\" role=\"tabpanel\" aria-labelledby=\"heading-".$faq_count."\">" ?>
+                <?= "  <h4 class=\"a\">" ?><?= $f["a"] ?><?= "</h4>" ?>
+                    <? foreach ($f["answer"] as $a) { ?>
+                        <p><?= $a ?></p>
+                    <? } ?>
+                <?= "</dd>" ?>
+                <? $faq_count++; ?>
+            <? } ?>
           </dl>
         </div>
       </div>

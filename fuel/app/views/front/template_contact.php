@@ -29,8 +29,7 @@
         </div>
   </div>
 </header>
-<? }elseif(strcmp($header_decision,'sms_confirm') == 0){ ?>
-  <?= Asset::css('front.min.css'); ?>
+<? }elseif(strcmp($header_decision,'sms_confirm') == 0 || strcmp($header_decision,'details') == 0){ ?>
   <?= Asset::css('estimate_presentation.css'); ?>
 <header>
   <nav class="navbar" role="navigation">

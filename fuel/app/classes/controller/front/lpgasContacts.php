@@ -250,33 +250,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
      */
     public function get_sms_confirm($contact_id)
     {
-//         def show
-//         @lpgas_contact = ::Lpgas::Contact.find(params.require(:id))
-//         @contact = @lpgas_contact
-
-//         ::Lpgas::EstimateUserPageView.create(
-//             authorized: @contact.token == params[:token],
-//             terminal: terminal_type_name,
-//             referrer: referrer,
-//             session_id: session_id,
-//             ip_address: remote_ip,
-//             user_agent: user_agent,
-//             contact_id: params[:id]
-//             )
-//             if params[:pin] == @contact.pin && !AdminSession.new(session: session, params: params).logged_in?
-//             @contact.update(is_seen: 2)
-//             end
-
-//             return render_404 if @contact.token != params[:token]
-
-//             e = @contact.estimates.detect { |e| e.contracted? }
-//             flash[:notice] = "#{e.company.name}と成約済みです" if e
-
-//             render layout: 'estimate_presentation'
-//         end
-
-
-
         $this->template = \View::forge('front/template_contact');
 
         $contact = \Model_Contact::find($contact_id);
@@ -308,6 +281,48 @@ class Controller_Front_LpgasContacts extends Controller_Front
         ]);
         $this->template->header_decision = $header_decision;
 
+    }
+
+    public function get_details($contact_id, $url)
+    {
+        $this->template = \View::forge('front/template_contact');
+
+        $contact = \Model_Contact::find($contact_id);
+        if (!$contact)
+        {
+            \Log::warning("conversion id {$contact_id} not found");
+            throw new HttpNotFoundException();
+        }
+
+        Tracking::unsetTracking();
+
+        $meta = [
+            ['name' => 'description', 'content' => 'OOooOOppp'],
+            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
+            ['name' => 'puka', 'content' => 'suka'],
+        ];
+
+        $header_decision = 'details';
+
+        $company = [];
+        foreach ($contact->estimate as $e){
+            if($e->uuid == $url){
+                $company = $e;
+            }
+        }
+
+        $prefecture_KanjiAndCode   = JpPrefecture::allKanjiAndCode();
+        $prefecture_kanji          = $this->prefecture_kanji(  $prefecture_KanjiAndCode,
+            $contact['prefecture_code']);
+
+        $this->template->title = 'エネピ';
+        $this->template->meta = $meta;
+        $this->template->content = View::forge('front/lpgasContacts/details', [
+            'contact' => $contact,
+            'prefecture_kanji' => $prefecture_kanji,
+            'company' => $company,
+        ]);
+        $this->template->header_decision = $header_decision;
     }
 
     private function calculateGasUsage(&$contact)
