@@ -31,7 +31,7 @@
 <?// _est = @contact.sent_estimates.to_a ?>
 <?// est = (_est.select(&:has_price?) + _est.reject(&:has_price?)) ?>
 
-<?//= var_dump($company["uuid"]); ?>
+<?= var_dump($company_feature); ?>
 <?// foreach ($contact->estimate as $e){ ?>
 <?//= var_dump($e); ?>
 <?// } ?>
@@ -140,7 +140,7 @@
           <tr>
             <th><?= MyView::image_tag("estimate_presentation/ico_fire.png", ["class" => "ico_fire"]); ?>年間節約費用</th>
             <td>
-              <span><?//= number_to_currency @estimate.total_savings_in_year ?></span></td>
+              <span><?//= number_to_currency @estimate.total_savings_in_year ?>円</span></td>
             </tr>
           </table>
           <?// end ?>

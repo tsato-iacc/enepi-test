@@ -294,6 +294,13 @@ class Controller_Front_LpgasContacts extends Controller_Front
             throw new HttpNotFoundException();
         }
 
+        $company = [];
+        foreach ($contact->estimate as $e){
+            if($e->uuid == $url){
+                $company = $e;
+            }
+        }
+
         Tracking::unsetTracking();
 
         $meta = [
@@ -303,13 +310,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
         ];
 
         $header_decision = 'details';
-
-        $company = [];
-        foreach ($contact->estimate as $e){
-            if($e->uuid == $url){
-                $company = $e;
-            }
-        }
 
         $prefecture_KanjiAndCode   = JpPrefecture::allKanjiAndCode();
         $prefecture_kanji          = $this->prefecture_kanji(  $prefecture_KanjiAndCode,
