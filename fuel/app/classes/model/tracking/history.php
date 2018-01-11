@@ -5,17 +5,15 @@
  */
 class Model_Tracking_History extends \Orm\Model
 {
-    protected static $_table_name = 'lpgas_estimate_change_logs';
+    protected static $_table_name = 'pr_tracking_parameter_change_logs';
 
     protected static $_properties = [
         'id',
-        'estimate_id',
         'admin_user_id',
-        'partner_company_id',
-        'user_id',
+        'pr_tracking_parameter_id',
         'diff_json',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     protected static $_observers = [
@@ -31,7 +29,12 @@ class Model_Tracking_History extends \Orm\Model
     ];
 
     protected static $_belongs_to = [
-        'tracking',
-        'admin_user',
+        'tracking' => [
+            'key_from' => 'pr_tracking_parameter_id',
+        ],
+        'admin_user' => [
+            'model_to' => 'Model_AdminUser',
+            'key_from' => 'admin_user_id',
+        ],
     ];
 }

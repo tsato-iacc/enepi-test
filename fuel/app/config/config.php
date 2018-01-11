@@ -32,7 +32,8 @@ return array(
 	 * Security settings
 	 */
 	'security' => array(
-    'csrf_autoload'            => true,
+    // FIX ME
+    'csrf_autoload'            => false,
 
 		/**
 		 * A salt to make sure the generated security tokens are not predictable
@@ -135,9 +136,21 @@ return array(
 		 */
 		'config'  => [
       'enepi',
-			'models',
+      'models',
+			'views',
 		],
 
+    /**
+     * Language files to autoload
+     *
+     * Examples: if you want to load 'validation' lang into a group 'validation' you only have to
+     * add 'validation'. If you want to add it to another group (example: 'forms') you have to
+     * add it like 'validation' => 'forms'.
+     * If you don't want the lang in a group use null as groupname.
+     */
+    'language'  => [
+      'admin',
+    ],
 	),
 
 );

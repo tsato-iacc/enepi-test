@@ -20,6 +20,25 @@
       </div>
 
       <div class="col-md-10">
+        <!-- ALERTS START -->
+        <?php if (Session::get_flash('success')): ?>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <?= Session::get_flash('success'); ?>
+          </div>
+        <?php endif; ?>
+        <?php if (Session::get_flash('error')): ?>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <?= Session::get_flash('error'); ?>
+          </div>
+        <?php endif; ?>
+        <!-- ALERTS END -->
+
         <?= $content; ?>
       </div>
     </div>

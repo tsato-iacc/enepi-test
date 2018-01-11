@@ -1,12 +1,44 @@
-<form class="simple_form edit_pr_tracking_parameter" id="edit_pr_tracking_parameter_1" action="/admin/pr_tracking_parameters/1" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="_method" value="patch"><input type="hidden" name="authenticity_token" value="PhJ3f1OWpkLWVqIGUbUmanNQ/V3/1IiwoePefkkLpmTLg6w9OLSvXFoPCziy6P+nNkyxF6ARLQRWABhrFhgaBQ==">
-  
-  <div class="form-group string required disabled pr_tracking_parameter_name"><label class="string required control-label" for="pr_tracking_parameter_name"><abbr title="required">*</abbr> パラメータ名</label><input class="string required disabled form-control" disabled="disabled" required="required" aria-required="true" type="text" value="test" name="pr_tracking_parameter[name]" id="pr_tracking_parameter_name"></div>
-  <div class="form-group string required pr_tracking_parameter_display_name"><label class="string required control-label" for="pr_tracking_parameter_display_name"><abbr title="required">*</abbr> 表示名</label><input class="string required form-control" required="required" aria-required="true" type="text" value="test" name="pr_tracking_parameter[display_name]" id="pr_tracking_parameter_display_name"></div>
-  <div class="form-group enum optional pr_tracking_parameter_cv_point"><label class="enum optional control-label" for="pr_tracking_parameter_cv_point">CV地点</label><select class="enum optional form-control form-control" name="pr_tracking_parameter[cv_point]" id="pr_tracking_parameter_cv_point"><option value=""></option>
-<option selected="selected" value="cv_point_done_estimate">見積もり</option>
-<option value="cv_point_done_verbal_ok">送客</option></select></div>
-  <div class="form-group text optional pr_tracking_parameter_conversion_tag"><label class="text optional control-label" for="pr_tracking_parameter_conversion_tag">CVタグ</label><textarea class="text optional form-control" name="pr_tracking_parameter[conversion_tag]" id="pr_tracking_parameter_conversion_tag">test</textarea></div>
-  <div class="form-group boolean optional pr_tracking_parameter_render_conversion_tag_only_if_match"><div class="checkbox"><input value="0" type="hidden" name="pr_tracking_parameter[render_conversion_tag_only_if_match]"><label class="boolean optional" for="pr_tracking_parameter_render_conversion_tag_only_if_match"><input class="boolean optional" type="checkbox" value="1" name="pr_tracking_parameter[render_conversion_tag_only_if_match]" id="pr_tracking_parameter_render_conversion_tag_only_if_match">経由元が一致する場合のみ完了画面でCVタグを表示</label></div></div>
-  <div class="form-group boolean optional pr_tracking_parameter_auto_sendable"><div class="checkbox"><input value="0" type="hidden" name="pr_tracking_parameter[auto_sendable]"><label class="boolean optional" for="pr_tracking_parameter_auto_sendable"><input class="boolean optional" type="checkbox" value="1" checked="checked" name="pr_tracking_parameter[auto_sendable]" id="pr_tracking_parameter_auto_sendable">自動見積もり可</label></div></div>
-  <input type="submit" name="commit" value="更新する" class="btn btn-default">
-</form>
+<?= \Form::open(['action' => \Uri::create('admin/tracking/:id', ['id' => $tracking->id])]); ?>
+  <?= \Form::csrf(); ?>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">パラメータ名</label>
+    <div class="col-sm-10">
+      <p class="form-control-static">email@example.com</p>
+    </div>
+  </div>
+
+  <div class="form-group<?= $val->error('display_name') ? ' has-danger' : ''?>">
+    <label class="form-control-label" for="display_name"><h6>表示名 <span class="badge badge-default">必須</span></h6></label>
+    <input type="text" name="display_name" value="<?= $tracking->display_name; ?>" class="form-control form-control-danger" id="display_name">
+    <?php if ($val->error('display_name')): ?>
+      <div class="form-control-feedback"><?= e($val->error('display_name')) ?></div>
+    <?php endif; ?>
+  </div>
+  <div class="form-group<?= $val->error('cv_point') ? ' has-danger' : ''?>">
+    <label class="form-control-label" for="cv_point"><h6>CV地点</h6></label>
+    <?= Form::select('cv_point', \Config::get('views.tracking.cv_point.'.$tracking->cv_point), __('admin.tracking.cv_point'), ['class' => 'form-control', 'id' => 'cv_point']); ?>
+  </div>
+
+  <div class="form-group<?= $val->error('conversion_tag') ? ' has-danger' : ''?>">
+    <label class="form-control-label" for="conversion_tag"><h6>CVタグ</h6></label>
+    <textarea name="conversion_tag" class="form-control" id="conversion_tag" rows="2"><?= $tracking->conversion_tag; ?></textarea>
+    <?php if ($val->error('conversion_tag')): ?>
+      <div class="form-control-feedback"><?= e($val->error('conversion_tag')) ?></div>
+    <?php endif; ?>
+  </div>
+
+  <div class="form-check">
+    <label class="form-check-label">
+      <input class="form-check-input" type="checkbox" name="render_conversion_tag_only_if_match" value="1"<?= $tracking->render_conversion_tag_only_if_match ? ' checked="checked"' : '' ?>>
+      経由元が一致する場合のみ完了画面でCVタグを表示
+    </label>
+  </div>
+  <div class="form-check">
+    <label class="form-check-label">
+      <input class="form-check-input" type="checkbox" name="auto_sendable" value="1"<?= $tracking->auto_sendable ? ' checked="checked"' : '' ?>>
+      自動見積もり可
+    </label>
+  </div>
+
+  <button type="submit" class="btn btn-primary">更新する</button>
+<?= Form::close(); ?>

@@ -14,13 +14,12 @@
     </tr>
   </thead>
   <tbody>
-
     <?php foreach($users as $u): ?>
       <tr>
         <td><?= $u->email ?></td>
-        <td><?= Carbon\Carbon::parse($u->created_at)->setTimezone('Asia/Tokyo')->format('Y-m-d H:i') ?></td>
-        <td><?= $u->updated_at ?></td>
-        <td><a href="/admin/users/1/delete" onclick="return confirm('本当によろしいですか?')">削除</a></td>
+        <td><?= \Helper\TimezoneConverter::convertFromString($u->created_at, 'admin_table') ?></td>
+        <td><?= \Helper\TimezoneConverter::convertFromString($u->updated_at, 'admin_table') ?></td>
+        <td><a href="<?= \Uri::create('admin/users/:id/delete', ['id' => $u->id]) ?>" onclick="return confirm('本当によろしいですか?')">削除</a></td>
       </tr>
     <?php endforeach; ?>
   </tbody>

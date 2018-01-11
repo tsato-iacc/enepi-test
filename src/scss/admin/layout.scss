@@ -35,6 +35,17 @@ table.small-row {
 }
 
 /**
+ * Forms
+ */
+label h6 {
+  margin: 0;
+
+  .badge {
+    font-weight: 100;
+  }
+}
+
+/**
  * Bootstrap list additional colors
  */
 .list-group-item-light {

@@ -66,8 +66,11 @@ class Model_Company extends \Orm\Model
     ];
 
     protected static $_many_many = [
-        // 'features' => [
-        //     'table_through' => 'lpgas_company_features',
-        // ]
+        'features' => [
+            'model_to' => 'Model_Company_Feature',
+            'key_through_from' => 'company_id',
+            'key_through_to' => 'master_company_feature_id',
+            'table_through' => 'lpgas_company_features',
+        ]
     ];
 }

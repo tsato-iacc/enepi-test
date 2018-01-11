@@ -1,12 +1,12 @@
 <div class="list-group sidebar">
   <li class="list-group-item list-group-item-heading"><i class="fa fa-sitemap"></i>サイト管理</li>
   <a href="<?= \Uri::create('admin/users') ?>" class="list-group-item list-group-item-action"><i class="fa fa-user-secret"></i>管理者一覧</a>
-  <a href="<?= \Uri::create('admin/') ?>" class="list-group-item list-group-item-action"><i class="fa fa-code"></i>経由元一覧</a>
+  <a href="<?= \Uri::create('admin/tracking') ?>" class="list-group-item list-group-item-action"><i class="fa fa-code"></i>経由元一覧</a>
 </div>
 
 <div class="list-group sidebar">
   <li class="list-group-item list-group-item-heading"><i class="fa fa-group"></i>提携会社管理</li>
-  <a href="<?= \Uri::create('admin/') ?>" class="list-group-item list-group-item-action"><i class="fa fa-building"></i>会社一覧</a>
+  <a href="<?= \Uri::create('admin/partner_companies') ?>" class="list-group-item list-group-item-action"><i class="fa fa-building"></i>会社一覧</a>
 </div>
 
 <div class="list-group sidebar">

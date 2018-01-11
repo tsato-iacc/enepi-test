@@ -29,9 +29,9 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
      */
     public function action_index()
     {
-        $this->template->title = 'local_contents';
+        $this->template->title = '会社一覧';
         $this->template->content = View::forge('admin/partnerCompanies/index', [
-            'test' => 'test'
+            'companies' => \Model_Partner_Company::find('all'),
         ]);
     }
 
@@ -45,7 +45,8 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
     {
         $this->template->title = 'local_contents';
         $this->template->content = View::forge('admin/partnerCompanies/create', [
-            'test' => 'test'
+            'val' => \Model_Partner_Company::validate(),
+            'partner_company' => new \Model_Partner_Company(),
         ]);
     }
 
