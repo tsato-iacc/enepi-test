@@ -4,42 +4,61 @@ class Controller_Admin extends Controller_Base
 {
     public $template = 'admin/template';
 
+    public function before()
+    {
+        parent::before();
+        
+        if (Request::active()->controller !== 'Controller_Admin' or !in_array(Request::active()->action, ['login', 'logout']))
+        {
+            // if (Auth::check())
+            if (true)
+            {
+                // check permission
+                // if (!Auth::member(\Config::get('carme.groups.superadmin')) && !$access)
+                //     throw new HttpNotFoundException;
+            }
+            else
+            {
+                Response::redirect('admin/login');
+            }
+        }
+    }
+
     public function action_login()
     {
+        $this->template = \View::forge('auth/template');
         // Already logged in
         // Auth::check() and Response::redirect('admin');
 
         $val = Validation::forge();
 
-        // if (Input::method() == 'POST')
-        // {
-        //     $val->add('email', 'Email or Username')
-        //         ->add_rule('required');
-        //     $val->add('password', 'Password')
-        //         ->add_rule('required');
+        if (Input::method() == 'POST')
+        {
+            $val->add_field('email', 'email', 'required|valid_email');
+            $val->add_field('password', 'password', 'required');
 
-        //     if ($val->run())
-        //     {
-        //         $auth = Auth::instance();
+            if ($val->run())
+            {
+                // $auth = Auth::instance();
 
-        //         // check the credentials. This assumes that you have the previous table created
-        //         if (Auth::check() or $auth->login($val->validated('email'), $val->validated('password')))
-        //         {
-        //             // credentials ok, go right in
-        //             $current_user = Model\Auth_User::find_by_username(Auth::get_screen_name());
+                // // check the credentials. This assumes that you have the previous table created
+                // if (Auth::check() or $auth->login($val->validated('email'), $val->validated('password')))
+                // {
+                //     // credentials ok, go right in
+                //     $current_user = Model\Auth_User::find_by_username(Auth::get_screen_name());
 
-        //             Session::set_flash('success', e('Welcome, ' . $current_user->username));
-        //             Response::redirect('admin/article');
-        //         }
-        //         else
-        //         {
-        //             $this->template->set_global('login_error', 'Fail');
-        //         }
-        //     }
-        // }
+                //     Session::set_flash('success', e('Welcome, ' . $current_user->username));
+                //     Response::redirect('admin/article');
+                // }
+                // else
+                // {
+                //     $this->template->set_global('login_error', 'Fail');
+                // }
+            }
+        }
 
-        $this->template->title = 'Login';
-        $this->template->content = View::forge('admin/login', ['val' => $val], false);
+        $this->template->title = 'sign in';
+        $this->template->content = View::forge('auth/login', ['val' => $val], false);
     }
 
     /**
@@ -60,9 +79,9 @@ class Controller_Admin extends Controller_Base
      * @access  public
      * @return  void
      */
-    // public function action_index()
-    // {
-    //     $this->template->title = 'Dashboard';
-    //     $this->template->content = View::forge('admin/index');
-    // }
+    public function action_index()
+    {
+        $this->template->title = 'Dashboard';
+        $this->template->content = View::forge('admin/index');
+    }
 }

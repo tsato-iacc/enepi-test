@@ -6,6 +6,25 @@ use JpPrefecture\Prefecture;
 class MyView{
 
 
+	public static function admin_partner_company_emails_path(){
+
+	}
+
+	public static function edit_admin_partner_company_path(){
+	}
+
+
+	public static function admin_user_path(){
+
+	}
+
+	public static function format_datetime(){
+
+		return "2017/12/25 10:00";
+
+	}
+
+
     public static function label_tag(){
 
     }
@@ -56,6 +75,21 @@ class MyView{
             $v_name
             );
     }
+
+
+    public static function link_to_admin($name, $url, $hash = []){
+
+    	$v_name        = (isset($name)) ? $name : "---";
+    	$v_url         = (isset($url)) ? $url : "---";
+    	$v_style       = (isset($hash["style"])) ? $hash["style"] : "";
+
+    	printf("<a style=\"%s;\" href=\"%s\">%s</a>",
+    			$v_style,
+    			$v_url,
+    			$v_name
+    			);
+    }
+
 
     public static function link_to($url, $hash){
 

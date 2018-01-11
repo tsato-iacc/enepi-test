@@ -167,4 +167,13 @@ return [
             'from_kakaku' => '価格コム経由',
         ],
     ],
+
+    /**
+     * Tracking
+     */
+    'tracking' => [
+        'admin' => [
+            'history_limit' => 100,
+        ],
+    ],
 ];

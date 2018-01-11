@@ -41,10 +41,20 @@ return array(
     /**
      * Admin
      */
+    'admin/users'                                        => [['GET', new Route('admin/users/index')], ['POST', new Route('admin/users/store')]],
+    'admin/users/create'                                 => [['GET', new Route('admin/users/create')]],
+    'admin/users/(:num)/delete'                          => [['GET', new Route('admin/users/delete/$1')]],
+
     'admin/tracking'                                     => [['GET', new Route('admin/tracking/index')], ['POST', new Route('admin/tracking/store')]],
     'admin/tracking/(:num)/edit'                         => [['GET', new Route('admin/tracking/edit/$1')]],
     'admin/tracking/(:num)'                              => [['POST', new Route('admin/tracking/update/$1')]],
+    'admin/tracking/(:num)/delete'                       => [['GET', new Route('admin/tracking/delete/$1')]],
     'admin/tracking/statistics'                          => [['GET', new Route('admin/tracking/statistics')]],
+
+
+
+		//'admin/pr_tracking_parameters'                     => [['GET', new Route('admin/partnerCompanies/create')]],
+
 
     'admin/partner_companies'                            => [['GET', new Route('admin/partnerCompanies/index')], ['POST', new Route('admin/partnerCompanies/store')]],
     'admin/partner_companies/create'                     => [['GET', new Route('admin/partnerCompanies/create')]],
@@ -52,6 +62,17 @@ return array(
     'admin/partner_companies/(:num)'                     => [['POST', new Route('admin/partnerCompanies/update/$1')]],
     'admin/partner_companies/(:num)/emails'              => [['GET', new Route('admin/partnerCompanies/emails_index/$1')], ['POST', new Route('admin/partnerCompanies/emails_store/$1')]],
     'admin/partner_companies/(:num)/emails/(:num)'       => [['DELETE', new Route('admin/partnerCompanies/emails_destroy/$1/$2')]],
+
+
+		'admin/lpgas/callings'                                     => [['GET', new Route('admin/callings/index')]],
+		'admin/lpgas/activity'                                     => [['GET', new Route('admin/activity/index')]],
+		'admin/lpgas/history'                                      => [['GET', new Route('admin/history/index')]],
+		'admin/lpgas/behavior'                                     => [['GET', new Route('admin/behavior/index')]],
+		'admin/lpgas/unsupported'                                  => [['GET', new Route('admin/unsupported/index')]],
+		'admin/lpgas/holiday'                                      => [['GET', new Route('admin/holiday/index')], ['POST', new Route('admin/holiday/store')]],
+
+
+
 
     'admin/callings'                                     => [['GET', new Route('admin/callings/index')]],
     'admin/activity'                                     => [['GET', new Route('admin/activity/index')]],
@@ -64,10 +85,27 @@ return array(
     'admin/estimates/(:num)'                             => [['GET', new Route('admin/estimates/edit/$1')]],
     'admin/estimates/history'                            => [['GET', new Route('admin/estimates/history')]],
 
+
+		'admin/lpgas/contacts'                                     => [['GET', new Route('admin/contacts/index')]],
+		'admin/lpgas/contacts/(:num)/edit'                         => [['GET', new Route('admin/contacts/edit/$1')]],
+		'admin/lpgas/contacts/(:num)'                              => [['POST', new Route('admin/contacts/update/$1')]],
+		'admin/lpgas/contacts/(:num)/estimates/create'             => [['GET', new Route('admin/contacts/estimate_create')]],
+
+
     'admin/contacts'                                     => [['GET', new Route('admin/contacts/index')]],
     'admin/contacts/(:num)/edit'                         => [['GET', new Route('admin/contacts/edit/$1')]],
     'admin/contacts/(:num)'                              => [['POST', new Route('admin/contacts/update/$1')]],
     'admin/contacts/(:num)/estimates/create'             => [['GET', new Route('admin/contacts/estimate_create')]],
+
+
+		'admin/lpgas/companies'                                    => [['GET', new Route('admin/companies/index')]],
+		'admin/lpgas/companies/(:num)/edit'                        => [['GET', new Route('admin/companies/edit/$1')]],
+		'admin/lpgas/companies/(:num)'                             => [['POST', new Route('admin/companies/update/$1')]],
+		'admin/lpgas/companies/(:num)/estimates'                   => [['GET', new Route('admin/companies/estimates_index/$1')]],
+		'admin/lpgas/companies/(:num)/ng'                          => [['GET', new Route('admin/companies/ng_index/$1')], ['POST', new Route('admin/companies/ng_store/$1')]],
+		'admin/lpgas/companies/(:num)/ng/(:num)'                   => [['DELETE', new Route('admin/companies/ng_destroy/$1')]],
+
+
 
     'admin/companies'                                    => [['GET', new Route('admin/companies/index')]],
     'admin/companies/(:num)/edit'                        => [['GET', new Route('admin/companies/edit/$1')]],

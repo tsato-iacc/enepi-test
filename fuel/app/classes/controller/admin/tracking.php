@@ -27,11 +27,13 @@ class Controller_Admin_Tracking extends Controller_Admin
      * @access  public
      * @return  Response
      */
-    public function action_index()
+    public function get_index()
     {
-        $this->template->title = 'local_contents';
+        $this->template->title = '経由元一覧';
         $this->template->content = View::forge('admin/tracking/index', [
-            'test' => 'test'
+            'val' => \Model_Tracking::validate(),
+            'tracks' => \Model_Tracking::find('all'),
+            'tracks_history' => \Model_Tracking_History::find('all', ['limit' => \Config::get('enepi.tracking.admin.history_limit')]),
         ]);
     }
 
@@ -41,23 +43,31 @@ class Controller_Admin_Tracking extends Controller_Admin
      * @access  public
      * @return  Response
      */
-    public function action_store()
+    public function post_store()
     {
-        print "CREATE NEW USER";exit;
-        Response::redirect('admin/pr_tracking_parameters');
-    }
+        $tracking = new \Model_Tracking();
 
-    /**
-     * Edit tracking
-     *
-     * @access  public
-     * @return  Response
-     */
-    public function action_edit($id)
-    {
-        $this->template->title = 'local_contents';
-        $this->template->content = View::forge('admin/tracking/edit', [
-            'test' => 'test'
+        $val = \Model_Tracking::validate($tracking);
+
+        if ($val->run())
+        {
+            $tracking->set($val->validated(null, 'tracking'));
+
+            $tracking->checkSSLSupport();
+
+            if ($tracking->save())
+                Session::set_flash('success', 'trackingを追加しました');
+
+            Response::redirect('admin/tracking');
+        }
+
+        Session::set_flash('error', 'trackingを追加できませんでした');
+
+        $this->template->title = 'Edit tracking';
+        $this->template->content = View::forge('admin/tracking/index', [
+            'val' => $val,
+            'tracks' => \Model_Tracking::find('all'),
+            'tracks_history' => \Model_Tracking_History::find('all', ['limit' => \Config::get('enepi.tracking.admin.history_limit')]),
         ]);
     }
 
@@ -67,10 +77,66 @@ class Controller_Admin_Tracking extends Controller_Admin
      * @access  public
      * @return  Response
      */
-    public function action_update($id)
+    public function get_edit($id)
     {
-        print "UPDATE USER";exit;
-        Response::redirect('admin/pr_tracking_parameters');
+        if (!$tracking = \Model_Tracking::find($id))
+            throw new HttpNotFoundException;
+
+        $this->template->title = 'local_contents';
+        $this->template->content = View::forge('admin/tracking/edit', [
+            'val' => \Model_Tracking::validate(),
+            'tracking' => $tracking,
+        ]);
+    }
+
+    /**
+     * Edit tracking
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function post_update($id)
+    {
+        if (!$tracking = \Model_Tracking::find($id))
+            throw new HttpNotFoundException;
+
+        $val = \Model_Tracking::validate($tracking);
+
+        if ($val->run())
+        {
+            $tracking->set($val->validated(null, 'tracking'));
+
+            if ($tracking->save())
+                Session::set_flash('success', 'trackingを更新しました');
+
+            Response::redirect('admin/tracking');
+        }
+
+        Session::set_flash('error', 'trackingを更新できませんでした');
+
+        $this->template->title = 'Edit tracking';
+        $this->template->content = View::forge('admin/tracking/edit', [
+            'val' => $val,
+            'tracking' => $tracking,
+        ]);
+    }
+
+    /**
+     * Delete tracking
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function get_delete($id)
+    {
+        // FIX ME (USE SOFT DELETE OR FLAG)
+        if ($tracking = \Model_Tracking::find($id))
+        {
+            // if ($tracking->delete())
+                Session::set_flash('success', 'trackingを削除しました');
+        }
+
+        Response::redirect('admin/tracking');
     }
 
     /**
