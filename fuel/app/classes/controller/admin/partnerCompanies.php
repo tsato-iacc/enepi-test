@@ -203,10 +203,11 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
     {
         if (!$partner_company = \Model_Partner_Company::find($id))
             throw new HttpNotFoundException;
-            
-        $this->template->title = 'local_contents';
+
+        $this->template->title = 'List of emails';
         $this->template->content = View::forge('admin/partnerCompanies/emails_index', [
-            'emails' => $emails,
+            'val' => \Model_Partner_Email::validate(),
+            'partner_company' => $partner_company,
         ]);
     }
 
@@ -218,8 +219,28 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
      */
     public function action_emails_store($id)
     {
-        print "CREATE NEW EMAIL";exit;
-        Response::redirect("admin/partner_companies/{$id}/emails");
+        if (!$partner_company = \Model_Partner_Company::find($id))
+            throw new HttpNotFoundException;
+
+        $val = \Model_Partner_Email::validate();
+
+        if ($val->run())
+        {
+            $partner_company->emails[] = new \Model_Partner_Email($val->validated());
+
+            if ($partner_company->save())
+                Session::set_flash('success', 'emailを更新しました');
+
+            Response::redirect("admin/partner_companies/{$id}/emails");
+        }
+
+        Session::set_flash('error', 'emailを更新できませんでした');
+
+        $this->template->title = 'List of emails';
+        $this->template->content = View::forge('admin/partnerCompanies/emails_index', [
+            'val' => $val,
+            'partner_company' => $partner_company,
+        ]);
     }
 
     /**
@@ -230,7 +251,15 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
      */
     public function action_emails_destroy($id, $email_id)
     {
-        print "DELETE EMAIL";exit;
+        if (!\Model_Partner_Company::find($id))
+            throw new HttpNotFoundException;
+        if (!$email = \Model_Partner_Email::find($email_id))
+            throw new HttpNotFoundException;
+
+        if ($email->delete()){
+            Session::set_flash('success', 'emailを削除しました');
+        }
+
         Response::redirect("admin/partner_companies/{$id}/emails");
     }
 }

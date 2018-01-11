@@ -34,6 +34,13 @@ class Model_Partner_Company extends \Orm\Model
         ],
     ];
 
+    protected static $_has_many = [
+        'emails' => [
+            'model_to' => 'Model_Partner_Email',
+            'key_to' => 'company_id',
+        ],
+    ];
+
     /**
      * [validate description]
      * @param  string $factory Validation rules factory
@@ -79,7 +86,6 @@ class Model_Partner_Company extends \Orm\Model
         
         return $val;
     }
-
 
     /**
      * Wrapper for save model

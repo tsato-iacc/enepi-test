@@ -60,7 +60,7 @@ return array(
     'admin/partner_companies/(:num)/edit'                => [['GET', new Route('admin/partnerCompanies/edit/$1')]],
     'admin/partner_companies/(:num)'                     => [['POST', new Route('admin/partnerCompanies/update/$1')]],
     'admin/partner_companies/(:num)/emails'              => [['GET', new Route('admin/partnerCompanies/emails_index/$1')], ['POST', new Route('admin/partnerCompanies/emails_store/$1')]],
-    'admin/partner_companies/(:num)/emails/(:num)'       => [['DELETE', new Route('admin/partnerCompanies/emails_destroy/$1/$2')]],
+    'admin/partner_companies/(:num)/emails/(:num)/delete'=> [['GET', new Route('admin/partnerCompanies/emails_destroy/$1/$2')]],
 
 
 		'admin/lpgas/callings'                                     => [['GET', new Route('admin/callings/index')]],
