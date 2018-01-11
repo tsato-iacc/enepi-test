@@ -50,15 +50,6 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
         ]);
     }
 
-    public function action_new()
-    {
-    	$this->template->title = 'local_contents';
-    	$this->template->content = View::forge('admin/partnerCompanies/create', [
-    			'test' => 'test'
-    	]);
-    }
-
-
     /**
      * Store
      *
@@ -67,8 +58,55 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
      */
     public function action_store()
     {
-        print "CREATE NEW COMPANY";exit;
-        Response::redirect('admin/partner_companies');
+        $partner_company = new \Model_Partner_Company();
+
+        $val = \Model_Partner_Company::validate($partner_company);
+
+        if ($val->run())
+        {
+            \DB::start_transaction();
+            try
+            {
+                $partner_company->set($val->validated('partner_company'));
+
+                $company = new \Model_Company($val->validated('company'));
+
+                if ($val->validated('company_features'))
+                {
+                    $company->features = \Model_Company_Feature::find('all', [
+                        'where' => [
+                            ['id', 'IN', $val->validated('company_features')]
+                        ]
+                    ]);
+                }
+
+                if (!$company->display_name)
+                    $company->display_name = $partner_company->company_name;
+
+                $partner_company->company = $company;
+
+                if ($partner_company->save())
+                {
+                    \DB::commit_transaction();
+                    Session::set_flash('success', 'partner_companyを追加しました');
+                }
+
+                Response::redirect('admin/partner_companies');
+            }
+            catch (\Exception $e)
+            {
+                \Log::error($e);
+                \DB::rollback_transaction();
+            }
+        }
+
+        Session::set_flash('error', 'partner_companyを追加できませんでした');
+
+        $this->template->title = 'New partner_company';
+        $this->template->content = View::forge('admin/partnerCompanies/create', [
+            'partner_company' => $partner_company,
+            'val' => $val,
+        ]);
     }
 
     /**
@@ -79,9 +117,13 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
      */
     public function action_edit($id)
     {
-        $this->template->title = 'local_contents';
+        if (!$partner_company = \Model_Partner_Company::find($id))
+            throw new HttpNotFoundException;
+
+        $this->template->title = 'Edit partner_company';
         $this->template->content = View::forge('admin/partnerCompanies/edit', [
-            'test' => 'test'
+            'val' => \Model_Partner_Company::validate(),
+            'partner_company' => $partner_company,
         ]);
     }
 
@@ -93,8 +135,62 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
      */
     public function action_update($id)
     {
-        print "UPDATE COMPANY";exit;
-        Response::redirect('admin/partner_companies');
+        if (!$partner_company = \Model_Partner_Company::find($id))
+            throw new HttpNotFoundException;
+
+        $val = \Model_Partner_Company::validate($partner_company);
+
+        if ($val->run())
+        {
+            \DB::start_transaction();
+            try
+            {
+                $partner_company->set($val->validated('partner_company'));
+
+                $company = $partner_company->company;
+                $company->set($val->validated('company'));
+
+
+                if (!$val->validated('company_features'))
+                {
+                    $company->features = [];
+                }
+                elseif (\Arr::pluck($company->features, 'id') != $val->validated('company_features'))
+                {
+                    $company->features = \Model_Company_Feature::find('all', [
+                        'where' => [
+                            ['id', 'IN', $val->validated('company_features')]
+                        ]
+                    ]);
+                }
+
+                if (!$company->display_name)
+                    $company->display_name = $partner_company->company_name;
+
+                $partner_company->company = $company;
+
+                if ($partner_company->save())
+                {
+                    \DB::commit_transaction();
+                    Session::set_flash('success', 'partner_companyを更新しました');
+                }
+
+                Response::redirect('admin/partner_companies');
+            }
+            catch (\Exception $e)
+            {
+                \Log::error($e);
+                \DB::rollback_transaction();
+            }
+        }
+
+        Session::set_flash('error', 'partner_companyを更新できませんでした');
+
+        $this->template->title = 'Edit partner_company';
+        $this->template->content = View::forge('admin/partnerCompanies/edit', [
+            'val' => $val,
+            'partner_company' => $partner_company,
+        ]);
     }
 
     /**
@@ -105,9 +201,12 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
      */
     public function action_emails_index($id)
     {
+        if (!$partner_company = \Model_Partner_Company::find($id))
+            throw new HttpNotFoundException;
+            
         $this->template->title = 'local_contents';
         $this->template->content = View::forge('admin/partnerCompanies/emails_index', [
-            'test' => 'test'
+            'emails' => $emails,
         ]);
     }
 

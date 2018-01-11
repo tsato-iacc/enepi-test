@@ -24,10 +24,14 @@ class Model_Company extends \Orm\Model
         'company_overview',
         'business_overview',
         'service_features',
-        'supply_area_text',
+        'supply_area_text' => [
+            'default' => '',
+        ],
         'lpgas_company_logo',
         'lpgas_company_image',
-        'estimate_req_sendable',
+        'estimate_req_sendable' => [
+            'default' => true,
+        ],
         'established_date',
         'created_at',
         'updated_at',
