@@ -72,4 +72,14 @@ return [
             'december' => 12
         ],
     ],
+
+    /**
+     * Enum for Model_Tracking
+     */
+    'tracking' => [
+        'cv_point' => [
+            'estimate' => 0,
+            'verbal_ok' => 10,
+        ],
+    ],
 ];

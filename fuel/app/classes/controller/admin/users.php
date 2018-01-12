@@ -29,9 +29,9 @@ class Controller_Admin_Users extends Controller_Admin
      */
     public function get_index()
     {
-        $this->template->title = 'local_contents';
+        $this->template->title = '管理者一覧';
         $this->template->content = View::forge('admin/users/index', [
-            'test' => 'test'
+            'users' => \Model_AdminUser::find('all'),
         ]);
     }
 
@@ -43,23 +43,11 @@ class Controller_Admin_Users extends Controller_Admin
      */
     public function get_create()
     {
-        $this->template->title = 'local_contents';
+        $this->template->title = 'New user';
         $this->template->content = View::forge('admin/users/create', [
-            'test' => 'test'
+            'val' => \Model_AdminUser::validate(),
         ]);
     }
-
-
-
-    public function get_new()
-    {
-    	$this->template->title = 'local_contents';
-    	$this->template->content = View::forge('admin/users/create', [
-    			'test' => 'test'
-    	]);
-    }
-
-
 
     /**
      * Save new user
@@ -69,7 +57,43 @@ class Controller_Admin_Users extends Controller_Admin
      */
     public function post_store()
     {
-        print "CREATE NEW USER";exit;
+        $user = new \Model_AdminUser();
+
+        $val = \Model_AdminUser::validate($user);
+
+        if ($val->run())
+        {
+            $user->set($val->validated());
+
+            if ($user->save())
+                Session::set_flash('success', '管理者を追加しました');
+
+            Response::redirect('admin/users');
+        }
+
+        Session::set_flash('error', '管理者を追加できませんでした');
+
+        $this->template->title = 'New user';
+        $this->template->content = View::forge('admin/users/create', [
+            'val' => $val,
+        ]);
+    }
+
+    /**
+     * Delete user
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function get_delete($id)
+    {
+        // FIX ME (USE SOFT DELETE OR FLAG)
+        if ($user = \Model_AdminUser::find($id))
+        {
+            // if ($user->delete())
+                Session::set_flash('success', '管理者を削除しました');
+        }
+
         Response::redirect('admin/users');
     }
 }

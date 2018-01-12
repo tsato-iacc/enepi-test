@@ -40,9 +40,14 @@ return array(
     /**
      * Admin
      */
+    'admin/users'                                        => [['GET', new Route('admin/users/index')], ['POST', new Route('admin/users/store')]],
+    'admin/users/create'                                 => [['GET', new Route('admin/users/create')]],
+    'admin/users/(:num)/delete'                          => [['GET', new Route('admin/users/delete/$1')]],
+
     'admin/tracking'                                     => [['GET', new Route('admin/tracking/index')], ['POST', new Route('admin/tracking/store')]],
     'admin/tracking/(:num)/edit'                         => [['GET', new Route('admin/tracking/edit/$1')]],
     'admin/tracking/(:num)'                              => [['POST', new Route('admin/tracking/update/$1')]],
+    'admin/tracking/(:num)/delete'                       => [['GET', new Route('admin/tracking/delete/$1')]],
     'admin/tracking/statistics'                          => [['GET', new Route('admin/tracking/statistics')]],
 
 
@@ -55,7 +60,7 @@ return array(
     'admin/partner_companies/(:num)/edit'                => [['GET', new Route('admin/partnerCompanies/edit/$1')]],
     'admin/partner_companies/(:num)'                     => [['POST', new Route('admin/partnerCompanies/update/$1')]],
     'admin/partner_companies/(:num)/emails'              => [['GET', new Route('admin/partnerCompanies/emails_index/$1')], ['POST', new Route('admin/partnerCompanies/emails_store/$1')]],
-    'admin/partner_companies/(:num)/emails/(:num)'       => [['DELETE', new Route('admin/partnerCompanies/emails_destroy/$1/$2')]],
+    'admin/partner_companies/(:num)/emails/(:num)/delete'=> [['GET', new Route('admin/partnerCompanies/emails_destroy/$1/$2')]],
 
 
 		'admin/lpgas/callings'                                     => [['GET', new Route('admin/callings/index')]],
