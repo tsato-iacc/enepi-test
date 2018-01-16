@@ -118,6 +118,11 @@ class MyView{
     	return $url;
     }
 
+    public static function null_check($value = ''){
+        return $value;
+    }
+
+
 
 
 

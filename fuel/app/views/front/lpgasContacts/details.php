@@ -31,11 +31,6 @@
 <?// _est = @contact.sent_estimates.to_a ?>
 <?// est = (_est.select(&:has_price?) + _est.reject(&:has_price?)) ?>
 
-<?= var_dump($company_feature); ?>
-<?// foreach ($contact->estimate as $e){ ?>
-<?//= var_dump($e); ?>
-<?// } ?>
-
 <div class="hidden_sp">
   <div class="planning_box-sp">
     <h2 class="ttl_mypage"><?= $contact->name ?>様専用のマイページ</h2>
@@ -48,11 +43,11 @@
           </dl>
           <dl class="currant_using_info">
             <dt>ガス使用量</dt>
-            <dd><?= number_format($contact->gas_used_amount, 1) ?>m3 (<?= $contact->gas_meter_checked_month ?>月)</dd>
+            <dd><?= number_format(MyView::null_check($contact->gas_used_amount), 1) ?>m3 (<?= $contact->gas_meter_checked_month ?>月)</dd>
           </dl>
           <dl class="currant_using_info">
             <dt>お支払い額(税込)</dt>
-            <dd><?= number_format($contact->gas_latest_billing_amount) ?>円</dd>
+            <dd><?= number_format(MyView::null_check($contact->gas_latest_billing_amount)) ?>円</dd>
           </dl>
         </div>
         <div class="inner_right">
@@ -86,11 +81,11 @@
           </dl>
           <dl class="currant_using_info">
             <dt>ガス使用量</dt>
-            <dd><?= number_format($contact->gas_used_amount, 1) ?>m3 (<?= $contact->gas_meter_checked_month ?>月)</dd>
+            <dd><?= number_format(MyView::null_check($contact->gas_used_amount), 1) ?>m3 (<?= $contact->gas_meter_checked_month ?>月)</dd>
           </dl>
           <dl class="currant_using_info">
             <dt>お支払い額(税込)</dt>
-            <dd><?= number_format($contact->gas_latest_billing_amount) ?>円</dd>
+            <dd><?= number_format(MyView::null_check($contact->gas_latest_billing_amount)) ?>円</dd>
           </dl>
         </div>
         <div class="inner_right">
@@ -136,40 +131,42 @@
       </div>
       <div class="info_r_estimates">
         <?// if @estimate.has_price? ?>
-        <table class="table yearly_saving_price_table">
-          <tr>
-            <th><?= MyView::image_tag("estimate_presentation/ico_fire.png", ["class" => "ico_fire"]); ?>年間節約費用</th>
-            <td>
-              <span><?//= number_to_currency @estimate.total_savings_in_year ?>円</span></td>
+          <table class="table yearly_saving_price_table">
+            <tr>
+              <th><?= MyView::image_tag("estimate_presentation/ico_fire.png", ["class" => "ico_fire"]); ?>年間節約費用</th>
+              <td><span><?//= number_to_currency @estimate.total_savings_in_year ?>円</span></td>
             </tr>
           </table>
-          <?// end ?>
+        <?// end ?>
 
-          <h4 class="feature_ttl">特徴</h4>
-          <ul class="tags" style="margin-bottom: 1em;">
-            <?// ::Lpgas::MasterCompanyFeature.all.each do |feat| ?>
-            <button
-            type="button"
-            class="tag <?//= 'on' if @estimate.company.master_company_features.include?(feat) ?>"
-            data-placement="top"
-            data-trigger="hover"
-            data-toggle="popover"
-            title="<?//= feat.name ?>"
-            data-content="<?//= feat.description ?>">
-            <?//= feat.name ?>
-          </button>
-          <?// end ?>
+        <h4 class="feature_ttl">特徴</h4>
+        <ul class="tags" style="margin-bottom: 1em;">
+          <?foreach($feature_all as $fa)
+            {
+
+              $on = " ";
+              foreach($estimate->company->features as $f)
+              {
+                  if($f->id == $fa->id)
+                  {
+                      $on = " on";
+                  }
+              } ?>
+            <button type="button" class="tag<?= $on ?>" data-placement="top" data-trigger="hover" data-toggle="popover" title="<?= $fa->name ?>" data-content="<?= $fa->description ?>">
+              <?= $fa->name ?>
+            </button>
+          <? } ?>
         </ul>
       </div>
-      </div>
+    </div>
 
       <div class="backto_list_area">
-        <?//= link_to lpgas_contact_path(@contact, token: @contact.token, pin: params[:pin]), class: 'btn_list' do ?><?//= image_tag 'estimate_presentation/ico_arrow_left.png', :class => 'ico_arrow' ?>マッチング会社一覧へ戻る
-        <?// end ?>
+        <a<?= MyView::link_to("/lpgas/contacts/".$contact->id."?pin="."$contact->pin"."&token="."$contact->token", ["class" => "btn_list", ]); ?>>
+          <?= MyView::image_tag('estimate_presentation/ico_arrow_left.png', ["class" => "ico_arrow"]); ?>マッチング会社一覧へ戻る
+        </a>
       </div>
 
       <div class="lines">
-        <?// if @estimate.has_price? ?>
         <h3><i><?= MyView::image_tag("estimate_presentation/ico_glaph.png", ["class" => "ico_simulation_glaph"]); ?></i>年間節約シミュレーション</h3>
         <div id='chart'></div>
         <?//= render_chart(@chart, 'chart') ?>
@@ -379,40 +376,40 @@
                 <tbody>
                   <tr>
                     <th>会社名</th>
-                    <td><?//= @estimate.company.name ?></td>
+                    <td><?= $estimate->company->display_name ?></td>
                     <th>グループ会社</th>
-                    <td><?//= @estimate.company.group_company_text ?></td>
+                    <td><?= $estimate->company->group_company_text ?></td>
                   </tr>
                   <tr>
                     <th>資本金</th>
-                    <td><?//= number_to_currency @estimate.company.capital ?></td>
+                    <td><?= number_format(MyView::null_check($estimate->company->capital)) ?>円</td>
                     <th>売上高</th>
-                    <td><?//= number_to_currency @estimate.company.amount_of_sales ?></td>
+                    <td><?= number_format(MyView::null_check($estimate->company->amount_of_sales)) ?>円</td>
                   </tr>
                   <tr>
                     <th>設立年月日</th>
-                    <td><?//= format_date! @estimate.company.established_date ?></td>
+                    <td><?= date('Y/m/d', strtotime(MyView::null_check($estimate->company->established_date))) ?></td>
                     <th>従業員数</th>
-                    <td><?//= @estimate.company.number_of_employee ?>人</td>
+                    <td><?= $estimate->company->number_of_employee ?>人</td>
                   </tr>
                   <tr>
                     <th>所在地</th>
-                    <td colspan="5">〒 <?//= @estimate.company.zip_code ?> <?//= @estimate.company.prefecture_name ?> <?//= @estimate.company.address ?></td>
+                    <td colspan="5">〒 <?= $estimate->company->zip_code ?> <?= $prefecture_kanji[key($prefecture_kanji)] ?> <?= $estimate->company->address ?></td>
                   </tr>
                   <tr>
                     <th>供給エリア</th>
-                    <td colspan="3"><?//= @estimate.company.supply_area_text ?></td>
+                    <td colspan="3"><?= $estimate->company->supply_area_text ?></td>
                   </tr>
                   <tr>
                     <th>事業概要</th>
-                    <td colspan="3"><?//= newline_to_br @estimate.company.business_overview ?></td>
+                    <td colspan="3"><?= $estimate->company->business_overview ?></td>
                   </tr>
-                  <?// if @estimate.company.company_service_features.empty? ?>
+                  <? if(isset($estimate->company->company_service_features)){ ?>
                   <tr>
                     <th>サービスの特徴</th>
-                    <td colspan="3"><?//= newline_to_br @estimate.company.service_features ?></td>
+                    <td colspan="3"><?= $estimate->company->company_service_features ?></td>
                   </tr>
-                  <?// end ?>
+                  <? } ?>
                 </tbody>
               </table>
             </div>
@@ -425,14 +422,13 @@
                 <?//= link_to 'この会社からの連絡を希望する', lpgas_contact_estimate_ok_tentatively_path(@contact, @estimate.uuid, token: @contact.token), method: 'post', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_bottom_sp', {'nonInteraction': 1});" ?>
               </div>
             </div>
-            <?// end ?>
           </div>
         </div>
       </div>
     </div>
 
     <div class="highlighted section_second steps">
-      <?//= render "shared/estimate_flow" ?>
+      <?= render("shared/estimate_flow") ?>
 
       <div class="text-center" style="width: 80%; margin: auto;">
         <?// if @estimate.sent_estimate_to_user? ?>
@@ -446,3 +442,12 @@
       </div>
     </div>
     </div>
+
+<script type='text/javascript'>
+  google.load('visualization', '1.0', {packages: ['corechart'], callback: draw_chart});
+  function draw_chart() {
+    var data_table = new google.visualization.DataTable();data_table.addColumn({"type":"string","label":"月"});data_table.addColumn({"type":"number","label":"現在料金"});data_table.addColumn({"type":"number","label":"提案料金"});data_table.addRow([{v: "1月"}, {v: 9261}, {v: 5831}]);data_table.addRow([{v: "2月"}, {v: 8947}, {v: 5650}]);data_table.addRow([{v: "3月"}, {v: 8515}, {v: 5402}]);data_table.addRow([{v: "4月"}, {v: 8044}, {v: 5132}]);data_table.addRow([{v: "5月"}, {v: 7180}, {v: 4635}]);data_table.addRow([{v: "6月"}, {v: 6356}, {v: 4162}]);data_table.addRow([{v: "7月"}, {v: 5570}, {v: 3711}]);data_table.addRow([{v: "8月"}, {v: 5217}, {v: 3508}]);data_table.addRow([{v: "9月"}, {v: 5178}, {v: 3485}]);data_table.addRow([{v: "10月"}, {v: 6041}, {v: 3981}]);data_table.addRow([{v: "11月"}, {v: 6944}, {v: 4500}]);data_table.addRow([{v: "12月"}, {v: 8240}, {v: 5244}]);
+    var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
+    chart.draw(data_table, {width: "100%", height: 300, title: "月別LPガス料金シミュレーション"});
+  };
+</script>

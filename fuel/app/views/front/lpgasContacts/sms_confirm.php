@@ -28,9 +28,6 @@
     })();
 </script>
 
-    <?// _est = $lpgas_contact.sent_estimates.to_a ?>
-    <?// est = (_est.select(&:has_price?) + _est.reject(&:has_price?)) ?>
-
     <div class="container section">
       <?//= form_tag ok_tentatively_lpgas_contact_estimates_path($lpgas_contact, token: $lpgas_contact.token) do ?>
 
@@ -46,11 +43,11 @@
             </dl>
             <dl class="currant_info_list">
               <dt>ガス使用量:</dt>
-              <dd><?= number_format($contact->gas_used_amount, 1) ?>m3 (<?= $contact->gas_meter_checked_month ?>月)</dd>
+              <dd><?= number_format(MyView::null_check($contact->gas_used_amount), 1) ?>m3 (<?= $contact->gas_meter_checked_month ?>月)</dd>
             </dl>
             <dl class="currant_info_list">
               <dt>お支払い額(税込):</dt>
-              <dd><?= number_format($contact->gas_latest_billing_amount) ?>円</dd>
+              <dd><?= number_format(MyView::null_check($contact->gas_latest_billing_amount)) ?>円</dd>
             </dl>
           </div>
           <div class="inner_right">
@@ -70,16 +67,16 @@
           </div>
         </div>
 
-        <?// if($contact->status->sent_estimate_req == false){ ?>
+        <?// if @contact.sent_estimate_req? ?>
         <div class="text-center estimate_btn_area">
           <div class="hidden_pc">
             <p class="big">
-              上記をクリアした<span style="color: #f93f3f"><?//= est.size ?>社</span>のプランをご提案します<br>
+              上記をクリアした<span style="color: #f93f3f"><?= count($contact->estimate) ?>社</span>のプランをご提案します<br>
             </p>
           </div>
           <div class="hidden_sp">
             <p class="big">
-              上記をクリアした<span style="color: #f93f3f"><?//= est.size ?>社</span>の<br>プランをご提案します
+              上記をクリアした<span style="color: #f93f3f"><?= count($contact->estimate) ?>社</span>の<br>プランをご提案します
             </p>
           </div>
           <div class="hidden_pc">
@@ -123,11 +120,11 @@
             </dl>
             <dl class="currant_using_info">
               <dt>ガス使用量</dt>
-              <dd><?= number_format($contact->gas_used_amount, 1) ?>m3 (<?= $contact->gas_meter_checked_month ?>月)</dd>
+              <dd><?= number_format(MyView::null_check($contact->gas_used_amount), 1) ?>m3 (<?= $contact->gas_meter_checked_month ?>月)</dd>
             </dl>
             <dl class="currant_using_info">
               <dt>お支払い額(税込)</dt>
-              <dd><?= number_format($contact->gas_latest_billing_amount) ?>円</dd>
+              <dd><?= number_format(MyView::null_check($contact->gas_latest_billing_amount)) ?>円</dd>
             </dl>
           </div>
           <div class="inner_right">
@@ -152,7 +149,7 @@
         <?// if $contact.sent_estimate_req? ?>
         <div class="text-center estimate_btn_area">
           <p class="big">
-            上記をクリアした<span style="color: #f93f3f"><?//= est.size ?>社</span>のプランをご提案します<br>
+            上記をクリアした<span style="color: #f93f3f"><?= count($contact->estimate) ?>社</span>のプランをご提案します<br>
           </p>
           <div class="hidden_pc">
             <?= MyView::submit_tag("commit", ["value" => "チェックを入れた会社からの連絡を希望する", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn', {'nonInteraction': 1});"]) ?>
@@ -214,6 +211,7 @@
 
     <?$count = 0; ?>
     <? foreach ($contact->estimate as $e) { ?>
+    <?= $e->id ?>
     <div class="hidden_sp">
       <div class="panel matching-list-area estimate">
         <div class="matching-list-heading">
@@ -306,21 +304,32 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td><?//= number_to_currency e.basic_price ?></td>
+                      <td><?= number_format(MyView::null_check($e->basic_price)); ?>円</td>
                       <td>
-                        <?// if e.unit_prices.size == 1 ?>
-                          <?//= number_to_currency e.unit_prices.first.unit_price ?>
-                        <?// else ?>
+                        <? if(count($e->prices) == 1){ ?>
+                          <?= number_format(MyView::null_check($e->unit_price)); ?>円
+                        <? }else{ ?>
                           <ul>
                             <?// e.unit_prices.each do |u| ?>
+                            <? foreach($e->prices as $p){ ?>
                             <li>
-                              <b><?//= u.range_text ?>:</b> <?//= number_to_currency u.unit_price ?>
+                              <b>
+                                <?
+                                   if(isset($p->upper_limit))
+                                   {
+                                       $range_text = $p->under_limit." ~ ".$p->upper_limit."m3";
+                                   }else{
+                                       $range_text = $p->under_limit."m3 ~ ";
+                                   }
+                                ?>
+                                <?= $range_text ?>:
+                              </b> <?= number_format(MyView::null_check($p->unit_price)); ?>円
                             </li>
-                            <?// end ?>
+                            <? } ?>
                           </ul>
-                        <?// end ?>
+                        <? } ?>
                       </td>
-                      <td><?//= number_to_currency e.fuel_adjustment_cost ?></td>
+                      <td><?= number_format(MyView::null_check($e->fuel_adjustment_cost)); ?></td>
                     </tr>
                   </tbody>
                 </table>
@@ -444,21 +453,32 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td><?//= number_to_currency e.basic_price ?></td>
+                      <td><?= number_format(MyView::null_check($e->basic_price)); ?>円</td>
                       <td>
-                        <?// if e.unit_prices.size == 1 ?>
-                          <?//= number_to_currency e.unit_prices.first.unit_price ?>
-                        <?// else ?>
-                        <ul>
-                          <?// e.unit_prices.each do |u| ?>
-                          <li>
-                            <b><?//= u.range_text ?>:</b> <?//= number_to_currency u.unit_price ?>
-                          </li>
-                          <?// end ?>
-                        </ul>
-                        <?// end ?>
+                        <? if(count($e->prices) == 1){ ?>
+                          <?= number_format(MyView::null_check($e->unit_price)); ?>円
+                        <? }else{ ?>
+                          <ul>
+                            <?// e.unit_prices.each do |u| ?>
+                            <? foreach($e->prices as $p){ ?>
+                            <li>
+                              <b>
+                                <?
+                                   if(isset($p->upper_limit))
+                                   {
+                                       $range_text = $p->under_limit." ~ ".$p->upper_limit."m3";
+                                   }else{
+                                       $range_text = $p->under_limit."m3 ~ ";
+                                   }
+                                ?>
+                                <?= $range_text ?>:
+                              </b> <?= number_format(MyView::null_check($p->unit_price)); ?>円
+                            </li>
+                            <? } ?>
+                          </ul>
+                        <? } ?>
                       </td>
-                      <td><?//= number_to_currency e.fuel_adjustment_cost ?></td>
+                      <td><?= number_format(MyView::null_check($e->fuel_adjustment_cost)); ?></td>
                     </tr>
                   </tbody>
                 </table>
@@ -730,7 +750,7 @@
     </div>
 
       <div class="highlighted section_second steps">
-        <?//= render "shared/estimate_flow" ?>
+        <?= render("shared/estimate_flow") ?>
       </div>
 
       <?// if conversion_id  ?>

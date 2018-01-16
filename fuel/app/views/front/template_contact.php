@@ -62,6 +62,16 @@
 
         <?= $content; ?>
 
+<footer>
+  <div class="footer">
+    <div class="container">
+      <div class="clearfix">
+        <div class="footer-logo text-center"></div>
+      </div>
+      <div class="footer-copyright text-center">© 2016 enepi</div>
+    </div>
+  </div>
+</footer>
 
   <?php if ($this->pr_tracking_name == "xmarke"): ?>
     <img width="1" height="1" border="0" alt="成果報告タグ" src="https://rsch.jp/common/prom/connectlpimg.php?eqid=8def6277d77504dbc3b8bbaf8e447c56546cb41c&po=0023">

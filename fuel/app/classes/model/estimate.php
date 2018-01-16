@@ -81,18 +81,18 @@ class Model_Estimate extends \Orm\Model
         'prices' => [
             'model_to' => 'Model_Estimate_Price',
         ],
-        'companies'  => [
-            'model_to' => 'Model_Company',
-            'key_from' => 'company_id',
-            'key_to' => 'partner_company_id',
-        ],
+//         'companies'  => [
+//             'model_to' => 'Model_Company',
+//             'key_from' => 'company_id',
+//             'key_to' => 'partner_company_id',
+//         ],
     ];
 
     protected static $_has_one = [
         'company'  => [
             'model_to' => 'Model_Company',
+            'key_to' => 'id',
             'key_from' => 'company_id',
-            'key_to' => 'partner_company_id',
         ],
     ];
 
