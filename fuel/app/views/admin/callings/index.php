@@ -1,52 +1,89 @@
-<?= search_form_for [:admin, @q] { |f| ?>
-  <div class="form-group">
-    <div class="form-inline">
-      <?= f.input :contact_name_eq, required: false, label: "名前が等しい" ?>
-      <?= f.input :contact_name_cont, required: false, label: "名前を含む" ?>
+<?php
+use JpPrefecture\JpPrefecture;
+?>
+
+<?= \Form::open(['method' => 'GET']); ?>
+  <div class="form-group row mb-0">
+    <div class="col-3">
+      <div class="form-group<?= $val->error('name_equal') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="name_equal"><h6>名前が等しい</h6></label>
+        <input type="text" name="name_equal" value="<?= $val->input('name_equal', '') ?>" class="form-control" id="name_equal">
+      </div>
     </div>
-  </div>
-  <div class="form-group">
-    <div class="form-inline">
-      <?= f.input :contact_tel_eq, required: false, label: "電話番号が等しい" ?>
-      <?= f.input :contact_email_eq, required: false, label: "メールアドレスが等しい" ?>
-      <?= f.input :contact_status_eq, collection: ::Lpgas::Contact.as_enum_collection_i18n_for_ransack(:status), required: false, label: "ステータスが等しい" ?>
-      <?= f.input :contact_user_status_eq, collection: ::Lpgas::Contact.as_enum_collection_i18n_for_ransack(:user_status), required: false, label: "小ステータス" ?>
-      <div class="form-group">
-        <label class="control-label">見積り進行状況</label>
-        <?= select_tag :estimate_progress, options_for_select(['', '連絡済み', '訪問済み', '委任状獲得済み', '工事予定', '工事完了'], params[:estimate_progress]), ["class" => 'form-control' ?>
+    <div class="col-3">
+      <div class="form-group<?= $val->error('name_like') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="name_like"><h6>名前を含む</h6></label>
+        <input type="text" name="name_like" value="<?= $val->input('name_like', '') ?>" class="form-control" id="name_like">
       </div>
     </div>
   </div>
-  <div class="form-group">
-    <label>
-      <?= check_box_tag :include_archive, 1, params[:include_archive].present? ?>
+  <div class="form-group row mb-0">
+    <div class="col-2">
+      <div class="form-group<?= $val->error('tel_equal') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="tel_equal"><h6>電話番号が等しい</h6></label>
+        <input type="text" name="tel_equal" value="<?= $val->input('tel_equal', '') ?>" class="form-control" id="tel_equal">
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form-group<?= $val->error('email_equal') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="email_equal"><h6>メールアドレスが等しい</h6></label>
+        <input type="text" name="email_equal" value="<?= $val->input('email_equal', '') ?>" class="form-control" id="email_equal">
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form-group<?= $val->error('status') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="status"><h6>ステータスが等しい</h6></label>
+        <?= Form::select('status', $val->input('status', ''), ['' => 'none'] + __('admin.contact.status'), ['class' => 'form-control', 'id' => 'status']); ?>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="form-group<?= $val->error('user_status') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="user_status"><h6>小ステータス</h6></label>
+        <?= Form::select('user_status', $val->input('user_status', ''), ['' => 'none'] + __('admin.contact.user_status'), ['class' => 'form-control', 'id' => 'user_status']); ?>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="form-group<?= $val->error('estimate_progress') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="estimate_progress"><h6>見積り進行状況</h6></label>
+        <?= Form::select('estimate_progress', $val->input('estimate_progress', ''), ['' => 'none'] + __('admin.estimate.progress'), ['class' => 'form-control', 'id' => 'estimate_progress']); ?>
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-check mb-3">
+    <label class="form-check-label">
+      <input class="form-check-input" type="checkbox" name="include_archive" value="1"<?= $val->input('include_archive') ? ' checked="checked"' : '' ?>>
       アーカイブされているものも含む
     </label>
   </div>
 
-  <?= f.button :submit ?>
-<? } ?>
+  <button type="submit" class="btn btn-secondary">検索</button>
+<?= Form::close(); ?>
 
-<p class="success-paragraph">
-  追加日時、問い合わせ日時でソート可能です。
-</p>
+<div class="card card-outline-success mb-3 mt-3 text-center">
+  <div class="card-block">
+    <blockquote class="card-blockquote">追加日時、問い合わせ日時でソート可能です。</blockquote>
+  </div>
+</div>
 
-<table class="table table-condensed table-striped table-hover">
+<table class="table table-sm table-hover small-row">
   <thead>
     <tr>
       <th>
-        <?= sort_link @q, :created_at, "追加日時" ?>
+        <div><i class="fa fa-hashtag" aria-hidden="true"></i> 問い合わせID</div>
+        <div><i class="fa fa-phone" aria-hidden="true"></i> 追加日時</div>
+        <div><i class="fa fa-clock-o" aria-hidden="true"></i> 問い合わせ日時</div>
       </th>
-      <th>問い合わせID</th>
-      <th>自動見積もり</th>
-      <th>提示画面閲覧済み</th>
-      <th>お名前</th>
       <th>
-        <?= sort_link @q, :contact_created_at, "問い合わせ日時" ?>
+        <div><i class="fa fa-user-circle-o" aria-hidden="true"></i> お名前</div>
+        <div><i class="fa fa-phone" aria-hidden="true"></i> 電話番号</div>
+        <div><i class="fa fa-globe" aria-hidden="true"></i> 都道府県</div>
       </th>
-      <th>電話番号</th>
-      <th>都道府県</th>
-      <th>見積もり数</th>
+      <th>
+        <div><i class="fa fa-reply" aria-hidden="true"></i> 自動見積もり</div>
+        <div><i class="fa fa-eye" aria-hidden="true"></i> 提示画面閲覧済み</div>
+        <div><i class="fa fa-tachometer" aria-hidden="true"></i> 見積もり数</div>
+      </th>
       <th>問い合わせステータス</th>
       <th>見積もり進行状況</th>
       <th>管理者メモ</th>
@@ -55,66 +92,114 @@
     </tr>
   </thead>
   <tbody>
-    <? @callings.each { |c| ?>
-      <tr class="<?= 'archived' if c.archived? ?>">
-        <td><?= format_datetime!(c.created_at) ?></td>
-        <td><?= c.contact.id ?></td>
-        <td><? if c.contact.sent_auto_estimate_req ?>◯<? else ?>×<? } ?></td>
-        <td><?= c.contact.is_seen_i18n ?></td>
-        <td><?= c.contact.name ?></td>
-        <td><?= format_datetime! c.contact.created_at ?></td>
-        <td><?= c.contact.tel ?></td>
-        <? if c.contact.prefecture.present? ?>
-          <td><?= c.contact.prefecture.name ?></td>
-        <? else ?>
-          <td></td>
-        <? } ?>
-        <td><?= c.contact.estimates.size ?>件</td>
+    <?php foreach ($callings as $call): ?>
+      <tr>
         <td>
-          <span class="status <?= c.contact.status ?>">
-            <?= c.contact.enum_value_i18n(:status) ?>
-            <? unless c.contact.no_action? ?>
-              <br>(<?= c.contact.enum_value_i18n(:user_status) ?>)
-            <? } ?>
-          </span>
+          <div><i class="fa fa-hashtag" aria-hidden="true"></i> <?= $call->contact->id; ?></div>
+          <div><i class="fa fa-phone" aria-hidden="true"></i> <?= \Helper\TimezoneConverter::convertFromString($call->created_at, 'admin_table'); ?></div>
+          <div><i class="fa fa-clock-o" aria-hidden="true"></i> <?= \Helper\TimezoneConverter::convertFromString($call->contact->created_at, 'admin_table'); ?></div>
         </td>
         <td>
-          <? if c.contact.estimate_progress.present? ?>
-            <? if c.contact.estimate_progress == '未連絡' ?>
-              <span class="status pending"><?= c.contact.estimate_progress ?></span>
-            <? else ?>
-              <span class="status contracted"><?= c.contact.estimate_progress ?></span>
-            <? } ?>
-            <br>
-          <? } ?>
+          <div><i class="fa fa-user-circle-o" aria-hidden="true"></i> <?= $call->contact->name; ?></div>
+          <div><i class="fa fa-phone" aria-hidden="true"></i> <?= $call->contact->tel; ?></div>
+          <div><i class="fa fa-globe" aria-hidden="true"></i> <?= JpPrefecture::findByCode($call->contact->getPrefectureCode())->nameKanji; ?></div>
         </td>
         <td>
-          <div data-scroll-y-container="1">
-            <?= c.contact.admin_memo ?>
+          <div><i class="fa fa-reply" aria-hidden="true"></i> <i class="fa <?= $call->contact->sent_auto_estimate_req ? 'fa-circle-o' : 'fa-times' ?>" aria-hidden="true"></i></div>
+          <div><i class="fa fa-eye" aria-hidden="true"></i> <i class="fa <?= $call->contact->sent_auto_estimate_req ? 'fa-circle-o' : 'fa-times' ?>" aria-hidden="true"></i></div>
+          <div><i class="fa fa-tachometer" aria-hidden="true"></i> <?= count($call->contact->estimates); ?></div>
+        </td>
+        <td class="align-middle">
+          <div class="card card-outline-<?= $call->contact->getStatusColor(); ?> text-center">
+            <div class="card-block p-0">
+              <blockquote class="card-blockquote">
+                <?= __('admin.contact.status.'.\Config::get('views.contact.status.'.$call->contact->status)) ?>
+                <?php if ($call->contact->user_status != \Config::get('models.contact.user_status.no_action')): ?>
+                  <br>(<?= __('admin.contact.user_status.'.\Config::get('views.contact.user_status.'.$call->contact->user_status)); ?>)
+                <?php endif; ?>
+              </blockquote>
+            </div>
           </div>
         </td>
-        <td>
-          <div data-scroll-y-container="1">
-            <?= newline_to_br c.contact.calling_histories.sorted.map(&:one_line_string).take(20).join("\n") ?>
-          </div>
+        <td class="align-middle">
+          <?php if ($progress = $call->contact->getEstimateProgress()): ?>
+            <div class="card card-outline-<?= $progress == 'unknown' ? 'danger' : 'success'; ?> text-center">
+              <div class="card-block p-0">
+                <blockquote class="card-blockquote">
+                  <?= __('admin.estimate.progress.'.$progress) ?>
+                </blockquote>
+              </div>
+            </div>
+          <?php endif; ?>
         </td>
-        <td>
-          <ul>
-            <li><?= MyView::link_to('編集', edit_admin_lpgas_contact_path(c.contact) ?></li>
-            <li><?= lpgas_contact_cancel_link(c.contact) ?></li>
-          </ul>
+        <td class="align-middle">
+          <?php if ($call->contact->admin_memo): ?>
+            <div class="note-box" data-container="body" data-toggle="popover" data-placement="top" data-content="<?= $call->contact->admin_memo; ?>">
+              <?= \Str::truncate($call->contact->admin_memo, 25); ?>
+            </div>
+          <?php endif; ?>
         </td>
-        <td>
-          <? unless c.archived? ?>
-            <?= MyView::link_to(admin_lpgas_calling_archive_path(c), ["method" => 'post', ["class" => 'btn btn-xs btn-warning' { ?>
-              <i class="fa fa-archive" aria-hidden="true"></i>
-              アーカイブ
-            <? } ?>
-          <? } ?>
+        <td class="align-middle">
+          <?php if ($histories = $call->contact->getCallingHistories()): ?>
+            <?php $output = []; ?>
+            <?php foreach ($histories as $h): ?>
+              <?php $output[] = $h->oneLineString(); ?>
+            <?php endforeach; ?>
+            <div class="note-box" data-container="body" data-toggle="popover" data-placement="top" data-content="<?= implode("\n", $output); ?>">
+              <?= implode('<br>', $output); ?>
+            </div>
+          <?php endif; ?>
+        </td>
+        <td class="p-0">
+          <div><a href="<?= \Uri::create('admin/contacts/:id/edit', ['id' => $call->contact->id]); ?>" class="btn btn-link btn-sm px-1 py-0" role="button">編集</a></div>
+          <div><a href="#" class="btn-cancel btn btn-danger btn-sm px-1 py-0" role="button" data-contact-id="<?= $call->contact->id; ?>" data-contact-name="<?= $call->contact->name; ?>" data-contact-pref="<?= JpPrefecture::findByCode($call->contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $call->contact->tel; ?>"><!-- <i class="fa fa-times-circle-o" aria-hidden="true"></i>  -->キャンセル</a></div>
+          <?php if (!$call->archived): ?>
+            <div><a href="<?= \Uri::create('admin/callings/:id/archive', ['id' => $call->id]); ?>" class="btn btn-warning btn-sm px-1 py-0" role="button"><!-- <i class="fa fa-archive" aria-hidden="true"></i>  -->アーカイブ</a></div>
+          <?php endif; ?>
         </td>
       </tr>
-    <? } ?>
+    <?php endforeach; ?>
   </tbody>
 </table>
 
-<?= paginate @callings ?>
+<!-- Modal -->
+<div class="modal fade" id="contactCancel" tabindex="-1" role="dialog" aria-labelledby="contactCancelLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <?= \Form::open(['action' => \Uri::create('admin/contacts/0/cancel')]); ?>
+        <?= \Form::csrf(); ?>
+      <form action="/admin/contacts/0/cancel" method="POST">
+        
+        <div class="modal-header">
+          <h4 class="modal-title" id="callLogLabel"><i class="fa fa-question-circle-o" aria-hidden="true"></i> 本当に問い合わせをキャンセルしますか？</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="card mb-2">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item justify-content-between">氏名:<span class="contact-name">TTTTTT</span></li>
+              <li class="list-group-item justify-content-between">都道府県:<span class="contact-pref">OOooo</span></li>
+              <li class="list-group-item justify-content-between">電話番号:<span class="contact-tel">PpppPP</span></li>
+            </ul>
+          </div>
+          <div class="form-group mb-1">
+            <label for="cancel_groups"><i class="fa fa-asterisk" aria-hidden="true"></i> 変更理由のカテゴリ</label>
+            <?= Form::select('reason_groups', '', ['' => ''] + \Helper\CancelReasons::getGroups(), ['class' => 'form-control', 'id' => 'cancel_groups', 'required' => 'required']); ?>
+          </div>
+          <div class="form-group mb-0">
+            <label for="cancel_reasons"><i class="fa fa-asterisk" aria-hidden="true"></i> キャンセル理由</label>
+            <?= Form::select('status_reasons', '', [], ['class' => 'form-control', 'id' => 'cancel_reasons', 'required' => 'required']); ?>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">やめる</button>
+          <button class="btn btn-danger">キャンセルする</button>
+        </div>
+      <?= Form::close(); ?>
+    </div>
+  </div>
+</div>
+
+<?= \Pagination::instance('callings')->render(); ?>

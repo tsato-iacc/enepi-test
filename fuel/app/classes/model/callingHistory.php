@@ -31,7 +31,18 @@ class Model_CallingHistory extends \Orm\Model
         'admin_user',
     ];
 
-    protected static $_has_many = [
-        'estimates',
-    ];
+    // protected static $_has_many = [
+    //     'estimates',
+    // ];
+    
+    /**
+     * View functions
+     */
+    public function oneLineString()
+    {
+        $date = \Helper\TimezoneConverter::convertFromString($this->created_at, 'admin_call_history');
+        $method = \Config::get('views.calling_history.calling_method.'.$this->calling_method);
+
+        return $date . " " . __('admin.calling_history.calling_method.'.$method);
+    }
 }

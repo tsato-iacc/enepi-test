@@ -176,6 +176,12 @@ class Model_Estimate extends \Orm\Model
         return $sum;
     }
 
+    public function cancel($admin_id, $status_reason)
+    {
+        $this->last_update_admin_user_id = $admin_id;
+        $this->status_reason = $status_reason;
+    }
+
     /**
      * Private methods
      */

@@ -4,6 +4,9 @@ class Controller_Admin extends Controller_Base
 {
     public $template = 'admin/template';
 
+    // FIX ME Set real id
+    protected $admin_id = 20;
+
     public function before()
     {
         parent::before();
