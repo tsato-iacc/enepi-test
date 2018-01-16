@@ -11,3 +11,4 @@
  * Custom scripts
  */
 //= admin/bootstrap.js
+//= admin/callings.js
