@@ -41,7 +41,7 @@ class Controller_Admin_Estimates extends Controller_Admin
      * @access  public
      * @return  Response
      */
-    public function action_edit($id)
+    public function action_show($id)
     {
         $this->template->title = 'local_contents';
         $this->template->content = View::forge('admin/estimates/edit', [

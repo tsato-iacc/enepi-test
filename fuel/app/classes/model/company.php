@@ -50,7 +50,9 @@ class Model_Company extends \Orm\Model
     ];
 
     protected static $_belongs_to = [
-        'partner_company',
+        'partner_company' => [
+            'model_to' => 'Model_Partner_Company'
+        ],
     ];
 
     protected static $_has_many = [
@@ -77,4 +79,16 @@ class Model_Company extends \Orm\Model
             'table_through' => 'lpgas_company_features',
         ]
     ];
+
+    /**
+     * [validate description]
+     * @param  string $factory Validation rules factory
+     * @return mixed           Return Fuel\Core\Validation object
+     */
+    public static function validate()
+    {
+        $val = Validation::forge();
+        
+        return $val;
+    }
 }

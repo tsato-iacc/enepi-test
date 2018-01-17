@@ -31,6 +31,24 @@ return [
             'thinking' => '検討中',
             'no_action' => '',
         ],
+        'house_kind' => [
+            'detached' => '戸建て',
+            'apartment' => 'マンション・アパート',
+            'store_ex' => '店舗',
+        ],
+        'gas_machines' => [
+            'using_cooking_stove' => 'ガスコンロ',
+            'using_bath_heater_with_gas_hot_water_supply' => '給湯器',
+            'using_other_gas_machine' => 'ストーブその他',
+        ],
+        'preferred_contact_time_between' => [
+            5 => '',
+            0 => 'いつでも',
+            1 => '9:00~12:00',
+            2 => '12:00~15:00',
+            3 => '15:00~18:00',
+            4 => '18:00~21:00',
+        ],
     ],
 
     'estimate' => [

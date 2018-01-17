@@ -21,6 +21,12 @@ return [
             40 => 'thinking',
             999 => 'no_action',
         ],
+
+        'house_kind' => [
+            0 => 'detached',
+            1 => 'apartment',
+            2 => 'store_ex',
+        ],
     ],
 
     /**

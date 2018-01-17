@@ -1,68 +1,88 @@
-<p>
-  <?= MyView::link_to(map_admin_lpgas_companies_path, target: '_blank' { ?>
-    <i class="fa fa-map-marker"></i>
-    旧対応エリアマップ
-  <? } ?>
-</p>
+<?php
+use JpPrefecture\JpPrefecture;
+?>
 
-<?= search_form_for [:admin, @q] { |f| ?>
-  <div class="form-group">
-    <div class="form-inline">
-      <?= f.input :display_name_eq, required: false, label: "表示名が等しい" ?>
-      <div class="form-group">
-        <label>この郵便番号に対応できる会社 ※送客可否のフラグは無視されます</label>
-        <?= text_field_tag :zip_code, params[:zip_code], ["class" => 'form-control' ?>
+<?= \Form::open(['method' => 'GET']); ?>
+  <div class="form-group row mb-0">
+    <div class="col-3">
+      <div class="form-group<?= $val->error('name_equal') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="name_equal"><h6>表示名が等しい</h6></label>
+        <input type="text" name="name_equal" value="<?= $val->input('name_equal', '') ?>" class="form-control" id="name_equal">
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form-group<?= $val->error('zip_code') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="zip_code"><h6>この郵便番号に対応できる会社</h6></label>
+        <input type="text" disabled="disabled" name="zip_code" value="<?= $val->input('zip_code', '') ?>" class="form-control" id="zip_code">
       </div>
     </div>
   </div>
 
-  <?= f.button :submit, '検索' ?>
-<? } ?>
+  <button type="submit" class="btn btn-secondary">検索</button>
+<?= Form::close(); ?>
 
-<table class="table table-condensed table-striped table-hover">
+<table class="table table-sm table-hover small-row mt-4">
   <thead>
     <tr>
-      <th>ID</th>
-      <th>パートナーID</th>
-      <th>会社名</th>
-      <th>表示名</th>
-      <th>都道府県</th>
-      <th>TEL</th>
-      <th>FAX</th>
+      <th>
+        <div>ID</div>
+        <div>パートナー</div>
+      </th>
+      <th>
+        <div><i class="fa fa-user" aria-hidden="true"></i> 会社名</div>
+        <div><i class="fa fa-user-o" aria-hidden="true"></i> 表示名</div>
+      </th>
+      <th>
+        <div><i class="fa fa-globe" aria-hidden="true"></i> 都道府県</div>
+        <div><i class="fa fa-reply" aria-hidden="true"></i> 送客可</div>
+      </th>
+      <th>
+        <div><i class="fa fa-phone" aria-hidden="true"></i> TEL</div>
+        <div><i class="fa fa-fax" aria-hidden="true"></i> FAX</div>
+      </th>
       <th>成約手数料</th>
-      <th>送客可</th>
+      <th></th>
       <th></th>
     </tr>
   </thead>
   <tbody>
-    <? @companies.each { |c| ?>
+    <?php foreach ($companies as $company): ?>
       <tr>
-        <td><?= c.id ?></td>
-        <td><?= MyView::link_to(c.partner_company_id, edit_admin_partner_company_path(c.partner_company_id) ?></td>
-        <td><?= c.company_name ?></td>
-        <td><?= c.display_name ?></td>
-        <td><?= c.prefecture_name ?></td>
-        <td><?= c.tel ?></td>
-        <td><?= c.fax ?></td>
         <td>
-          <?= [
-            c.default_contracted_commission_s,
-            c.default_contracted_commission_w,
-            c.default_contracted_commission_sw
-          ].join("-") ?>
+          <div><i class="fa fa-hashtag" aria-hidden="true"></i> <?= $company->id; ?></div>
+          <div><a href="<?= \Uri::create('admin/partner_companies/:id/edit', ['id' => $company->partner_company->id]); ?>"><i class="fa fa-hashtag" aria-hidden="true"></i> <?= $company->partner_company->id; ?></a></div>
         </td>
-        <td><?= boolean_label c.estimate_req_sendable ?></td>
         <td>
-          <ul>
-            <li><?= MyView::link_to(fa_text('list', '見積もり依頼一覧'), admin_lpgas_company_estimates_path(c) ?></li>
-            <li><?= MyView::link_to(fa_text('exclamation-triangle', 'NG企業'), admin_lpgas_company_ng_companies_path(c) ?></li>
-            <li><?= MyView::link_to(fa_text('map-marker', '営業拠点一覧'), admin_lpgas_company_offices_path(c) ?></li>
-            <li><?= MyView::link_to(fa_text('edit', '編集'), edit_admin_lpgas_company_path(c) ?></li>
-          </ul>
+          <div><i class="fa fa-user" aria-hidden="true"></i> <?= $company->partner_company->company_name; ?></div>
+          <div><i class="fa fa-user-o" aria-hidden="true"></i> <?= $company->display_name; ?></div>
+        </td>
+        <td>
+            <div><i class="fa fa-globe" aria-hidden="true"></i> <?= JpPrefecture::findByCode($company->prefecture_code)->nameKanji; ?></div>
+            <div>
+              <i class="fa fa-reply" aria-hidden="true"></i>
+              <?php if ($company->estimate_req_sendable): ?>
+                <span class="badge badge-success">TRUE</span>
+              <?php else: ?>
+                <span class="badge badge-default">FALSE</span>
+              <?php endif; ?>
+            </div>
+        </td>
+        <td class="align-middle">
+          <div><i class="fa fa-phone" aria-hidden="true"></i> <?= $company->tel; ?></div>
+          <div><i class="fa fa-fax" aria-hidden="true"></i> <?= $company->fax; ?></div>
+        </td>
+        <td><?= implode('-', [$company->default_contracted_commission_s, $company->default_contracted_commission_w, $company->default_contracted_commission_sw ]); ?></td>
+        <td>
+          <div><a href="<?= \Uri::create('admin/companies/:id/estimates', ['id' => $company->id]); ?>"><i class="fa fa-list"></i> 見積もり依頼一覧</a></div>
+          <div><a href="<?= \Uri::create('admin/companies/:id/ng', ['id' => $company->partner_company->id]); ?>"><i class="fa fa-exclamation-triangle"></i> NG企業</a></div>
+        </td>
+        <td>
+          <div><a href="<?= \Uri::create('admin/companies/:id/offices', ['id' => $company->partner_company->id]); ?>"><i class="fa fa-map-marker"></i> 営業拠点一覧</a></div>
+          <div><a href="<?= \Uri::create('admin/companies/:id/edit', ['id' => $company->partner_company->id]); ?>"><i class="fa fa-edit"></i> 編集</a></div>
         </td>
       </tr>
-    <? } ?>
+    <?php endforeach; ?>
   </tbody>
 </table>
 
-<?= paginate @companies ?>
+<?= \Pagination::instance('companies')->render(); ?>
