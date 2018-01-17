@@ -25,11 +25,6 @@ use \Helper\Tracking;
  */
 class Controller_Front_LpgasContacts extends Controller_Front
 {
-    static $_savings_by_month;
-    static $basic_price;
-    static $unit_price;
-
-
     /**
      * Show
      *
@@ -264,11 +259,11 @@ class Controller_Front_LpgasContacts extends Controller_Front
             throw new HttpNotFoundException();
         }
 
-        foreach ($contact->estimate as $key => $value) {
-            if($contact->estimate[$key]->basic_price == null) {
-                unset($contact->estimate[$key]);
-            }
-        }
+//         foreach ($contact->estimate as $key => $value) {
+//             if($contact->estimate[$key]->basic_price == null) {
+//                 unset($contact->estimate[$key]);
+//             }
+//         }
 
         $prefecture_data = \Model_LocalContentPrefecture::find($contact['prefecture_code']);
         if (!$prefecture_data)
@@ -312,11 +307,11 @@ class Controller_Front_LpgasContacts extends Controller_Front
             throw new HttpNotFoundException();
         }
 
-        foreach ($contact->estimate as $key => $value) {
-            if($contact->estimate[$key]->basic_price == null) {
-                unset($contact->estimate[$key]);
-            }
-        }
+//         foreach ($contact->estimate as $key => $value) {
+//             if($contact->estimate[$key]->basic_price == null) {
+//                 unset($contact->estimate[$key]);
+//             }
+//         }
 
         $estimate = \Model_Estimate::find('first',[
                 'where' => [
@@ -342,6 +337,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
                 $company = $e;
             }
         }
+        var_dump($company);
 
         Tracking::unsetTracking();
 
@@ -357,154 +353,9 @@ class Controller_Front_LpgasContacts extends Controller_Front
         $prefecture_kanji          = $this->prefecture_kanji(  $prefecture_KanjiAndCode,
             $contact['prefecture_code']);
 
+        $used_amount_by_month = $this->used_amount_by_month($contact);
 
-
-
-
-
-//         if(isset($contact['prefecture_code']))
-//         {
-//             $pref_model = JpPrefecture::usedAmountModel($contact['prefecture_code']);
-//         }
-//         else
-//         {
-//             $pref_model = JpPrefecture::usedAmountModel($contact['new_prefecture_code']);
-//         }
-
-//         $a = 1.0 / $pref_model[$contact['gas_meter_checked_month']];
-//         $used_amount_by_month = [];
-
-//         for($month = 0; $month < 12; $month++)
-//         {
-//             $m = $month + 1;
-//             $used_amount_by_month[$m] = $contact->gas_used_amount * $a * $pref_model[$m];
-//         }
-
-//         if(empty($basic_rate))
-//         {
-//             $basic_rate = JpPrefecture::basicPricePrefecture($contact['prefecture_code']);
-//         }
-
-
-//         if(!empty($contact->gas_latest_billing_amount) && !empty($contact->gas_used_amount))
-//         {
-//             if($contact->gas_used_amount == 0)
-//             {
-//                 if(empty($unit_price))
-//                 {
-//                     $unit_price = (($contact->gas_latest_billing_amount / 1.08) - (float)$basic_rate) / $contact->gas_used_amount;
-//                 }
-//             }
-//             else
-//             {
-//                 $unit_price = 0;
-//             }
-//         }
-
-//         $acc = [];
-//         if(!isset($_savings_by_month))
-//         {
-//             for($month = 0; $month < 12; $month++)
-//             {
-//                 $m = $month + 1;
-//                 $used_amount = $used_amount_by_month[$m];
-
-//                 $acc[$m] = [
-//                     'used_amount' => $used_amount,
-//                     'before_price' => round($basic_rate + $unit_price * $used_amount),
-//                     'after_price' => 1000,
-//                     //                 after_price: (basic_price + calc_ondemand_cost(used_amount)).round
-//                 ];
-//             }
-//         }
-//         else
-//         {
-//             $_savings_by_month = false;
-//         }
-
-
-
-
-
-
-
-
-
-
-
-        //         【estimates_controller.rb】
-        //         @savings_data_table = @estimate.savings_by_month
-
-
-        //        【estimate.rb】
-        //         def savings_by_month
-        //           return nil unless has_price?
-
-        //           return @_savings_by_month if @_savings_by_month
-
-        //           used_amount_by_month = contact.gas_used_amount_by_month
-        //           @_savings_by_month = 12.times.reduce({}) do |acc, t|
-        //             m = t + 1
-
-        //             used_amount = used_amount_by_month[m]
-        //             acc[m] = {
-        //                 used_amount: used_amount,
-        //                 before_price: (contact.basic_price + contact.unit_price * used_amount).round,
-        //                 after_price: (basic_price + calc_ondemand_cost(used_amount)).round
-        //             }
-        //             acc
-        //           end
-        //         end
-
-        //         def calc_ondemand_cost(used_amount)
-        //           sum = fuel_adjustment_cost.to_i * used_amount
-
-        //           u = used_amount
-        //           unit_prices.each do |price|
-        //             delta = -> { price.upper_limit - price.under_limit }
-        //             if !price.upper_limit || u <= delta.call()
-        //               sum += price.unit_price * u
-        //               break
-        //             else
-            //                u -= delta.call()
-        //               sum += price.unit_price * delta.call()
-        //             end
-        //           end
-
-        //           sum
-        //         end
-
-
-        //        【contact.rb】
-        //         def gas_used_amount_by_month
-        //           if prefecture_code.present?
-        //              pref_model = ::Lpgas::SimulationData::USED_AMOUNT_MODEL[prefecture_code]
-        //           else
-            //               pref_model = ::Lpgas::SimulationData::USED_AMOUNT_MODEL[new_prefecture_code.to_i]
-        //           end
-        //            a = 1.0 / pref_model[gas_meter_checked_month]
-        //            acc = {}
-        //            12.times do |t|
-        //               m = t + 1
-        //               acc[m] = gas_used_amount * a * pref_model[m]
-        //             end
-        //             acc
-        //           end
-
-        //           def basic_price
-        //             @basic_price ||= ::Lpgas::SimulationData::BASIC_PRICE[prefecture_code]
-        //           end
-
-        //           def unit_price
-        //             if gas_latest_billing_amount.present? && gas_used_amount.present?
-        //               return 0 if gas_used_amount == 0
-        //               @unit_price ||= ((gas_latest_billing_amount / 1.08) - basic_price).to_f / gas_used_amount
-        //             end
-        //           end
-
-
-
-
+        $savings_by_month = $this->savings_by_month($contact, $company, $used_amount_by_month);
 
         $this->template->title = 'エネピ';
         $this->template->meta = $meta;
@@ -514,6 +365,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
             'company' => $company,
             'estimate' => $estimate,
             'feature_all' => $feature_all,
+            'savings_by_month' => $savings_by_month,
         ]);
         $this->template->header_decision = $header_decision;
     }
@@ -569,7 +421,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
     }
 
-
     private function prefecture_kanji($prefecture_KanjiAndCode, $prefecture_code){
         $prefecture_kanji = array();
 
@@ -579,5 +430,101 @@ class Controller_Front_LpgasContacts extends Controller_Front
             }
         }
         return $prefecture_kanji;
+    }
+
+    private function used_amount_by_month($contact){
+
+        if(isset($contact['prefecture_code']))
+        {
+            $pref_model = JpPrefecture::usedAmountModel($contact['prefecture_code']);
+        }
+        else
+       {
+            $pref_model = JpPrefecture::usedAmountModel($contact['new_prefecture_code']);
+        }
+
+        $a = 1.0 / $pref_model[$contact['gas_meter_checked_month']];
+        $used_amount_by_month = [];
+
+        for($month = 0; $month < 12; $month++)
+        {
+            $m = $month + 1;
+            $used_amount_by_month[$m] = $contact->gas_used_amount * $a * $pref_model[$m];
+        }
+
+        return $used_amount_by_month;
+    }
+
+    private function savings_by_month($contact, $company, $used_amount_by_month)
+    {
+        $savings_by_month = [];
+
+        if(!is_null($company->basic_price))
+        {
+            return null;
+        }
+        elseif(!isset($_savings_by_month))
+        {
+            return $savings_by_month;
+        }
+
+        for($month = 0; $month < 12; $month++)
+        {
+            $m = $month + 1;
+            $used_amount = $used_amount_by_month[$m];
+
+            $savings_by_month[$m] = [
+                'id' => $company->id,
+                'used_amount' => $used_amount,
+                'before_price' => round($this->basic_price($contact) + $this->unit_price($contact) * $used_amount),
+                'after_price' => round($company->basic_price + $this->calc_ondemand_cost($contact, $used_amount)),
+            ];
+        }
+        return $savings_by_month;
+
+    }
+
+    private function basic_price($contact){
+        return JpPrefecture::basicPricePrefecture($contact['prefecture_code']);
+    }
+
+    private function unit_price($contact){
+
+        $unit_price = 0;
+        if(!empty($contact->gas_latest_billing_amount) && !empty($contact->gas_used_amount))
+        {
+            if($contact->gas_used_amount == 0)
+            {
+                return $unit_price = 0;
+            }
+            return $unit_price = (($contact->gas_latest_billing_amount / 1.08) - (float)$basic_price) / $contact->gas_used_amount;
+        }
+
+        return $unit_price;
+    }
+
+    private function calc_ondemand_cost($contact, $used_amount){
+
+        $sum = $contact->fuel_adjustment_cost * $used_amount;
+
+        foreach ($contact->estimate as $e)
+        {
+            foreach($e->prices as $p)
+            {
+                if($used_amount <= $p->upper_limit - $p->under_limit)
+                {
+                    $sum += ($p->unit_price * $used_amount);
+                    break;
+                }
+                else
+              {
+                    $used_amount -= $p->upper_limit - $p->under_limit;
+                    $sum += $p->unit_price * ($p->upper_limit - $p->under_limit);
+                }
+            }
+        }
+
+        return $sum;
+
     }
 }

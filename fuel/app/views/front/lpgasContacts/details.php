@@ -183,6 +183,7 @@
             <tbody>
               <tr>
                 <th class="currant_plan">現在のプラン (円)</th>
+                <?= var_dump($savings_by_month); ?>
                 <?// @savings_data_table.values.each do |row| ?>
                 <td><?//= number_with_delimiter row[:before_price] ?></td>
                 <?// end ?>
