@@ -59,7 +59,15 @@ return [
             'power_of_attorney_acquired' => '委任状獲得済み',
             'construction_scheduled_date' => '工事予定',
             'construction_finished_date' => '工事完了',
-        ]
+        ],
+        'status' => [
+            'pending' => '未対応',
+            'sent_estimate_to_iacc' => 'IACC見積もり確認中',
+            'sent_estimate_to_user' => '見積もり送信済み',
+            'verbal_ok' => '送客',
+            'contracted' => '成約',
+            'cancelled' => 'キャンセル',
+        ],
     ],
 
     /**

@@ -80,11 +80,10 @@ use JpPrefecture\JpPrefecture;
           <?php endif; ?>
         </td>
         <td class="align-middle">
-          <div class="card card-outline-<?= $estimate->contact->getStatusColor(); ?> text-center">
+          <div class="card card-outline-<?= $estimate->getStatusColor(); ?> text-center">
             <div class="card-block p-0">
               <blockquote class="card-blockquote">
-                <?= __('admin.contact.status.'.\Config::get('views.contact.status.'.$estimate->contact->status)) ?>
-                <?php $status_reason = \Helper\CancelReasons::getValueByName($estimate->status_reason); ?>
+                <?= __('admin.estimate.status.'.\Config::get('views.estimate.status.'.$estimate->status)) ?>
                 <?php if ($status_reason = \Helper\CancelReasons::getValueByName($estimate->status_reason)): ?>
                   <br>理由: <?= $status_reason; ?>
                 <?php endif; ?>
@@ -121,8 +120,12 @@ use JpPrefecture\JpPrefecture;
         </td>
         <td class="align-middle">
           <div><a href="<?= \Uri::create('admin/estimates/:id', ['id' => $estimate->id]); ?>" class="btn btn-secondary btn-sm px-1 mb-1" role="button">詳細</a></div>
-          <div><a href="#" class="btn-introduce btn btn-success btn-sm px-1 mb-1" role="button" data-estimate-id="<?= $estimate->id; ?>" data-company-name="<?= $estimate->company->display_name ? $estimate->company->display_name : $estimate->company->partner_company->company_name; ?>" data-contact-name="<?= $estimate->contact->name; ?>" data-contact-pref="<?= JpPrefecture::findByCode($estimate->contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $estimate->contact->tel; ?>">送客</a></div>
-          <div><a href="#" class="btn-cancel btn btn-danger btn-sm px-1" role="button" data-estimate-id="<?= $estimate->id; ?>" data-contact-name="<?= $estimate->contact->name; ?>" data-contact-pref="<?= JpPrefecture::findByCode($estimate->contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $estimate->contact->tel; ?>">キャンセル</a></div>
+          <?php if ($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_user')): ?>
+            <div><a href="#" class="btn-introduce btn btn-success btn-sm px-1 mb-1" role="button" data-estimate-id="<?= $estimate->id; ?>" data-company-name="<?= $estimate->company->display_name ? $estimate->company->display_name : $estimate->company->partner_company->company_name; ?>" data-contact-name="<?= $estimate->contact->name; ?>" data-contact-pref="<?= JpPrefecture::findByCode($estimate->contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $estimate->contact->tel; ?>">送客</a></div>
+          <?php endif; ?>
+          <?php if ($estimate->status != \Config::get('models.estimate.status.contracted') && $estimate->status != \Config::get('models.estimate.status.cancelled')): ?>
+            <div><a href="#" class="btn-cancel btn btn-danger btn-sm px-1" role="button" data-estimate-id="<?= $estimate->id; ?>" data-contact-name="<?= $estimate->contact->name; ?>" data-contact-pref="<?= JpPrefecture::findByCode($estimate->contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $estimate->contact->tel; ?>">キャンセル</a></div>
+          <?php endif; ?>
         </td>
       </tr>
     <?php endforeach; ?>

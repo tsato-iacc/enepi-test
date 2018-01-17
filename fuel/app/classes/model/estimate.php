@@ -210,6 +210,30 @@ class Model_Estimate extends \Orm\Model
         return '-';
     }
 
+    public function getStatusColor()
+    {
+        $color = '';
+
+        if ($this->status == \Config::get('models.estimate.status.pending'))
+        {
+            $color = 'danger';
+        }
+        elseif ($this->status == \Config::get('models.estimate.status.cancelled'))
+        {
+            $color = 'secondary';
+        }
+        elseif ($this->status == \Config::get('models.estimate.status.sent_estimate_to_user') || $this->status == \Config::get('models.estimate.status.sent_estimate_to_iacc'))
+        {
+            $color = 'warning';
+        }
+        elseif ($this->status == \Config::get('models.estimate.status.verbal_ok') || $this->status == \Config::get('models.estimate.status.contracted'))
+        {
+            $color = 'success';
+        }
+
+        return $color;
+    }
+
     /**
      * Private methods
      */

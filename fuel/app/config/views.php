@@ -49,4 +49,18 @@ return [
             20 => 'chat',
         ],
     ],
+
+    /**
+     * Enum for Model_Estimate
+     */
+    'estimate' => [
+        'status' => [
+            0 => 'pending',
+            1 => 'sent_estimate_to_iacc',
+            2 => 'sent_estimate_to_user',
+            3 => 'verbal_ok',
+            4 => 'contracted',
+            5 => 'cancelled',
+        ],
+    ],
 ];
