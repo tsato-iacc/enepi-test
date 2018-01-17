@@ -42,7 +42,7 @@ return [
             'using_other_gas_machine' => 'ストーブその他',
         ],
         'preferred_contact_time_between' => [
-            5 => '',
+            // 5 => '',
             0 => 'いつでも',
             1 => '9:00~12:00',
             2 => '12:00~15:00',

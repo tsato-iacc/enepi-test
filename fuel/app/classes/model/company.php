@@ -91,4 +91,19 @@ class Model_Company extends \Orm\Model
         
         return $val;
     }
+
+    /**
+     * View methods
+     */
+    public static function getFormList()
+    {
+        $list = [];
+        
+        foreach (\Model_Company::find('all') as $company)
+        {
+            $list[$company->id] = $company->display_name ? $company->display_name : $company->partner_company->company_name;
+        }
+
+        return $list;
+    }
 }
