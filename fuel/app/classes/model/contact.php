@@ -522,6 +522,23 @@ class Model_Contact extends \Orm\Model_Soft
         return [];
     }
 
+    public function getGasMachines()
+    {
+        $machines = [];
+
+        if ($this->using_cooking_stove)
+            $machines[] = __('admin.contact.gas_machines.using_cooking_stove');
+        
+        if ($this->using_bath_heater_with_gas_hot_water_supply)
+            $machines[] = __('admin.contact.gas_machines.using_bath_heater_with_gas_hot_water_supply');
+        
+        if ($this->using_other_gas_machine)
+            $machines[] = __('admin.contact.gas_machines.using_other_gas_machine');
+
+        // print var_dump($machines);
+        return $machines;
+    }
+
     /**
      * Private methods
      */

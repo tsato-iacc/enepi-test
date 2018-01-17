@@ -31,6 +31,24 @@ return [
             'thinking' => '検討中',
             'no_action' => '',
         ],
+        'house_kind' => [
+            'detached' => '戸建て',
+            'apartment' => 'マンション・アパート',
+            'store_ex' => '店舗',
+        ],
+        'gas_machines' => [
+            'using_cooking_stove' => 'ガスコンロ',
+            'using_bath_heater_with_gas_hot_water_supply' => '給湯器',
+            'using_other_gas_machine' => 'ストーブその他',
+        ],
+        'preferred_contact_time_between' => [
+            // 5 => '',
+            0 => 'いつでも',
+            1 => '9:00~12:00',
+            2 => '12:00~15:00',
+            3 => '15:00~18:00',
+            4 => '18:00~21:00',
+        ],
     ],
 
     'estimate' => [
@@ -41,7 +59,15 @@ return [
             'power_of_attorney_acquired' => '委任状獲得済み',
             'construction_scheduled_date' => '工事予定',
             'construction_finished_date' => '工事完了',
-        ]
+        ],
+        'status' => [
+            'pending' => '未対応',
+            'sent_estimate_to_iacc' => 'IACC見積もり確認中',
+            'sent_estimate_to_user' => '見積もり送信済み',
+            'verbal_ok' => '送客',
+            'contracted' => '成約',
+            'cancelled' => 'キャンセル',
+        ],
     ],
 
     /**

@@ -50,7 +50,6 @@ class Controller_Admin_Callings extends Controller_Admin
 
         $pager = \Pagination::forge('callings', [
             'name' => 'bootstrap4',
-            // 'pagination_url' => \Uri::create('admin/callings'),
             'total_items' => \Model_Calling::count($conditions),
             'per_page' => 50,
             'uri_segment' => 'page',

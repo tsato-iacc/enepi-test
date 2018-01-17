@@ -2,6 +2,12 @@
 /**
  * Global styles
  */
+.fs-12px {
+  font-size: 12px;
+}
+.fw-100 {
+  font-weight: 100;
+}
 
 /**
  * Navbar
@@ -27,6 +33,13 @@
   }
 }
 
+/**    
+ * Forms   
+ */    
+label h6 {   
+  margin: 0;
+}
+
 /**
  * Tables
  */
@@ -45,17 +58,6 @@ table {
     display: block;
     line-height: 1.3em;
     cursor: pointer;
-  }
-}
-
-/**
- * Forms
- */
-label h6 {
-  margin: 0;
-
-  .badge {
-    font-weight: 100;
   }
 }
 
@@ -90,6 +92,13 @@ label h6 {
   border-color: #ccc;
 }
 
+/**
+ * Bootstrap cards
+ */
+.card.card-small {
+  font-size: 13px;
+  line-height: 1.3em;
+}
 
 /**
  * Footer

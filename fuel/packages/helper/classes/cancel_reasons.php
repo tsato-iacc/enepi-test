@@ -54,4 +54,17 @@ class CancelReasons
 
         return null;
     }
+
+    public static function getNameByValue($value)
+    {
+        foreach (\Config::get('enepi.contact.cancel_reasons') as $reason)
+        {
+            if ($reason['value'] == $value)
+            {
+                return $reason['text'];
+            }
+        }
+
+        return null;
+    }
 }

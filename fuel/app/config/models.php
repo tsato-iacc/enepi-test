@@ -71,6 +71,11 @@ return [
             'november' => 11,
             'december' => 12
         ],
+        'house_kind' => [
+            'detached' => 0,
+            'apartment' => 1,
+            'store_ex' => 2,
+        ],
     ],
 
     /**

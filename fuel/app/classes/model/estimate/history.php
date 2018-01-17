@@ -13,7 +13,10 @@ class Model_Estimate_History extends \Orm\Model
         'admin_user_id',
         'partner_company_id',
         'user_id',
-        'diff_json',
+        'diff_json' => [
+            'data_type' => 'json',
+            'default' => [],
+        ],
         'created_at',
         'updated_at'
     ];

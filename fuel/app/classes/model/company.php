@@ -50,7 +50,9 @@ class Model_Company extends \Orm\Model
     ];
 
     protected static $_belongs_to = [
-        'partner_company',
+        'partner_company' => [
+            'model_to' => 'Model_Partner_Company'
+        ],
     ];
 
     protected static $_has_many = [
@@ -77,4 +79,31 @@ class Model_Company extends \Orm\Model
             'table_through' => 'lpgas_company_features',
         ]
     ];
+
+    /**
+     * [validate description]
+     * @param  string $factory Validation rules factory
+     * @return mixed           Return Fuel\Core\Validation object
+     */
+    public static function validate()
+    {
+        $val = Validation::forge();
+        
+        return $val;
+    }
+
+    /**
+     * View methods
+     */
+    public static function getFormList()
+    {
+        $list = [];
+        
+        foreach (\Model_Company::find('all') as $company)
+        {
+            $list[$company->id] = $company->display_name ? $company->display_name : $company->partner_company->company_name;
+        }
+
+        return $list;
+    }
 }
