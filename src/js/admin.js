@@ -11,3 +11,8 @@
  * Custom scripts
  */
 //= admin/bootstrap.js
+//= admin/helper_functions.js
+
+//= admin/callings.js
+//= admin/estimates.js
+//= admin/companies.js

@@ -24,10 +24,14 @@ class Model_Company extends \Orm\Model
         'company_overview',
         'business_overview',
         'service_features',
-        'supply_area_text',
+        'supply_area_text' => [
+            'default' => '',
+        ],
         'lpgas_company_logo',
         'lpgas_company_image',
-        'estimate_req_sendable',
+        'estimate_req_sendable' => [
+            'default' => true,
+        ],
         'established_date',
         'created_at',
         'updated_at',
@@ -51,6 +55,9 @@ class Model_Company extends \Orm\Model
             'key_from' => 'partner_company_id',
             'key_to' => 'company_id',
         ],
+        'partner_company' => [
+            'model_to' => 'Model_Partner_Company'
+        ],
     ];
 
     protected static $_has_many = [
@@ -60,6 +67,7 @@ class Model_Company extends \Orm\Model
         'geocodes' => [
             'model_to' => 'Model_Company_Geocode',
         ],
+        'estimates',
         'offices' => [
             'model_to' => 'Model_Company_Office',
         ],
@@ -76,4 +84,31 @@ class Model_Company extends \Orm\Model
             'table_through' => 'lpgas_company_features',
         ]
     ];
+
+    /**
+     * [validate description]
+     * @param  string $factory Validation rules factory
+     * @return mixed           Return Fuel\Core\Validation object
+     */
+    public static function validate()
+    {
+        $val = Validation::forge();
+
+        return $val;
+    }
+
+    /**
+     * View methods
+     */
+    public static function getFormList()
+    {
+        $list = [];
+
+        foreach (\Model_Company::find('all') as $company)
+        {
+            $list[$company->id] = $company->display_name ? $company->display_name : $company->partner_company->company_name;
+        }
+
+        return $list;
+    }
 }

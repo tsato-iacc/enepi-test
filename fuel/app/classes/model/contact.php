@@ -132,10 +132,14 @@ class Model_Contact extends \Orm\Model_Soft
             'key_from' => 'id',
             'key_to' => 'contact_id',
         ],
+        'estimates',
+        'callings',
+        'calling_histories' => [
+            'model_to' => 'Model_CallingHistory',
+        ],
     ];
 
     protected static $_has_one = [
-        'calling',
         'contact_geocode',
     ];
 
@@ -434,6 +438,112 @@ class Model_Contact extends \Orm\Model_Soft
         return $this->_unit_price;
     }
 
+    public function cancel($admin_id, $reason)
+    {
+        if ($this->estimates)
+        {
+            $cancelled = \Config::get('models.estimate.status.cancelled');
+            $status_reason = \Helper\CancelReasons::getValueByName($reason);
+
+            foreach ($this->estimates as $estimate)
+            {
+                if ($estimate->status != $cancelled)
+                    $estimate->cancel($admin_id, $status_reason);
+            }
+        }
+        else
+        {
+            $this->status = \Config::get('models.contact.status.cancelled_before_estimate_req');
+            $this->save();
+        }
+    }
+
+    /**
+     * View Methods
+     */
+    public function getStatusColor()
+    {
+        $color = '';
+
+        if ($this->status == \Config::get('models.contact.status.pending'))
+        {
+            $color = 'danger';
+        }
+        elseif ($this->status == \Config::get('models.contact.status.sent_estimate_req'))
+        {
+            $color = 'warning';
+        }
+        elseif ($this->status == \Config::get('models.contact.status.cancelled') || $this->status == \Config::get('models.contact.status.cancelled_before_estimate_req'))
+        {
+            $color = 'secondary';
+        }
+        elseif ($this->status == \Config::get('models.contact.status.verbal_ok') || $this->status == \Config::get('models.contact.status.contracted'))
+        {
+            $color = 'success';
+        }
+
+        return $color;
+    }
+
+    public function getEstimateProgress()
+    {
+        $progress = "";
+
+        if (array_filter(\Arr::pluck($this->estimates, 'construction_finished_date')))
+        {
+            $progress = 'construction_finished_date';
+        }
+        elseif (array_filter(\Arr::pluck($this->estimates, 'construction_scheduled_date')))
+        {
+            $progress = 'construction_scheduled_date';
+        }
+        elseif (array_filter(\Arr::pluck($this->estimates, 'power_of_attorney_acquired')))
+        {
+            $progress = 'power_of_attorney_acquired';
+        }
+        elseif (array_filter(\Arr::pluck($this->estimates, 'visited')))
+        {
+            $progress = 'visited';
+        }
+        elseif (array_filter(\Arr::pluck($this->estimates, 'contacted')))
+        {
+            $progress = 'contacted';
+        }
+        elseif (count($this->estimates))
+        {
+            $progress = 'unknown';
+        }
+
+        return $progress;
+    }
+
+    public function getCallingHistories($limit = 20)
+    {
+        if ($histories = Arr::sort($this->calling_histories, 'id', 'desc'))
+        {
+            return array_slice($histories, 0, $limit);
+        }
+
+        return [];
+    }
+
+    public function getGasMachines()
+    {
+        $machines = [];
+
+        if ($this->using_cooking_stove)
+            $machines[] = __('admin.contact.gas_machines.using_cooking_stove');
+
+        if ($this->using_bath_heater_with_gas_hot_water_supply)
+            $machines[] = __('admin.contact.gas_machines.using_bath_heater_with_gas_hot_water_supply');
+
+        if ($this->using_other_gas_machine)
+            $machines[] = __('admin.contact.gas_machines.using_other_gas_machine');
+
+        // print var_dump($machines);
+        return $machines;
+    }
+
     /**
      * Private methods
      */
@@ -642,18 +752,19 @@ class Model_Contact extends \Orm\Model_Soft
 
     private function updateGeocode()
     {
+        // Only if address was changed?
         $address = JpPrefecture::findByCode($this->getPrefectureCode())->nameKanji . " " . $this->getAddress();
 
         if ($this->contact_geocode)
         {
-            if ($this->contact_geocode->address != $gaddress || $gcode->lat && $gcode->lng)
-            {
-                $this->contact_geocode = $gaddress;
+            // if ($this->contact_geocode->address != $gaddress || $gcode->lat && $gcode->lng)
+            // {
+            //     $this->contact_geocode = $gaddress;
                 // FIX ME
                 // self.lat, self.lng = GeocodeFetcher.fetch_from_address(address)
                 // $gcode->lat = 0.0;
                 // $gcode->lat = 0.0;
-            }
+            // }
         }
         else
         {

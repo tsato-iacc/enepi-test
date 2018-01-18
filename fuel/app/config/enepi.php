@@ -176,4 +176,168 @@ return [
             'history_limit' => 100,
         ],
     ],
+
+    /**
+     * Contact's cancel reason
+     */
+    'contact' => [
+        'cancel_reasons' => [
+            'status_reason_unknown' => [
+              'value' => 0,
+              'group' => '案件からは除外対象になるキャンセル',
+              'text' => '不明',
+              'hide_on_partner' => true,
+            ],
+            'status_reason_duplication' => [
+              'value' => 1,
+              'group' => '案件からは除外対象になるキャンセル',
+              'text' => '重複',
+              'hide_on_partner' => true,
+            ],
+            'status_reason_abuse' => [
+              'value' => 2,
+              'group' => '案件からは除外対象になるキャンセル',
+              'text' => 'いたずら',
+              'hide_on_partner' => true,
+            ],
+            'status_reason_test' => [
+              'value' => 3,
+              'group' => '案件からは除外対象になるキャンセル',
+              'text' => 'テスト',
+              'hide_on_partner' => true,
+            ],
+            'status_reason_resolved' => [
+              'value' => 6,
+              'group' => '理由不明のキャンセル',
+              'text' => 'もう解決した（理由不明）',
+              'hide_on_partner' => true,
+            ],
+            'status_reason_troublesome' => [
+              'value' => 7,
+              'group' => '理由不明のキャンセル',
+              'text' => 'めんどくさい',
+              'hide_on_partner' => true,
+            ],
+            'status_reason_dont_remember' => [
+              'value' => 8,
+              'group' => '理由不明のキャンセル',
+              'text' => '身に覚えがない',
+              'hide_on_partner' => true,
+            ],
+            'status_reason_unsupported_area' => [
+              'value' => 10,
+              'group' => '物理的な理由',
+              'text' => '営業エリア外',
+              'hide_on_partner' => false,
+            ],
+            'status_reason_ng_company' => [
+              'value' => 20,
+              'group' => '物理的な理由',
+              'text' => 'NG企業',
+              'hide_on_partner' => false,
+            ],
+            'status_reason_rent' => [
+              'value' => 30,
+              'group' => '物理的な理由',
+              'text' => '集合住宅入居者',
+              'hide_on_partner' => false,
+            ],
+            'status_reason_rent_not_apartment' => [
+              'value' => 31,
+              'group' => '物理的な理由',
+              'text' => '集合住宅以外の賃貸物件',
+              'hide_on_partner' => false,
+            ],
+            'status_reason_big_loan' => [
+              'value' => 32,
+              'group' => '物理的な理由',
+              'text' => '貸与過大(違約金関連含む)',
+              'hide_on_partner' => false,
+            ],
+            'status_reason_propane_concentration' => [
+              'value' => 33,
+              'group' => '物理的な理由',
+              'text' => '集中プロパン',
+              'hide_on_partner' => false,
+            ],
+            'status_reason_easy_gas' => [
+              'value' => 34,
+              'group' => '物理的な理由',
+              'text' => '簡易ガス',
+              'hide_on_partner' => false,
+            ],
+            'status_reason_city_gas' => [
+              'value' => 35,
+              'group' => '物理的な理由',
+              'text' => '都市ガス',
+              'hide_on_partner' => false,
+            ],
+            'status_reason_all_e' => [
+              'value' => 36,
+              'group' => '物理的な理由',
+              'text' => 'オール電化',
+              'hide_on_partner' => false,
+            ],
+            'status_reason_shop' => [
+              'value' => 37,
+              'group' => '物理的な理由',
+              'text' => '業務用の店舗',
+              'hide_on_partner' => false,
+            ],
+            'status_reason_location' => [
+              'value' => 38,
+              'group' => '物理的な理由',
+              'text' => 'プロパンガスが置けない物件',
+              'hide_on_partner' => false,
+            ],
+            'status_reason_request_by_user' => [
+              'value' => 40,
+              'group' => '既存店や新規の会社と交渉し、解決されたキャンセル',
+              'text' => '他社決定(enepi内)',
+              'hide_on_partner' => true,
+            ],
+            'status_reason_outside_of_enepi' => [
+              'value' => 41,
+              'group' => '既存店や新規の会社と交渉し、解決されたキャンセル',
+              'text' => '他社決定(enepi外）',
+              'hide_on_partner' => false,
+            ],
+            'status_reason_defense' => [
+              'value' => 42,
+              'group' => '既存店や新規の会社と交渉し、解決されたキャンセル',
+              'text' => '既存店の引き止め行為による防衛',
+              'hide_on_partner' => false,
+            ],
+            'status_reason_cant_contact' => [
+              'value' => 50,
+              'group' => '既存店と交渉せず、現状維持になったキャンセル',
+              'text' => '連絡不可',
+              'hide_on_partner' => true,
+            ],
+            'status_reason_price' => [
+              'value' => 60,
+              'group' => '既存店と交渉せず、現状維持になったキャンセル',
+              'text' => 'ユーザーから安くならないと言われた',
+              'hide_on_partner' => false,
+            ],
+            'status_reason_timing' => [
+              'value' => 80,
+              'group' => '既存店と交渉せず、現状維持になったキャンセル',
+              'text' => '契約のタイミングが異なっていた(急ぎではない含む)',
+              'hide_on_partner' => false,
+            ],
+            'status_reason_human_relationship' => [
+              'value' => 90,
+              'group' => '既存店と交渉せず、現状維持になったキャンセル',
+              'text' => '既存店との付き合いで変更しない',
+              'hide_on_partner' => false,
+            ],
+            'status_reason_family' => [
+              'value' => 100,
+              'group' => '既存店と交渉せず、現状維持になったキャンセル',
+              'text' => '家族の合意が形成できなかった',
+              'hide_on_partner' => false,
+            ],
+        ]
+    ],
 ];

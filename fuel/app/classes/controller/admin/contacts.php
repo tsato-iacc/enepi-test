@@ -74,4 +74,28 @@ class Controller_Admin_Contacts extends Controller_Admin
             'test' => 'test'
         ]);
     }
+
+    /**
+     * Cancel
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_cancel($id)
+    {
+        if (!$contact = \Model_Contact::find($id))
+            throw new HttpNotFoundException;
+
+        if ($reason = \Input::post('status_reasons'))
+        {
+            $contact->cancel($this->admin_id, $reason);
+            Session::set_flash('success', 'cancel');
+        }
+        else
+        {
+            Session::set_flash('error', 'cancelできませんでした');
+        }
+
+        Response::redirect('admin/contacts');
+    }
 }

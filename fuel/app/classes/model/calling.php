@@ -29,4 +29,16 @@ class Model_Calling extends \Orm\Model
     protected static $_belongs_to = [
         'contact',
     ];
+
+    /**
+     * [validate description]
+     * @param  string $factory Validation rules factory
+     * @return mixed           Return Fuel\Core\Validation object
+     */
+    public static function validate()
+    {
+        $val = Validation::forge();
+        
+        return $val;
+    }
 }

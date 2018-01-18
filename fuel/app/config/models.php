@@ -27,8 +27,8 @@ return [
             'contracted' => 40,
             'cancelled' => 50,
         ],
-        'status_reason' => [
-        ],
+        // 'status_reason' => [
+        // ],
         'user_status' => [
             'checking' => 0,
             'operating' => 10,
@@ -71,6 +71,11 @@ return [
             'november' => 11,
             'december' => 12
         ],
+        'house_kind' => [
+            'detached' => 0,
+            'apartment' => 1,
+            'store_ex' => 2,
+        ],
     ],
 
     /**
@@ -80,6 +85,20 @@ return [
         'cv_point' => [
             'estimate' => 0,
             'verbal_ok' => 10,
+        ],
+    ],
+
+    /**
+     * Enum for Model_Estimate
+     */
+    'estimate' => [
+        'status' => [
+            'pending' => 0,
+            'sent_estimate_to_iacc' => 1,
+            'sent_estimate_to_user' => 2,
+            'verbal_ok' => 3,
+            'contracted' => 4,
+            'cancelled' => 5,
         ],
     ],
 ];

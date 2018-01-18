@@ -3,7 +3,7 @@
 /**
  * class Lpgas::CompanyNotificationEmail
  */
-class Model_Partner_Notification extends \Orm\Model
+class Model_Partner_Email extends \Orm\Model
 {
     protected static $_table_name = 'partner_company_notification_emails';
 
@@ -30,4 +30,17 @@ class Model_Partner_Notification extends \Orm\Model
     protected static $_belongs_to = [
         'company',
     ];
+
+    /**
+     * [validate description]
+     * @param  string $factory Validation rules factory
+     * @return mixed           Return Fuel\Core\Validation object
+     */
+    public static function validate()
+    {
+        $val = Validation::forge();
+        $val->add('email', 'email')->add_rule('required')->add_rule('valid_email');
+        
+        return $val;
+    }
 }

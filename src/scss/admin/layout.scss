@@ -2,6 +2,12 @@
 /**
  * Global styles
  */
+.fs-12px {
+  font-size: 12px;
+}
+.fw-100 {
+  font-weight: 100;
+}
 
 /**
  * Navbar
@@ -27,6 +33,13 @@
   }
 }
 
+/**    
+ * Forms   
+ */    
+label h6 {   
+  margin: 0;
+}
+
 /**
  * Tables
  */
@@ -34,14 +47,17 @@ table.small-row {
   font-size: 14px;
 }
 
-/**
- * Forms
- */
-label h6 {
-  margin: 0;
-
-  .badge {
-    font-weight: 100;
+table {
+  .note-box {
+    width: 10em;
+    height: 4.2em;
+    overflow-y: hidden;
+    border: 1px solid #ccc;
+    border-radius: .4em;
+    padding: 1px 3px;
+    display: block;
+    line-height: 1.3em;
+    cursor: pointer;
   }
 }
 
@@ -68,7 +84,26 @@ label h6 {
   background-color: #f5f5f5;
 }
 
-footer {
+/**
+ * Bootstrap cards additional colors
+ */
+.card-secondary {
+  background-color: #ccc;
+  border-color: #ccc;
+}
+
+/**
+ * Bootstrap cards
+ */
+.card.card-small {
+  font-size: 13px;
+  line-height: 1.3em;
+}
+
+/**
+ * Footer
+ */
+.footer {
   margin-top: 20px;
   border-top: 1px solid rgba(0,0,0,.125);
 
