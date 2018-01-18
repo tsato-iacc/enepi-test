@@ -113,8 +113,18 @@ class Model_Partner_Company extends \Orm\Model
         return $result;
     }
 
+    // FIX ME
     private function sendMailWithPassword()
     {
 
+    }
+
+    public function getEmails()
+    {
+        $emails = [];
+        $emails[] = $this->email;
+
+        return $emails + \Arr::pluck($this->emails, 'email');
+         
     }
 }

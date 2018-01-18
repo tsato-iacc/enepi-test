@@ -86,7 +86,7 @@ class Controller_Admin_Contacts extends Controller_Admin
         if (!$contact = \Model_Contact::find($id))
             throw new HttpNotFoundException;
 
-        if ($reason = \Input::post('status_reasons'))
+        if ($reason = \Input::post('status_reason'))
         {
             $contact->cancel($this->admin_id, $reason);
             Session::set_flash('success', 'cancel');
@@ -96,6 +96,6 @@ class Controller_Admin_Contacts extends Controller_Admin
             Session::set_flash('error', 'cancelできませんでした');
         }
 
-        Response::redirect('admin/contacts');
+        Response::redirect('admin/callings');
     }
 }

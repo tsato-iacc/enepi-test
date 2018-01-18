@@ -114,7 +114,7 @@ class Model_Estimate extends \Orm\Model
         {
             $result = parent::save($cascade, $use_transaction);
             // FIX ME
-            // after_save :update_contact_status
+            // after_save :update_contact_status // $this->updateContactStatus();
             // after_save { contact.add_to_callings if (sent_estimate_to_user? || verbal_ok?) && !auto? }
             // after_save :log_changes, if: -> { changed? }
         }
@@ -178,8 +178,57 @@ class Model_Estimate extends \Orm\Model
 
     public function cancel($admin_id, $status_reason)
     {
-        $this->last_update_admin_user_id = $admin_id;
-        $this->status_reason = $status_reason;
+        $reason_val = \Helper\CancelReasons::getValueByName($status_reason);
+        
+        if ($this->status != \Config::get('models.estimate.status.cancelled') && $this->status != \Config::get('models.estimate.status.contracted') && $reason_val !== null)
+        {
+            $this->last_update_admin_user_id = $admin_id;
+            $this->status_reason = $reason_val;
+            $this->status = \Config::get('models.estimate.status.cancelled');
+
+            if ($this->save())
+            {
+                // 全ての見積りがキャンセルだったら、問い合わせもキャンセルに
+                $statuses = \Arr::pluck($this->contact->estimates, 'status');
+
+                if (count(array_unique($statuses)) === 1 && end($statuses) === \Config::get('models.estimate.status.cancelled'))
+                {
+                    $this->contact->status = \Config::get('models.contact.status.cancelled');
+                    $this->contact->user_status = \Config::get('models.contact.user_status.no_action');
+                    $this->contact->save();
+                }
+
+                $this->hasVerbal() ? \Helper\Notifier::notifyCompanyEstimateCancel($this) : \Helper\Notifier::notifyAdminEstimateCancel($this);
+
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    // 送客 ok_tentatively
+    public function introduce($admin_id)
+    {
+        if ($this->status == \Config::get('models.estimate.status.sent_estimate_to_user'))
+        {
+            $this->last_update_admin_user_id = $admin_id;
+            $this->status = \Config::get('models.estimate.status.verbal_ok');
+
+            if ($this->save())
+            {
+                $this->contact->status = \Config::get('models.contact.status.verbal_ok');
+                $this->contact->save();
+
+                \Helper\Notifier::notifyCustomerIntroduce();
+                \Helper\Notifier::notifyCompanyIntroduce();
+                \Helper\Notifier::notifyAdminIntroduce();
+
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     /**
@@ -259,4 +308,27 @@ class Model_Estimate extends \Orm\Model
 
         return $sum;
     }
+
+    // through_verbal_ok
+    private function hasVerbal()
+    {
+        if ($history = $this->estimate_history)
+        {
+            foreach ($history as $h)
+            {
+                if (isset($h->diff_json->status) && $h->diff_json->status->new == 'verbal_ok')
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    // update_contact_status
+    // private function updateContactStatus()
+    // {
+
+    // }
 }

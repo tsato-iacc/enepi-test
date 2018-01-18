@@ -1,4 +1,14 @@
 <?php
+/**
+ * Helper classes
+ *
+ * @package    Helper
+ * @version    1.0
+ * @author     Zazimko Alexey
+ * @license    MIT License
+ */
+
+namespace Helper;
 
 class AddValidation
 {
