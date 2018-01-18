@@ -22,8 +22,8 @@
             <?= Form::select('reason_groups', '', ['' => ''] + \Helper\CancelReasons::getGroups(), ['class' => 'form-control', 'id' => 'cancel_groups', 'required' => 'required']); ?>
           </div>
           <div class="form-group mb-0">
-            <label for="cancel_reasons"><i class="fa fa-asterisk" aria-hidden="true"></i> キャンセル理由</label>
-            <?= Form::select('status_reasons', '', ['' => '変更理由のカテゴリを選択してください'], ['class' => 'form-control', 'id' => 'cancel_reasons', 'required' => 'required', 'disabled' => 'disabled']); ?>
+            <label for="status_reason"><i class="fa fa-asterisk" aria-hidden="true"></i> キャンセル理由</label>
+            <?= Form::select('status_reason', '', ['' => '変更理由のカテゴリを選択してください'], ['class' => 'form-control', 'id' => 'status_reason', 'required' => 'required', 'disabled' => 'disabled']); ?>
           </div>
         </div>
         <div class="modal-footer">

@@ -68,6 +68,7 @@ return array(
     'admin/estimates'                                      => [['GET', new Route('admin/estimates/index')]],
     'admin/estimates/(:num)'                               => [['GET', new Route('admin/estimates/show/$1')]],
     'admin/estimates/(:num)/introduce'                     => [['POST', new Route('admin/estimates/introduce/$1')]],
+    'admin/estimates/(:num)/cancel'                        => [['POST', new Route('admin/estimates/cancel/$1')]],
     'admin/estimates/history'                              => [['GET', new Route('admin/estimates/history')]],
 
     'admin/contacts'                                       => [['GET', new Route('admin/contacts/index')]],

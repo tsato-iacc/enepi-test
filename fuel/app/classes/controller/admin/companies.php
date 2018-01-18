@@ -107,6 +107,8 @@ class Controller_Admin_Companies extends Controller_Admin
                         'partner_company'
                     ],
                 ],
+                'contact',
+                'estimate_history',
             ],
         ];
 
@@ -167,6 +169,9 @@ class Controller_Admin_Companies extends Controller_Admin
         Response::redirect("admin/companies/{$id}/ng");
     }
 
+    /**
+     * Private methods
+     */
     private function updateConditions(&$conditions)
     {
         // // Where name equal

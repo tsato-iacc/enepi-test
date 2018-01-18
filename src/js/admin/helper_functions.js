@@ -20,7 +20,7 @@ function cancelEstimateOrContact(type) {
 
   $('#contactCancel select[name=reason_groups]').change(function() {
     var group = $(this).val();
-    var reasons = $('#contactCancel select[name=status_reasons]');
+    var reasons = $('#contactCancel select[name=status_reason]');
     reasons.prop('disabled', true);
 
     if (!group) {

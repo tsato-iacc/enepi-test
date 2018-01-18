@@ -123,7 +123,7 @@ return array(
 		'packages' => [
 			'orm',
 			'helper',
-      // 'email',
+      'email',
 		],
 
 		/**

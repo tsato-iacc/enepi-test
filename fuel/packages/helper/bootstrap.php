@@ -20,4 +20,5 @@
   'Helper\\TimezoneConverter'                 => __DIR__.'/classes/timezone_converter.php',
   'Helper\\AddValidation'                     => __DIR__.'/classes/add_validation.php',
   'Helper\\CancelReasons'                     => __DIR__.'/classes/cancel_reasons.php',
+  'Helper\\Notifier'                          => __DIR__.'/classes/notifier.php',
 ));
