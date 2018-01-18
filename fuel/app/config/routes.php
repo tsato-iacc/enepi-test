@@ -12,7 +12,7 @@ return array(
     'lpgas_contacts'                           => [['POST', new Route('front/lpgasContacts/store')]],
     'lpgas_contacts/new'                       => 'front/lpgasContacts/old',
     'lpgas_contacts/done'                      => 'front/lpgasContacts/done',
-    'lpgas/contacts/(:num)'                    => [['GET', new Route('front/lpgasContacts/sms_confirm/$1')]],
+    'lpgas/contacts/(:num)'                    => [['GET', new Route('front/lpgasContacts/estimate_presentation/$1')]],
     'lpgas/contacts/(:num)/estimates/(:any)'   => [['GET', new Route('front/lpgasContacts/details/$1/$2')]],
     ':media/lpgas/contacts/new'                => [['GET', new Route('front/lpgasContacts/index')]],
     ':media/lpgas/contacts'                    => [['POST', new Route('front/lpgasContacts/store')]],
