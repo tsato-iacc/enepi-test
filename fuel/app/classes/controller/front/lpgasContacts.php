@@ -337,7 +337,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
                 $company = $e;
             }
         }
-        var_dump($company);
 
         Tracking::unsetTracking();
 
@@ -356,6 +355,8 @@ class Controller_Front_LpgasContacts extends Controller_Front
         $used_amount_by_month = $this->used_amount_by_month($contact);
 
         $savings_by_month = $this->savings_by_month($contact, $company, $used_amount_by_month);
+
+//        var_dump($savings_by_month);
 
         $this->template->title = 'エネピ';
         $this->template->meta = $meta;
