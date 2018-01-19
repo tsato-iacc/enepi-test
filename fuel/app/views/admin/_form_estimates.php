@@ -63,7 +63,7 @@ use JpPrefecture\JpPrefecture;
               <span class="badge badge-default fs-12px fw-100">未読</span>
             <?php endif; ?>
           </div>
-          <div><i class="fa fa-building-o" aria-hidden="true"></i> <?= $estimate->company->display_name ? $estimate->company->display_name : $estimate->company->partner_company->company_name; ?></div>
+          <div><i class="fa fa-building-o" aria-hidden="true"></i> <?= $estimate->company->getCompanyName(); ?></div>
           <div><i class="fa fa-user" aria-hidden="true"></i> <?= $estimate->contact->name; ?></div>
           <div><i class="fa fa-phone" aria-hidden="true"></i> <?= $estimate->contact->tel; ?></div>
           <div><i class="fa fa-clock-o" aria-hidden="true"></i> <?= __('admin.contact.preferred_contact_time_between.'.$estimate->contact->preferred_contact_time_between); ?></div>
@@ -124,7 +124,7 @@ use JpPrefecture\JpPrefecture;
         <td class="align-middle">
           <div><a href="<?= \Uri::create('admin/estimates/:id', ['id' => $estimate->id]); ?>" class="btn btn-secondary btn-sm px-1 mb-1" role="button">詳細</a></div>
           <?php if ($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_user')): ?>
-            <div><a href="#" class="btn-introduce btn btn-success btn-sm px-1 mb-1" role="button" data-estimate-id="<?= $estimate->id; ?>" data-company-name="<?= $estimate->company->display_name ? $estimate->company->display_name : $estimate->company->partner_company->company_name; ?>" data-contact-name="<?= $estimate->contact->name; ?>" data-contact-pref="<?= JpPrefecture::findByCode($estimate->contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $estimate->contact->tel; ?>">送客</a></div>
+            <div><a href="#" class="btn-introduce btn btn-success btn-sm px-1 mb-1" role="button" data-estimate-id="<?= $estimate->id; ?>" data-company-name="<?= $estimate->company->getCompanyName(); ?>" data-contact-pref="<?= JpPrefecture::findByCode($estimate->contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $estimate->contact->tel; ?>">送客</a></div>
           <?php endif; ?>
           <?php if ($estimate->status != \Config::get('models.estimate.status.contracted') && $estimate->status != \Config::get('models.estimate.status.cancelled')): ?>
             <div><a href="#" class="btn-cancel btn btn-danger btn-sm px-1" role="button" data-estimate-id="<?= $estimate->id; ?>" data-contact-name="<?= $estimate->contact->name; ?>" data-contact-pref="<?= JpPrefecture::findByCode($estimate->contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $estimate->contact->tel; ?>">キャンセル</a></div>
