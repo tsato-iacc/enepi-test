@@ -66,8 +66,6 @@ class Notifier
 
     public static function notifyCompanyIntroduce($estimate)
     {
-        \Log::info('notifyAdminNewCustomer');
-
         $email = \Email::forge();
         $email->to($estimate->company->partner_company->getEmails(), $estimate->company->getCompanyName());
         $email->subject('連絡希望をいただきました／enepi運営事務局');
