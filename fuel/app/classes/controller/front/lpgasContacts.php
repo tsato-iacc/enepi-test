@@ -248,106 +248,88 @@ class Controller_Front_LpgasContacts extends Controller_Front
      * @access  public
      * @return  Response
      */
-    public function get_sms_confirm($contact_id, $token)
+    public function get_sms_confirm($contact_id)
     {
-        $this->template = \View::forge('front/template_contact');
 
-        $contact = \Model_Contact::find($contact_id);
-        if (!$contact)
+        if(!is_null(\Input::get('conversion_id')))
         {
-            \Log::warning("conversion id {$contact_id} not found");
-            throw new HttpNotFoundException();
-        }
+            $this->template = \View::forge('front/template_contact');
 
-//         foreach ($contact->estimate as $key => $value) {
-//             if($contact->estimate[$key]->basic_price == null) {
-//                 unset($contact->estimate[$key]);
+            $contact = \Model_Contact::find($contact_id);
+            if (!$contact)
+            {
+                \Log::warning("conversion id {$contact_id} not found");
+                throw new HttpNotFoundException();
+            }
+
+            Tracking::unsetTracking();
+
+            $meta = [
+                ['name' => 'description', 'content' => 'OOooOOppp'],
+                ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
+                ['name' => 'puka', 'content' => 'suka'],
+            ];
+
+            $header_decision = 'sms_confirm';
+
+            $pin = \Input::get('pin');
+
+            $this->template->title = 'ENTER SMS CODE';
+            $this->template->meta = $meta;
+            $this->template->content = View::forge('front/lpgasContacts/sms_confirm', [
+                'contact' => $contact,
+                'pin' => $pin,
+            ]);
+            $this->template->header_decision = $header_decision;
+
+        }
+        elseif(!is_null(\Input::get('pin')))
+        {
+            $this->template = \View::forge('front/template_contact');
+
+            $contact = \Model_Contact::find($contact_id);
+            if (!$contact)
+            {
+                \Log::warning("conversion id {$contact_id} not found");
+                throw new HttpNotFoundException();
+            }
+
+//             foreach ($contact->estimate as $key => $value) {
+//                 if($contact->estimate[$key]->basic_price == null) {
+//                     unset($contact->estimate[$key]);
+//                 }
 //             }
-//         }
 
-        $prefecture_data = \Model_LocalContentPrefecture::find($contact['prefecture_code']);
-        if (!$prefecture_data)
-        {
-            \Log::warning("prefecture_code {$contact['prefecture_code']} not found");
-            throw new HttpNotFoundException();
+            $prefecture_data = \Model_LocalContentPrefecture::find($contact['prefecture_code']);
+            if (!$prefecture_data)
+            {
+                \Log::warning("prefecture_code {$contact['prefecture_code']} not found");
+                throw new HttpNotFoundException();
+            }
+
+            Tracking::unsetTracking();
+
+            $meta = [
+                ['name' => 'description', 'content' => 'OOooOOppp'],
+                ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
+                ['name' => 'puka', 'content' => 'suka'],
+            ];
+
+            $header_decision = 'estimate_presentation';
+
+            $prefecture_KanjiAndCode   = JpPrefecture::allKanjiAndCode();
+            $prefecture_kanji          = $this->prefecture_kanji(  $prefecture_KanjiAndCode,
+                $contact['prefecture_code']);
+
+            $this->template->title = 'エネピ';
+            $this->template->meta = $meta;
+            $this->template->content = View::forge('front/lpgasContacts/estimate_presentation', [
+                'contact' => $contact,
+                'prefecture_kanji' => $prefecture_kanji,
+                'prefecture_data' => $prefecture_data,
+            ]);
+            $this->template->header_decision = $header_decision;
         }
-
-        Tracking::unsetTracking();
-
-        $meta = [
-            ['name' => 'description', 'content' => 'OOooOOppp'],
-            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-            ['name' => 'puka', 'content' => 'suka'],
-        ];
-
-        $header_decision = 'sms_confirm';
-
-        $prefecture_KanjiAndCode   = JpPrefecture::allKanjiAndCode();
-        $prefecture_kanji          = $this->prefecture_kanji(  $prefecture_KanjiAndCode,
-                                                               $contact['prefecture_code']);
-
-        $this->template->title = 'ENTER SMS CODE';
-        $this->template->meta = $meta;
-        $this->template->content = View::forge('front/lpgasContacts/sms_confirm', [
-            'contact' => $contact,
-            'prefecture_kanji' => $prefecture_kanji,
-            'prefecture_data' => $prefecture_data,
-        ]);
-        $this->template->header_decision = $header_decision;
-    }
-
-    /**
-     * Show estimate presentation view
-     *
-     * @access  public
-     * @return  Response
-     */
-    public function get_estimate_presentation($contact_id)
-    {
-        $this->template = \View::forge('front/template_contact');
-
-        $contact = \Model_Contact::find($contact_id);
-        if (!$contact)
-        {
-            \Log::warning("conversion id {$contact_id} not found");
-            throw new HttpNotFoundException();
-        }
-
-        //         foreach ($contact->estimate as $key => $value) {
-        //             if($contact->estimate[$key]->basic_price == null) {
-        //                 unset($contact->estimate[$key]);
-        //             }
-        //         }
-
-        $prefecture_data = \Model_LocalContentPrefecture::find($contact['prefecture_code']);
-        if (!$prefecture_data)
-        {
-            \Log::warning("prefecture_code {$contact['prefecture_code']} not found");
-            throw new HttpNotFoundException();
-        }
-
-        Tracking::unsetTracking();
-
-        $meta = [
-            ['name' => 'description', 'content' => 'OOooOOppp'],
-            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-            ['name' => 'puka', 'content' => 'suka'],
-        ];
-
-        $header_decision = 'estimate_presentation';
-
-        $prefecture_KanjiAndCode   = JpPrefecture::allKanjiAndCode();
-        $prefecture_kanji          = $this->prefecture_kanji(  $prefecture_KanjiAndCode,
-            $contact['prefecture_code']);
-
-        $this->template->title = 'エネピ';
-        $this->template->meta = $meta;
-        $this->template->content = View::forge('front/lpgasContacts/estimate_presentation', [
-            'contact' => $contact,
-            'prefecture_kanji' => $prefecture_kanji,
-            'prefecture_data' => $prefecture_data,
-        ]);
-        $this->template->header_decision = $header_decision;
     }
 
     public function get_details($contact_id, $uuid)
