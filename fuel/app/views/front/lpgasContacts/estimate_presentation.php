@@ -30,6 +30,8 @@
         })();
     </script>
 
+<?= var_dump(Uri::segments()); ?>
+
     <div class="container section">
       <?//= form_tag ok_tentatively_lpgas_contact_estimates_path($lpgas_contact, token: $lpgas_contact.token) do ?>
 

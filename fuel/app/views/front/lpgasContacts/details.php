@@ -31,6 +31,8 @@
 <?// _est = @contact.sent_estimates.to_a ?>
 <?// est = (_est.select(&:has_price?) + _est.reject(&:has_price?)) ?>
 
+<?= var_dump(Uri::segments()); ?>
+
 <div class="hidden_sp">
   <div class="planning_box-sp">
     <h2 class="ttl_mypage"><?= $contact->name ?>様専用のマイページ</h2>

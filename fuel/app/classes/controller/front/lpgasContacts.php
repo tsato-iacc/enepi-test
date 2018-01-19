@@ -248,7 +248,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
      * @access  public
      * @return  Response
      */
-    public function get_sms_confirm($contact_id)
+    public function get_sms_confirm($contact_id, $token)
     {
         $this->template = \View::forge('front/template_contact');
 
@@ -334,7 +334,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
             ['name' => 'puka', 'content' => 'suka'],
         ];
 
-        $header_decision = 'sms_confirm';
+        $header_decision = 'estimate_presentation';
 
         $prefecture_KanjiAndCode   = JpPrefecture::allKanjiAndCode();
         $prefecture_kanji          = $this->prefecture_kanji(  $prefecture_KanjiAndCode,
