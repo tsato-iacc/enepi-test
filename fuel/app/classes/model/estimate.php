@@ -283,6 +283,12 @@ class Model_Estimate extends \Orm\Model
         return $color;
     }
 
+    public function isExpired()
+    {
+        // CHECK ME
+        return $this->expired_at && \Date::create_from_string($this->expired_at, 'mysql_date_time') <= \Date::forge();
+    }
+
     /**
      * Private methods
      */
