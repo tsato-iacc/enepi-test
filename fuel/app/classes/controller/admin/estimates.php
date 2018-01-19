@@ -116,9 +116,6 @@ class Controller_Admin_Estimates extends Controller_Admin
     {
         if (!$estimate = \Model_Estimate::find($id))
             throw new HttpNotFoundException;
-        
-        \Helper\Notifier::notifyCustomerIntroduce();
-        print "ppp";exit;
 
         if ($estimate->introduce($this->admin_id))
         {

@@ -80,6 +80,8 @@ class Model_Company extends \Orm\Model
         ]
     ];
 
+    private $_company_name = null;
+
     /**
      * [validate description]
      * @param  string $factory Validation rules factory
@@ -90,6 +92,23 @@ class Model_Company extends \Orm\Model
         $val = Validation::forge();
         
         return $val;
+    }
+
+    public function getCompanyName()
+    {
+        if ($this->_company_name === null)
+        {
+            if ($this->display_name)
+            {
+                $this->_company_name = $this->display_name;
+            }
+            else
+            {
+                $this->_company_name = $this->partner_company->company_name;
+            }
+        }
+
+        return $this->_company_name;
     }
 
     /**

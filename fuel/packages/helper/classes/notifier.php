@@ -15,7 +15,7 @@ class Notifier
     public static function notifyAdminNewContact($contact)
     {
         $email = \Email::forge();
-        $email->to(\Config::get('enepi.company.email'), \Config::get('enepi.company.service_name'));
+        $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
         $email->subject("{$contact->name}様よりLPガスに関する問い合わせがありました");
         $email->html_body(\View::forge('notifier/admin/newContact', ['contact' => $contact]));
         $email->send();
@@ -36,7 +36,7 @@ class Notifier
         $subject = $by_user ? "当方にてキャンセル手続きをさせていただきました" : "キャンセルのご要望を受け付けました";
 
         $email = \Email::forge();
-        $email->to($estimate->company->partner_company->getEmails(), $estimate->company->partner_company->company_name);
+        $email->to($estimate->company->partner_company->getEmails(), $estimate->company->getCompanyName());
         $email->subject($subject + '／enepi運営事務局');
         $email->html_body(\View::forge('notifier/company/estimateCancel', ['estimate' => $estimate, 'by_user' => $by_user]));
         $email->send();
@@ -47,40 +47,38 @@ class Notifier
         $reason = \Helper\CancelReasons::getNameByValue($estimate->status_reason);
 
         $email = \Email::forge();
-        $email->to(\Config::get('enepi.company.email'), \Config::get('enepi.company.service_name'));
+        $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
         $email->subject('キャンセル');
         $email->html_body(\View::forge('notifier/admin/estimateCancel', ['estimate' => $estimate, 'reason' => $reason]));
         $email->send();
     }
 
-    public static function notifyCustomerIntroduce($model = null)
+    public static function notifyCustomerIntroduce($estimate)
     {
-        \Log::info('notifyAdminNewCustomer');
+        $company_name = $estimate->company->getCompanyName();
 
         $email = \Email::forge();
-        $email->to(\Config::get('enepi.company.email'), \Config::get('enepi.company.service_name'));
-        $email->subject("様よりLPガスに関する問い合わせがありました");
-        $email->html_body("OKKKKKK");
+        $email->to($estimate->contact->email, $estimate->contact->name);
+        $email->subject($company_name.'とのご連絡の要望承りました／enepi運営事務局');
+        $email->html_body(\View::forge('notifier/customer/introduce', ['estimate' => $estimate, 'company_name' => $company_name]));
         $email->send();
     }
 
-    public static function notifyCompanyIntroduce($model = null)
+    public static function notifyCompanyIntroduce($estimate)
     {
-        \Log::info('notifyAdminNewCustomer');
-
         $email = \Email::forge();
-        $email->to(\Config::get('enepi.company.email'), \Config::get('enepi.company.service_name'));
-        $email->subject("notifyCompanyIntroduce");
-        $email->html_body("notifyCompanyIntroduce");
+        $email->to($estimate->company->partner_company->getEmails(), $estimate->company->getCompanyName());
+        $email->subject('連絡希望をいただきました／enepi運営事務局');
+        $email->html_body(\View::forge('notifier/company/introduce', ['estimate' => $estimate]));
         $email->send();
     }
 
-    public static function notifyAdminIntroduce($model = null)
+    public static function notifyAdminIntroduce($estimate)
     {
         $email = \Email::forge();
-        $email->to(\Config::get('enepi.company.email'), \Config::get('enepi.company.service_name'));
-        $email->subject("notifyAdminIntroduce");
-        $email->html_body("notifyAdminIntroduce");
+        $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
+        $email->subject('送客');
+        $email->html_body(\View::forge('notifier/admin/introduce', ['estimate' => $estimate]));
         $email->send();
     }
 }

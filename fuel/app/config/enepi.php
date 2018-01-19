@@ -1,13 +1,15 @@
 <?php
 
 return [
-    'company' => [
-        'service_name' => 'エネピ',
+    'service' => [
+        'name' => 'エネピ',
         'zip_code' => '105-0004',
         'address' => '東京都港区新橋1-18-16 日本生命新橋ビル5F',
-        'tel' => '03-5510-8015',
-        'fax' => '03-5510-8016',
+        'tel' => '0120-771-664',
+        'tel_kakaku' => '0120-886-447',
         'email' => 'info@enepi.jp',
+        'head_office_tel' => '03-5510-8015',
+        'head_office_fax' => '03-5510-8016',
     ],
 
     /**
