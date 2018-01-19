@@ -80,21 +80,17 @@ use JpPrefecture\JpPrefecture;
         <td>
           <?php if ($machines = $estimate->contact->getGasMachines()): ?>
             <?php foreach ($machines as $m): ?>
-              <div><?= $m; ?></div>
+              <div><i class="fa fa-circle-o" aria-hidden="true"></i> <?= $m; ?></div>
             <?php endforeach; ?>
           <?php else: ?>
-            <div>無し</div>
+            <div><i class="fa fa-times" aria-hidden="true"></i> 無し</div>
           <?php endif; ?>
         </td>
         <td class="align-middle">
-          <div class="card card-outline-<?= $estimate->getStatusColor(); ?> text-center">
+          <?php $status_reason = $estimate->status_reason ? \Helper\CancelReasons::getNameByValue($estimate->status_reason) : ''; ?>
+          <div class="card card-outline-<?= $estimate->getStatusColor(); ?> text-center"<?= $status_reason ? ' data-toggle="tooltip" data-placement="top" title="'. $status_reason .'"' : ''?>>
             <div class="card-block p-0">
-              <blockquote class="card-blockquote">
-                <?= __('admin.estimate.status.'.\Config::get('views.estimate.status.'.$estimate->status)) ?>
-                <?php if ($status_reason = \Helper\CancelReasons::getValueByName($estimate->status_reason)): ?>
-                  <br>理由: <?= $status_reason; ?>
-                <?php endif; ?>
-              </blockquote>
+              <blockquote class="card-blockquote"><?= __('admin.estimate.status.'.\Config::get('views.estimate.status.'.$estimate->status)) ?><?= $status_reason ? ' <i class="fa fa-commenting" aria-hidden="true"></i>': ''; ?></blockquote>
             </div>
           </div>
         </td>
