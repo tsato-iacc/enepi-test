@@ -17,8 +17,8 @@ class AddValidation
     {
         list($table, $field) = explode('.', $options);
 
-        $result = DB::select(DB::expr("LOWER (\"$field\")"))
-        ->where($field, '=', Str::lower($val))
+        $result = \DB::select(\DB::expr("LOWER (\"$field\")"))
+        ->where($field, '=', \Str::lower($val))
         ->and_where('id', '!=', $id)
         ->from($table)->execute();
 

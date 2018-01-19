@@ -67,16 +67,19 @@ class Controller_Admin_Estimates extends Controller_Admin
     }
 
     /**
-     * Edit
+     * Show
      *
      * @access  public
      * @return  Response
      */
     public function action_show($id)
     {
-        $this->template->title = 'local_contents';
-        $this->template->content = View::forge('admin/estimates/edit', [
-            'test' => 'test'
+        if (!$estimate = \Model_Estimate::find($id, ['related' => ['contact', 'company']]))
+            throw new HttpNotFoundException;
+
+        $this->template->title = 'Estimate - id: '.$id;
+        $this->template->content = View::forge('admin/estimates/show', [
+            'estimate' => $estimate,
         ]);
     }
 
@@ -88,7 +91,7 @@ class Controller_Admin_Estimates extends Controller_Admin
      */
     public function action_cancel($id)
     {
-        if (!$estimate = \Model_Estimate::find($id, ['related' => ['estimate_history']]))
+        if (!$estimate = \Model_Estimate::find($id, ['related' => ['estimate_history', 'company']]))
             throw new HttpNotFoundException;
         
         if ($status_reason = \Input::post('status_reason'))
@@ -114,7 +117,7 @@ class Controller_Admin_Estimates extends Controller_Admin
      */
     public function action_introduce($id)
     {
-        if (!$estimate = \Model_Estimate::find($id))
+        if (!$estimate = \Model_Estimate::find($id, ['related' => ['estimate_history', 'company']]))
             throw new HttpNotFoundException;
 
         if ($estimate->introduce($this->admin_id))

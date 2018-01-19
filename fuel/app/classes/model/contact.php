@@ -144,6 +144,7 @@ class Model_Contact extends \Orm\Model_Soft
     private $_zip_code = null;
     private $_prefecture_code = null;
     private $_address = null;
+    private $_address2 = null;
 
     /**
      * [validate description]
@@ -386,6 +387,23 @@ class Model_Contact extends \Orm\Model_Soft
         }
 
         return $this->_address;
+    }
+
+    public function getAddress2()
+    {
+        if ($this->_address2 === null)
+        {
+            if ($this->address2)
+            {
+                $this->_address2 = $this->address2;
+            }
+            elseif ($this->new_address2)
+            {
+                $this->_address2 = $this->new_address2;
+            }
+        }
+
+        return $this->_address2;
     }
 
     public function basicPrice()
