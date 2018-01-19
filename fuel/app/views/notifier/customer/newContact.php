@@ -26,6 +26,7 @@
   ③切替希望ガス会社が決まりましたら、ガス会社と直接やり取りできる様対応いたします。<br>
   ④ガス会社が訪問・工事を行い、切替が完了します。<br>
   <br>
+  <!-- FIX ME -->
   <% if NewYearHoliday.holiday?(Time.zone.now) %>
     <%= NewYearHoliday.holiday_email_contact.gsub("{name}", $contact.name).split("\n").join("<br>").html_safe %><br>
   <% else %>
@@ -42,12 +43,8 @@
 --<br>
 enepi運営事務局　連絡先<br>
 <br>
-<?php if ($contact->from_kakaku): ?>
-  TEL：0120-886-447<br>
-<?php else: ?>
-  TEL：0120-771-664<br>
-<?php endif; ?>
-Mail：info@enepi.jp<br>
+TEL：<?= $contact->from_kakaku ? \Config::get('enepi.service.tel_kakaku') : \Config::get('enepi.service.tel'); ?><br>
+Mail：<?= \Config::get('enepi.service.email'); ?><br>
 --<br>
 <br>
 当サイトを通じて、<?= $contact->name ?>様にとってよきLPガス切替の機会となることを<br>

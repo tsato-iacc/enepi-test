@@ -34,12 +34,13 @@ class Controller_Admin_Estimates extends Controller_Admin
             'related' => [
                 'company' => [
                     'related' => [
-                        'partner_company'
+                        'partner_company',
                     ],
                 ],
                 'contact' => [
                     'where' => [],
                 ],
+                'estimate_history',
             ],
         ];
 
@@ -77,6 +78,55 @@ class Controller_Admin_Estimates extends Controller_Admin
         $this->template->content = View::forge('admin/estimates/edit', [
             'test' => 'test'
         ]);
+    }
+
+    /**
+     * Cancel
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_cancel($id)
+    {
+        if (!$estimate = \Model_Estimate::find($id, ['related' => ['estimate_history']]))
+            throw new HttpNotFoundException;
+        
+        if ($status_reason = \Input::post('status_reason'))
+        {
+            if ($estimate->cancel($this->admin_id, $status_reason))
+            {
+                Session::set_flash('success', "ID: {$id} ステータスをキャンセルに変更しました");
+
+                return Response::redirect('admin/estimates');
+            }
+        }
+
+        Session::set_flash('error', "ID: {$id} ステータス変更ができませんでした");
+
+        return Response::redirect('admin/estimates');
+    }
+
+    /**
+     * Introduce
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_introduce($id)
+    {
+        if (!$estimate = \Model_Estimate::find($id))
+            throw new HttpNotFoundException;
+
+        if ($estimate->introduce($this->admin_id))
+        {
+            Session::set_flash('success', "ID: {$id} introduce OK");
+
+            return Response::redirect('admin/estimates');
+        }
+
+        Session::set_flash('error', "ID: {$id} introduce FAIL");
+
+        return Response::redirect('admin/estimates');
     }
 
     private function updateConditions(&$conditions)

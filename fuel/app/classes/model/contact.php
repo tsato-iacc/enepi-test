@@ -323,8 +323,8 @@ class Model_Contact extends \Orm\Model_Soft
 
             if ($result = parent::save($cascade, $use_transaction))
             {
-                $this->notifyAdminNewCustomer();
-                $this->notifyNewCustomer();
+                \Helper\Notifier::notifyAdminNewContact($this);
+                \Helper\Notifier::notifyCustomerNewContact($this);
 
                 if ($has_estimates)
                     $this->sendSmsToNewCustomer();
@@ -332,36 +332,14 @@ class Model_Contact extends \Orm\Model_Soft
         }
         else
         {
-            if ($this->status == \Config::get('models.contact.status.cancelled') || $this->status == \Config::get('models.contact.status.contracted'))
-                $this->user_status = \Config::get('models.contact.user_status.no_action');
+            // FIX ME Check status contracted
+            // if ($this->status == \Config::get('models.contact.status.cancelled') || $this->status == \Config::get('models.contact.status.contracted'))
+            //     $this->user_status = \Config::get('models.contact.user_status.no_action');
 
             $result = parent::save($cascade, $use_transaction);
         }
 
         return $result;
-    }
-
-    public function notifyAdminNewCustomer()
-    {
-        \Log::info('notifyAdminNewCustomer');
-        // FIX ME (move to package?)
-        // \Package::load('email');
-        // $email = \Email::forge();
-        // $email->to(\Config::get('enepi.company.email'), \Config::get('enepi.company.service_name'));
-        // $email->subject("{$this->name}様よりLPガスに関する問い合わせがありました");
-        // $email->html_body(\View::forge('email/notifyAdminNewCustomer', ['contact' => $this]));
-        // $email->send();
-    }
-
-    public function notifyNewCustomer()
-    {
-        \Log::info('notifyNewCustomer');
-        // \Package::load('email');
-        // $email = \Email::forge();
-        // $email->to($this->email, $this->name);
-        // $email->subject('お問い合わせ頂き、ありがとうございます／プロパンガス一括見積もりサービス enepi（エネピ）運営事務局');
-        // $email->html_body(\View::forge('email/notifyNewCustomer', ['contact' => $this]));
-        // $email->send();
     }
 
     public function getZipCode()
@@ -442,12 +420,10 @@ class Model_Contact extends \Orm\Model_Soft
     {
         if ($this->estimates)
         {
-            $cancelled = \Config::get('models.estimate.status.cancelled');
             $status_reason = \Helper\CancelReasons::getValueByName($reason);
 
             foreach ($this->estimates as $estimate)
             {
-                if ($estimate->status != $cancelled)
                     $estimate->cancel($admin_id, $status_reason);
             }
         }

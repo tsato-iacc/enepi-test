@@ -29,8 +29,8 @@ use JpPrefecture\JpPrefecture;
         <div>パートナー</div>
       </th>
       <th>
-        <div><i class="fa fa-user" aria-hidden="true"></i> 会社名</div>
-        <div><i class="fa fa-user-o" aria-hidden="true"></i> 表示名</div>
+        <div><i class="fa fa-building" aria-hidden="true"></i> 会社名</div>
+        <div><i class="fa fa-building-o" aria-hidden="true"></i> 表示名</div>
       </th>
       <th>
         <div><i class="fa fa-globe" aria-hidden="true"></i> 都道府県</div>
@@ -53,8 +53,8 @@ use JpPrefecture\JpPrefecture;
           <div><a href="<?= \Uri::create('admin/partner_companies/:id/edit', ['id' => $company->partner_company->id]); ?>"><i class="fa fa-hashtag" aria-hidden="true"></i> <?= $company->partner_company->id; ?></a></div>
         </td>
         <td>
-          <div><i class="fa fa-user" aria-hidden="true"></i> <?= $company->partner_company->company_name; ?></div>
-          <div><i class="fa fa-user-o" aria-hidden="true"></i> <?= $company->display_name; ?></div>
+          <div><i class="fa fa-building" aria-hidden="true"></i> <?= $company->partner_company->company_name; ?></div>
+          <div><i class="fa fa-building-o" aria-hidden="true"></i> <?= $company->display_name; ?></div>
         </td>
         <td>
             <div><i class="fa fa-globe" aria-hidden="true"></i> <?= JpPrefecture::findByCode($company->prefecture_code)->nameKanji; ?></div>

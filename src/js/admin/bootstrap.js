@@ -4,6 +4,11 @@
 $('[data-toggle="popover"]').popover();
 
 /**
+ * Enable tooltips everywhere
+ */
+$('[data-toggle="tooltip"]').tooltip()
+
+/**
  * Datepicker
  */
 $('.datepicker').datepicker({
