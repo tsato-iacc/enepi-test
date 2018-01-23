@@ -231,6 +231,28 @@ class Model_Estimate extends \Orm\Model
         return false;
     }
 
+    // 送客 send_to_user
+    public function present($admin_id)
+    {
+        if ($this->status == \Config::get('models.estimate.status.pending') || $this->status == \Config::get('models.estimate.status.sent_estimate_to_iacc'))
+        {
+            $this->last_update_admin_user_id = $admin_id;
+            $this->status = \Config::get('models.estimate.status.sent_estimate_to_user');
+
+            if ($this->save())
+            {
+                // CHECK ME
+                \Helper\Notifier::notifyCustomerPresent($this);
+                \Helper\Notifier::notifyAdminPresent($this);
+                \Helper\Notifier::notifyCustomerPin($this->contact);
+
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
     /**
      * View methods
      */
@@ -257,30 +279,6 @@ class Model_Estimate extends \Orm\Model
         }
 
         return '-';
-    }
-
-    public function getStatusColor()
-    {
-        $color = '';
-
-        if ($this->status == \Config::get('models.estimate.status.pending'))
-        {
-            $color = 'danger';
-        }
-        elseif ($this->status == \Config::get('models.estimate.status.cancelled'))
-        {
-            $color = 'secondary';
-        }
-        elseif ($this->status == \Config::get('models.estimate.status.sent_estimate_to_user') || $this->status == \Config::get('models.estimate.status.sent_estimate_to_iacc'))
-        {
-            $color = 'warning';
-        }
-        elseif ($this->status == \Config::get('models.estimate.status.verbal_ok') || $this->status == \Config::get('models.estimate.status.contracted'))
-        {
-            $color = 'success';
-        }
-
-        return $color;
     }
 
     public function isExpired()

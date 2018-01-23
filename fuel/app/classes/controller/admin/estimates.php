@@ -74,7 +74,7 @@ class Controller_Admin_Estimates extends Controller_Admin
      */
     public function action_show($id)
     {
-        if (!$estimate = \Model_Estimate::find($id, ['related' => ['contact', 'company']]))
+        if (!$estimate = \Model_Estimate::find($id, ['related' => ['contact', 'company', 'estimate_history' => ['related' => ['admin_user', 'partner_company']]]]))
             throw new HttpNotFoundException;
 
         $this->template->title = 'Estimate - id: '.$id;
@@ -117,17 +117,44 @@ class Controller_Admin_Estimates extends Controller_Admin
      */
     public function action_introduce($id)
     {
-        if (!$estimate = \Model_Estimate::find($id, ['related' => ['estimate_history', 'company']]))
+        if (!$estimate = \Model_Estimate::find($id, ['related' => ['estimate_history', 'company', 'contact']]))
             throw new HttpNotFoundException;
 
         if ($estimate->introduce($this->admin_id))
         {
-            Session::set_flash('success', "ID: {$id} introduce OK");
+            $query = [
+                // 'conversion_id' => "LPGAS-{$estimate->contact->id}",
+                'token' => $estimate->contact->token,
+                'pin' => $estimate->contact->pin,
+            ];
+
+            return \Response::redirect("lpgas/contacts/{$estimate->contact->id}?".http_build_query($query));
+        }
+
+        Session::set_flash('error', "ID: {$id} introduce FAIL");
+
+        return Response::redirect('admin/estimates');
+    }
+
+    /**
+     * Introduce
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_present($id)
+    {
+        if (!$estimate = \Model_Estimate::find($id, ['related' => ['estimate_history', 'company']]))
+            throw new HttpNotFoundException;
+
+        if ($estimate->present($this->admin_id))
+        {
+            Session::set_flash('success', "ID: {$id} ユーザーに送信しました");
 
             return Response::redirect('admin/estimates');
         }
 
-        Session::set_flash('error', "ID: {$id} introduce FAIL");
+        Session::set_flash('error', "ID: {$id} ユーザーに送信 FAIL");
 
         return Response::redirect('admin/estimates');
     }

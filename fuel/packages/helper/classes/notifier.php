@@ -12,7 +12,10 @@ namespace Helper;
 
 class Notifier
 {
-    public static function notifyAdminNewContact($contact)
+    /**
+     * EMAIL
+     */
+    public static function notifyAdminNewContact(&$contact)
     {
         $email = \Email::forge();
         $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
@@ -21,7 +24,7 @@ class Notifier
         $email->send();
     }
 
-    public static function notifyCustomerNewContact($contact)
+    public static function notifyCustomerNewContact(&$contact)
     {
         $email = \Email::forge();
         $email->to($contact->email, $contact->name);
@@ -30,7 +33,7 @@ class Notifier
         $email->send();
     }
 
-    public static function notifyCompanyEstimateCancel($estimate)
+    public static function notifyCompanyEstimateCancel(&$estimate)
     {
         $by_user = $estimate->status_reason == \Helper\CancelReasons::getValueByName('status_reason_request_by_user');
         $subject = $by_user ? "当方にてキャンセル手続きをさせていただきました" : "キャンセルのご要望を受け付けました";
@@ -42,7 +45,7 @@ class Notifier
         $email->send();
     }
 
-    public static function notifyAdminEstimateCancel($estimate)
+    public static function notifyAdminEstimateCancel(&$estimate)
     {
         $reason = \Helper\CancelReasons::getNameByValue($estimate->status_reason);
 
@@ -53,7 +56,7 @@ class Notifier
         $email->send();
     }
 
-    public static function notifyCustomerIntroduce($estimate)
+    public static function notifyCustomerIntroduce(&$estimate)
     {
         $company_name = $estimate->company->getCompanyName();
 
@@ -64,7 +67,7 @@ class Notifier
         $email->send();
     }
 
-    public static function notifyCompanyIntroduce($estimate)
+    public static function notifyCompanyIntroduce(&$estimate)
     {
         $email = \Email::forge();
         $email->to($estimate->company->partner_company->getEmails(), $estimate->company->getCompanyName());
@@ -73,12 +76,25 @@ class Notifier
         $email->send();
     }
 
-    public static function notifyAdminIntroduce($estimate)
+    public static function notifyAdminIntroduce(&$estimate)
     {
         $email = \Email::forge();
         $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
         $email->subject('送客');
         $email->html_body(\View::forge('notifier/admin/introduce', ['estimate' => $estimate]));
+        $email->send();
+    }
+
+    /**
+     * SMS
+     */
+    public static function notifyCustomerPin(&$contact)
+    {
+        // FIX ME Use sms
+        $email = \Email::forge();
+        $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
+        $email->subject('SMS');
+        $email->html_body("TO:{$contact->tel} 認証コード: {$contact->pin}\nこのコードをenepi本人確認画面で入力してください。");
         $email->send();
     }
 }
