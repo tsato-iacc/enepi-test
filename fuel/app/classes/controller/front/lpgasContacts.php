@@ -250,6 +250,8 @@ class Controller_Front_LpgasContacts extends Controller_Front
      */
     public function get_sms_confirm($contact_id)
     {
+        $no_breadcrumb = true;
+        $no_drawer_menu = true;
 
         if(!is_null(\Input::get('conversion_id')))
         {
@@ -274,11 +276,42 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
             $pin = \Input::get('pin');
 
+
+            $pr_tracking_parameter_name = '';
+            if(!is_null($contact->tracking))
+            {
+                $pr_tracking_parameter_name = $contact->tracking->name;
+            }
+            $re_cv_params = ['contact_id' => $contact->id, 'token' => \Input::get('token'), 'pr' => $pr_tracking_parameter_name];
+            $re_cv_url = null;
+
+            if(!is_null($contact->from_kakaku))
+            {
+                $endpoint = 'https://propanegas.kakaku.com';
+                $re_cv_url = $endpoint.'/'.$this->lpgas_contact_path($re_cv_params, $contact);
+            }
+            elseif(!is_null($contact->from_enechange))
+            {
+                $re_cv_url = $this->lpgas_contact_path($re_cv_params, $contact);
+            }
+            else
+            {
+                $re_cv_params_query = '';
+                foreach($re_cv_params as $key => $value)
+                {
+                    $re_cv_params_query = $re_cv_params_query.$key.'='.$value.'&';
+                }
+                $re_cv_url = '/lpgas_contacts/new_form?'.$re_cv_params_query;
+            }
+
             $this->template->title = 'ENTER SMS CODE';
             $this->template->meta = $meta;
             $this->template->content = View::forge('front/lpgasContacts/sms_confirm', [
                 'contact' => $contact,
                 'pin' => $pin,
+                'no_breadcrumb' => $no_breadcrumb,
+                'no_drawer_menu' => $no_drawer_menu,
+                're_cv_url' => $re_cv_url,
             ]);
             $this->template->header_decision = $header_decision;
 
@@ -564,6 +597,224 @@ class Controller_Front_LpgasContacts extends Controller_Front
         }
 
         return $sum;
+
+    }
+
+    private function lpgas_contact_path($re_cv_params, $contact){
+
+        $lpgas_contact_path = '';
+        if(\Input::method() == 'GET')
+        {
+            foreach(\Uri::segments() as $segments)
+            {
+                // ●/app/controllers/front/lpgas/contacts_controller.rbのnewメソッド
+                if($segments == 'new')
+                {
+                    if(!empyt(\Input::get('contact_id')))
+                    {
+                        if($contact->token != \Input::get('token'))
+                        {
+                            // params.delete(:contact_id)
+                            // params.delete(:token)
+                            // redirect_to url_for(params)
+                        }
+                    }
+                    else
+                 {
+                        // @lpgas_contact = ::Lpgas::Contact.new
+                        // @lpgas_contact.from_kakaku = from_kakaku?
+                        // @lpgas_contact.from_enechange = from_enechange?
+                    }
+                    // if params[:estimate_kind].present?
+                    //   begin
+                    //     @lpgas_contact.estimate_kind = params[:estimate_kind]
+                    //   rescue ArgumentError
+                    //     # クエリパラメータ estimate_kind に不正な値が入ってくることはあり(URLコピペミス等)、
+                    //     # かつ、重要なものでもないので無視
+                    //   end
+                    // end
+                    // if params[:zip_code].present?
+                    //   if @lpgas_contact.new_contract?
+                    //     @lpgas_contact.new_zip_code = params[:zip_code]
+                    //   else
+                    //     @lpgas_contact.zip_code = params[:zip_code]
+                    //   end
+                    // end
+                    // if params[:prefecture_code].present?
+                    //   if @lpgas_contact.new_contract?
+                    //     @lpgas_contact.new_prefecture_code = params[:prefecture_code]
+                    //   else
+                    //     @lpgas_contact.prefecture_code = params[:prefecture_code]
+                    //   end
+                    // end
+
+                    // if from_kakaku?
+                    //   @form_url = '/kakaku/lpgas/contacts'
+                    //   return render :kakaku
+                    // end
+
+                    $lpgas_contact_path = 'new';
+                }
+                // ●/app/controllers/front/lpgas/contacts_controller.rbのdoneメソッド
+                elseif($segments == 'done')
+                {
+                    // # FOR OLD FORM
+                    // if params[:enepi_security_key].present?
+                    //   @contact = ::Lpgas::Contact.find(params[CONVERSION_PARAM].gsub(/^LPGAS-/, ""))
+                    //   unset_pr_tracking_parameter
+                    //   render 'done_old'
+                    // else
+                    //   @contact = ::Lpgas::Contact.find(params[CONVERSION_PARAM].gsub(/^LPGAS-/, ""))
+                    //   unset_pr_tracking_parameter
+                    // end
+                    $lpgas_contact_path = 'done';
+                }
+                // ●/app/controllers/front/lpgas/contacts_controller.rbのindexメソッド
+                else
+              {
+                    // raise ActionController::RoutingError, "No route matches #{request.path.inspect}"
+                  $lpgas_contact_path = 'index';
+                }
+            }
+        }
+        // ●/app/controllers/front/lpgas/contacts_controller.rbのcreateメソッド
+        elseif(\Input::method() == 'POST')
+        {
+            // # FOR OLD FORM
+            // if params[:enepi_security_key].present?
+            //   @lpgas_contact = ::Lpgas::Contact.new(param_lpgas_contact)
+            //   @lpgas_contact.from_kakaku = from_kakaku?
+            //   @lpgas_contact.from_enechange = from_enechange?
+            //   @lpgas_contact.apartment_owner = @apartment_form # 集合住宅向けのフォームから
+            //   @lpgas_contact.terminal = terminal_type_name
+            //   @lpgas_contact.pr_tracking_parameter_id = pr_tracking_parameter.try!(:id)
+
+            //   if params[:contact_id].present?
+            //     original = ::Lpgas::Contact.find(params[:contact_id])
+            //     if original.token == params[:token]
+            //       @lpgas_contact.original_contact_id = original.id
+            //     end
+            //   end
+            //   return render :nothing => true, :status => 400 unless @lpgas_contact.valid?
+            //   return render_preview if params[:previewed].blank? && from_kakaku?
+
+            //   ::Lpgas::Contact.transaction {
+            //     @lpgas_contact.save!
+            //     @lpgas_contact.try_auto_sending_estimates!
+            //   }
+
+            //   unless @lpgas_contact.sent_auto_estimate_req
+            //     reasons = @lpgas_contact.reasons_not_auto_sendable.join(",")
+            //     @lpgas_contact.update(reason_not_auto_sendable: reasons)
+            //   end
+
+            //   _params = {CONVERSION_PARAM => "LPGAS-#{@lpgas_contact.id}", enepi_security_key: 1}
+            //   if from_kakaku?
+            //     redirect_to done_kakaku_lpgas_contacts_path(_params)
+            //   elsif @lpgas_contact.sent_auto_estimate_req
+            //     redirect_to lpgas_contact_path(@lpgas_contact, _params.merge(token: @lpgas_contact.token))
+            //   else
+            //     redirect_to done_lpgas_contacts_path(_params)
+            //   end
+            // else
+            //   @lpgas_contact = ::Lpgas::Contact.new(param_lpgas_contact)
+            //   @lpgas_contact.from_kakaku = from_kakaku?
+            //   @lpgas_contact.from_enechange = from_enechange?
+            //   @lpgas_contact.apartment_owner = @apartment_form # 集合住宅向けのフォームから
+            //   @lpgas_contact.terminal = terminal_type_name
+            //   @lpgas_contact.pr_tracking_parameter_id = pr_tracking_parameter.try!(:id)
+
+            //   if params[:contact_id].present?
+            //     original = ::Lpgas::Contact.find(params[:contact_id])
+            //     if original.token == params[:token]
+            //       @lpgas_contact.original_contact_id = original.id
+            //     end
+            //   end
+
+            //   # Calculate gas usage by house hold
+            //   if @lpgas_contact.gas_used_amount.nil? && @lpgas_contact.house_hold.present?
+            //     zip = ""
+            //     fields = {
+            //       '2' => 'two_or_less_person_household',
+            //       '3' => 'three_person_household',
+            //       '4' => 'four_person_household',
+            //       '5' => 'five_person_household',
+            //       '6' => 'six_person_household',
+            //       '7' => 'seven_or_more_person_household'
+            //     }
+
+            //     if @lpgas_contact.zip_code.present?
+            //       zip = ZipCode.find_by(zip_code: @lpgas_contact.zip_code.gsub('-', ''))
+            //     else
+            //       zip = ZipCode.find_by(zip_code: @lpgas_contact.new_zip_code.gsub('-', ''))
+            //     end
+
+            //     city_code = Region.where(city_name: zip.city_name).first.id
+            //     city = LpgasLocalContentCity.find_by(city_code: city_code)
+            //     hh = fields[@lpgas_contact.house_hold.to_s]
+
+            //     if @lpgas_contact.gas_meter_checked_month.present?
+            //       month_num = {1 => "january", 2 => "february", 3 => "march", 4 => "april", 5 => "may", 6 => "june", 7 => "july", 8 => "august", 9 => "september", 10 => "october", 11 => "november", 12 => "december"}
+            //       month = month_num[@lpgas_contact.gas_meter_checked_month]
+            //       prefecture = LpgasLocalContentPrefecture.find(city.prefecture_code)
+            //       annual_average = prefecture.annual_average
+            //       household_average_rate = prefecture.send(month) / annual_average * prefecture.send(hh)
+            //     else
+            //       household_average_rate = city.send(hh)
+            //     end
+
+            //     @lpgas_contact.gas_used_amount = household_average_rate.round(1)
+            //   end
+
+            //   if params[:simple_simulation].present?
+            //     @lpgas_contact.body = "「世帯人数：#{@lpgas_contact.house_hold.to_s}　シミュレーションにより使用量：#{@lpgas_contact.gas_used_amount.to_s}m3で推定入力」"
+            //   end
+
+            //   if params[:new_form].present?
+            //     return redirect_to '/lp/004' unless @lpgas_contact.valid?
+            //   else
+            //     return render :new unless @lpgas_contact.valid?
+            //   end
+            //   return render_preview if params[:previewed].blank? && from_kakaku?
+
+            //   ::Lpgas::Contact.transaction {
+            //     @lpgas_contact.save!
+            //     @lpgas_contact.try_auto_sending_estimates!
+            //   }
+
+            //   Lpgas::ContactsMailer.notify_received_contact(@lpgas_contact).deliver_now
+            //   Lpgas::ContactsMailer.thanks(@lpgas_contact).deliver_now
+
+            //   if @lpgas_contact.sent_auto_estimate_req
+            //     TwillioClient.send_sms(contact: @lpgas_contact)
+            //   else
+            //     reasons = @lpgas_contact.reasons_not_auto_sendable.join(",")
+            //     ::Lpgas::Contact.find(@lpgas_contact.id).update(reason_not_auto_sendable: reasons)
+            //   end
+
+            //   _params = {CONVERSION_PARAM => "LPGAS-#{@lpgas_contact.id}"}
+            //   if @lpgas_contact.sent_auto_estimate_req
+            //     endpoint = "https://enepi.jp"
+            //     if Rails.env.staging?
+            //       endpoint = "https://stg.enepi.jp"
+            //     elsif Rails.env.development?
+            //       endpoint = "http://#{request.headers['HTTP_HOST']}"
+            //     end
+            //     redirect_to "#{endpoint}#{lpgas_contact_path(@lpgas_contact, _params.merge(token: @lpgas_contact.token))}"
+            //   else
+
+            //     if from_kakaku?
+            //       redirect_to done_kakaku_lpgas_contacts_path(_params)
+            //     else
+            //       redirect_to done_lpgas_contacts_path(_params)
+            //     end
+
+            //   end
+            // end
+            $lpgas_contact_path = 'create';
+        }
+
+        return $lpgas_contact_path;
 
     }
 }

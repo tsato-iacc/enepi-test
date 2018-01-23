@@ -84,7 +84,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }(document, 'script', 'facebook-jssdk'));</script>
 
 <!--
-  <?// unless @__no_drawer_menu ?>
+  <? if(!$no_drawer_menu){ ?>
     <div class="drawer-side-menu">
       <?//= link_to root_url do ?>
         <?//= image_tag asset_url("logo.png") ?>
@@ -105,7 +105,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </ul>
   </div>
   <div class="drawer-side-menu-overlay"></div>
-  <?// end ?>
+  <? } ?>
  -->
 
   <?
@@ -118,30 +118,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <? if(strcmp($path, '/') == 0){ ?>
     <?//= yield :cover ?>
-  <?// elsif @__no_breadcrumb ?>
-  <? }elseif(true){ ?>
+  <? }elseif($no_breadcrumb){ ?>
     <div class="no-breadcrumb"></div>
   <? }else{ ?>
     <div class="breadcrumb">
-    <div class="container">
-      <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+      <div class="container">
+        <ol itemscope itemtype="http://schema.org/BreadcrumbList">
           <?// breadcrumbs.each.with_index do |crumb, idx| ?>
             <?// is_last = breadcrumbs.size - 1 <= idx ?>
 
-            <li itemprop="itemListElement" itemscope
-          itemtype="http://schema.org/ListItem">
+            <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
               <?//= link_to crumb.path, itemprop: 'item' do ?>
                 <span itemprop="name"><?//= crumb.name ?></span></a>
               <?// end ?>
 
-              <meta itemprop="position"
-            content="<?//= (idx + 1).to_i ?>">
+              <meta itemprop="position" content="<?//= (idx + 1).to_i ?>">
               <?// if !is_last ?>»<?// end ?>
             </li>
           <?// end ?>
         </ol>
+      </div>
     </div>
-  </div>
   <? } ?>
 
   <div class="page">
@@ -226,24 +223,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                       <div class="col-md-4">
                         <a <?= MyView::link_to('javascript:void(0)', ['class' => 'btn btn-secondary', 'data-ajax' => '1', 'data-href' => '/lpgas_contacts/'.$contact->id.'/resend_pin?tel=1&amp;token='.$contact->token]); ?> >再度SMSを送る</a>
                       </div>
-                      <?// re_cv_params = {contact_id: @contact.id, token: params[:token], pr: @contact.pr_tracking_parameter.try!(:name)} ?>
-                      <?//
-//                          re_cv_url = if @contact.from_kakaku?
-//                                           endpoint = "https://propanegas.kakaku.com"
-//                                           if Rails.env.staging?
-//                                              endpoint = "https://stg.kakaku.enepi.jp"
-//                                           elsif Rails.env.development?
-//                                              endpoint = ""
-//                                           end
-//                                           "#{endpoint}#{new_kakaku_lpgas_contact_path(re_cv_params)}"
-//                                      elsif @contact.from_enechange?
-//                                        new_enechange_lpgas_contact_path(re_cv_params)
-//                                      else
-//                                        Rails.application.config.form_path + "?" + re_cv_params.to_query
-//                                      end
-                         ?>
                       <div class="col-md-4">
-                        <?//= link_to("再入力はこちら", re_cv_url, class: 'btn btn-secondary') ?></b>
+                        <a <?= MyView::link_to($re_cv_url, ['class' => 'btn btn-secondary',]); ?> >再入力はこちら</a>
                       </div>
                     </div>
                   </div>
