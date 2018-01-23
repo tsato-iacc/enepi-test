@@ -47,6 +47,12 @@ table.small-row {
   font-size: 14px;
 }
 
+table.th-left {
+  th {
+    width: 200px;
+  }
+}
+
 table {
   .note-box {
     width: 10em;
@@ -98,6 +104,9 @@ table {
 .card.card-small {
   font-size: 13px;
   line-height: 1.3em;
+}
+.card.max-width {
+  max-width: 120px;
 }
 
 /**

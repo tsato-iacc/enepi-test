@@ -48,7 +48,7 @@ class Model_Partner_Company extends \Orm\Model
      */
     public static function validate($partner_company = null)
     {
-        $val = Validation::forge();
+        $val = \Validation::forge();
         $val->add_callable('AddValidation');
 
         if ($partner_company === null)
