@@ -64,11 +64,8 @@ class Model_Estimate extends \Orm\Model
     ];
 
     protected static $_belongs_to = [
-        'estimate' => [
-            'model_to' => 'Model_Contact',
-            'key_from' => 'contact_id',
-            'key_to' => 'id',
-        ],
+        'company',
+        'contact',
     ];
 
     protected static $_has_many = [
@@ -80,19 +77,6 @@ class Model_Estimate extends \Orm\Model
         ],
         'prices' => [
             'model_to' => 'Model_Estimate_Price',
-        ],
-//         'companies'  => [
-//             'model_to' => 'Model_Company',
-//             'key_from' => 'company_id',
-//             'key_to' => 'partner_company_id',
-//         ],
-    ];
-
-    protected static $_has_one = [
-        'company'  => [
-            'model_to' => 'Model_Company',
-            'key_to' => 'id',
-            'key_from' => 'company_id',
         ],
     ];
 

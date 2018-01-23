@@ -110,7 +110,7 @@ class Controller_Admin_Estimates extends Controller_Admin
     }
 
     /**
-     * Introduce
+     * Introduce (Introduce user's estimate to company)
      *
      * @access  public
      * @return  Response
@@ -137,7 +137,7 @@ class Controller_Admin_Estimates extends Controller_Admin
     }
 
     /**
-     * Introduce
+     * Present (Send estimate to customer)
      *
      * @access  public
      * @return  Response
@@ -159,6 +159,56 @@ class Controller_Admin_Estimates extends Controller_Admin
         return Response::redirect('admin/estimates');
     }
 
+    /**
+     * Progress
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_progress($id)
+    {
+        if (!$estimate = \Model_Estimate::find($id, ['related' => ['company']]))
+            throw new HttpNotFoundException;
+
+        $val = Validation::forge();
+        $val->add_field('contacted', 'contacted', 'match_collection[true,false]');
+        $val->add_field('visited', 'visited', 'match_collection[true,false]');
+        $val->add_field('power_of_attorney_acquired', 'power_of_attorney_acquired', 'match_collection[true,false]');
+        $val->add_field('company_contact_name', 'company_contact_name', 'max_length[50]');
+
+        $val->add('visit_scheduled_date', 'visit_scheduled_date')->add_rule('match_pattern', '/^\d{4}[\s.-]\d{2}[\s.-]\d{2}$/');
+        $val->add('construction_scheduled_date', 'construction_scheduled_date')->add_rule('match_pattern', '/^\d{4}[\s.-]\d{2}[\s.-]\d{2}$/');
+
+        if ($val->run())
+        {
+            \DB::start_transaction();
+            try
+            {
+                
+
+                if ($estimate->save())
+                {
+                    \DB::commit_transaction();
+                    Session::set_flash('success', "ID: {$id} 更新 OK");
+                }
+
+                return Response::redirect("admin/estimates/{$id}");
+            }
+            catch (\Exception $e)
+            {
+                \Log::error($e);
+                \DB::rollback_transaction();
+            }
+        }
+
+        Session::set_flash('error', "ID: {$id} 更新 FAIL");
+
+        return Response::redirect("admin/estimates/{$id}");
+    }
+
+    /**
+     * Privet methods
+     */
     private function updateConditions(&$conditions)
     {
         // Where contact name equal
