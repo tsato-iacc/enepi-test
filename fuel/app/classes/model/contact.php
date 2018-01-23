@@ -127,6 +127,11 @@ class Model_Contact extends \Orm\Model_Soft
     ];
 
     protected static $_has_many = [
+        'estimate' => [
+            'model_to' => 'Model_Estimate',
+            'key_from' => 'id',
+            'key_to' => 'contact_id',
+        ],
         'estimates',
         'callings',
         'calling_histories' => [
@@ -206,7 +211,7 @@ class Model_Contact extends \Orm\Model_Soft
                     $val->add_field('lpgas_contact.gas_meter_checked_month', 'gas_meter_checked_month', 'numeric_between[1,12]');
                     $val->add_field('lpgas_contact.gas_latest_billing_amount', 'gas_latest_billing_amount', 'valid_string[numeric]');
                 }
-                
+
                 if (\Input::post('lpgas_contact.estimate_kind') == 'change_contract')
                 {
                     $val->add_field('lpgas_contact.gas_used_amount', 'gas_used_amount', 'required|match_pattern[/^[0-9]*[.]?[0-9]+$/]');
@@ -282,13 +287,13 @@ class Model_Contact extends \Orm\Model_Soft
                 $val->add_field('lpgas_contact.number_of_active_rooms', 'number_of_active_rooms', 'valid_string[numeric]');
                 $val->add_field('lpgas_contact.estate_management_company_name', 'estate_management_company_name', 'max_length[50]');
                 break;
-            
+
             default:
                 return null;
 
                 break;
         }
-        
+
         return $val;
     }
 
@@ -303,7 +308,7 @@ class Model_Contact extends \Orm\Model_Soft
         $result = false;
 
         $this->updateGeocode();
-        
+
         if ($this->is_new())
         {
             $this->token = \Str::random('hexdec', 32);
@@ -321,7 +326,7 @@ class Model_Contact extends \Orm\Model_Soft
             {
                 \Helper\Notifier::notifyAdminNewContact($this);
                 \Helper\Notifier::notifyCustomerNewContact($this);
-                
+
                 if ($has_estimates)
                     \Helper\Notifier::notifyCustomerPin($this);
             }
@@ -437,7 +442,7 @@ class Model_Contact extends \Orm\Model_Soft
 
             foreach ($this->estimates as $estimate)
             {
-                $estimate->cancel($admin_id, $status_reason);
+                    $estimate->cancel($admin_id, $status_reason);
             }
         }
         else
@@ -495,10 +500,10 @@ class Model_Contact extends \Orm\Model_Soft
 
         if ($this->using_cooking_stove)
             $machines[] = __('admin.contact.gas_machines.using_cooking_stove');
-        
+
         if ($this->using_bath_heater_with_gas_hot_water_supply)
             $machines[] = __('admin.contact.gas_machines.using_bath_heater_with_gas_hot_water_supply');
-        
+
         if ($this->using_other_gas_machine)
             $machines[] = __('admin.contact.gas_machines.using_other_gas_machine');
 
@@ -617,7 +622,7 @@ class Model_Contact extends \Orm\Model_Soft
             $this->estimates = $estimates;
             $this->sent_auto_estimate_req = true;
             $this->status = \Config::get('models.contact.status.sent_estimate_req');
-            
+
             return true;
         }
         elseif ($estimates && !$has_savings)
@@ -682,7 +687,7 @@ class Model_Contact extends \Orm\Model_Soft
             $this->_reasons[] = \Config::get('enepi.contact.reasons.unit_price_less');
             return false;
         }
-        
+
         // Check PR tracking
         if (!($ignore_pr_tracking || $this->tracking === null || $this->tracking->auto_sendable))
         {

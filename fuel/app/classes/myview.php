@@ -38,10 +38,24 @@ class MyView{
 
     }
 
-    public static function image_tag($url){
+    public static function image_tag($url, $hash = null){
 
-        printf("<img src=\"/assets/images/%s\" />", $url);
+        if(!is_null($hash)){
+            if(is_array($hash)){
 
+                $v = "";
+                $attr = "";
+
+                foreach($hash as $k => $v){
+                    $attr .= "{$k}=\"${v}\"";
+                }
+
+                printf("<img src=\"/assets/images/%s\" %s />", $url, $attr);
+
+            }
+        }else{
+            printf("<img src=\"/assets/images/%s\" />", $url);
+        }
     }
 
     /*
@@ -104,20 +118,32 @@ class MyView{
     	return $url;
     }
 
+    public static function null_check($value = ''){
+        return $value;
+    }
+
+
 
 
 
     private static function multi_tag($tag_type, $name, $hash){
 
         $v_name        = (isset($name)) ? $name : "---";
-        $v_class       = (isset($hash["class"])) ? $hash["class"] : "---";
-        $v_value       = (isset($hash["value"])) ? $hash["value"] : "";
+        $attr = "";
 
-        printf("<input type='%s' name='%s' value='%s' class='%s' />",
+        if(is_array($hash)){
+
+            $v = "";
+
+            foreach($hash as $k => $v){
+                $attr .= "{$k}=\"${v}\"";
+            }
+
+        }
+
+        printf("<input type='%s' name='%s'" .$attr. " />",
             $tag_type,
-            $v_name,
-            $v_value,
-            $v_class
+            $v_name
             );
     }
 
@@ -128,6 +154,10 @@ class MyView{
 
     public static function text_field($name, $hash){
         self::multi_tag("text", $name, $hash);
+    }
+
+    public static function checkbox_tag($name, $hash){
+        self::multi_tag("checkbox", $name, $hash);
     }
 
     public static function create($uri){
