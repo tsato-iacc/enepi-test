@@ -442,7 +442,7 @@ class Model_Contact extends \Orm\Model_Soft
 
             foreach ($this->estimates as $estimate)
             {
-                    $estimate->cancel($admin_id, $status_reason);
+                $estimate->cancel($admin_id, $status_reason);
             }
         }
         else

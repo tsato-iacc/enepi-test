@@ -30,6 +30,9 @@ class Model_Estimate_Comment extends \Orm\Model
 
     protected static $_belongs_to = [
         'estimate',
-        'estimate_change_log',
+        'history' => [
+            'model_to' => 'Model_Estimate_History',
+            'key_from' => 'estimate_change_log_id',
+        ],
     ];
 }

@@ -184,31 +184,33 @@ use JpPrefecture\JpPrefecture;
 
 <h2 id="timeline">進行状況</h2>
 
-<?= \Form::open(['action' => '']); ?>
+<?= \Form::open(['action' => \Uri::create('admin/estimates/:id/progress', ['id' => $estimate->id])]); ?>
   <?= \Form::csrf(); ?>
-  <table class="table table-sm table-hover mt-4 small-row">
+  <table class="table table-sm table-hover mt-4 small-row th-left">
     <tr>
       <th>STEP1. 連絡する</th>
       <td>
-        <?php if (\Config::get('models.estimate.status.contacted') != $estimate->status): ?>
-          <div class="form-group">
-            <span>状況</span>
-            <label>
-              <%= f.radio_button :contacted, false %>
-              変更しない
+        <?php if (!$estimate->contacted): ?>
+          <div class="form-check d-flex align-items-center mt-1">
+            <span class="mr-2"><b>状況</b></span>
+            <label class="custom-control custom-radio mb-0">
+              <input name="contacted" value="false" type="radio" class="custom-control-input" checked="checked">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">変更しない</span>
             </label>
-            <label>
-              <%= f.radio_button :contacted, true %>
-              完了にする
+            <label class="custom-control custom-radio mb-0">
+              <input name="contacted" value="true" type="radio" class="custom-control-input">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">完了にする</span>
             </label>
           </div>
           <div class="form-group">
-            <%= f.text_field :company_contact_name, class: 'form-control', placeholder: '担当者', value: f.object.previous_company_contact_name_by_admin %>
+            <input class="form-control" placeholder="担当者" value="" type="text" name="company_contact_name">
           </div>
           <div class="form-group">
             <textarea name="comment" class="form-control" rows="4" placeholder="メモ"></textarea>
           </div>
-          <%= f.submit class: 'btn btn-primary btn-xs' %>
+          <button type="submit" class="btn btn-primary btn-sm mb-2">更新する</button>
         <?php elseif (\Config::get('models.estimate.status.contacted') == $estimate->status): ?>
           <span class="true-label">完了済み</span>
         <?php endif; ?>
@@ -217,44 +219,46 @@ use JpPrefecture\JpPrefecture;
     <tr>
       <th>STEP2. 訪問予定日を決める</th>
       <td>
-        <?php if (\Config::get('models.estimate.status.contacted') == $estimate->status && !$estimate->visit_scheduled_date): ?>
+        <?php if ($estimate->contacted && !$estimate->visit_scheduled_date): ?>
           <div class="form-group">
-            <%= f.text_field :visit_scheduled_date, class: 'datepicker form-control', placeholder: '訪問予定日' %>
+            <input class="form-control datepicker" placeholder="訪問予定日" value="" type="text" name="visit_scheduled_date">
           </div>
           <div class="form-group">
-            <%= f.text_field :company_contact_name, class: 'form-control', placeholder: '担当者', value: f.object.previous_company_contact_name_by_admin %>
+            <input class="form-control" placeholder="担当者" value="" type="text" name="company_contact_name">
           </div>
           <div class="form-group">
             <textarea name="comment" class="form-control" rows="4" placeholder="メモ"></textarea>
           </div>
-          <%= f.submit class: 'btn btn-primary btn-xs' %>
+          <button type="submit" class="btn btn-primary btn-sm mb-2">更新する</button>
         <?php elseif ($estimate->visit_scheduled_date): ?>
-          <%= f.object.visit_scheduled_date %>
+          <?= $estimate->visit_scheduled_date; ?>
         <?php endif; ?>
       </td>
     </tr>
     <tr>
       <th>STEP3. 訪問する</th>
       <td>
-        <?php if (\Config::get('models.estimate.status.contacted') == $estimate->status && $estimate->visit_scheduled_date && !$estimate->visited): ?>
-          <div class="form-group">
-            <span>状況</span>
-            <label>
-              <%= f.radio_button :visited, false %>
-              変更しない
+        <?php if ($estimate->contacted && $estimate->visit_scheduled_date && !$estimate->visited): ?>
+          <div class="form-check d-flex align-items-center mt-1">
+            <span class="mr-2"><b>状況</b></span>
+            <label class="custom-control custom-radio mb-0">
+              <input name="visited" value="false" type="radio" class="custom-control-input" checked="checked">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">変更しない</span>
             </label>
-            <label>
-              <%= f.radio_button :visited, true %>
-              完了にする
+            <label class="custom-control custom-radio mb-0">
+              <input name="visited" value="true" type="radio" class="custom-control-input">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">完了にする</span>
             </label>
           </div>
           <div class="form-group">
-            <%= f.text_field :company_contact_name, class: 'form-control', placeholder: '担当者', value: f.object.previous_company_contact_name_by_admin %>
+            <input class="form-control" placeholder="担当者" value="" type="text" name="company_contact_name">
           </div>
           <div class="form-group">
             <textarea name="comment" class="form-control" rows="4" placeholder="メモ"></textarea>
           </div>
-          <%= f.submit class: 'btn btn-primary btn-xs' %>
+          <button type="submit" class="btn btn-primary btn-sm mb-2">更新する</button>
         <?php elseif ($estimate->visited): ?>
           <span class="true-label">完了済み</span>
         <?php endif; ?>
@@ -264,24 +268,26 @@ use JpPrefecture\JpPrefecture;
       <th>STEP4. 委任状を獲得する</th>
       <td>
         <?php if ($estimate->visited && !$estimate->power_of_attorney_acquired): ?>
-          <div class="form-group">
-            <span>状況</span>
-            <label>
-              <%= f.radio_button :power_of_attorney_acquired, false %>
-              変更しない
+          <div class="form-check d-flex align-items-center mt-1">
+            <span class="mr-2"><b>状況</b></span>
+            <label class="custom-control custom-radio mb-0">
+              <input name="power_of_attorney_acquired" value="false" type="radio" class="custom-control-input" checked="checked">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">変更しない</span>
             </label>
-            <label>
-              <%= f.radio_button :power_of_attorney_acquired, true %>
-              完了にする
+            <label class="custom-control custom-radio mb-0">
+              <input name="power_of_attorney_acquired" value="true" type="radio" class="custom-control-input">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">完了にする</span>
             </label>
           </div>
           <div class="form-group">
-            <%= f.text_field :company_contact_name, class: 'form-control', placeholder: '担当者', value: f.object.previous_company_contact_name_by_admin %>
+            <input class="form-control" placeholder="担当者" value="" type="text" name="company_contact_name">
           </div>
           <div class="form-group">
             <textarea name="comment" class="form-control" rows="4" placeholder="メモ"></textarea>
           </div>
-          <%= f.submit class: 'btn btn-primary btn-xs' %>
+          <button type="submit" class="btn btn-primary btn-sm mb-2">更新する</button>
         <?php elseif ($estimate->power_of_attorney_acquired): ?>
           <span class="true-label">完了済み</span>
         <?php endif; ?>
@@ -292,26 +298,25 @@ use JpPrefecture\JpPrefecture;
       <td>
         <?php if ($estimate->power_of_attorney_acquired && !$estimate->construction_scheduled_date): ?>
           <div class="form-group">
-            <%= f.text_field :construction_scheduled_date, class: 'datepicker form-control', placeholder: "工事予定日" %>
+            <input class="form-control datepicker" placeholder="訪問予定日" value="" type="text" name="construction_scheduled_date">
           </div>
           <div class="form-group">
-            <%= f.text_field :company_contact_name, class: 'form-control', placeholder: '担当者', value: f.object.previous_company_contact_name_by_admin %>
+            <input class="form-control" placeholder="担当者" value="" type="text" name="company_contact_name">
           </div>
           <div class="form-group">
             <textarea name="comment" class="form-control" rows="4" placeholder="メモ"></textarea>
           </div>
-          <%= f.submit class: 'btn btn-primary btn-xs' %>
+          <button type="submit" class="btn btn-primary btn-sm mb-2">更新する</button>
         <?php elseif ($estimate->construction_scheduled_date): ?>
-          <%= format_date f.object.construction_scheduled_date %>
+          <?= $estimate->construction_scheduled_date; ?>
         <?php endif; ?>
       </td>
     </tr>
-
     <tr>
       <th>STEP6. 工事完了</th>
       <td>
         <?php if ($estimate->construction_finished_date): ?>
-          <%= format_date f.object.construction_finished_date %>
+          <?= $estimate->construction_finished_date; ?>
         <?php endif; ?>
       </td>
     </tr>

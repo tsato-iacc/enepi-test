@@ -184,7 +184,48 @@ class Controller_Admin_Estimates extends Controller_Admin
             \DB::start_transaction();
             try
             {
+                $estimate->last_update_admin_user_id = $this->admin_id;
+
+                if ($comment = \Input::post('comment'))
+                {
+                    $history_id = null;
+                    $estimate->comments[] = new \Model_Estimate_Comment(['comment' => $comment, 'estimate_change_log_id' => $history_id]);
+                }
+
+                if ($val->validated('contacted') == 'true')
+                    $estimate->contacted = true;
                 
+                if ($val->validated('visited') == 'true')
+                    $estimate->visited = true;
+                
+                if ($val->validated('power_of_attorney_acquired') == 'true')
+                    $estimate->power_of_attorney_acquired = true;
+                
+                if ($val->validated('visit_scheduled_date'))
+                    $estimate->visit_scheduled_date = $val->validated('visit_scheduled_date');
+                
+                if ($val->validated('construction_scheduled_date'))
+                    $estimate->construction_scheduled_date = $val->validated('construction_scheduled_date');
+                
+                // FIX ME Move to partner
+                // 成約済み
+                // if ($val->validated('construction_finished_date'))
+                // {
+                //     if ($estimate->status != \Config::get('models.estimate.status.verbal_ok'))
+                //         throw new Exception('Invalid status. Should be verbal_ok');
+                        
+                //     $estimate->construction_finished_date = $val->validated('visit_scheduled_date');
+                //     $estimate->contact->status = \Config::get('models.contact.status.contacted');
+
+                //     # 成約済みになったら他の見積りをキャンセルにする
+                //     foreach ($estimate->contact->estimates as $e)
+                //     {
+                //         if ($e->id == $estimate->id)
+                //             continue;
+
+                //         $estimate->cancel($this->partner_id, 'status_reason_request_by_user')
+                //     }
+                // }
 
                 if ($estimate->save())
                 {
