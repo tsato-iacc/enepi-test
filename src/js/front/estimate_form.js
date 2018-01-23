@@ -167,7 +167,7 @@ if ($('#register_form').length) {
           error = true;
       } else {
         var houseHold = isSelectValid('house_hold');
-        
+
         if (!houseHold || !gasMonth || !gasBillingAmount || !gasCompany)
           error = true;
       }
@@ -208,7 +208,7 @@ if ($('#register_form').length) {
     var name = isInputValid('lpgas_contact\\[name\\]');
     var tel = isTelValid('lpgas_contact\\[tel\\]');
     var mail = isEmailValid('lpgas_contact\\[email\\]');
-    
+
     error = !(name && tel && mail);
 
     if (error === false) {
@@ -360,7 +360,7 @@ if ($('#register_form').length) {
 
   function nextSlide(el, ga_add) {
     var nextStep = parseInt(el.attr('data-next-step'));
-    
+
     goToNextStep(nextStep);
     swiper.unlockSwipes();
     swiper.slideTo(nextStep, fadeSpeed, true);

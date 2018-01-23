@@ -1,5 +1,6 @@
 <?php
 
+use JpPrefecture\JpPrefecture;
 use \Helper\Tracking;
 
 /**
@@ -111,7 +112,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
             if (\Input::post('simple_simulation') == true)
                 $contact->body = "「世帯人数：{$contact->house_hold}　シミュレーションにより使用量：{$contact->gas_used_amount}m3で推定入力」";
-            
+
             \DB::start_transaction();
             try
             {
@@ -231,11 +232,14 @@ class Controller_Front_LpgasContacts extends Controller_Front
             ['name' => 'puka', 'content' => 'suka'],
         ];
 
+        $header_decision = 'done';
+
         $this->template->title = 'DONE';
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/lpgasContacts/done', [
             'contact' => $contact
         ]);
+        $this->template->header_decision = $header_decision;
     }
 
     /**
@@ -246,14 +250,128 @@ class Controller_Front_LpgasContacts extends Controller_Front
      */
     public function get_sms_confirm($contact_id)
     {
+
+        if(!is_null(\Input::get('conversion_id')))
+        {
+            $this->template = \View::forge('front/template_contact');
+
+            $contact = \Model_Contact::find($contact_id);
+            if (!$contact)
+            {
+                \Log::warning("conversion id {$contact_id} not found");
+                throw new HttpNotFoundException();
+            }
+
+            Tracking::unsetTracking();
+
+            $meta = [
+                ['name' => 'description', 'content' => 'OOooOOppp'],
+                ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
+                ['name' => 'puka', 'content' => 'suka'],
+            ];
+
+            $header_decision = 'sms_confirm';
+
+            $pin = \Input::get('pin');
+
+            $this->template->title = 'ENTER SMS CODE';
+            $this->template->meta = $meta;
+            $this->template->content = View::forge('front/lpgasContacts/sms_confirm', [
+                'contact' => $contact,
+                'pin' => $pin,
+            ]);
+            $this->template->header_decision = $header_decision;
+
+        }
+        elseif(!is_null(\Input::get('pin')))
+        {
+            $this->template = \View::forge('front/template_contact');
+
+            $contact = \Model_Contact::find($contact_id);
+            if (!$contact)
+            {
+                \Log::warning("conversion id {$contact_id} not found");
+                throw new HttpNotFoundException();
+            }
+
+//             foreach ($contact->estimate as $key => $value) {
+//                 if($contact->estimate[$key]->basic_price == null) {
+//                     unset($contact->estimate[$key]);
+//                 }
+//             }
+
+            $prefecture_data = \Model_LocalContentPrefecture::find($contact['prefecture_code']);
+            if (!$prefecture_data)
+            {
+                \Log::warning("prefecture_code {$contact['prefecture_code']} not found");
+                throw new HttpNotFoundException();
+            }
+
+            Tracking::unsetTracking();
+
+            $meta = [
+                ['name' => 'description', 'content' => 'OOooOOppp'],
+                ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
+                ['name' => 'puka', 'content' => 'suka'],
+            ];
+
+            $header_decision = 'estimate_presentation';
+
+            $prefecture_KanjiAndCode   = JpPrefecture::allKanjiAndCode();
+            $prefecture_kanji          = $this->prefecture_kanji(  $prefecture_KanjiAndCode,
+                $contact['prefecture_code']);
+
+            $this->template->title = 'エネピ';
+            $this->template->meta = $meta;
+            $this->template->content = View::forge('front/lpgasContacts/estimate_presentation', [
+                'contact' => $contact,
+                'prefecture_kanji' => $prefecture_kanji,
+                'prefecture_data' => $prefecture_data,
+            ]);
+            $this->template->header_decision = $header_decision;
+        }
+    }
+
+    public function get_details($contact_id, $uuid)
+    {
         $this->template = \View::forge('front/template_contact');
 
         $contact = \Model_Contact::find($contact_id);
-
         if (!$contact)
         {
             \Log::warning("conversion id {$contact_id} not found");
             throw new HttpNotFoundException();
+        }
+
+//         foreach ($contact->estimate as $key => $value) {
+//             if($contact->estimate[$key]->basic_price == null) {
+//                 unset($contact->estimate[$key]);
+//             }
+//         }
+
+        $estimate = \Model_Estimate::find('first',[
+                'where' => [
+                  ['uuid', $uuid],
+                 ],
+        ]);
+        if (!$estimate)
+        {
+            \Log::warning("conversion id {$uuid} not found");
+            throw new HttpNotFoundException();
+        }
+
+        $feature_all = \Model_Company_Feature::find('all');
+        if (!$feature_all)
+        {
+            \Log::warning("CompanyFeature not found");
+            throw new HttpNotFoundException();
+        }
+
+        $company = [];
+        foreach ($contact->estimate as $e){
+            if($e->uuid == $uuid){
+                $company = $e;
+            }
         }
 
         Tracking::unsetTracking();
@@ -264,12 +382,32 @@ class Controller_Front_LpgasContacts extends Controller_Front
             ['name' => 'puka', 'content' => 'suka'],
         ];
 
-        $this->template->title = 'ENTER SMS CODE';
+        $header_decision = 'details';
+
+        $prefecture_KanjiAndCode   = JpPrefecture::allKanjiAndCode();
+        $prefecture_kanji          = $this->prefecture_kanji(  $prefecture_KanjiAndCode,
+            $contact['prefecture_code']);
+
+        $used_amount_by_month = $this->used_amount_by_month($contact);
+
+        $savings_by_month = $this->savings_by_month($contact, $company, $used_amount_by_month);
+
+//        var_dump($savings_by_month);
+
+        $this->template->title = 'エネピ';
         $this->template->meta = $meta;
-        $this->template->content = View::forge('front/lpgasContacts/sms_confirm', [
-            'contact' => $contact
+        $this->template->content = View::forge('front/lpgasContacts/details', [
+            'contact' => $contact,
+            'prefecture_kanji' => $prefecture_kanji,
+            'company' => $company,
+            'estimate' => $estimate,
+            'feature_all' => $feature_all,
+            'savings_by_month' => $savings_by_month,
         ]);
+        $this->template->header_decision = $header_decision;
     }
+
+
 
     private function calculateGasUsage(&$contact)
     {
@@ -319,6 +457,113 @@ class Controller_Front_LpgasContacts extends Controller_Front
         $this->template->content = View::forge('front/lpgasContacts/old', [
             'breadcrumb' => $breadcrumb,
         ]);
+
+    }
+
+    private function prefecture_kanji($prefecture_KanjiAndCode, $prefecture_code){
+        $prefecture_kanji = array();
+
+        foreach ($prefecture_KanjiAndCode as $key => $value){
+            if($key == $prefecture_code){
+                $prefecture_kanji = array($key => $value);
+            }
+        }
+        return $prefecture_kanji;
+    }
+
+    private function used_amount_by_month($contact){
+
+        if(isset($contact['prefecture_code']))
+        {
+            $pref_model = JpPrefecture::usedAmountModel($contact['prefecture_code']);
+        }
+        else
+       {
+            $pref_model = JpPrefecture::usedAmountModel($contact['new_prefecture_code']);
+        }
+
+        $a = 1.0 / $pref_model[$contact['gas_meter_checked_month']];
+        $used_amount_by_month = [];
+
+        for($month = 0; $month < 12; $month++)
+        {
+            $m = $month + 1;
+            $used_amount_by_month[$m] = $contact->gas_used_amount * $a * $pref_model[$m];
+        }
+
+        return $used_amount_by_month;
+    }
+
+    private function savings_by_month($contact, $company, $used_amount_by_month)
+    {
+        $savings_by_month = [];
+
+        if(!is_null($company->basic_price))
+        {
+            return null;
+        }
+        elseif(!isset($_savings_by_month))
+        {
+            return $savings_by_month;
+        }
+
+        for($month = 0; $month < 12; $month++)
+        {
+            $m = $month + 1;
+            $used_amount = $used_amount_by_month[$m];
+
+            $savings_by_month[$m] = [
+                'id' => $company->id,
+                'used_amount' => $used_amount,
+                'before_price' => round($this->basic_price($contact) + $this->unit_price($contact) * $used_amount),
+                'after_price' => round($company->basic_price + $this->calc_ondemand_cost($contact, $used_amount)),
+            ];
+        }
+        return $savings_by_month;
+
+    }
+
+    private function basic_price($contact){
+        return JpPrefecture::basicPricePrefecture($contact['prefecture_code']);
+    }
+
+    private function unit_price($contact){
+
+        $unit_price = 0;
+        if(!empty($contact->gas_latest_billing_amount) && !empty($contact->gas_used_amount))
+        {
+            if($contact->gas_used_amount == 0)
+            {
+                return $unit_price = 0;
+            }
+            return $unit_price = (($contact->gas_latest_billing_amount / 1.08) - (float)$basic_price) / $contact->gas_used_amount;
+        }
+
+        return $unit_price;
+    }
+
+    private function calc_ondemand_cost($contact, $used_amount){
+
+        $sum = $contact->fuel_adjustment_cost * $used_amount;
+
+        foreach ($contact->estimate as $e)
+        {
+            foreach($e->prices as $p)
+            {
+                if($used_amount <= $p->upper_limit - $p->under_limit)
+                {
+                    $sum += ($p->unit_price * $used_amount);
+                    break;
+                }
+                else
+              {
+                    $used_amount -= $p->upper_limit - $p->under_limit;
+                    $sum += $p->unit_price * ($p->upper_limit - $p->under_limit);
+                }
+            }
+        }
+
+        return $sum;
 
     }
 }

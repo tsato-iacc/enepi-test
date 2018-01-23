@@ -64,8 +64,11 @@ class Model_Estimate extends \Orm\Model
     ];
 
     protected static $_belongs_to = [
-        'company',
-        'contact',
+        'estimate' => [
+            'model_to' => 'Model_Contact',
+            'key_from' => 'contact_id',
+            'key_to' => 'id',
+        ],
     ];
 
     protected static $_has_many = [
@@ -77,6 +80,19 @@ class Model_Estimate extends \Orm\Model
         ],
         'prices' => [
             'model_to' => 'Model_Estimate_Price',
+        ],
+//         'companies'  => [
+//             'model_to' => 'Model_Company',
+//             'key_from' => 'company_id',
+//             'key_to' => 'partner_company_id',
+//         ],
+    ];
+
+    protected static $_has_one = [
+        'company'  => [
+            'model_to' => 'Model_Company',
+            'key_to' => 'id',
+            'key_from' => 'company_id',
         ],
     ];
 
@@ -93,7 +109,7 @@ class Model_Estimate extends \Orm\Model
         $result = false;
         // FIX ME
         // before_update { self.status_updated_at = Time.now if status_changed? }
-        
+
         if ($this->is_new())
         {
             $this->uuid = \Str::random('uuid');
@@ -118,7 +134,7 @@ class Model_Estimate extends \Orm\Model
             // after_save { contact.add_to_callings if (sent_estimate_to_user? || verbal_ok?) && !auto? }
             // after_save :log_changes, if: -> { changed? }
         }
-        
+
         return $result;
     }
 
@@ -154,7 +170,7 @@ class Model_Estimate extends \Orm\Model
 
             $this->_savings_by_month = $savings_by_month;
         }
-        
+
         return $this->_savings_by_month;
     }
 

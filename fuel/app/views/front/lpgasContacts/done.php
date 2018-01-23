@@ -1,18 +1,23 @@
-<% if from_kakaku? && smart_phone? %>
-  <script src="//assets.adobedtm.com/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-2baf9a6b9fae7a21c0cfb818c33122e38669f89d.js"></script>
-<% elsif from_kakaku? %>
-  <script src="//assets.adobedtm.com/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-29577dfd7f420978cd93f3d1b2d6ee3a7d40cf53.js"></script>
-<% end %>
+<? $from_kakaku = null;
+   $smart_phone = null;
+   $from_enechange = null;?>
 
-<% title "エネピ -  お見積もりの問い合わせ完了" %>
+
+<? if($from_kakaku != null and $smart_phone != null){ ?>
+  <script src="//assets.adobedtm.com/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-2baf9a6b9fae7a21c0cfb818c33122e38669f89d.js"></script>
+<? }elseif($from_kakaku != null){ ?>
+  <script src="//assets.adobedtm.com/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-29577dfd7f420978cd93f3d1b2d6ee3a7d40cf53.js"></script>
+<? } ?>
+
+<? MyView::title("エネピ -  お見積もりの問い合わせ完了") ?>
 
 <div class="skinny">
 
-  <% if !(from_kakaku? || from_enechange?) %>
+  <? if(!($from_kakaku != null or $from_enechange != null)){ ?>
     <div class="step-container">
-      <%= image_tag "estimate_presentation/new_step_img_02.png", class: 'lpgas-form-step-image' %>
+      <?= MyView::image_tag("estimate_presentation/new_step_img_02.png", ["class" => "lpgas-form-step-image", "alt" => "New step img 02"]) ?>
     </div>
-  <% end %>
+  <? } ?>
 
   <h2 class="page-title center">お問い合わせが完了しました</h2>
 
@@ -24,42 +29,42 @@
       今しばらくお待ち頂けますようお願い申し上げます。
     </p>
 
-    <% if from_kakaku? %>
+    <? if($from_kakaku != null){ ?>
       <p>
         ご不明な点などありましたら、下記連絡先までお問い合わせください。<br>
       </p>
       <div style="margin-bottom: 20px">
-        <%= image_tag("kakaku/tel.png") %>
+        <?= MyView::image_tag("kakaku/tel.png") ?>
       </div>
       <p>
         株式会社カカクコムではお答えできかねますので、ご了承ください。
       </p>
-    <% end %>
+    <? } ?>
 
-    <% if from_kakaku? %>
-      <%= link_to 'enepiヘ', 'https://enepi.jp', class: 'submit' %>
-    <% else %>
-      <%= link_to 'ホームへ戻る', root_path, class: 'submit' %>
-    <% end %>
+    <? if($from_kakaku != null){ ?>
+      <a <?= MyView::link_to('/', ["class" => "submit"]); ?> >enepiヘ</a>
+    <? }else{ ?>
+      <a <?= MyView::link_to('/', ["class" => "submit"]); ?> >ホームへ戻る</a>
+    <? } ?>
   </div>
 
-  <% if !@contact.sent_auto_estimate_req? %>
-    <%= content_for :tail do %>
-      <% render "cv_tags", contact: @contact, cv_point: :cv_point_done_estimate %>
-    <% end %>
-  <% end %>
+  <? if(!($contact->sent_auto_estimate_req != null)){ ?>
+    <?//= content_for :tail do ?>
+      <?// r}er "cv_tags", contact: @contact, cv_point: :cv_point_done_estimate ?>
+    <?// } ?>
+  <? } ?>
 </div>
 
-<% if from_kakaku? %>
+<? if($from_kakaku != null){ ?>
   <script type="text/javascript">
-      if(typeof _satellite !== "undefined"){
+      if(typeof _satellite !!= "undefined"){
           _satellite.pageBottom();
       }
   </script>
-<% end %>
+<? } ?>
 
 <script src="https://ca.iacc.tokyo/js/ca.js"></script>
 <script>
-cacv('見積もり完了(手動送客)', {ch:'63912289', link:'<%= @contact.id %>', tel:'<%= @contact.tel %>', name:'<%= @contact.name %>', mail:'<%= @contact.email %>', zip:'<%= @contact.zip_code %>', address:'<%= @contact.address %>'});
+cacv('見積もり完了(手動送客)', {ch:'63912289', link:'<?//= @contact.id ?>', tel:'<?//= @contact.tel ?>', name:'<?//= @contact.name ?>', mail:'<?//= @contact.email ?>', zip:'<?//= @contact.zip_code ?>', address:'<?//= @contact.address ?>'});
 </script>
 

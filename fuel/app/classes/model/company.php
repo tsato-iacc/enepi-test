@@ -50,6 +50,11 @@ class Model_Company extends \Orm\Model
     ];
 
     protected static $_belongs_to = [
+        'estimates'  => [
+            'model_to' => 'Model_Estimate',
+            'key_from' => 'partner_company_id',
+            'key_to' => 'company_id',
+        ],
         'partner_company' => [
             'model_to' => 'Model_Partner_Company'
         ],
@@ -90,7 +95,7 @@ class Model_Company extends \Orm\Model
     public static function validate()
     {
         $val = Validation::forge();
-        
+
         return $val;
     }
 
@@ -117,7 +122,7 @@ class Model_Company extends \Orm\Model
     public static function getFormList()
     {
         $list = [];
-        
+
         foreach (\Model_Company::find('all', ['related' => ['partner_company']]) as $company)
         {
             $list[$company->id] = $company->display_name ? $company->display_name : $company->partner_company->company_name;
