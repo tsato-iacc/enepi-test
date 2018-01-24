@@ -2,6 +2,8 @@
 
 use JpPrefecture\JpPrefecture;
 use \Helper\Tracking;
+use Cms\Client;
+use Cms\Exceptions\ClientException;
 
 /**
  * Fuel is a fast, lightweight, community driven PHP5 framework.
@@ -25,6 +27,9 @@ use \Helper\Tracking;
  */
 class Controller_Front_LpgasContacts extends Controller_Front
 {
+    private $no_breadcrumb = true;
+    private $no_drawer_menu = true;
+
     /**
      * Show
      *
@@ -250,30 +255,27 @@ class Controller_Front_LpgasContacts extends Controller_Front
      */
     public function get_sms_confirm($contact_id)
     {
-        $no_breadcrumb = true;
-        $no_drawer_menu = true;
+        $contact = \Model_Contact::find($contact_id);
+        if (!$contact)
+        {
+            \Log::warning("conversion id {$contact_id} not found");
+            throw new HttpNotFoundException();
+        }
 
-        if(!is_null(\Input::get('conversion_id')))
+        Tracking::unsetTracking();
+
+        $meta = [
+            ['name' => 'description', 'content' => 'OOooOOppp'],
+            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
+            ['name' => 'puka', 'content' => 'suka'],
+        ];
+
+        if(!is_null(\Input::get('conversion_id')) || \Input::get('pin') != $contact->pin)
         {
             $this->template = \View::forge('front/template_contact');
 
-            $contact = \Model_Contact::find($contact_id);
-            if (!$contact)
-            {
-                \Log::warning("conversion id {$contact_id} not found");
-                throw new HttpNotFoundException();
-            }
-
-            Tracking::unsetTracking();
-
-            $meta = [
-                ['name' => 'description', 'content' => 'OOooOOppp'],
-                ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-                ['name' => 'puka', 'content' => 'suka'],
-            ];
 
             $header_decision = 'sms_confirm';
-
             $pin = \Input::get('pin');
 
 
@@ -284,6 +286,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
             }
             $re_cv_params = ['contact_id' => $contact->id, 'token' => \Input::get('token'), 'pr' => $pr_tracking_parameter_name];
             $re_cv_url = null;
+
 
             if(!is_null($contact->from_kakaku))
             {
@@ -304,13 +307,14 @@ class Controller_Front_LpgasContacts extends Controller_Front
                 $re_cv_url = '/lpgas_contacts/new_form?'.$re_cv_params_query;
             }
 
+
             $this->template->title = 'ENTER SMS CODE';
             $this->template->meta = $meta;
             $this->template->content = View::forge('front/lpgasContacts/sms_confirm', [
                 'contact' => $contact,
                 'pin' => $pin,
-                'no_breadcrumb' => $no_breadcrumb,
-                'no_drawer_menu' => $no_drawer_menu,
+                'no_breadcrumb' => $this->no_breadcrumb,
+                'no_drawer_menu' => $this->no_drawer_menu,
                 're_cv_url' => $re_cv_url,
             ]);
             $this->template->header_decision = $header_decision;
