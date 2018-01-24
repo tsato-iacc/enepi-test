@@ -56,8 +56,8 @@ class Model_Company extends \Orm\Model
     ];
 
     protected static $_has_many = [
-        'ng_companies' => [
-            'model_to' => 'Model_NgCompany',
+        'ng' => [
+            'model_to' => 'Model_Company_Ng',
         ],
         'geocodes' => [
             'model_to' => 'Model_Company_Geocode',

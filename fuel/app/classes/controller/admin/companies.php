@@ -139,9 +139,13 @@ class Controller_Admin_Companies extends Controller_Admin
      */
     public function action_ng_index($id)
     {
-        $this->template->title = 'local_contents';
+        if (!$company = \Model_Company::find($id, ['related' => ['ng']]))
+            throw new HttpNotFoundException;
+
+        $this->template->title = 'NG企業';
         $this->template->content = View::forge('admin/companies/ng_index', [
-            'test' => 'test'
+            'company' => $company,
+            'val' => Validation::forge(),
         ]);
     }
 
@@ -153,8 +157,36 @@ class Controller_Admin_Companies extends Controller_Admin
      */
     public function action_ng_store($id)
     {
-        print "CREATE NG";exit;
-        Response::redirect("admin/companies/{$id}/ng");
+        if (!$company = \Model_Company::find($id))
+            throw new HttpNotFoundException;
+
+        $val = Validation::forge();
+        $val->add_field('pattern', 'pattern', 'required');
+
+        if ($val->run())
+        {
+            $ng = array_filter(explode("\n", trim($val->validated('pattern'))));
+
+            foreach ($ng as $val)
+            {
+                if ($val)
+                    $company->ng[] = new \Model_Company_Ng(['pattern' => $val]);
+            }
+
+            if ($company->save())
+            {
+                Session::set_flash('success', 'ngを追加しました');
+                Response::redirect("admin/companies/{$id}/ng");
+            }
+        }
+
+        Session::set_flash('error', 'ngを追加できませんでした');
+
+        $this->template->title = 'List of emails';
+        $this->template->content = View::forge('admin/companies/ng_index', [
+            'val' => $val,
+            'company' => $company,
+        ]);
     }
 
     /**
@@ -165,7 +197,16 @@ class Controller_Admin_Companies extends Controller_Admin
      */
     public function action_ng_destroy($id, $ng_id)
     {
-        print "DELETE NG";exit;
+        if (!\Model_Company::find($id))
+            throw new HttpNotFoundException;
+
+        if (!$ng = \Model_Company_Ng::find($ng_id))
+            throw new HttpNotFoundException;
+
+        if ($ng->delete()){
+            Session::set_flash('success', 'ngを削除しました');
+        }
+
         Response::redirect("admin/companies/{$id}/ng");
     }
 
