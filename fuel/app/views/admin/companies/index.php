@@ -77,8 +77,8 @@ use JpPrefecture\JpPrefecture;
           <div><a href="<?= \Uri::create('admin/companies/:id/ng', ['id' => $company->id]); ?>"><i class="fa fa-exclamation-triangle"></i> NG企業</a></div>
         </td>
         <td>
-          <div><a href="<?= \Uri::create('admin/companies/:id/offices', ['id' => $company->partner_company->id]); ?>"><i class="fa fa-map-marker"></i> 営業拠点一覧</a></div>
-          <div><a href="<?= \Uri::create('admin/companies/:id/edit', ['id' => $company->partner_company->id]); ?>"><i class="fa fa-edit"></i> 編集</a></div>
+          <div><a href="<?= \Uri::create('admin/companies/:id/offices', ['id' => $company->id]); ?>"><i class="fa fa-map-marker"></i> 営業拠点一覧</a></div>
+          <div><a href="<?= \Uri::create('admin/companies/:id/edit', ['id' => $company->id]); ?>"><i class="fa fa-edit"></i> 編集</a></div>
         </td>
       </tr>
     <?php endforeach; ?>

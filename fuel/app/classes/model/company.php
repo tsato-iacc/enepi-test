@@ -111,6 +111,11 @@ class Model_Company extends \Orm\Model
         return $this->_company_name;
     }
 
+    public function getHeadOffice()
+    {
+        return \Model_Company_Geocode::find('first', ['where' => [['company_id', $this->id], ['company_office_id', null]]]);
+    }
+
     /**
      * View methods
      */

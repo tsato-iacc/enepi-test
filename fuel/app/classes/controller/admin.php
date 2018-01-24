@@ -82,9 +82,9 @@ class Controller_Admin extends Controller_Base
      * @access  public
      * @return  void
      */
-    public function action_index()
-    {
-        $this->template->title = 'Dashboard';
-        $this->template->content = View::forge('admin/index');
-    }
+    // public function action_index()
+    // {
+    //     $this->template->title = 'Dashboard';
+    //     $this->template->content = View::forge('admin/index');
+    // }
 }

@@ -203,7 +203,8 @@ class Controller_Admin_Companies extends Controller_Admin
         if (!$ng = \Model_Company_Ng::find($ng_id))
             throw new HttpNotFoundException;
 
-        if ($ng->delete()){
+        if ($ng->delete())
+        {
             Session::set_flash('success', 'ngを削除しました');
         }
 
