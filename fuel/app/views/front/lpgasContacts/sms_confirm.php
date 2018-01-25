@@ -106,6 +106,10 @@
                   </div>
                   <div>
                     <div class="text-center">
+                      <form action="http://192.168.1.164:8080/lpgas/contacts/843" accept-charset="UTF-8" method="GET">
+                        <input type="hidden" name="utf8" value="&#x2713;" id="form_utf8" />
+                        <input type="hidden" name="token" value=1de31b03cd37dc4e88a9853783b02af5>
+
                       <?= Form::open(['action' => \Uri::create('/lpgas/contacts/'.$contact->id), 'accept-charset' => 'UTF-8', 'method' => 'GET']); ?>
                         <input name="utf8" value="&#x2713;" type="hidden" id="form_utf8" />
                         <input type="hidden" name="token" value=<?= $contact->token; ?>>

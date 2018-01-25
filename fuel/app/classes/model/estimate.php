@@ -348,6 +348,22 @@ class Model_Estimate extends \Orm\Model
         return false;
     }
 
+    public function getStatusEst()
+    {
+        $color = '';
+
+        if ($this->status == \Config::get('models.estimate.status.sent_estimate_to_user') || $this->status == \Config::get('models.estimate.status.verbal_ok') || $this->status == \Config::get('models.estimate.status.contracted'))
+        {
+            $status_est = 'ok';
+        }
+        elseif ($this->status == \Config::get('models.estimate.status.sent_estimate_to_iacc') || $this->status == \Config::get('models.estimate.status.pending') || $this->status == \Config::get('models.estimate.status.cancelled'))
+        {
+            $status_est = 'ng';
+        }
+
+        return $status_est;
+    }
+
     // update_contact_status
     // private function updateContactStatus()
     // {

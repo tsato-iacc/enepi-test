@@ -71,7 +71,7 @@ class Model_Company extends \Orm\Model
         'offices' => [
             'model_to' => 'Model_Company_Office',
         ],
-        'service_features' => [
+        'company_service_features' => [
             'model_to' => 'Model_Company_ServiceFeature',
         ],
     ];

@@ -313,8 +313,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
             $this->template->content = View::forge('front/lpgasContacts/sms_confirm', [
                 'contact' => $contact,
                 'pin' => $pin,
-                'no_breadcrumb' => $this->no_breadcrumb,
-                'no_drawer_menu' => $this->no_drawer_menu,
                 're_cv_url' => $re_cv_url,
             ]);
             $this->template->header_decision = $header_decision;
@@ -331,11 +329,25 @@ class Controller_Front_LpgasContacts extends Controller_Front
                 throw new HttpNotFoundException();
             }
 
-//             foreach ($contact->estimate as $key => $value) {
-//                 if($contact->estimate[$key]->basic_price == null) {
-//                     unset($contact->estimate[$key]);
-//                 }
-//             }
+
+            $est = $contact;
+            $est_count_up = 0;
+            $est_count_down = 0;
+            $est_count_sent_estimate_to_user = 0;
+            foreach($est->estimate as $key => $value){
+                $est_count_up++;
+                if($est->estimate[$key]->status == 2)
+                {
+                    $est_count_sent_estimate_to_user++;
+                }
+                if($est->estimate[$key]->getStatusEst() == 'ng')
+                {
+                    unset($est->estimate[$key]);
+                    $est_count_down++;
+                }
+            }
+            $est_count = $est_count_up - $est_count_down;
+
 
             $prefecture_data = \Model_LocalContentPrefecture::find($contact['prefecture_code']);
             if (!$prefecture_data)
@@ -364,6 +376,9 @@ class Controller_Front_LpgasContacts extends Controller_Front
                 'contact' => $contact,
                 'prefecture_kanji' => $prefecture_kanji,
                 'prefecture_data' => $prefecture_data,
+                'est' => $est,
+                'est_count' => $est_count,
+                'est_count_sent_estimate_to_user' => $est_count_sent_estimate_to_user,
             ]);
             $this->template->header_decision = $header_decision;
         }
@@ -529,79 +544,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
         }
 
         return $used_amount_by_month;
-    }
-
-    private function savings_by_month($contact, $company, $used_amount_by_month)
-    {
-        $savings_by_month = [];
-
-        if(!is_null($company->basic_price))
-        {
-            return null;
-        }
-        elseif(!isset($_savings_by_month))
-        {
-            return $savings_by_month;
-        }
-
-        for($month = 0; $month < 12; $month++)
-        {
-            $m = $month + 1;
-            $used_amount = $used_amount_by_month[$m];
-
-            $savings_by_month[$m] = [
-                'id' => $company->id,
-                'used_amount' => $used_amount,
-                'before_price' => round($this->basic_price($contact) + $this->unit_price($contact) * $used_amount),
-                'after_price' => round($company->basic_price + $this->calc_ondemand_cost($contact, $used_amount)),
-            ];
-        }
-        return $savings_by_month;
-
-    }
-
-    private function basic_price($contact){
-        return JpPrefecture::basicPricePrefecture($contact['prefecture_code']);
-    }
-
-    private function unit_price($contact){
-
-        $unit_price = 0;
-        if(!empty($contact->gas_latest_billing_amount) && !empty($contact->gas_used_amount))
-        {
-            if($contact->gas_used_amount == 0)
-            {
-                return $unit_price = 0;
-            }
-            return $unit_price = (($contact->gas_latest_billing_amount / 1.08) - (float)$basic_price) / $contact->gas_used_amount;
-        }
-
-        return $unit_price;
-    }
-
-    private function calc_ondemand_cost($contact, $used_amount){
-
-        $sum = $contact->fuel_adjustment_cost * $used_amount;
-
-        foreach ($contact->estimate as $e)
-        {
-            foreach($e->prices as $p)
-            {
-                if($used_amount <= $p->upper_limit - $p->under_limit)
-                {
-                    $sum += ($p->unit_price * $used_amount);
-                    break;
-                }
-                else
-              {
-                    $used_amount -= $p->upper_limit - $p->under_limit;
-                    $sum += $p->unit_price * ($p->upper_limit - $p->under_limit);
-                }
-            }
-        }
-
-        return $sum;
-
     }
 
     private function lpgas_contact_path($re_cv_params, $contact){
