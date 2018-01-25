@@ -635,6 +635,8 @@ class Model_Contact extends \Orm\Model_Soft
 
                 $estimate->prices = $estimate_prices;
             }
+            
+            $estimate->status = \Config::get('models.estimate.status.sent_estimate_to_user');
 
             $estimates[] = $estimate;
 
