@@ -336,32 +336,28 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td><?= number_format(MyView::null_check($e->basic_price)); ?>円</td>
+                        <td>
+                          <?= number_format(MyView::null_check($e->basic_price)); ?>円
+                        </td>
                         <td>
                           <? if(count($e->prices) == 1){ ?>
-                            <?= number_format(MyView::null_check($e->unit_price)); ?>円
+                            <? foreach($e->prices as $p){ ?>
+                              <?= number_format(MyView::null_check($p->unit_price)); ?>円
+                            <? } ?>
                           <? }else{ ?>
                             <ul>
-                              <?// e.unit_prices.each do |u| ?>
                               <? foreach($e->prices as $p){ ?>
                               <li>
-                                <b>
-                                  <?
-                                     if(isset($p->upper_limit))
-                                     {
-                                         $range_text = $p->under_limit." ~ ".$p->upper_limit."m3";
-                                     }else{
-                                         $range_text = $p->under_limit."m3 ~ ";
-                                     }
-                                  ?>
-                                  <?= $range_text ?>:
-                                </b> <?= number_format(MyView::null_check($p->unit_price)); ?>円
+                                <b><?= $p->getRangeLabel() ?>:</b>
+                                <?= number_format(MyView::null_check($p->unit_price)); ?>円
                               </li>
                               <? } ?>
                             </ul>
                           <? } ?>
                         </td>
-                        <td><?= number_format(MyView::null_check($e->fuel_adjustment_cost)); ?></td>
+                        <td>
+                          <?= number_format(MyView::null_check($e->fuel_adjustment_cost)); ?>円
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -448,7 +444,7 @@
                         <? if(!is_null($e->basic_price)){ ?>
                         <span><?= number_format($e->total_savings_in_year($contact)) ?>円</span>
                       <? }else{ ?>
-                        <p class="privacy_price">料金非公開</p>
+                        <p class="privacy_price">料金非公開<br>（お問い合わせください）</p>
                       <? } ?>
                       </td>
                     </tr>
@@ -499,32 +495,28 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td><?= number_format(MyView::null_check($e->basic_price)); ?>円</td>
+                        <td>
+                          <?= number_format(MyView::null_check($e->basic_price)); ?>円
+                        </td>
                         <td>
                           <? if(count($e->prices) == 1){ ?>
-                            <?= number_format(MyView::null_check($e->unit_price)); ?>円
+                            <? foreach($e->prices as $p){ ?>
+                              <?= number_format(MyView::null_check($p->unit_price)); ?>円
+                            <? } ?>
                           <? }else{ ?>
                             <ul>
-                              <?// e.unit_prices.each do |u| ?>
                               <? foreach($e->prices as $p){ ?>
                               <li>
-                                <b>
-                                  <?
-                                     if(isset($p->upper_limit))
-                                     {
-                                         $range_text = $p->under_limit." ~ ".$p->upper_limit."m3";
-                                     }else{
-                                         $range_text = $p->under_limit."m3 ~ ";
-                                     }
-                                  ?>
-                                  <?= $range_text ?>:
-                                </b> <?= number_format(MyView::null_check($p->unit_price)); ?>円
+                                <b><?= $p->getRangeLabel() ?>:</b>
+                                <?= number_format(MyView::null_check($p->unit_price)); ?>円
                               </li>
                               <? } ?>
                             </ul>
                           <? } ?>
                         </td>
-                        <td><?= number_format(MyView::null_check($e->fuel_adjustment_cost)); ?></td>
+                        <td>
+                          <?= number_format(MyView::null_check($e->fuel_adjustment_cost)); ?>円
+                        </td>
                       </tr>
                     </tbody>
                   </table>

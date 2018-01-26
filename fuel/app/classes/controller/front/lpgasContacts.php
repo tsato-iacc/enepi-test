@@ -428,23 +428,24 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         Tracking::unsetTracking();
 
+
         $meta = [
             ['name' => 'description', 'content' => 'OOooOOppp'],
             ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
             ['name' => 'puka', 'content' => 'suka'],
         ];
 
+
         $header_decision = 'details';
+
 
         $prefecture_KanjiAndCode   = JpPrefecture::allKanjiAndCode();
         $prefecture_kanji          = $this->prefecture_kanji(  $prefecture_KanjiAndCode,
             $contact['prefecture_code']);
 
+
         $used_amount_by_month = $this->used_amount_by_month($contact);
 
-        $savings_by_month = $this->savings_by_month($contact, $company, $used_amount_by_month);
-
-//        var_dump($savings_by_month);
 
         $this->template->title = 'エネピ';
         $this->template->meta = $meta;
@@ -454,7 +455,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
             'company' => $company,
             'estimate' => $estimate,
             'feature_all' => $feature_all,
-            'savings_by_month' => $savings_by_month,
         ]);
         $this->template->header_decision = $header_decision;
     }
