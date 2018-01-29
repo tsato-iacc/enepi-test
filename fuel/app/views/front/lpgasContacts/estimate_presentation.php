@@ -93,7 +93,7 @@
                 </p>
               </div>
               <div class="hidden_pc">
-                <?= MyView::submit_tag("commit", ["value" => "チェックを入れた会社からの連絡を希望する", "class" => "btn btn-primary", "onclick" => "ga(&#39;send&#39;, &#39;event&#39;, &#39;matching&#39;, &#39;click&#39;, &#39;submit_btn&#39;, {&#39;nonInteraction&#39;: 1});"]) ?>
+                <?= MyView::submit_tag("commit", ["value" => "チェックを入れた会社からの連絡を希望する", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn', {'nonInteraction': 1});"]) ?>
               </div>
               <div class="hidden_sp">
                 <?= MyView::submit_tag("commit", ["value" => "チェック済会社の連絡希望", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn_sp', {'nonInteraction': 1});"]) ?>
@@ -247,8 +247,7 @@
           <div class="inner">
             <div style="clear:both;">
               <div class="company-logo">
-                <?= MyView::image_tag($e->company->lpgas_company_logo, ["class" => "media-object"]); ?>
-                <?//= image_tag e.company.lpgas_company_logo.try!(:url), class: "media-object" ?>
+                <?= MyView::image_tag($e->company->lpgas_company_logo, ["class" => "media-object", "alt" => mb_substr($e->company->lpgas_company_logo, 0, mb_strpos($e->company->lpgas_company_logo, "."))]); ?>
               </div>
               <div style="width: 50%; float:right;">
                 <table class="table yearly_saving_price_table">
@@ -431,8 +430,7 @@
               <dd>
                 <div class="info_l">
                   <div class="thumb">
-                    <?= MyView::image_tag($e->company->lpgas_company_logo, ["class" => "media-object"]); ?>
-                    <?//= image_tag e.company.lpgas_company_logo.try!(:url), class: "media-object" ?>
+                    <?= MyView::image_tag($e->company->lpgas_company_logo, ["class" => "media-object", "alt" => mb_substr($e->company->lpgas_company_logo, 0, mb_strpos($e->company->lpgas_company_logo, "."))]); ?>
                   </div>
                 </div>
 
@@ -565,16 +563,16 @@
         <?$count++; ?>
       <? } ?>
 
-        <?// if $lpgas_contact.estimates.select(&:sent_estimate_to_user?).size > 0 ?>
-        <div class="text-center estimate_btn_area_bt">
-          <div class="hidden_pc">
-            <?= MyView::submit_tag("commit", ["value" => "チェックを入れた会社からの連絡を希望する", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn_bottom', {'nonInteraction': 1});"]) ?>
-          </div>
-          <div class="hidden_sp">
-            <?= MyView::submit_tag("commit", ["value" => "チェック済会社の連絡希望", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn_bottom_sp', {'nonInteraction': 1});"]) ?>
-          </div>
+        <? if($est_count_sent_estimate_to_user > 0){ ?>
+          <div class="text-center estimate_btn_area_bt">
+            <div class="hidden_pc">
+              <?= MyView::submit_tag("commit", ["value" => "チェックを入れた会社からの連絡を希望する", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn_bottom', {'nonInteraction': 1});"]) ?>
+            </div>
+            <div class="hidden_sp">
+              <?= MyView::submit_tag("commit", ["value" => "チェック済会社の連絡希望", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn_bottom_sp', {'nonInteraction': 1});"]) ?>
+            </div>
         </div>
-        <?// end ?>
+        <? } ?>
         <?= Form::close(); ?>
 
       <p class="resource_info_txt">お客様専用に開示する情報も含まれますので、内容やURLの第三者への提供・転送は禁止とさせていただきます。</p>

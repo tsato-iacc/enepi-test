@@ -172,102 +172,94 @@
       </div>
 
       <div class="lines">
-        <h3><i><?= MyView::image_tag("estimate_presentation/ico_glaph.png", ["class" => "ico_simulation_glaph"]); ?></i>年間節約シミュレーション</h3>
-        <div id='chart'></div>
-        <?//= render_chart(@chart, 'chart') ?>
-        <div class="scrollable">
+        <? if(!is_null($estimate->basic_price)){ ?>
+          <h3><i><?= MyView::image_tag("estimate_presentation/ico_glaph.png", ["class" => "ico_simulation_glaph"]); ?></i>年間節約シミュレーション</h3>
+            <div id='chart'></div>
+          <?//= render_chart(@chart, 'chart') ?>
+          <div class="scrollable">
+            <table class="table table-bordered simulation_table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <? foreach(range(1, 12) as $i){ ?>
+                  <th class="monthly"><?= $i ?>月</th>
+                  <? } ?>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th class="currant_plan">現在のプラン (円)</th>
+                  <? foreach($estimate->savings_by_month($contact) as $sbm){ ?>
+                    <td><?= number_format($sbm['before_price']) ?></td>
+                  <? } ?>
+                </tr>
+                <tr>
+                  <th class="proposal_plan">切り替え後 (円)</th>
+                  <? foreach($estimate->savings_by_month($contact) as $sbm){ ?>
+                    <td class="proposal_price"><?= number_format($sbm['after_price']) ?></td>
+                  <? } ?>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+  
+          <ul>
+            <li>本シミュレーションは概算見積書になりますので、現地調査の結果で提示料金に変更がある場合も稀にございます。</li>
+            <li>推定使用料については、平成18年度プロパンガス消費実態調査(財団法人日本エネルギー掲載研究所)のデータより試算しています。</li>
+            <li>現在のガス会社様との間に、配管設備・ガス器具（給湯器等）の貸与契約があり、残存設備として同社が買取る必要がある場合には料金を変更させていただく場合がございます。</li>
+          </ul>
+  
+          <p>
+            <?if($contact->getStatusColor() == 'warning'){ ?>
+            <div class="text-center estimate_btn_area">
+              <div class="hidden_pc">
+                <a<?= MyView::link_to(
+                  '/lpgas/contacts/'.$contact->id.'/estimates/'.$estimate->uuid.'/ok_tentatively?token='.$contact->token, 
+                  [
+                    'class' => 'btn btn-primary', 
+                    'rel' => 'nofollow', 
+                    'data-method' => 'post', 
+                    'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn', {'nonInteraction': 1});"
+                  ]); ?>>
+                  この会社からの連絡を希望する
+                </a>
+              </div>
+              <div class="hidden_sp">
+                <a<?= MyView::link_to(
+                  '/lpgas/contacts/'.$contact->id.'/estimates/'.$estimate->uuid.'/ok_tentatively?token='.$contact->token, 
+                  [
+                    'class' => 'btn btn-primary', 
+                    'rel' => 'nofollow', 
+                    'data-method' => 'post', 
+                    'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_sp', {'nonInteraction': 1});"
+                  ]); ?>>
+                  この会社からの連絡を希望する
+                </a>
+              </div>
+            </div>
+            <? } ?>
+          </p>
+  
+          <? if(!is_null($estimate->basic_price)){ ?>
+          <h3><i><?= MyView::image_tag("estimate_presentation/ico_simulation.png", ["class" => "ico_simulation_plan"]); ?></i>料金プラン</h3>
           <table class="table table-bordered simulation_table">
             <thead>
               <tr>
                 <th></th>
-                <? foreach(range(1, 12) as $i){ ?>
-                <th class="monthly"><?= $i ?>月</th>
-                <? } ?>
+                <th class="monthly">基本料金</th>
+                <th class="monthly">従量料金</th>
+                <th class="monthly">燃料調整費</th>
+                <th class="monthly">月合計額(税込)</th>
               </tr>
             </thead>
+  
             <tbody>
               <tr>
-                <th class="currant_plan">現在のプラン (円)</th>
-                <? foreach($estimate->savings_by_month($contact) as $sbm){ ?>
-                  <td><?= number_format($sbm['before_price']) ?></td>
-                <? } ?>
-              </tr>
-              <tr>
-                <th class="proposal_plan">切り替え後 (円)</th>
-                <? foreach($estimate->savings_by_month($contact) as $sbm){ ?>
-                  <td class="proposal_price"><?= number_format($sbm['after_price']) ?></td>
-                <? } ?>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <ul>
-          <li>本シミュレーションは概算見積書になりますので、現地調査の結果で提示料金に変更がある場合も稀にございます。</li>
-          <li>推定使用料については、平成18年度プロパンガス消費実態調査(財団法人日本エネルギー掲載研究所)のデータより試算しています。</li>
-          <li>現在のガス会社様との間に、配管設備・ガス器具（給湯器等）の貸与契約があり、残存設備として同社が買取る必要がある場合には料金を変更させていただく場合がございます。</li>
-        </ul>
-
-        <p>
-          <?if($contact->getStatusColor() == 'warning'){ ?>
-          <div class="text-center estimate_btn_area">
-            <div class="hidden_pc">
-              <?//= link_to 'この会社からの連絡を希望する', lpgas_contact_estimate_ok_tentatively_path(@contact, @estimate.uuid, token: @contact.token), method: 'post', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn', {'nonInteraction': 1});" ?>
-              <a<?= MyView::link_to(
-                '/lpgas/contacts/'.$contact->id.'/estimates/'.$estimate->uuid.'/ok_tentatively?token='.$contact->token, 
-                [
-                  'class' => 'btn btn-primary', 
-                  'rel' => 'nofollow', 
-                  'data-method' => 'post', 
-                  'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn', {'nonInteraction': 1});"
-                ]); ?>>
-                この会社からの連絡を希望する
-              </a>
-            </div>
-            <div class="hidden_sp">
-              <?//= link_to 'この会社からの連絡を希望する', lpgas_contact_estimate_ok_tentatively_path(@contact, @estimate.uuid, token: @contact.token), method: 'post', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_sp', {'nonInteraction': 1});" ?>
-              <a<?= MyView::link_to(
-                '/lpgas/contacts/'.$contact->id.'/estimates/'.$estimate->uuid.'/ok_tentatively?token='.$contact->token, 
-                [
-                  'class' => 'btn btn-primary', 
-                  'rel' => 'nofollow', 
-                  'data-method' => 'post', 
-                  'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_sp', {'nonInteraction': 1});"
-                ]); ?>>
-                この会社からの連絡を希望する
-              </a>
-            </div>
-          </div>
-          <? } ?>
-        </p>
-
-        <? if(!is_null($estimate->basic_price)){ ?>
-        <h3><i><?= MyView::image_tag("estimate_presentation/ico_simulation.png", ["class" => "ico_simulation_plan"]); ?></i>料金プラン</h3>
-        <table class="table table-bordered simulation_table">
-          <thead>
-            <tr>
-              <th></th>
-              <th class="monthly">基本料金</th>
-              <th class="monthly">従量料金</th>
-              <th class="monthly">燃料調整費</th>
-              <th class="monthly">月合計額(税込)</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr>
-              <th class="currant_plan">現在の推定料金</th>
-              <td>
-                <?= number_format($contact->basicPrice()) ?>円
-              </td>
-              <td>
-                <?= number_format($contact->unitPrice()) ?>円 x <?= number_format($contact->gas_used_amount, 1) ?>m3
-              </td>
-              <td>
-              </td>
-              <td>
-                <?= number_format(($contact->basicPrice() + $contact->unitPrice() * $contact->gas_used_amount) * 1.08)  ?>円
-                </td>
+                <th class="currant_plan">現在の推定料金</th>
+                <td><?= number_format($contact->basicPrice()) ?>円</td>
+                <td><?= number_format($contact->unitPrice()) ?>円 x <?= number_format($contact->gas_used_amount, 1) ?>m3</td>
+                <td></td>
+                <td><?= number_format(($contact->basicPrice() + $contact->unitPrice() * $contact->gas_used_amount) * 1.08)  ?>円</td>
               </tr>
               <tr>
                 <th class="proposal_plan">ご提案の料金</th>
@@ -278,7 +270,7 @@
                     <span style="<?//= "visibility: hidden" if idx == 0 ?>">+ </span>
                     <?//= format_math_expr expr, left_formatter: -> x { number_to_currency x }, right_formatter: -> x { "%#0.1fm3" % x } ?>
                   </div>
-                  <?// end ?>
+                  <?// } ?>
                 </td>
                 <td class="proposal_price">
                   <? if($estimate->fuel_adjustment_cost){ ?>
@@ -287,110 +279,107 @@
                 </td>
                 <td class="proposal_price">
                   <?//=
-//                   number_to_currency(
-//                     @estimate.basic_price +
-//                     @estimate.ondemand_cost_math_exprs.reduce(0) { |acc, expr| acc += expr[1].send(expr[0], expr[2]) } +
-//                     (@estimate.fuel_adjustment_cost || 0) * @contact.gas_used_amount
-//                     )
-                    ?>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <? } ?>
-
-            <? if(!is_null($estimate->basic_price)){ ?>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="panel panel-default">
-                  <div class="panel-heading">
-                    <h4 class="panel-title estimates_subttl">お得な機器・配管セットプラン</h4>
+  //                   number_to_currency(
+  //                     @estimate.basic_price +
+  //                     @estimate.ondemand_cost_math_exprs.reduce(0) { |acc, expr| acc += expr[1].send(expr[0], expr[2]) } +
+  //                     (@estimate.fuel_adjustment_cost || 0) * @contact.gas_used_amount
+  //                     )
+                      ?>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        <? } ?>
+  
+              <? if(!is_null($estimate->basic_price)){ ?>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title estimates_subttl">お得な機器・配管セットプラン</h4>
+                    </div>
+                    <div class="panel-body">
+                      <?= $estimate->set_plan ?>
+                    </div>
                   </div>
-                  <div class="panel-body">
-                    <?//= @estimate.set_plan ?>
+                </div>
+                <div class="col-md-6">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title estimates_subttl">その他のセットプラン</h4>
+                    </div>
+                    <div class="panel-body">
+                      <?= $estimate->other_set_plan ?>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-6">
-                <div class="panel panel-default">
-                  <div class="panel-heading">
-                    <h4 class="panel-title estimates_subttl">その他のセットプラン</h4>
-                  </div>
-                  <div class="panel-body">
-                    <?//= newline_to_br @estimate.other_set_plan ?>
-                  </div>
+  
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title estimates_subttl">その他備考欄</h4>
+                </div>
+                <div class="panel-body">
+                  <?= $estimate->notes ?>
                 </div>
               </div>
-            </div>
-
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title estimates_subttl">その他備考欄</h4>
+              <? } ?>
+  
+              <?if($contact->getStatusColor() == 'warning'){ ?>
+              <div class="text-center estimate_btn_area">
+                <div class="hidden_pc">
+                  <a<?= MyView::link_to(
+                    '/lpgas/contacts/'.$contact->id.'/estimates/'.$estimate->uuid.'/ok_tentatively?token='.$contact->token, 
+                    [
+                      'class' => 'btn btn-primary', 
+                      'rel' => 'nofollow', 
+                      'data-method' => 'post', 
+                      'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_sp', {'nonInteraction': 1});"
+                    ]); ?>>
+                    この会社からの連絡を希望する
+                  </a>
+                </div>
+                <div class="hidden_sp">
+                  <a<?= MyView::link_to(
+                    '/lpgas/contacts/'.$contact->id.'/estimates/'.$estimate->uuid.'/ok_tentatively?token='.$contact->token, 
+                    [
+                      'class' => 'btn btn-primary', 
+                      'rel' => 'nofollow', 
+                      'data-method' => 'post', 
+                      'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_sp', {'nonInteraction': 1});"
+                    ]); ?>>
+                    この会社からの連絡を希望する
+                  </a>
+                </div>
               </div>
-              <div class="panel-body">
-                <?//= newline_to_br @estimate.notes ?>
-              </div>
-            </div>
-            <? } ?>
-
-            <?if($contact->getStatusColor() == 'warning'){ ?>
-            <div class="text-center estimate_btn_area">
-              <div class="hidden_pc">
-                <?//= link_to 'この会社からの連絡を希望する', lpgas_contact_estimate_ok_tentatively_path(@contact, @estimate.uuid, token: @contact.token), method: 'post', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_middle', {'nonInteraction': 1});" ?>
-                <a<?= MyView::link_to(
-                  '/lpgas/contacts/'.$contact->id.'/estimates/'.$estimate->uuid.'/ok_tentatively?token='.$contact->token, 
-                  [
-                    'class' => 'btn btn-primary', 
-                    'rel' => 'nofollow', 
-                    'data-method' => 'post', 
-                    'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_sp', {'nonInteraction': 1});"
-                  ]); ?>>
-                  この会社からの連絡を希望する
-                </a>
-              </div>
-              <div class="hidden_sp">
-                <?//= link_to 'この会社からの連絡を希望する', lpgas_contact_estimate_ok_tentatively_path(@contact, @estimate.uuid, token: @contact.token), method: 'post', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_middle_sp', {'nonInteraction': 1});" ?>
-                <a<?= MyView::link_to(
-                  '/lpgas/contacts/'.$contact->id.'/estimates/'.$estimate->uuid.'/ok_tentatively?token='.$contact->token, 
-                  [
-                    'class' => 'btn btn-primary', 
-                    'rel' => 'nofollow', 
-                    'data-method' => 'post', 
-                    'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_sp', {'nonInteraction': 1});"
-                  ]); ?>>
-                  この会社からの連絡を希望する
-                </a>
-              </div>
-            </div>
-            <? }?>
-        <div class="hidden_sp">
-          <div class="price_increasing_info_box-sp">
-            <h2 class="text-center">エネピ紹介会社は、適正な価格でのガス供給を約束します</h2>
-            <h3>世の中には料金を不当に上げる悪質な業者がいます</h3>
-            <p>プロパンガスの原料は石油で輸入価格が大きく上がるとガス会社は大きく打撃を受けるので、それを保護するために「原油価格に基づく料金の値上げ」が法律で認められております。しかしその制度を口実として、「輸入価格とは関わりない不当な値上げ」をする・「輸入価格が上下した際、下がった場合はそのまま高止まり」をする悪質な業者があり、「プロパンガスは高い」「徐々に値上げする」というイメージがついてしまっています。</p>
-
-            <h3>エネピは「料金の不当な値上げをしない」会社のみ紹介します</h3>
-            <p>上記の理由により、ご自身でガス会社を探した場合、値上げのリスクがあるまま使い続けることになります。また今の会社に交渉したとしても、その後数年でまた元の料金に戻る「再値上げ」のケースが非常に多く報告されています。そこで、エネピでは「不当な値上げなし」の会社の特価プランをご紹介いたします。</p>
-
-            <h3>万が一の時も安心！エネピから不当な値上げを是正するよう交渉いたします</h3>
-            <p>エネピでは原則料金を適正な価格で供給することが前提として、万が一輸入価格の変動とは関わりない不当な値上げが起きた場合、ご連絡いただければ調査させていただきます。それが不当な値上げであると判断した場合、料金を適正な価格で供給するよう交渉させていただきます。</p>
-          </div>
-        </div>
-
-          <div class="hidden_pc">
-            <div class="price_increasing_info_box">エネピ紹介会社は、適正な価格でのガス供給を約束します</h2>
+              <? }?>
+          <div class="hidden_sp">
+            <div class="price_increasing_info_box-sp">
+              <h2 class="text-center">エネピ紹介会社は、適正な価格でのガス供給を約束します</h2>
               <h3>世の中には料金を不当に上げる悪質な業者がいます</h3>
               <p>プロパンガスの原料は石油で輸入価格が大きく上がるとガス会社は大きく打撃を受けるので、それを保護するために「原油価格に基づく料金の値上げ」が法律で認められております。しかしその制度を口実として、「輸入価格とは関わりない不当な値上げ」をする・「輸入価格が上下した際、下がった場合はそのまま高止まり」をする悪質な業者があり、「プロパンガスは高い」「徐々に値上げする」というイメージがついてしまっています。</p>
-
+  
               <h3>エネピは「料金の不当な値上げをしない」会社のみ紹介します</h3>
               <p>上記の理由により、ご自身でガス会社を探した場合、値上げのリスクがあるまま使い続けることになります。また今の会社に交渉したとしても、その後数年でまた元の料金に戻る「再値上げ」のケースが非常に多く報告されています。そこで、エネピでは「不当な値上げなし」の会社の特価プランをご紹介いたします。</p>
-
+  
               <h3>万が一の時も安心！エネピから不当な値上げを是正するよう交渉いたします</h3>
               <p>エネピでは原則料金を適正な価格で供給することが前提として、万が一輸入価格の変動とは関わりない不当な値上げが起きた場合、ご連絡いただければ調査させていただきます。それが不当な値上げであると判断した場合、料金を適正な価格で供給するよう交渉させていただきます。</p>
             </div>
-            <?// end ?>
           </div>
-
+  
+            <div class="hidden_pc">
+              <div class="price_increasing_info_box">エネピ紹介会社は、適正な価格でのガス供給を約束します</h2>
+                <h3>世の中には料金を不当に上げる悪質な業者がいます</h3>
+                <p>プロパンガスの原料は石油で輸入価格が大きく上がるとガス会社は大きく打撃を受けるので、それを保護するために「原油価格に基づく料金の値上げ」が法律で認められております。しかしその制度を口実として、「輸入価格とは関わりない不当な値上げ」をする・「輸入価格が上下した際、下がった場合はそのまま高止まり」をする悪質な業者があり、「プロパンガスは高い」「徐々に値上げする」というイメージがついてしまっています。</p>
+  
+                <h3>エネピは「料金の不当な値上げをしない」会社のみ紹介します</h3>
+                <p>上記の理由により、ご自身でガス会社を探した場合、値上げのリスクがあるまま使い続けることになります。また今の会社に交渉したとしても、その後数年でまた元の料金に戻る「再値上げ」のケースが非常に多く報告されています。そこで、エネピでは「不当な値上げなし」の会社の特価プランをご紹介いたします。</p>
+  
+                <h3>万が一の時も安心！エネピから不当な値上げを是正するよう交渉いたします</h3>
+                <p>エネピでは原則料金を適正な価格で供給することが前提として、万が一輸入価格の変動とは関わりない不当な値上げが起きた場合、ご連絡いただければ調査させていただきます。それが不当な値上げであると判断した場合、料金を適正な価格で供給するよう交渉させていただきます。</p>
+              </div>
+            <? } ?>
+          </div>
             <h3>
               <i><?= MyView::image_tag("estimate_presentation/ico_company.png", ["class" => "ico_company_info"]); ?></i>会社について
             </h3>
@@ -457,15 +446,34 @@
                 </tbody>
               </table>
             </div>
-            <?// if @estimate.sent_estimate_to_user? ?>
-            <div class="text-center estimate_btn_area">
-              <div class="hidden_pc">
-                <?//= link_to 'この会社からの連絡を希望する', lpgas_contact_estimate_ok_tentatively_path(@contact, @estimate.uuid, token: @contact.token), method: 'post', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_bottom', {'nonInteraction': 1});" ?>
+            <?if($contact->getStatusColor() == 'warning'){ ?>
+              <div class="text-center estimate_btn_area">
+                <div class="hidden_pc">
+                  <a<?= MyView::link_to(
+                    '/lpgas/contacts/'.$contact->id.'/estimates/'.$estimate->uuid.'/ok_tentatively?token='.$contact->token, 
+                    [
+                      'class' => 'btn btn-primary', 
+                      'rel' => 'nofollow', 
+                      'data-method' => 'post', 
+                      'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_bottom', {'nonInteraction': 1});"
+                    ]); ?>>
+                    この会社からの連絡を希望する
+                  </a>
+                </div>
+                <div class="hidden_sp">
+                  <a<?= MyView::link_to(
+                    '/lpgas/contacts/'.$contact->id.'/estimates/'.$estimate->uuid.'/ok_tentatively?token='.$contact->token, 
+                    [
+                      'class' => 'btn btn-primary', 
+                      'rel' => 'nofollow', 
+                      'data-method' => 'post', 
+                      'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_bottom_sp', {'nonInteraction': 1});"
+                    ]); ?>>
+                    この会社からの連絡を希望する
+                  </a>
+                </div>
               </div>
-              <div class="hidden_sp">
-                <?//= link_to 'この会社からの連絡を希望する', lpgas_contact_estimate_ok_tentatively_path(@contact, @estimate.uuid, token: @contact.token), method: 'post', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_bottom_sp', {'nonInteraction': 1});" ?>
-              </div>
-            </div>
+            <? } ?>
           </div>
         </div>
       </div>
@@ -475,14 +483,32 @@
       <?= render("shared/estimate_flow") ?>
 
       <div class="text-center" style="width: 80%; margin: auto;">
-        <?// if @estimate.sent_estimate_to_user? ?>
-        <div class="hidden_pc">
-          <?//= link_to 'この会社からの連絡を希望する', lpgas_contact_estimate_ok_tentatively_path(@contact, @estimate.uuid, token: @contact.token), method: 'post', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_foot', {'nonInteraction': 1});" ?>
-        </div>
-        <div class="hidden_sp">
-          <?//= link_to 'この会社からの連絡を希望する', lpgas_contact_estimate_ok_tentatively_path(@contact, @estimate.uuid, token: @contact.token), method: 'post', class: 'btn btn-primary', onclick: "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_foot_sp', {'nonInteraction': 1});" ?>
-        </div>
-        <?// end ?>
+        <?if($contact->getStatusColor() == 'warning'){ ?>
+          <div class="hidden_pc">
+            <a<?= MyView::link_to(
+              '/lpgas/contacts/'.$contact->id.'/estimates/'.$estimate->uuid.'/ok_tentatively?token='.$contact->token, 
+              [
+                'class' => 'btn btn-primary', 
+                'rel' => 'nofollow', 
+                'data-method' => 'post', 
+                'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_foot', {'nonInteraction': 1});"
+              ]); ?>>
+              この会社からの連絡を希望する
+            </a>
+          </div>
+          <div class="hidden_sp">
+            <a<?= MyView::link_to(
+              '/lpgas/contacts/'.$contact->id.'/estimates/'.$estimate->uuid.'/ok_tentatively?token='.$contact->token, 
+              [
+                'class' => 'btn btn-primary', 
+                'rel' => 'nofollow', 
+                'data-method' => 'post', 
+                'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_foot_sp', {'nonInteraction': 1});"
+              ]); ?>>
+              この会社からの連絡を希望する
+            </a>
+          </div>
+        <? } ?>
       </div>
     </div>
     </div>

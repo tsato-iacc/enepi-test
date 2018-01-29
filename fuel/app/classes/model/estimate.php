@@ -305,6 +305,31 @@ class Model_Estimate extends \Orm\Model
         return $this->expired_at && \Date::create_from_string($this->expired_at, 'mysql_date_time') <= \Date::forge();
     }
 
+    public function ondemand_cost_math_exprs($contact)
+    {
+        $exprs = [];
+
+        $u = $contact->gas_used_amount;
+
+        foreach ($this->prices as $price)
+        {
+            $delta = $price->upper_limit - $price->under_limit;
+
+            if (!$price->upper_limit || $u <= $delta)
+            {
+                $exprs << [$price->unit_price, $u];
+                break;
+            }
+            else
+            {
+                $u -= $delta;
+                $exprs << [$price->unit_price, $u];
+            }
+        }
+
+        return $exprs;
+    }
+
     /**
      * Private methods
      */
@@ -350,7 +375,7 @@ class Model_Estimate extends \Orm\Model
 
     public function getStatusEst()
     {
-        $color = '';
+        $status_est = '';
 
         if ($this->status == \Config::get('models.estimate.status.sent_estimate_to_user') || $this->status == \Config::get('models.estimate.status.verbal_ok') || $this->status == \Config::get('models.estimate.status.contracted'))
         {
