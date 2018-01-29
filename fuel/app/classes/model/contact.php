@@ -521,6 +521,7 @@ class Model_Contact extends \Orm\Model_Soft
 
         // FIX ME
         // Create relations [move email to conditions?]
+        // Query is faster?
         $area_zip_codes = \Model_Company_GeocodeZipCode::find('all', ['where' => [['zip_code', $this->getZipCode()]]]);
         $area_ids = \Arr::pluck($area_zip_codes, 'company_geocode_id');
         $area = \Model_Company_Geocode::find('all', ['where' => [['id', 'IN', $area_ids]]]);

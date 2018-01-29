@@ -88,8 +88,9 @@ return array(
 
     'admin/companies/(:num)/offices'                       => [['GET', new Route('admin/companyOffices/index/$1')], ['POST', new Route('admin/companyOffices/store/$1')]],
     'admin/companies/(:num)/offices/(:num)/delete'         => [['GET', new Route('admin/companyOffices/destroy/$1/$2')]],
-    'admin/companies/(:num)/offices/(:num)/price'          => [['GET', new Route('admin/companyOffices/price_index/$1/$2')]],
-    'admin/companies/(:num)/offices/(:num)/price/(:num)'   => [['DELETE', new Route('admin/companyOffices/offices_destroy/$1/$2/$3')]],
+    'admin/companies/(:num)/offices/(:num)/prices'         => [['GET', new Route('admin/companyOffices/prices_index/$1/$2')]],
+    'admin/companies/(:num)/offices/(:num)/prices/create'  => [['GET', new Route('admin/companyOffices/prices_create/$1/$2')], ['POST', new Route('admin/companyOffices/prices_store/$1/$2')]],
+    'admin/companies/(:num)/offices/(:num)/prices/(:num)/delete' => [['GET', new Route('admin/companyOffices/prices_destroy/$1/$2/$3')]],
     'admin/companies/(:num)/offices/(:num)/area'           => [['GET', new Route('admin/companyOffices/area_index/$1/$2')], ['POST', new Route('admin/companyOffices/area_store/$1/$2')]],
     'admin/companies/(:num)/offices/(:num)/area/(:num)'    => [['DELETE', new Route('admin/companyOffices/area_destroy/$1/$2/$3')]],
 

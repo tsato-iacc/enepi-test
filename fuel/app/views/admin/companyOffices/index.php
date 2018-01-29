@@ -1,6 +1,10 @@
 <?php
 use JpPrefecture\JpPrefecture;
 ?>
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="#">会社一覧</a></li>
+  <li class="breadcrumb-item active">営業拠点一覧</li>
+</ol>
 
 <?= \Form::open(); ?>
   <?= \Form::csrf(); ?>
@@ -46,7 +50,7 @@ use JpPrefecture\JpPrefecture;
       <td>(<?= $head->lat; ?>, <?= $head->lng; ?>)</td>
       <td>
         <div><?php ?>
-          <a href="<?= \Uri::create('admin/companies/:id/offices/:office_id/price', ['id' => $company->id, 'office_id' => $head->id]); ?>" class="btn btn-info btn-sm px-1" role="button">料金テーブル</a>
+          <a href="<?= \Uri::create('admin/companies/:id/offices/:office_id/prices', ['id' => $company->id, 'office_id' => $head->id]); ?>" class="btn btn-info btn-sm px-1" role="button">料金テーブル</a>
           <a href="<?= \Uri::create('admin/companies/:id/offices/:office_id/area', ['id' => $company->id, 'office_id' => $head->id]); ?>" class="btn btn-primary btn-sm px-1" role="button">対応可能市区町村</a>
         </div>
       </td>
@@ -58,7 +62,7 @@ use JpPrefecture\JpPrefecture;
         <td><?= $office->address; ?></td>
         <td>(<?= $office->geocode->lat; ?>, <?= $office->geocode->lng; ?>)</td>
         <td>
-          <a href="<?= \Uri::create('admin/companies/:id/offices/:office_id/price', ['id' => $company->id, 'office_id' => $office->geocode->id]); ?>" class="btn btn-info btn-sm px-1" role="button">料金テーブル</a>
+          <a href="<?= \Uri::create('admin/companies/:id/offices/:office_id/prices', ['id' => $company->id, 'office_id' => $office->geocode->id]); ?>" class="btn btn-info btn-sm px-1" role="button">料金テーブル</a>
           <a href="<?= \Uri::create('admin/companies/:id/offices/:office_id/area', ['id' => $company->id, 'office_id' => $office->geocode->id]); ?>" class="btn btn-primary btn-sm px-1" role="button">対応可能市区町村</a>
           <a href="<?= \Uri::create('admin/companies/:id/offices/:office_id/delete', ['id' => $company->id, 'office_id' => $office->id]); ?>" class="btn btn-danger btn-sm px-1" role="button" onclick="return confirm('本当によろしいですか?')">削除</a>
         </td>
