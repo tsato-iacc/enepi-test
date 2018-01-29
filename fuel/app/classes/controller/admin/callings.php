@@ -57,8 +57,8 @@ class Controller_Admin_Callings extends Controller_Admin
         ]);
 
         $conditions['order_by'] = ['id' => 'desc'];
-        $conditions['rows_limit'] = $pager->per_page;
-        $conditions['rows_offset'] = $pager->offset;
+        $conditions['limit'] = $pager->per_page;
+        $conditions['offset'] = $pager->offset;
 
         $callings = \Model_Calling::find('all', $conditions);
 
@@ -88,6 +88,9 @@ class Controller_Admin_Callings extends Controller_Admin
         Response::redirect('admin/callings');
     }
 
+    /**
+     * Private methods
+     */
     private function updateConditions(&$conditions)
     {
         // Without archived

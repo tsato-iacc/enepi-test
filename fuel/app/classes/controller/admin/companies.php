@@ -49,8 +49,8 @@ class Controller_Admin_Companies extends Controller_Admin
         ]);
 
         $conditions['order_by'] = ['id' => 'desc'];
-        $conditions['rows_limit'] = $pager->per_page;
-        $conditions['rows_offset'] = $pager->offset;
+        $conditions['limit'] = $pager->per_page;
+        $conditions['offset'] = $pager->offset;
 
         $companies = \Model_Company::find('all', $conditions);
         $this->template->title = 'Companies';

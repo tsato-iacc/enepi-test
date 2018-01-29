@@ -29,7 +29,7 @@ return [
         'next-marker'             => "&raquo;",
         'next-link'               => "<a class=\"page-link\" href=\"{uri}\" rel=\"next\">{page}</a>",
 
-        'next-inactive'           => "\n\t\t<li class=\"disabled\">{link}</li>",
+        'next-inactive'           => "\n\t\t<li class=\"page-item disabled\">{link}</li>",
         'next-inactive-link'      => "<a class=\"page-link\" href=\"#\" rel=\"next\">{page}</a>",
 
         'last'                    => "\n\t\t<li class=\"page-item\">{link}</li>",

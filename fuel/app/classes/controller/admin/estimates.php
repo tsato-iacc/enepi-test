@@ -55,8 +55,8 @@ class Controller_Admin_Estimates extends Controller_Admin
         ]);
 
         $conditions['order_by'] = ['id' => 'desc'];
-        $conditions['rows_limit'] = $pager->per_page;
-        $conditions['rows_offset'] = $pager->offset;
+        $conditions['limit'] = $pager->per_page;
+        $conditions['offset'] = $pager->offset;
 
         $estimates = \Model_Estimate::find('all', $conditions);
         $this->template->title = 'Estimates';

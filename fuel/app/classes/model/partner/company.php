@@ -74,7 +74,6 @@ class Model_Partner_Company extends \Orm\Model
         $val->add_field('company.default_contracted_commission_sw', 'default_contracted_commission_sw', 'required|valid_string[numeric]');
 
         $val->add('company.established_date', 'established_date')->add_rule('required')->add_rule('match_pattern', '/^\d{4}[\s.-]\d{2}[\s.-]\d{2}$/');
-        // $val->add_field('company.established_date', 'established_date', 'required|match_pattern[/^\d{4}[\s./]\d{2}[\s./]\d{2}$/]');
         $val->add_field('company.capital', 'capital', 'valid_string[numeric]');
         $val->add_field('company.group_company_text', 'group_company_text', 'max_length[100]');
         $val->add_field('company.amount_of_sales', 'amount_of_sales', 'valid_string[numeric]');
@@ -83,6 +82,8 @@ class Model_Partner_Company extends \Orm\Model
         $val->add_field('company.supply_area_text', 'supply_area_text', 'max_length[5000]');
         $val->add_field('company.company_overview', 'company_overview', 'max_length[5000]');
         $val->add_field('company.business_overview', 'business_overview', 'max_length[5000]');
+        $val->add_field('company.service_features', 'service_features', 'max_length[5000]');
+        $val->add_field('company.estimate_req_sendable', 'estimate_req_sendable', 'required|match_collection[0,1]');
         
         return $val;
     }
