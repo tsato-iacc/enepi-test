@@ -1,16 +1,16 @@
-<?= MyView::form_tag bulk_update_admin_lpgas_company_ng_companies_path, ["method" => 'POST' { ?>
-  <p>
-    改行して複数のパターンを登録できます。
-  </p>
-  <div class="form-group">
-    <?= text_area_tag :pattern, "", ["class" => "form-control", rows: "10" ?>
+<?= \Form::open(); ?>
+  <?= \Form::csrf(); ?>
+  <div class="form-group<?= $val->error('pattern') ? ' has-danger' : ''?>">
+    <label class="form-control-label" for="pattern"><h6>改行して複数のパターンを登録できます。</h6></label>
+    <textarea name="pattern" id="pattern" class="form-control" rows="10"></textarea>
+    <?php if ($val->error('pattern')): ?>
+      <div class="form-control-feedback"><?= e($val->error('pattern')) ?></div>
+    <?php endif; ?>
   </div>
-  <div class="form-group">
-    <?= submit_tag "追加", ["class" => 'btn btn-primary' ?>
-  </div>
-<? } ?>
+  <button type="submit" class="btn btn-primary">追加</button>
+<?= Form::close(); ?>
 
-<table class="table table-condensed table-striped table-hover">
+<table class="table table-sm table-hover mt-4 small-row">
   <thead>
     <tr>
       <th>ID</th>
@@ -19,12 +19,12 @@
     </tr>
   </thead>
   <tbody>
-    <? @ng_companies.each { |nc| ?>
+    <?php foreach ($company->ng as $ng): ?>
       <tr>
-        <td><?= nc.id ?></td>
-        <td><?= nc.pattern ?></td>
-        <td><?= MyView::link_to('削除', admin_lpgas_company_ng_company_path(:company_id=> nc.company_id, :id=> nc.id), data: {["method" => 'delete', confirm: 1} ?></td>
+        <td><?= $ng->id ?></td>
+        <td><?= $ng->pattern ?></td>
+        <td><a href="<?= \Uri::create('admin/companies/:id/ng/:ng_id/delete', ['id' => $company->id, 'ng_id' => $ng->id]) ?>" onclick="return confirm('本当によろしいですか?')">削除</a></td>
       </tr>
-    <? } ?>
+    <?php endforeach; ?>
   </tbody>
 </table>

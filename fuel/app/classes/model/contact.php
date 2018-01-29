@@ -328,7 +328,7 @@ class Model_Contact extends \Orm\Model_Soft
                 \Helper\Notifier::notifyCustomerNewContact($this);
 
                 if ($has_estimates)
-                    $this->sendSmsToNewCustomer();
+                    \Helper\Notifier::notifyCustomerPin($this);
             }
         }
         else
@@ -442,7 +442,7 @@ class Model_Contact extends \Orm\Model_Soft
 
             foreach ($this->estimates as $estimate)
             {
-                    $estimate->cancel($admin_id, $status_reason);
+                $estimate->cancel($admin_id, $status_reason);
             }
         }
         else
@@ -450,33 +450,6 @@ class Model_Contact extends \Orm\Model_Soft
             $this->status = \Config::get('models.contact.status.cancelled_before_estimate_req');
             $this->save();
         }
-    }
-
-    /**
-     * View Methods
-     */
-    public function getStatusColor()
-    {
-        $color = '';
-
-        if ($this->status == \Config::get('models.contact.status.pending'))
-        {
-            $color = 'danger';
-        }
-        elseif ($this->status == \Config::get('models.contact.status.sent_estimate_req'))
-        {
-            $color = 'warning';
-        }
-        elseif ($this->status == \Config::get('models.contact.status.cancelled') || $this->status == \Config::get('models.contact.status.cancelled_before_estimate_req'))
-        {
-            $color = 'secondary';
-        }
-        elseif ($this->status == \Config::get('models.contact.status.verbal_ok') || $this->status == \Config::get('models.contact.status.contracted'))
-        {
-            $color = 'success';
-        }
-
-        return $color;
     }
 
     public function getEstimateProgress()
@@ -548,6 +521,7 @@ class Model_Contact extends \Orm\Model_Soft
 
         // FIX ME
         // Create relations [move email to conditions?]
+        // Query is faster?
         $area_zip_codes = \Model_Company_GeocodeZipCode::find('all', ['where' => [['zip_code', $this->getZipCode()]]]);
         $area_ids = \Arr::pluck($area_zip_codes, 'company_geocode_id');
         $area = \Model_Company_Geocode::find('all', ['where' => [['id', 'IN', $area_ids]]]);
@@ -725,11 +699,6 @@ class Model_Contact extends \Orm\Model_Soft
         }
 
         return true;
-    }
-
-    private function sendSmsToNewCustomer()
-    {
-        \Log::info('sendSmsToNewCustomer');
     }
 
     private function getNearestGeocodeId(&$company)

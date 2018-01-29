@@ -88,7 +88,7 @@ use JpPrefecture\JpPrefecture;
         </td>
         <td class="align-middle">
           <?php $status_reason = $estimate->status_reason ? \Helper\CancelReasons::getNameByValue($estimate->status_reason) : ''; ?>
-          <div class="card card-outline-<?= $estimate->getStatusColor(); ?> text-center"<?= $status_reason ? ' data-toggle="tooltip" data-placement="top" title="'. $status_reason .'"' : ''?>>
+          <div class="card card-outline-<?= \Config::get('views.estimate.status.'.$estimate->status); ?> text-center"<?= $status_reason ? ' data-toggle="tooltip" data-placement="top" title="'. $status_reason .'"' : ''?>>
             <div class="card-block p-0">
               <blockquote class="card-blockquote"><?= __('admin.estimate.status.'.\Config::get('views.estimate.status.'.$estimate->status)) ?><?= $status_reason ? ' <i class="fa fa-commenting" aria-hidden="true"></i>': ''; ?></blockquote>
             </div>

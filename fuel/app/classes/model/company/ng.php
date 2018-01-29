@@ -1,12 +1,12 @@
 <?php
 
-class Model_NgCompany extends \Orm\Model
+class Model_Company_Ng extends \Orm\Model
 {
     protected static $_table_name = 'lpgas_ng_companies';
 
     protected static $_properties = [
         'id',
-        'icompany_idd',
+        'company_id',
         'pattern',
         'created_at',
         'updated_at',

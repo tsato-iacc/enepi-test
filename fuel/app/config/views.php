@@ -63,4 +63,15 @@ return [
             5 => 'cancelled',
         ],
     ],
+
+    /**
+     * Enum for Model_PriceRule
+     */
+    'price_rule' => [
+        'house_kind' => [
+            0 => 'detached',
+            1 => 'apartment',
+            2 => 'store_ex',
+        ],
+    ],
 ];

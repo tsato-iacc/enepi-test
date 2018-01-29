@@ -80,4 +80,15 @@ return [
             'chat' => 'チャット',
         ],
     ],
+
+    /**
+     * Enum for Model_PriceRule
+     */
+    'price_rule' => [
+        'house_kind' => [
+            'detached' => '戸建て',
+            'apartment' => 'マンション・アパート',
+            'store_ex' => '店舗',
+        ],
+    ],
 ];

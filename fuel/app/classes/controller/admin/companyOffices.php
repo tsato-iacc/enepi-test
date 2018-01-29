@@ -27,11 +27,15 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
      * @access  public
      * @return  Response
      */
-    public function action_index($company_id)
+    public function action_index($id)
     {
-        $this->template->title = 'local_contents';
+        if (!$company = \Model_Company::find($id, ['related' => ['offices']]))
+            throw new HttpNotFoundException;
+
+        $this->template->title = '営業拠点一覧';
         $this->template->content = View::forge('admin/companyOffices/index', [
-            'test' => 'test'
+            'val' => Validation::forge(),
+            'company' => $company,
         ]);
     }
 
@@ -41,10 +45,55 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
      * @access  public
      * @return  Response
      */
-    public function action_store($company_id)
+    public function action_store($id)
     {
-        print "CREATE Office";exit;
-        Response::redirect("admin/companies/{$company_id}/offices");
+        if (!$company = \Model_Company::find($id, ['related' => ['offices']]))
+            throw new HttpNotFoundException;
+
+        $val = Validation::forge();
+        $val->add_field('zip_code', 'zip_code', 'required|valid_string[numeric]');
+        $val->add_field('prefecture_code', 'prefecture_code', 'required|numeric_between[1,47]');
+        $val->add_field('address', 'address', 'required|max_length[100]');
+
+        if ($val->run())
+        {
+            $office = new \Model_Company_Office($val->validated());
+            $company->offices[] = $office;
+
+            \DB::start_transaction();
+            try
+            {
+                if ($company->save())
+                {
+                    $company->geocodes[] = new \Model_Company_Geocode([
+                        'company_office_id' => $office->id,
+                        'address' => $val->validated('address'),
+                        'lat' => 0,
+                        'lng' => 0,
+                    ]);
+
+                    if ($company->save())
+                    {
+                        \DB::commit_transaction();
+                        Session::set_flash('success', 'officeを追加しました');
+                        Response::redirect("admin/companies/{$id}/offices");
+                    }
+                }
+            }
+            catch (\Exception $e)
+            {
+                \Log::error($e);
+                \DB::rollback_transaction();
+            }
+        }
+
+        Session::set_flash('error', 'officeを追加できませんでした');
+
+        $this->template->title = '営業拠点一覧';
+        $this->template->content = View::forge('admin/companyOffices/index', [
+            'val' => $val,
+            'company' => $company,
+        ]);
     }
 
     /**
@@ -53,10 +102,29 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
      * @access  public
      * @return  Response
      */
-    public function action_destroy($company_id, $office_id)
+    public function action_destroy($id, $office_id)
     {
-        print "DELETE Office";exit;
-        Response::redirect("admin/companies/{$company_id}/offices");
+        if (!\Model_Company::find($id))
+            throw new HttpNotFoundException;
+
+        if (!$office = \Model_Company_Office::find($office_id))
+            throw new HttpNotFoundException;
+
+        \DB::start_transaction();
+        try
+        {
+            $office->delete();
+            \DB::commit_transaction();
+            Session::set_flash('success', 'officeを削除 OK');
+        }
+        catch (\Exception $e)
+        {
+            \Log::error($e);
+            \DB::rollback_transaction();
+            Session::set_flash('error', 'officeを削除 FAIL');
+        }
+
+        Response::redirect("admin/companies/{$id}/offices");
     }
 
     /**
@@ -65,12 +133,131 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
      * @access  public
      * @return  Response
      */
-    public function action_price_index($company_id, $office_id)
+    public function action_prices_index($id, $geocode_id)
     {
-        $this->template->title = 'local_contents';
-        $this->template->content = View::forge('admin/companyOffices/price_index', [
-            'test' => 'test'
+        $company = \Model_Company::find($id);
+        $geocode = \Model_Company_Geocode::find($geocode_id);
+
+        if (!$company || !$geocode)
+            throw new HttpNotFoundException;
+
+        $this->template->title = '料金テーブル';
+        $this->template->content = View::forge('admin/companyOffices/prices_index', [
+            'company' => $company,
+            'geocode' => $geocode,
+            'count' => 24 - count($geocode->price_rules),
         ]);
+    }
+
+    /**
+     * Create or edit price
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_prices_create($id, $geocode_id)
+    {
+        $company = \Model_Company::find($id);
+        $geocode = \Model_Company_Geocode::find($geocode_id);
+        $val = Model_PriceRule::validate();
+
+        if (!$company || !$geocode || !$val->run(\Input::get()))
+            throw new HttpNotFoundException;
+
+        $price_rule = \Model_PriceRule::find('first', [
+            'where' => [
+                ['company_geocode_id', $geocode->id],
+                ['using_cooking_stove', $val->validated('using_cooking_stove')],
+                ['using_bath_heater_with_gas_hot_water_supply', $val->validated('using_bath_heater_with_gas_hot_water_supply')],
+                ['using_other_gas_machine', $val->validated('using_other_gas_machine')],
+                ['house_kind', $val->validated('house_kind')],
+            ],
+        ]);
+
+        if (!$price_rule)
+            $price_rule = \Model_PriceRule::forge($val->validated());
+
+        $this->template->title = '料金テーブル';
+        $this->template->content = View::forge('admin/companyOffices/prices_create', [
+            'company' => $company,
+            'geocode' => $geocode,
+            'price_rule' => $price_rule,
+        ]);
+    }
+
+    /**
+     * Store or update price
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_prices_store($id, $geocode_id)
+    {
+        $company = \Model_Company::find($id);
+        $geocode = \Model_Company_Geocode::find($geocode_id);
+        $val = Model_PriceRule::validate('store');
+
+        if (!$company || !$geocode)
+            throw new HttpNotFoundException;
+
+        if ($val->run())
+        {
+            if (count($val->validated('prices')) == 0)
+                throw new Exception('Price rule must have one or more related prices');
+
+            $price_rule = \Model_PriceRule::find('first', [
+                'where' => [
+                    ['company_geocode_id', $geocode->id],
+                    ['using_cooking_stove', $val->validated('using_cooking_stove')],
+                    ['using_bath_heater_with_gas_hot_water_supply', $val->validated('using_bath_heater_with_gas_hot_water_supply')],
+                    ['using_other_gas_machine', $val->validated('using_other_gas_machine')],
+                    ['house_kind', $val->validated('house_kind')],
+                ],
+            ]);
+
+            if (!$price_rule)
+                $price_rule = \Model_PriceRule::forge(['company_geocode_id' => $geocode->id]);
+
+            $set = $val->validated();
+            unset($set['prices']);
+            $price_rule->set($set);
+            
+            \DB::start_transaction();
+            try
+            {
+                foreach ($price_rule->prices as $price)
+                {
+                    $price->delete();
+                }
+
+                $price_rule->prices = [];
+            
+                foreach ($val->validated('prices') as $price)
+                {
+                    if (!$price['upper_limit'])
+                        unset($price['upper_limit']);
+
+                    $price_rule->prices[] = new \Model_PriceRule_Price($price);
+                }
+                
+                if ($price_rule->save())
+                {
+                    \DB::commit_transaction();
+                    Session::set_flash('success', "ID: {$id} OK");
+                }
+
+                return Response::redirect("admin/companies/{$id}/offices/{$geocode_id}/prices");
+            }
+            catch (\Exception $e)
+            {
+                \Log::error($e);
+                \DB::rollback_transaction();
+            }
+        }
+        
+        Session::set_flash('error', "ID: {$id} FAIL");
+        
+        return Response::redirect("admin/companies/{$id}/offices/{$geocode_id}/prices");
     }
 
     /**
@@ -79,10 +266,35 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
      * @access  public
      * @return  Response
      */
-    public function action_price_destroy($company_id, $office_id, $price_id)
+    public function action_prices_destroy($id, $geocode_id, $price_id)
     {
-        print "DELETE Office";exit;
-        Response::redirect("admin/companies/{$company_id}/offices/{$office_id}");
+        $company = \Model_Company::find($id);
+        $geocode = \Model_Company_Geocode::find($geocode_id);
+
+        if (!$company || !$geocode)
+            throw new HttpNotFoundException;
+
+        $price_rule = Model_PriceRule::find('first', ['where' => [['id', $price_id]]]);
+
+        if (!$price_rule)
+            throw new HttpNotFoundException;
+
+        \DB::start_transaction();
+        try
+        {
+            $price_rule->delete();
+            \DB::commit_transaction();
+            Session::set_flash('success', "ID: DELETE OK");
+
+        }
+        catch (\Exception $e)
+        {
+            \Log::error($e);
+            \DB::rollback_transaction();
+            Session::set_flash('error', "ID: {$id} FAIL");
+        }
+        
+        return Response::redirect("admin/companies/{$id}/offices/{$geocode_id}/prices");
     }
 
     /**
@@ -91,11 +303,18 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
      * @access  public
      * @return  Response
      */
-    public function action_area_index($company_id, $office_id)
+    public function action_area_index($id, $geocode_id)
     {
-        $this->template->title = 'local_contents';
+        $company = \Model_Company::find($id);
+        $geocode = \Model_Company_Geocode::find($geocode_id);
+
+        if (!$company || !$geocode)
+            throw new HttpNotFoundException;
+
+        $this->template->title = '対応可能市区町村';
         $this->template->content = View::forge('admin/companyOffices/area_index', [
-            'test' => 'test'
+            'company' => $company,
+            'geocode' => $geocode,
         ]);
     }
 
@@ -105,10 +324,10 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
      * @access  public
      * @return  Response
      */
-    public function action_area_store($company_id, $office_id)
+    public function action_area_store($id, $geocode_id)
     {
         print "CREATE Office's area";exit;
-        Response::redirect("admin/companies/{$company_id}/offices/{$office_id}");
+        Response::redirect("admin/companies/{$id}/offices/{$office_id}");
     }
 
     /**
@@ -117,7 +336,7 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
      * @access  public
      * @return  Response
      */
-    public function action_area_destroy($company_id, $office_id, $price_id)
+    public function action_area_destroy($id, $geocode_id, $price_id)
     {
         print "DELETE Office";exit;
         Response::redirect("admin/companies/{$id}/offices");

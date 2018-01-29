@@ -35,7 +35,10 @@ class Model_Estimate_History extends \Orm\Model
     
     protected static $_belongs_to = [
         'estimate',
-        // 'admin_user',
+        'admin_user' => [
+            'model_to' => 'Model_AdminUser',
+            'key_from' => 'admin_user_id',
+        ],
         'partner_company',
     ];
 }

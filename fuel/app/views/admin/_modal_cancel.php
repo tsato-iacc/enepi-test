@@ -4,7 +4,7 @@
       <?= \Form::open(['action' => '']); ?>
         <?= \Form::csrf(); ?>
         <div class="modal-header">
-          <h4 class="modal-title" id="callLogLabel"><i class="fa fa-question-circle-o" aria-hidden="true"></i> 本当に問い合わせをキャンセルしますか？</h4>
+          <h4 class="modal-title"><i class="fa fa-question-circle-o" aria-hidden="true"></i> 本当に問い合わせをキャンセルしますか？</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

@@ -112,7 +112,7 @@ use JpPrefecture\JpPrefecture;
           </div>
         </td>
         <td class="align-middle">
-          <div class="card card-outline-<?= $call->contact->getStatusColor(); ?> text-center">
+          <div class="card card-outline-<?= \Config::get('views.contact.status.'.$call->contact->status); ?> text-center">
             <div class="card-block p-0">
               <blockquote class="card-blockquote">
                 <?= __('admin.contact.status.'.\Config::get('views.contact.status.'.$call->contact->status)) ?>

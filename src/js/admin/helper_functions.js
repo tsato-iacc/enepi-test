@@ -69,3 +69,26 @@ function introduceEstimate() {
     });
   });
 }
+
+function presentEstimate() {
+  $('.btn-present').each(function() {
+    $(this).on('click', function() {
+      
+      var id = $(this).attr('data-estimate-id');
+      var company = $(this).attr('data-company-name');
+      var name = $(this).attr('data-contact-name');
+      var pref = $(this).attr('data-contact-pref');
+      var tel = $(this).attr('data-contact-tel');
+      var modal = $('#estimatePresent');
+
+      modal.find('form').attr('action', '/admin/estimates/' + id + '/present');
+      modal.find('span.company-name').text(company);
+      modal.find('span.contact-name').text(name);
+      modal.find('span.contact-pref').text(pref);
+      modal.find('span.contact-tel').text(tel);
+      modal.modal('show');
+
+      return false;
+    });
+  });
+}
