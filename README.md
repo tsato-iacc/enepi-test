@@ -59,3 +59,6 @@ HTTP: http://localhost:8080
 
 ### DB Access
 DB: localhost:3340
+
+### Mail Catcher url
+HTTP: http://localhost:1080

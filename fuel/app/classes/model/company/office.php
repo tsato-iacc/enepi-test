@@ -18,4 +18,10 @@ class Model_Company_Office extends \Orm\Model
     protected static $_observers = [
         'Orm\\Observer_Typing'
     ];
+
+    protected static $_has_one = [
+        'geocode' => [
+            'model_to' => 'Model_Company_Geocode',
+        ],
+    ];
 }

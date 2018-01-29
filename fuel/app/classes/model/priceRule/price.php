@@ -11,7 +11,9 @@ class Model_PriceRule_Price extends \Orm\Model
         'id',
         'price_rule_id',
         'under_limit',
-        'upper_limit',
+        'upper_limit' => [
+            'default' => null,
+        ],
         'unit_price',
         'created_at',
         'updated_at'
@@ -30,6 +32,9 @@ class Model_PriceRule_Price extends \Orm\Model
     ];
 
     protected static $_belongs_to = [
-        'price_rule',
+        'price_rule' => [
+            'model_to' => 'Model_PriceRule',
+            'key_from' => 'price_rule_id',
+        ],
     ];
 }
