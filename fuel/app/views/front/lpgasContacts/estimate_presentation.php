@@ -1,8 +1,18 @@
+<style>
+.checkbox-big input[type="checkbox"]+label {
+    background-image: url(/assets/images/checkbox2.png);
+}
+</style>
+
 <div class="estimate">
   <div class="container">
 
     <div class="container pc">
-      <?= MyView::image_tag("estimate_presentation/new_step_img_03.png", ["alt" => "New step img 03"]); ?>
+      <?if($contact->getStatusColor() == 'warning'){ ?>
+        <?= MyView::image_tag("estimate_presentation/new_step_img_02.png"); ?>
+      <? }else{ ?>
+        <?= MyView::image_tag("estimate_presentation/new_step_img_03.png"); ?>
+      <? } ?>
     </div>
 
     <div class="hidden_pc">
@@ -31,7 +41,9 @@
     </script>
 
     <div class="container section">
-      <?//= form_tag ok_tentatively_lpgas_contact_estimates_path($lpgas_contact, token: $lpgas_contact.token) do ?>
+      <?= Form::open(['action' => '/lpgas/contacts/'.$contact->id.'/estimates/ok_tentatively?token='.$contact->token, 'accept-charset' => 'UTF-8', 'method' => 'POST']); ?>
+      <input type="hidden" name="utf8" value="&#x2713;" />
+      <input type="hidden" name="authenticity_token" value="DzNlOJjjfTaSRbXU/JJ1T1+XbN8YKCXcXUYwQmJu8YlKOtP7M0qG6A5D2JwcE8fH+2DRKKzfZN3d4q5g/x/aZQ==" />
 
       <div class="hidden_sp">
         <div class="planning_box-sp">
@@ -68,35 +80,35 @@
               </dl>
             </div>
           </div>
-          <?// if @contact.sent_estimate_req? ?>
+          <?if($contact->getStatusColor() == 'warning'){ ?>
             <div class="text-center estimate_btn_area">
               <div class="hidden_pc">
                 <p class="big">
-                  上記をクリアした<span style="color: #f93f3f"><?= count($contact->estimate) ?>社</span>のプランをご提案します<br>
+                  上記をクリアした<span style="color: #f93f3f"><?= $est_count ?>社</span>のプランをご提案します<br>
                 </p>
               </div>
               <div class="hidden_sp">
                 <p class="big">
-                  上記をクリアした<span style="color: #f93f3f"><?= count($contact->estimate) ?>社</span>の<br>プランをご提案します
+                  上記をクリアした<span style="color: #f93f3f"><?= $est_count ?>社</span>の<br>プランをご提案します
                 </p>
               </div>
               <div class="hidden_pc">
-                <?= MyView::submit_tag("commit", ["value" => "チェックを入れた会社からの連絡を希望する", "class" => "btn btn-primary", "onclick" => "ga(&#39;send&#39;, &#39;event&#39;, &#39;matching&#39;, &#39;click&#39;, &#39;submit_btn&#39;, {&#39;nonInteraction&#39;: 1});"]) ?>
+                <?= MyView::submit_tag("commit", ["value" => "チェックを入れた会社からの連絡を希望する", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn', {'nonInteraction': 1});"]) ?>
               </div>
               <div class="hidden_sp">
                 <?= MyView::submit_tag("commit", ["value" => "チェック済会社の連絡希望", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn_sp', {'nonInteraction': 1});"]) ?>
               </div>
             </div>
-          <?// }else{ ?>
+          <? }else{ ?>
             <div class="text-center estimate_btn_area">
               <ul class="big" style="color: #f93f3f">
-                <? foreach ($contact->estimate as $e) { ?>
-                  <? if($e->status == 30){ ?>
+                <? foreach ($est->estimate as $e) { ?>
+                  <? if($e->status == 3){ ?>
                     <li><?= $e->company->display_name ?>への連絡希望を承りました。</li>
                   <? } ?>
                 <? } ?>
               </ul>
-              <?// if $lpgas_contact.estimates.select(&:sent_estimate_to_user?).size > 0 ?>
+              <? if($est_count_sent_estimate_to_user > 0){ ?>
                 <p class="big">追加の連絡希望がございましたら以下よりお選びください。</p>
                 <div class="hidden_pc">
                   <?= MyView::submit_tag("commit", ["value" => "チェックを入れた会社からの連絡を希望する", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn', {'nonInteraction': 1});"]) ?>
@@ -104,9 +116,9 @@
                 <div class="hidden_sp">
                   <?= MyView::submit_tag("commit", ["value" => "チェック済会社の連絡希望", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn_sp', {'nonInteraction': 1});"]) ?>
                 </div>
-              <?// } ?>
+              <? } ?>
             </div>
-          <?// } ?>
+          <? } ?>
         </div>
       </div>
 
@@ -148,10 +160,10 @@
         <div class="case_btn_area">
           <a href="#case-contents" class="btn_cases" onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_link_btn', {'nonInteraction': 1});"><i class="fa fa-flag" aria-hidden="true"></i>どう選べばいいの？</a>
         </div>
-        <?// if $contact.sent_estimate_req? ?>
+        <?if($contact->getStatusColor() == 'warning'){ ?>
           <div class="text-center estimate_btn_area">
             <p class="big">
-              上記をクリアした<span style="color: #f93f3f"><?= count($contact->estimate) ?>社</span>のプランをご提案します<br>
+              上記をクリアした<span style="color: #f93f3f"><?= $est_count ?>社</span>のプランをご提案します<br>
             </p>
             <div class="hidden_pc">
               <?= MyView::submit_tag("commit", ["value" => "チェックを入れた会社からの連絡を希望する", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn', {'nonInteraction': 1});"]) ?>
@@ -181,16 +193,16 @@
               <?= MyView::submit_tag("commit", ["value" => "チェック済会社の連絡希望", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn_sp', {'nonInteraction': 1});"]) ?>
             </div>
           </div>
-        <?// else ?>
+        <? }else{ ?>
           <div class="text-center estimate_btn_area">
             <ul class="big" style="color: #f93f3f">
-              <? foreach ($contact->estimate as $e) { ?>
+              <? foreach ($est->estimate as $e) { ?>
                 <? if($e->status == 30){ ?>
                   <li><?= $e->company->display_name ?>への連絡希望を承りました。</li>
                 <? } ?>
               <? } ?>
             </ul>
-            <?// if $lpgas_contact.estimates.select(&:sent_estimate_to_user?).size > 0 ?>
+            <? if($est_count_sent_estimate_to_user > 0){ ?>
               <p class="big">追加の連絡希望がございましたら以下よりお選びください。</p>
               <div class="hidden_sp">
                 <?= MyView::submit_tag("commit", ["value" => "チェックを入れた会社からの連絡を希望する", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn', {'nonInteraction': 1});"]) ?>
@@ -198,9 +210,9 @@
               <div class="hidden_sp">
                 <?= MyView::submit_tag("commit", ["value" => "チェック済会社の連絡希望", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn_sp', {'nonInteraction': 1});"]) ?>
               </div>
-            <?// end ?>
+            <? } ?>
           </div>
-        <?// end ?>
+        <? } ?>
       </div>
     </div>
 
@@ -212,15 +224,16 @@
     </div>
 
     <?$count = 0; ?>
-    <? foreach ($contact->estimate as $e) { ?>
+    <? foreach ($est->estimate as $e) { ?>
       <div class="hidden_sp">
         <div class="panel matching-list-area estimate <? if(!is_null($e->basic_price)){print "has-price";} ?>">
           <div class="matching-list-heading">
             <div class="company-name-ttl">
               <div class="checkbox-big-sp">
-                <?// if e.sent_estimate_to_user? ?>
+                <input type="checkbox">
+                <?if($contact->getStatusColor() == 'warning'){ ?>
                   <?=  MyView::checkbox_tag("estimate_ids[".$count."]", ["id" => "estimate_ids_".$count, "value" => $e->uuid, "class" => "form-control",]) ?>
-                <?// end ?>
+                <? } ?>
                 <label role="button" for="estimate_ids_<?= $count ?>"></label>
               </div>
               <h3><?= $e->company->display_name ?></h3>
@@ -234,8 +247,7 @@
           <div class="inner">
             <div style="clear:both;">
               <div class="company-logo">
-                <?= MyView::image_tag($e->company->lpgas_company_logo, ["class" => "media-object"]); ?>
-                <?//= image_tag e.company.lpgas_company_logo.try!(:url), class: "media-object" ?>
+                <?= MyView::image_tag($e->company->lpgas_company_logo, ["class" => "media-object", "alt" => mb_substr($e->company->lpgas_company_logo, 0, mb_strpos($e->company->lpgas_company_logo, "."))]); ?>
               </div>
               <div style="width: 50%; float:right;">
                 <table class="table yearly_saving_price_table">
@@ -245,7 +257,7 @@
                   <tr>
                     <td>
                       <? if(!is_null($e->basic_price)){ ?>
-                        <span><?//= number_to_currency e.total_savings_in_year ?></span>
+                        <span><?= number_format($e->total_savings_in_year($contact)) ?>円</span>
                       <? }else{ ?>
                         <p class="privacy_price">料金非公開</p>
                       <? } ?>
@@ -256,10 +268,32 @@
 
             <table class="table relation_price_table <? if(!is_null($e->basic_price)){print "has-price";} ?>">
               <tr>
-                <th>違約金<a href="#" data-toggle="tooltip" title="契約後、解約した場合、違約金が発生する期間・料金がない会社かどうかを表示しています。"><?= MyView::image_tag("estimate_presentation/ico_question.png", ["class" => "ico_question"]); ?></a></th>
-                <td><?//= e.company.master_company_features.map(&:name).include?("違約金なし") ? "なし" : "あり" ?></td>
-                <th>セット割<a href="#" data-toggle="tooltip" title="プロパンガスの契約の際に、セットで契約するとお得になるプランがある会社を表示しています。"><?= MyView::image_tag("estimate_presentation/ico_question.png", ["class" => "ico_question"]); ?></a></th>
-                <td><?//= e.company.master_company_features.map(&:name).include?("セット割") ? "あり" : "なし" ?></td>
+                <th>
+                  違約金
+                  <a href="#" data-toggle="tooltip" title="契約後、解約した場合、違約金が発生する期間・料金がない会社かどうかを表示しています。">
+                    <?= MyView::image_tag("estimate_presentation/ico_question.png", ["class" => "ico_question"]); ?>
+                  </a>
+                </th>
+                <td>
+                  <? $penalty = 'あり'; ?>
+                  <? foreach($e->company->features as $f){ ?>
+                    <? if($f->name == '違約金なし'){$penalty = 'なし';} ?>
+                  <? } ?>
+                  <?= $penalty ?>
+                </td>
+                <th>
+                  セット割
+                  <a href="#" data-toggle="tooltip" title="プロパンガスの契約の際に、セットで契約するとお得になるプランがある会社を表示しています。">
+                    <?= MyView::image_tag("estimate_presentation/ico_question.png", ["class" => "ico_question"]); ?>
+                  </a>
+                </th>
+                <td>
+                  <? $set_discount = 'なし'; ?>
+                  <? foreach($e->company->features as $f){ ?>
+                    <? if($f->name == 'セット割'){$set_discount = 'あり';} ?>
+                  <? } ?>
+                  <?= $set_discount ?>
+                </td>
               </tr>
             </table>
 
@@ -274,9 +308,9 @@
               <div id="collapseOne-<?= $count ?>" class="panel-collapse collapse">
                 <div class="panel-body">
                   <ul class="recommend_point">
-                    <?// e.company.company_service_features.each do |feat| ?>
-                      <li><?= MyView::image_tag("estimate_presentation/ico_checkpoint.png", ["class" => "ico_checkpoint"]); ?><?//= feat.title ?></li>
-                    <?// end ?>
+                    <? foreach($e->company->company_service_features as $sf){ ?>
+                      <li><?= MyView::image_tag("estimate_presentation/ico_checkpoint.png", ["class" => "ico_checkpoint"]); ?><?= $sf->title ?></li>
+                    <? } ?>
                   </ul>
                 </div>
               </div>
@@ -301,32 +335,28 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td><?= number_format(MyView::null_check($e->basic_price)); ?>円</td>
+                        <td>
+                          <?= number_format(MyView::null_check($e->basic_price)); ?>円
+                        </td>
                         <td>
                           <? if(count($e->prices) == 1){ ?>
-                            <?= number_format(MyView::null_check($e->unit_price)); ?>円
+                            <? foreach($e->prices as $p){ ?>
+                              <?= number_format(MyView::null_check($p->unit_price)); ?>円
+                            <? } ?>
                           <? }else{ ?>
                             <ul>
-                              <?// e.unit_prices.each do |u| ?>
                               <? foreach($e->prices as $p){ ?>
                               <li>
-                                <b>
-                                  <?
-                                     if(isset($p->upper_limit))
-                                     {
-                                         $range_text = $p->under_limit." ~ ".$p->upper_limit."m3";
-                                     }else{
-                                         $range_text = $p->under_limit."m3 ~ ";
-                                     }
-                                  ?>
-                                  <?= $range_text ?>:
-                                </b> <?= number_format(MyView::null_check($p->unit_price)); ?>円
+                                <b><?= $p->getRangeLabel() ?>:</b>
+                                <?= number_format(MyView::null_check($p->unit_price)); ?>円
                               </li>
                               <? } ?>
                             </ul>
                           <? } ?>
                         </td>
-                        <td><?= number_format(MyView::null_check($e->fuel_adjustment_cost)); ?></td>
+                        <td>
+                          <?= number_format(MyView::null_check($e->fuel_adjustment_cost)); ?>円
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -391,17 +421,16 @@
             <dl class="contacts_list_area">
               <dt>
                 <div class="checkbox-big">
-                  <?// if e.sent_estimate_to_user? ?>
+                  <?if($contact->getStatusColor() == 'warning'){ ?>
                     <?=  MyView::checkbox_tag("estimate_ids[".$count."]", ["id" => "estimate_ids_".$count, "value" => $e->uuid, "class" => "form-control",]) ?>
-                  <?//?end ?>
+                  <? } ?>
                   <label role="button" for="estimate_ids_<?= $count ?>"></label>
                 </div>
               </dt>
               <dd>
                 <div class="info_l">
                   <div class="thumb">
-                    <?= MyView::image_tag($e->company->lpgas_company_logo, ["class" => "media-object"]); ?>
-                    <?//= image_tag e.company.lpgas_company_logo.try!(:url), class: "media-object" ?>
+                    <?= MyView::image_tag($e->company->lpgas_company_logo, ["class" => "media-object", "alt" => mb_substr($e->company->lpgas_company_logo, 0, mb_strpos($e->company->lpgas_company_logo, "."))]); ?>
                   </div>
                 </div>
 
@@ -411,9 +440,9 @@
                       <th><?= MyView::image_tag("estimate_presentation/ico_fire.png", ["class" => "ico_fire"]); ?>年間節約費用</th>
                       <td>
                         <? if(!is_null($e->basic_price)){ ?>
-                        <span><?//= number_to_currency e.total_savings_in_year ?></span>
+                        <span><?= number_format($e->total_savings_in_year($contact)) ?>円</span>
                       <? }else{ ?>
-                        <p class="privacy_price">料金非公開</p>
+                        <p class="privacy_price">料金非公開<br>（お問い合わせください）</p>
                       <? } ?>
                       </td>
                     </tr>
@@ -422,9 +451,21 @@
                   <table class="table relation_price_table <? if(!is_null($e->basic_price)){print "has-price";} ?>">
                    <tr>
                      <th><?= MyView::image_tag("estimate_presentation/ico_money.png", ["class" => "ico_money"]); ?>違約金<a href="#" data-toggle="tooltip" title="契約後、解約した場合、違約金が発生する期間・料金がない会社かどうかを表示しています。"><?= MyView::image_tag("estimate_presentation/ico_question.png", ["class" => "ico_question"]); ?></a></th>
-                     <td><?//= e.company.master_company_features.map(&:name).include?("違約金なし") ? "なし" : "あり" ?></td>
+                     <td>
+                      <? $penalty = 'あり'; ?>
+                      <? foreach($e->company->features as $f){ ?>
+                        <? if($f->name == '違約金なし'){$penalty = 'なし';} ?>
+                      <? } ?>
+                      <?= $penalty ?>
+                     </td>
                      <th><?= MyView::image_tag("estimate_presentation/ico_discount_tag.png", ["class" => "ico_discount_tag"]); ?>セット割<a href="#" data-toggle="tooltip" title="プロパンガスの契約の際に、セットで契約するとお得になるプランがある会社を表示しています。"><?= MyView::image_tag("estimate_presentation/ico_question.png", ["class" => "ico_question"]); ?></a></th>
-                     <td><?//= e.company.master_company_features.map(&:name).include?("セット割") ? "あり" : "なし" ?></td>
+                     <td>
+                      <? $set_discount = 'なし'; ?>
+                      <? foreach($e->company->features as $f){ ?>
+                        <? if($f->name == 'セット割'){$set_discount = 'あり';} ?>
+                      <? } ?>
+                      <?= $set_discount ?>
+                     </td>
                    </tr>
                  </table>
                </div>
@@ -433,9 +474,9 @@
                  <div class="info_l" >
                    <h4 class="subttl">おすすめポイント</h4>
                    <ul class="recommend_point">
-                     <?// e.company.company_service_features.each do |feat| ?>
-                       <li><?= MyView::image_tag("estimate_presentation/ico_checkpoint.png", ["class" => "ico_checkpoint"]); ?><?//= feat.title ?></li>
-                     <?// end ?>
+                     <? foreach($e->company->company_service_features as $sf){ ?>
+                       <li><?= MyView::image_tag("estimate_presentation/ico_checkpoint.png", ["class" => "ico_checkpoint"]); ?><?= $sf->title ?></li>
+                     <? } ?>
                    </ul>
                  </div>
                </div>
@@ -452,32 +493,28 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td><?= number_format(MyView::null_check($e->basic_price)); ?>円</td>
+                        <td>
+                          <?= number_format(MyView::null_check($e->basic_price)); ?>円
+                        </td>
                         <td>
                           <? if(count($e->prices) == 1){ ?>
-                            <?= number_format(MyView::null_check($e->unit_price)); ?>円
+                            <? foreach($e->prices as $p){ ?>
+                              <?= number_format(MyView::null_check($p->unit_price)); ?>円
+                            <? } ?>
                           <? }else{ ?>
                             <ul>
-                              <?// e.unit_prices.each do |u| ?>
                               <? foreach($e->prices as $p){ ?>
                               <li>
-                                <b>
-                                  <?
-                                     if(isset($p->upper_limit))
-                                     {
-                                         $range_text = $p->under_limit." ~ ".$p->upper_limit."m3";
-                                     }else{
-                                         $range_text = $p->under_limit."m3 ~ ";
-                                     }
-                                  ?>
-                                  <?= $range_text ?>:
-                                </b> <?= number_format(MyView::null_check($p->unit_price)); ?>円
+                                <b><?= $p->getRangeLabel() ?>:</b>
+                                <?= number_format(MyView::null_check($p->unit_price)); ?>円
                               </li>
                               <? } ?>
                             </ul>
                           <? } ?>
                         </td>
-                        <td><?= number_format(MyView::null_check($e->fuel_adjustment_cost)); ?></td>
+                        <td>
+                          <?= number_format(MyView::null_check($e->fuel_adjustment_cost)); ?>円
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -487,9 +524,9 @@
                 <div class="info_l" >
                   <h4 class="subttl">おすすめポイント</h4>
                   <ul class="recommend_point">
-                    <?// e.company.company_service_features.each do |feat| ?>
-                      <li><?= MyView::image_tag("estimate_presentation/ico_checkpoint.png", ["class" => "ico_checkpoint"]); ?><?//= feat.title ?></li>
-                    <?// end ?>
+                    <? foreach($e->company->company_service_features as $sf){ ?>
+                      <li><?= MyView::image_tag("estimate_presentation/ico_checkpoint.png", ["class" => "ico_checkpoint"]); ?><?= $sf->title ?></li>
+                    <? } ?>
                   </ul>
                 </div>
 
@@ -526,17 +563,17 @@
         <?$count++; ?>
       <? } ?>
 
-        <?// if $lpgas_contact.estimates.select(&:sent_estimate_to_user?).size > 0 ?>
-        <div class="text-center estimate_btn_area_bt">
-          <div class="hidden_pc">
-            <?= MyView::submit_tag("commit", ["value" => "チェックを入れた会社からの連絡を希望する", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn_bottom', {'nonInteraction': 1});"]) ?>
-          </div>
-          <div class="hidden_sp">
-            <?= MyView::submit_tag("commit", ["value" => "チェック済会社の連絡希望", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn_bottom_sp', {'nonInteraction': 1});"]) ?>
-          </div>
+        <? if($est_count_sent_estimate_to_user > 0){ ?>
+          <div class="text-center estimate_btn_area_bt">
+            <div class="hidden_pc">
+              <?= MyView::submit_tag("commit", ["value" => "チェックを入れた会社からの連絡を希望する", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn_bottom', {'nonInteraction': 1});"]) ?>
+            </div>
+            <div class="hidden_sp">
+              <?= MyView::submit_tag("commit", ["value" => "チェック済会社の連絡希望", "class" => "btn btn-primary", "onclick" => "ga('send', 'event', 'matching', 'click', 'submit_btn_bottom_sp', {'nonInteraction': 1});"]) ?>
+            </div>
         </div>
-        <?// end ?>
-        <?// end ?>
+        <? } ?>
+        <?= Form::close(); ?>
 
       <p class="resource_info_txt">お客様専用に開示する情報も含まれますので、内容やURLの第三者への提供・転送は禁止とさせていただきます。</p>
 
