@@ -2,36 +2,55 @@
 use JpPrefecture\JpPrefecture;
 ?>
 
+<!-- SEARCH FORM START -->
 <?= \Form::open(['method' => 'GET', 'class' => 'mb-4']); ?>
   <div class="form-group row mb-0">
     <div class="col-2">
-      <div class="form-group<?= $val->error('contact_name_equal') ? ' has-danger' : ''?>">
-        <label class="form-control-label" for="contact_name_equal"><h6>名前が等しい</h6></label>
-        <input type="text" name="contact_name_equal" value="<?= $val->input('contact_name_equal', '') ?>" class="form-control" id="contact_name_equal">
+      <div class="form-group<?= $val->error('name_equal') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="name_equal"><h6>名前が等しい</h6></label>
+        <input type="text" name="name_equal" value="<?= $val->input('name_equal', '') ?>" class="form-control" id="name_equal">
       </div>
     </div>
     <div class="col-2">
-      <div class="form-group<?= $val->error('contact_name_like') ? ' has-danger' : ''?>">
-        <label class="form-control-label" for="contact_name_like"><h6>名前を含む</h6></label>
-        <input type="text" name="contact_name_like" value="<?= $val->input('contact_name_like', '') ?>" class="form-control" id="contact_name_like">
+      <div class="form-group<?= $val->error('name_like') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="name_like"><h6>名前を含む</h6></label>
+        <input type="text" name="name_like" value="<?= $val->input('name_like', '') ?>" class="form-control" id="name_like">
       </div>
     </div>
     <div class="col-2">
-      <div class="form-group<?= $val->error('contact_tel_equal') ? ' has-danger' : ''?>">
-        <label class="form-control-label" for="contact_tel_equal"><h6>電話番号が等しい</h6></label>
-        <input type="text" name="contact_tel_equal" value="<?= $val->input('contact_tel_equal', '') ?>" class="form-control" id="contact_tel_equal">
+      <div class="form-group<?= $val->error('tel_equal') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="tel_equal"><h6>電話番号が等しい</h6></label>
+        <input type="text" name="tel_equal" value="<?= $val->input('tel_equal', '') ?>" class="form-control" id="tel_equal">
       </div>
     </div>
     <div class="col-3">
-      <div class="form-group<?= $val->error('contact_email_equal') ? ' has-danger' : ''?>">
-        <label class="form-control-label" for="contact_email_equal"><h6>メールアドレスが等しい</h6></label>
-        <input type="text" name="contact_email_equal" value="<?= $val->input('contact_email_equal', '') ?>" class="form-control" id="contact_email_equal">
+      <div class="form-group<?= $val->error('email_equal') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="email_equal"><h6>メールアドレスが等しい</h6></label>
+        <input type="text" name="email_equal" value="<?= $val->input('email_equal', '') ?>" class="form-control" id="email_equal">
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form-group<?= $val->error('house_kind') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="house_kind"><h6>物件種別</h6></label>
+        <?= Form::select('house_kind', $val->input('house_kind', ''), ['' => 'none'] + __('admin.contact.house_kind'), ['class' => 'form-control', 'id' => 'house_kind']); ?>
       </div>
     </div>
   </div>
 
   <div class="form-group row mb-0">
     <div class="col-2">
+      <div class="form-group<?= $val->error('pref_code') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="pref_code"><h6>都道府県</h6></label>
+        <?= Form::select('pref_code', $val->input('pref_code', ''), ['' => 'none'] + JpPrefecture::allKanjiAndCode(), ['class' => 'form-control', 'id' => 'pref_code']); ?>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="form-group<?= $val->error('new_pref_code') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="new_pref_code"><h6>都道府県(開設先)</h6></label>
+        <?= Form::select('new_pref_code', $val->input('new_pref_code', ''), ['' => 'none'] + JpPrefecture::allKanjiAndCode(), ['class' => 'form-control', 'id' => 'new_pref_code']); ?>
+      </div>
+    </div>
+    <div class="col-3">
       <div class="form-group<?= $val->error('status') ? ' has-danger' : ''?>">
         <label class="form-control-label" for="status"><h6>ステータスが等しい</h6></label>
         <?= Form::select('status', $val->input('status', ''), ['' => 'none'] + __('admin.contact.status'), ['class' => 'form-control', 'id' => 'status']); ?>
@@ -52,34 +71,54 @@ use JpPrefecture\JpPrefecture;
   </div>
 
   <div class="form-group row mb-0">
+    <div class="col-2">
+      <div class="form-group<?= $val->error('ownership_kind') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="ownership_kind"><h6>所有種別</h6></label>
+        <?= Form::select('ownership_kind', $val->input('ownership_kind', ''), ['' => 'none'] + __('admin.contact.ownership_kind'), ['class' => 'form-control', 'id' => 'ownership_kind']); ?>
+      </div>
+    </div>
+    <div class="col-2 pr-0">
+      <div class="form-group<?= $val->error('introduced_from') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="introduced_from"><h6>紹介日</h6></label>
+        <input type="text" name="introduced_from" value="<?= $val->input('introduced_from', '') ?>" class="form-control datepicker" id="introduced_from">
+      </div>
+    </div>
+    <div class="px-1 text-center">
+      <div class="form-group">
+        <label class="form-control-label"><h6>&nbsp;</h6></label>
+        <p class="form-control-static">~</p>
+      </div>
+    </div>
+    <div class="col-2 pl-0">
+      <div class="form-group<?= $val->error('introduced_to') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="introduced_to"><h6>&nbsp;</h6></label>
+        <input type="text" name="introduced_to" value="<?= $val->input('introduced_to', '') ?>" class="form-control datepicker" id="introduced_to">
+      </div>
+    </div>
+
     <div class="col-2 pr-0">
       <div class="form-group<?= $val->error('created_from') ? ' has-danger' : ''?>">
-        <label class="form-control-label" for="created_from"><h6>紹介日</h6></label>
+        <label class="form-control-label" for="created_from"><h6>問い合わせ日</h6></label>
         <input type="text" name="created_from" value="<?= $val->input('created_from', '') ?>" class="form-control datepicker" id="created_from">
       </div>
     </div>
     <div class="px-1 text-center">
       <div class="form-group">
-        <label class="form-control-label"><h6>　</h6></label>
+        <label class="form-control-label"><h6>&nbsp;</h6></label>
         <p class="form-control-static">~</p>
       </div>
     </div>
     <div class="col-2 pl-0">
       <div class="form-group<?= $val->error('created_to') ? ' has-danger' : ''?>">
-        <label class="form-control-label" for="created_to"><h6>　</h6></label>
+        <label class="form-control-label" for="created_to"><h6>&nbsp;</h6></label>
         <input type="text" name="created_to" value="<?= $val->input('created_to', '') ?>" class="form-control datepicker" id="created_to">
-      </div>
-    </div>
-    <div class="col-2">
-      <div class="form-group<?= $val->error('preferred_time') ? ' has-danger' : ''?>">
-        <label class="form-control-label" for="preferred_time"><h6>希望連絡時間</h6></label>
-        <?= Form::select('preferred_time', $val->input('preferred_time', ''), ['' => 'none'] + __('admin.contact.preferred_contact_time_between'), ['class' => 'form-control', 'id' => 'preferred_time']); ?>
       </div>
     </div>
   </div>
 
   <button type="submit" class="btn btn-secondary">検索</button>
 <?= Form::close(); ?>
+<!-- SEARCH FORM END -->
 
 <!-- FIX ME -->
 <div class="btn-group mb-4" role="group" aria-label="CSV">

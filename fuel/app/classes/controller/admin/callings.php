@@ -31,19 +31,20 @@ class Controller_Admin_Callings extends Controller_Admin
     {
         $val = \Model_Calling::validate();
 
+        // UPGRADE ME, Use group by than where in
         $conditions = [
-            'where' => [],
-            'related' => [
-                'contact' => [
-                    'related' => [
-                        'estimates' => [
-                            'where' => [],
-                        ],
-                        'calling_histories',
-                    ],
-                    'where' => [],
-                ],
-            ],
+            // 'where' => [],
+            // 'related' => [
+            //     'contact' => [
+            //         'related' => [
+            //             'estimates' => [
+            //                 'where' => [],
+            //             ],
+            //             'calling_histories',
+            //         ],
+            //         'where' => [],
+            //     ],
+            // ],
         ];
 
         $this->updateConditions($conditions);
@@ -57,8 +58,8 @@ class Controller_Admin_Callings extends Controller_Admin
         ]);
 
         $conditions['order_by'] = ['id' => 'desc'];
-        $conditions['limit'] = $pager->per_page;
-        $conditions['offset'] = $pager->offset;
+        $conditions['rows_limit'] = $pager->per_page;
+        $conditions['rows_offset'] = $pager->offset;
 
         $callings = \Model_Calling::find('all', $conditions);
 
@@ -149,7 +150,6 @@ class Controller_Admin_Callings extends Controller_Admin
                     $conditions['related']['contact']['related']['estimates']['where'][] = ['construction_finished_date', 'IS NOT', NULL];
                     break;
             }
-            
         }
     }
 }

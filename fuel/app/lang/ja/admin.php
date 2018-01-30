@@ -36,6 +36,11 @@ return [
             'apartment' => 'マンション・アパート',
             'store_ex' => '店舗',
         ],
+        'ownership_kind' => [
+            'owner' => '所有(持ち家)',
+            'borrower' => '賃貸(借り主)',
+            'unit_owner' => '所有',
+        ],
         'gas_machines' => [
             'using_cooking_stove' => 'ガスコンロ',
             'using_bath_heater_with_gas_hot_water_supply' => '給湯器',
