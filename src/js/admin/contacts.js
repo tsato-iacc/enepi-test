@@ -1,8 +1,8 @@
 /**
- * Controller_Callings
+ * Controller_Contacts
  */
-if ($('.area-callings').length) {
-
+if ($('.area-contacts').length) {
+  
   // See helper_functions.js
   cancelEstimateOrContact('contact');
 }

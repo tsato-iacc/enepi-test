@@ -135,7 +135,7 @@ class Controller_Admin_Contacts extends Controller_Admin
             Session::set_flash('error', 'cancelできませんでした');
         }
 
-        Response::redirect('admin/callings');
+        Response::redirect('admin/contacts');
     }
 
     /**

@@ -253,4 +253,8 @@ use JpPrefecture\JpPrefecture;
   </tbody>
 </table>
 
+<!-- MODAL CANCEL START -->
+<?= render('admin/_modal_cancel'); ?>
+<!-- MODAL CANCEL END -->
+
 <?= \Pagination::instance('contacts')->render(); ?>

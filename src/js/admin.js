@@ -16,3 +16,4 @@
 //= admin/callings.js
 //= admin/estimates.js
 //= admin/companies.js
+//= admin/contacts.js
