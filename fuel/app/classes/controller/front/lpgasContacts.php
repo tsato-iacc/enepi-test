@@ -329,24 +329,27 @@ class Controller_Front_LpgasContacts extends Controller_Front
                 throw new HttpNotFoundException();
             }
 
+            $est_count_sent_estimate_to_user = count(Model_Estimate::find('all', [
+                'where' => [
+                    ['contact_id', $contact->id],
+                    ['status', \Config::get('models.estimate.status.sent_estimate_to_user')],
+                ]
+            ]));
 
-            $est = $contact;
-            $est_count_up = 0;
-            $est_count_down = 0;
-            $est_count_sent_estimate_to_user = 0;
-            foreach($est->estimate as $key => $value){
-                $est_count_up++;
-                if($est->estimate[$key]->status == 2)
-                {
-                    $est_count_sent_estimate_to_user++;
-                }
-                if($est->estimate[$key]->getStatusEst() == 'ng')
-                {
-                    unset($est->estimate[$key]);
-                    $est_count_down++;
-                }
-            }
-            $est_count = $est_count_up - $est_count_down;
+            $est = Model_Estimate::find('all', [
+                'where' => [
+                    ['contact_id', $contact->id],
+                    ['status', 'in', 
+                        [
+                            \Config::get('models.estimate.status.sent_estimate_to_user'), 
+                            \Config::get('models.estimate.status.verbal_ok'), 
+                            \Config::get('models.estimate.status.contracted'),
+                        ]
+                    ],
+                ]
+            ]);
+
+            $est_count = count($est);
 
 
             $prefecture_data = \Model_LocalContentPrefecture::find($contact['prefecture_code']);
@@ -388,6 +391,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
     {
         $this->template = \View::forge('front/template_contact');
 
+
         $contact = \Model_Contact::find($contact_id);
         if (!$contact)
         {
@@ -395,11 +399,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
             throw new HttpNotFoundException();
         }
 
-//         foreach ($contact->estimate as $key => $value) {
-//             if($contact->estimate[$key]->basic_price == null) {
-//                 unset($contact->estimate[$key]);
-//             }
-//         }
 
         $estimate = \Model_Estimate::find('first',[
                 'where' => [
@@ -412,6 +411,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
             throw new HttpNotFoundException();
         }
 
+
         $feature_all = \Model_Company_Feature::find('all');
         if (!$feature_all)
         {
@@ -419,11 +419,49 @@ class Controller_Front_LpgasContacts extends Controller_Front
             throw new HttpNotFoundException();
         }
 
+
         $company = [];
         foreach ($contact->estimate as $e){
             if($e->uuid == $uuid){
                 $company = $e;
             }
+        }
+
+
+
+        $flash_message_est = Model_Estimate::find('all', [
+            'where' => [
+                ['contact_id', $contact->id],
+                ['status', \Config::get('models.estimate.status.verbal_ok')],
+            ]
+        ]);
+
+
+        $company_name = '';
+        $estimate_verbal_ok_count = 0;
+
+        if(!is_null($flash_message_est))
+        {
+            $estimate_verbal_ok_count = count($flash_message_est);
+        }
+
+        if($estimate_verbal_ok_count > 0)
+        {
+            $i = 0;
+            foreach($flash_message_est as $f)
+            {
+                $i++;
+                if($estimate_verbal_ok_count - $i == 1)
+                {
+                    $company_name = $company_name.$f->company->display_name.'、';
+                }
+                else
+                {
+                    $company_name = $company_name.$f->company->display_name;   
+                }
+            }
+
+            Session::set_flash('estimate_verbal_ok_message', $company_name.'に依頼済みです');
         }
 
         Tracking::unsetTracking();
@@ -457,6 +495,65 @@ class Controller_Front_LpgasContacts extends Controller_Front
             'feature_all' => $feature_all,
         ]);
         $this->template->header_decision = $header_decision;
+    }
+
+
+
+    public function post_introduce($contact_id){
+
+        $contact = \Model_Contact::find($contact_id);
+        if (!$contact)
+        {
+            \Log::warning("conversion id {$contact_id} not found");
+            throw new HttpNotFoundException();
+        }
+
+        Tracking::unsetTracking();
+
+        $meta = [
+            ['name' => 'description', 'content' => 'OOooOOppp'],
+            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
+            ['name' => 'puka', 'content' => 'suka'],
+        ];
+
+
+        $this->template = \View::forge('front/template_contact');
+
+
+        $select_estimate = \Input::post('estimate_ids', []);
+
+        if(is_array($select_estimate))
+        {
+            foreach($select_estimate as $key => $value)
+            {
+                $e = Model_Estimate::find('first', ['where' => [['uuid', $value]]]);
+                $e->introduce(null, null, $contact_id);
+            }
+        }
+        else
+        {
+            $e = Model_Estimate::find('first', ['where' => [['uuid', $select_estimate]]]);
+            $e->introduce(null, null, $contact_id);
+        }
+
+
+        $preferred_contact_time_between = \Input::post('preferred_contact_time_between', null);
+        $priority_degree = \Input::post('priority_degree', null);
+        $desired_option = \Input::post('desired_option', null);
+
+        if(!is_null($preferred_contact_time_between) || !is_null($priority_degree) || !is_null($desired_option))
+        {
+            $contact->contactDesired($preferred_contact_time_between, $priority_degree, $desired_option);
+        }
+
+
+        $query = [
+            // 'conversion_id' => 'LPGAS-'.$contact->id,
+            'pin' => $contact->pin,
+            'token' => $contact->token,
+        ];
+
+        return \Response::redirect("lpgas/contacts/{$contact->id}?".http_build_query($query));
     }
 
 

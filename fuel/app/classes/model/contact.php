@@ -511,6 +511,27 @@ class Model_Contact extends \Orm\Model_Soft
         return $machines;
     }
 
+    public function contactDesired($preferred_contact_time_between, $priority_degree, $desired_option)
+    {
+        $this->preferred_contact_time_between = $preferred_contact_time_between;
+        $this->priority_degree = $priority_degree;
+        $this->desired_option = $desired_option;
+
+        $this->save();
+
+        // if ($this->save())
+        // {
+        //     $this->contact->status = \Config::get('models.contact.status.verbal_ok');
+        //     $this->contact->save();
+
+        //     \Helper\Notifier::notifyCustomerIntroduce($this);
+        //     \Helper\Notifier::notifyCompanyIntroduce($this);
+        //     \Helper\Notifier::notifyAdminIntroduce($this);
+
+        //     return true;
+        // }
+    }
+
     /**
      * Private methods
      */

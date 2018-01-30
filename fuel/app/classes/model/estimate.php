@@ -208,11 +208,19 @@ class Model_Estimate extends \Orm\Model
     }
 
     // 送客 ok_tentatively
-    public function introduce($admin_id)
+    public function introduce($admin_id = null, $partner_id = null, $user_id = null)
     {
         if ($this->status == \Config::get('models.estimate.status.sent_estimate_to_user'))
         {
-            $this->last_update_admin_user_id = $admin_id;
+            if ($admin_id)
+                $this->last_update_admin_user_id = $admin_id;
+
+            if ($partner_id)
+                $this->last_update_partner_company_id = $partner_id;
+
+            if ($admin_id)
+                $this->last_update_user_id = $user_id;
+            
             $this->status = \Config::get('models.estimate.status.verbal_ok');
 
             if ($this->save())
@@ -355,21 +363,27 @@ class Model_Estimate extends \Orm\Model
         return false;
     }
 
-    public function getStatusEst()
-    {
-        $status_est = '';
+    // public function getStatusEst()
+    // {
+    //     Model_Estimate::find('all', [
+    //         'where' => [
+    //             ['lpgas_contact', $lpgas->id],
+    //             ['status', 'in', [2,4]],
+    //         ]
+    //     ])
+    //     $status_est = '';
 
-        if ($this->status == \Config::get('models.estimate.status.sent_estimate_to_user') || $this->status == \Config::get('models.estimate.status.verbal_ok') || $this->status == \Config::get('models.estimate.status.contracted'))
-        {
-            $status_est = 'ok';
-        }
-        elseif ($this->status == \Config::get('models.estimate.status.sent_estimate_to_iacc') || $this->status == \Config::get('models.estimate.status.pending') || $this->status == \Config::get('models.estimate.status.cancelled'))
-        {
-            $status_est = 'ng';
-        }
+    //     if ($this->status == \Config::get('models.estimate.status.sent_estimate_to_user') || $this->status == \Config::get('models.estimate.status.verbal_ok') || $this->status == \Config::get('models.estimate.status.contracted'))
+    //     {
+    //         $status_est = 'ok';
+    //     }
+    //     elseif ($this->status == \Config::get('models.estimate.status.sent_estimate_to_iacc') || $this->status == \Config::get('models.estimate.status.pending') || $this->status == \Config::get('models.estimate.status.cancelled'))
+    //     {
+    //         $status_est = 'ng';
+    //     }
 
-        return $status_est;
-    }
+    //     return $status_est;
+    // }
 
     // update_contact_status
     // private function updateContactStatus()

@@ -8,7 +8,7 @@
   <div class="container">
 
     <div class="container pc">
-      <?if($contact->getStatusColor() == 'warning'){ ?>
+      <?if($contact->status == \Config::get('models.contact.status.sent_estimate_req')){ ?>
         <?= MyView::image_tag("estimate_presentation/new_step_img_02.png"); ?>
       <? }else{ ?>
         <?= MyView::image_tag("estimate_presentation/new_step_img_03.png"); ?>
@@ -41,9 +41,9 @@
     </script>
 
     <div class="container section">
-      <?= Form::open(['action' => '/lpgas/contacts/'.$contact->id.'/estimates/ok_tentatively?token='.$contact->token, 'accept-charset' => 'UTF-8', 'method' => 'POST']); ?>
-      <input type="hidden" name="utf8" value="&#x2713;" />
-      <input type="hidden" name="authenticity_token" value="DzNlOJjjfTaSRbXU/JJ1T1+XbN8YKCXcXUYwQmJu8YlKOtP7M0qG6A5D2JwcE8fH+2DRKKzfZN3d4q5g/x/aZQ==" />
+      <?= Form::open(['action' => '/lpgas/contacts/'.$contact->id.'/estimates/ok_tentatively']); ?>
+      <?= \Form::csrf(); ?>
+      <input type="hidden" name="token" value="<?= $contact->token ?>" />
 
       <div class="hidden_sp">
         <div class="planning_box-sp">
@@ -80,7 +80,7 @@
               </dl>
             </div>
           </div>
-          <?if($contact->getStatusColor() == 'warning'){ ?>
+          <?if($contact->status == \Config::get('models.contact.status.sent_estimate_req')){ ?>
             <div class="text-center estimate_btn_area">
               <div class="hidden_pc">
                 <p class="big">
@@ -102,7 +102,7 @@
           <? }else{ ?>
             <div class="text-center estimate_btn_area">
               <ul class="big" style="color: #f93f3f">
-                <? foreach ($est->estimate as $e) { ?>
+                <? foreach ($est as $e) { ?>
                   <? if($e->status == 3){ ?>
                     <li><?= $e->company->display_name ?>への連絡希望を承りました。</li>
                   <? } ?>
@@ -160,7 +160,7 @@
         <div class="case_btn_area">
           <a href="#case-contents" class="btn_cases" onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_link_btn', {'nonInteraction': 1});"><i class="fa fa-flag" aria-hidden="true"></i>どう選べばいいの？</a>
         </div>
-        <?if($contact->getStatusColor() == 'warning'){ ?>
+        <?if($contact->status == \Config::get('models.contact.status.sent_estimate_req')){ ?>
           <div class="text-center estimate_btn_area">
             <p class="big">
               上記をクリアした<span style="color: #f93f3f"><?= $est_count ?>社</span>のプランをご提案します<br>
@@ -196,8 +196,8 @@
         <? }else{ ?>
           <div class="text-center estimate_btn_area">
             <ul class="big" style="color: #f93f3f">
-              <? foreach ($est->estimate as $e) { ?>
-                <? if($e->status == 30){ ?>
+              <? foreach ($est as $e) { ?>
+                <? if($e->status == 3){ ?>
                   <li><?= $e->company->display_name ?>への連絡希望を承りました。</li>
                 <? } ?>
               <? } ?>
@@ -224,14 +224,14 @@
     </div>
 
     <?$count = 0; ?>
-    <? foreach ($est->estimate as $e) { ?>
+    <? foreach ($est as $e) { ?>
       <div class="hidden_sp">
         <div class="panel matching-list-area estimate <? if(!is_null($e->basic_price)){print "has-price";} ?>">
           <div class="matching-list-heading">
             <div class="company-name-ttl">
               <div class="checkbox-big-sp">
                 <input type="checkbox">
-                <?if($contact->getStatusColor() == 'warning'){ ?>
+                <?if($e->status ==\Config::get('models.estimate.status.sent_estimate_to_user')){ ?>
                   <?=  MyView::checkbox_tag("estimate_ids[".$count."]", ["id" => "estimate_ids_".$count, "value" => $e->uuid, "class" => "form-control",]) ?>
                 <? } ?>
                 <label role="button" for="estimate_ids_<?= $count ?>"></label>
@@ -421,7 +421,7 @@
             <dl class="contacts_list_area">
               <dt>
                 <div class="checkbox-big">
-                  <?if($contact->getStatusColor() == 'warning'){ ?>
+                  <?if($e->status ==\Config::get('models.estimate.status.sent_estimate_to_user')){ ?>
                     <?=  MyView::checkbox_tag("estimate_ids[".$count."]", ["id" => "estimate_ids_".$count, "value" => $e->uuid, "class" => "form-control",]) ?>
                   <? } ?>
                   <label role="button" for="estimate_ids_<?= $count ?>"></label>
@@ -765,19 +765,22 @@
                $faq_count = 0;
             ?>
             <? foreach ($faq as $f) { ?>
-                <?= "<dt id=\"heading-".$faq_count."\"  role=\"button\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse-".$faq_count."\" aria-expanded=\"true\" aria-controls=\"collapse-".$faq_count."0\" class=\"collapsed\">" ?>
-                <?= "  <h3>" ?>
-                <?= "    <a class=\"q\">" ?><?= $f["q"] ?><?= "</a>" ?>
-                <?= "  </h3>" ?>
-                <?= "</dt>" ?>
-                <?= "<dd id=\"collapse-".$faq_count."\" class=\"panel-collapse collapse\" role=\"tabpanel\" aria-labelledby=\"heading-".$faq_count."\">" ?>
-                <?= "  <h4 class=\"a\">" ?><?= $f["a"] ?><?= "</h4>" ?>
+              <dt id="heading-{$faq_count}"  role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{$faq_count}" aria-expanded="true" aria-controls="collapse-{$faq_count}">
+                <h3>
+                  <a class="q">
+                    <?= $f["q"] ?>
+                  </a>
+                </h3>
+              </dt>
+              <dd id="collapse-{$faq_count}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-{$faq_count}">
+                  <h4 class="a"><?= $f["a"] ?></h4>
                     <? foreach ($f["answer"] as $a) { ?>
                         <p><?= $a ?></p>
                     <? } ?>
-                <?= "</dd>" ?>
-                <? $faq_count++; ?>
+              </dd>
+              <? $faq_count++; ?>
             <? } ?>
+
           </dl>
         </div>
       </div>
