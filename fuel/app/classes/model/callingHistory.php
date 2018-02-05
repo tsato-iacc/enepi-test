@@ -28,12 +28,11 @@ class Model_CallingHistory extends \Orm\Model
 
     protected static $_belongs_to = [
         'contact',
-        'admin_user',
+        'admin_user' => [
+            'model_to' => 'Model_AdminUser',
+            'key_from' => 'admin_user_id',
+        ],
     ];
-
-    // protected static $_has_many = [
-    //     'estimates',
-    // ];
     
     /**
      * View functions

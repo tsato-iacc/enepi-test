@@ -101,7 +101,7 @@ use JpPrefecture\JpPrefecture;
   </tr>
   <tr>
     <th>燃料調整費</th>
-    <td><?= $estimate->basic_price? number_format($estimate->fuel_adjustment_cost).'円' : ''; ?>/m3</td>
+    <td><?= $estimate->fuel_adjustment_cost? number_format($estimate->fuel_adjustment_cost).'円' : ''; ?>/m3</td>
   </tr>
   <tr>
     <th>従量単価</th>
@@ -128,6 +128,7 @@ use JpPrefecture\JpPrefecture;
     <td><?= $estimate->other_set_plan; ?></td>
   </tr>
 </table>
+
 <div class="d-flex justify-content-around mb-4">
   <a class="btn btn-secondary" href="<?= \Uri::create("lpgas/contacts/{$estimate->contact->id}?".http_build_query(['pin' => $estimate->contact->pin, 'token' => $estimate->contact->token])); ?>" role="button">提示画面</a>
   <!-- CHECK ME -->
@@ -141,6 +142,16 @@ use JpPrefecture\JpPrefecture;
     <div><a href="#" class="btn-cancel btn btn-danger" role="button" data-estimate-id="<?= $estimate->id; ?>" data-contact-name="<?= $estimate->contact->name; ?>" data-contact-pref="<?= JpPrefecture::findByCode($estimate->contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $estimate->contact->tel; ?>">キャンセル</a></div>
   <?php endif; ?>
 </div>
+
+<?php if ($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_iacc')): ?>
+<hr>
+<h2>見積り送信</h2>
+<?= \Form::open(); ?>
+  <?= \Form::csrf(); ?>
+  <?= render('admin/_form_prices', ['price_rule' => $estimate]); ?>
+<?= Form::close(); ?>
+<hr>
+<?php endif; ?>
 
 <h2>ステータス更新履歴</h2>
 <table class="table table-sm table-hover mt-4 small-row">
@@ -373,3 +384,7 @@ use JpPrefecture\JpPrefecture;
 <!-- MODAL PRESENT START -->
 <?= render('admin/_modal_present'); ?>
 <!-- MODAL PRESENT END -->
+
+<!-- TEMPLATE PRICES START -->
+<?= render('admin/_form_prices_template'); ?>
+<!-- TEMPLATE PRICES END -->

@@ -1,222 +1,270 @@
-<?= search_form_for [:admin, @q] { |f| ?>
-  <div class="form-group">
-    <div class="form-inline">
-      <?= f.input :name_eq, required: false, label: "名前が等しい" ?>
-      <?= f.input :name_cont, required: false, label: "名前を含む" ?>
-      <?= f.input :tel_eq, required: false, label: "電話番号が等しい" ?>
-      <?= f.input :email_eq, required: false, label: "メールアドレスが等しい" ?>
+<?php
+use JpPrefecture\JpPrefecture;
+?>
+
+<!-- SEARCH FORM START -->
+<?= \Form::open(['method' => 'GET', 'class' => 'mb-4']); ?>
+  <div class="form-group row mb-0">
+    <div class="col-2">
+      <div class="form-group<?= $val->error('name_equal') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="name_equal"><h6>名前が等しい</h6></label>
+        <input type="text" name="name_equal" value="<?= $val->input('name_equal', '') ?>" class="form-control" id="name_equal">
+      </div>
     </div>
-  </div>
-  <div class="form-group">
-    <div class="form-inline">
-      <?= f.input :prefecture_code_eq, collection: JpPrefecture::Prefecture.all.map { |p| [p.name, p.code] }, required: false, label: "都道府県" ?>
-      <?= f.input :new_prefecture_code_eq, collection: JpPrefecture::Prefecture.all.map { |p| [p.name, p.code] }, required: false, label: "都道府県(開設先)" ?>
-      <?= f.input :house_kind_eq, collection: ::Lpgas::Contact.as_enum_collection_i18n_for_ransack(:house_kind), required: false, label: "物件種別" ?>
-      <?= f.input :ownership_kind_eq, collection: ::Lpgas::Contact.as_enum_collection_i18n_for_ransack(:ownership_kind), required: false, label: "所有種別" ?>
-      <?= f.input :status_eq, collection: ::Lpgas::Contact.as_enum_collection_i18n_for_ransack(:status), required: false, label: "ステータス" ?>
-      <?= f.input :user_status_eq, collection: ::Lpgas::Contact.as_enum_collection_i18n_for_ransack(:user_status), required: false, label: "小ステータス" ?>
-      <div class="form-group">
-        <label class="control-label">見積り進行状況</label>
-        <?= select_tag :estimate_progress, options_for_select(['', '連絡済み', '訪問済み', '委任状獲得済み', '工事予定', '工事完了'], params[:estimate_progress]), ["class" => 'form-control' ?>
+    <div class="col-2">
+      <div class="form-group<?= $val->error('name_like') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="name_like"><h6>名前を含む</h6></label>
+        <input type="text" name="name_like" value="<?= $val->input('name_like', '') ?>" class="form-control" id="name_like">
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="form-group<?= $val->error('tel_equal') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="tel_equal"><h6>電話番号が等しい</h6></label>
+        <input type="text" name="tel_equal" value="<?= $val->input('tel_equal', '') ?>" class="form-control" id="tel_equal">
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form-group<?= $val->error('email_equal') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="email_equal"><h6>メールアドレスが等しい</h6></label>
+        <input type="text" name="email_equal" value="<?= $val->input('email_equal', '') ?>" class="form-control" id="email_equal">
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form-group<?= $val->error('house_kind') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="house_kind"><h6>物件種別</h6></label>
+        <?= Form::select('house_kind', $val->input('house_kind', ''), ['' => 'none'] + __('admin.contact.house_kind'), ['class' => 'form-control', 'id' => 'house_kind']); ?>
       </div>
     </div>
   </div>
 
-  <div class="form-group">
-    <div class="form-inline">
-      <div class="form-group">
-        <label>問い合わせ日</label>
-        <?= text_field_tag :created_at_gte, params[:created_at_gte], ["class" => 'datepicker form-control left-side' ?> ~
-        <?= text_field_tag :created_at_lte, params[:created_at_lte], ["class" => 'datepicker form-control' ?>
+  <div class="form-group row mb-0">
+    <div class="col-2">
+      <div class="form-group<?= $val->error('pref_code') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="pref_code"><h6>都道府県</h6></label>
+        <?= Form::select('pref_code', $val->input('pref_code', ''), ['' => 'none'] + JpPrefecture::allKanjiAndCode(), ['class' => 'form-control', 'id' => 'pref_code']); ?>
       </div>
-      <div class="form-group">
-        <label>紹介日</label>
-        <div class="form-inline">
-          <?= text_field_tag :estimate_at_gte, params[:estimate_at_gte], ["class" => 'datepicker form-control left-side' ?> ~
-          <?= text_field_tag :estimate_at_lte, params[:estimate_at_lte], ["class" => 'datepicker form-control' ?>
-        </div>
+    </div>
+    <div class="col-2">
+      <div class="form-group<?= $val->error('new_pref_code') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="new_pref_code"><h6>都道府県(開設先)</h6></label>
+        <?= Form::select('new_pref_code', $val->input('new_pref_code', ''), ['' => 'none'] + JpPrefecture::allKanjiAndCode(), ['class' => 'form-control', 'id' => 'new_pref_code']); ?>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form-group<?= $val->error('status') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="status"><h6>ステータスが等しい</h6></label>
+        <?= Form::select('status', $val->input('status', ''), ['' => 'none'] + __('admin.contact.status'), ['class' => 'form-control', 'id' => 'status']); ?>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="form-group<?= $val->error('user_status') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="user_status"><h6>小ステータス</h6></label>
+        <?= Form::select('user_status', $val->input('user_status', ''), ['' => 'none'] + __('admin.contact.user_status'), ['class' => 'form-control', 'id' => 'user_status']); ?>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="form-group<?= $val->error('estimate_progress') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="estimate_progress"><h6>見積り進行状況</h6></label>
+        <?= Form::select('estimate_progress', $val->input('estimate_progress', ''), ['' => 'none'] + __('admin.estimate.progress'), ['class' => 'form-control', 'id' => 'estimate_progress']); ?>
       </div>
     </div>
   </div>
 
-  <?= f.button :submit ?>
-<? } ?>
-<div class="form-group">
-  <div class="btn-group" role="group" aria-label="...">
-    <span class="btn btn-default">検索結果: <?= @contacts.total_count ?>件</span>
-    <? if @having_browsing_rights.present? ?>
-      <? if @contacts.total_count < 1000 ?>
-        <?= MyView::link_to("現在の検索条件でCSVをダウンロード", url_for(params.merge(format: :csv)), ["class" => 'btn btn-default' ?>
-      <? else ?>
-        <?= MyView::link_to("現在の検索条件でCSVをダウンロード", 'javascript:void(0)', ["class" => 'btn btn-default', disabled: true ?>
-      <? } ?>
-    <? } ?>
-    <? if @having_browsing_rights.present? ?>
-      <?= MyView::link_to("現在の検索条件で「対応履歴」CSVをダウンロード", 'javascript:void(0)', ["class" => 'btn btn-default js-download-calling-history-csv' ?>
-    <? } ?>
+  <div class="form-group row mb-0">
+    <div class="col-2">
+      <div class="form-group<?= $val->error('ownership_kind') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="ownership_kind"><h6>所有種別</h6></label>
+        <?= Form::select('ownership_kind', $val->input('ownership_kind', ''), ['' => 'none'] + __('admin.contact.ownership_kind'), ['class' => 'form-control', 'id' => 'ownership_kind']); ?>
+      </div>
+    </div>
+    <div class="col-2 pr-0">
+      <div class="form-group<?= $val->error('introduced_from') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="introduced_from"><h6>紹介日</h6></label>
+        <input type="text" name="introduced_from" value="<?= $val->input('introduced_from', '') ?>" class="form-control datepicker" id="introduced_from">
+      </div>
+    </div>
+    <div class="px-1 text-center">
+      <div class="form-group">
+        <label class="form-control-label"><h6>&nbsp;</h6></label>
+        <p class="form-control-static">~</p>
+      </div>
+    </div>
+    <div class="col-2 pl-0">
+      <div class="form-group<?= $val->error('introduced_to') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="introduced_to"><h6>&nbsp;</h6></label>
+        <input type="text" name="introduced_to" value="<?= $val->input('introduced_to', '') ?>" class="form-control datepicker" id="introduced_to">
+      </div>
+    </div>
+
+    <div class="col-2 pr-0">
+      <div class="form-group<?= $val->error('created_from') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="created_from"><h6>問い合わせ日</h6></label>
+        <input type="text" name="created_from" value="<?= $val->input('created_from', '') ?>" class="form-control datepicker" id="created_from">
+      </div>
+    </div>
+    <div class="px-1 text-center">
+      <div class="form-group">
+        <label class="form-control-label"><h6>&nbsp;</h6></label>
+        <p class="form-control-static">~</p>
+      </div>
+    </div>
+    <div class="col-2 pl-0">
+      <div class="form-group<?= $val->error('created_to') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="created_to"><h6>&nbsp;</h6></label>
+        <input type="text" name="created_to" value="<?= $val->input('created_to', '') ?>" class="form-control datepicker" id="created_to">
+      </div>
+    </div>
   </div>
+
+  <button type="submit" class="btn btn-secondary">検索</button>
+<?= Form::close(); ?>
+<!-- SEARCH FORM END -->
+
+<!-- FIX ME -->
+<div class="btn-group mb-4" role="group" aria-label="CSV">
+  <button type="button" class="btn btn-secondary" disabled="disabled">検索結果: 219件</button>
+  <button type="button" class="btn btn-secondary" disabled="disabled">現在の検索条件でCSVをダウンロード</button>
+  <button type="button" class="btn btn-secondary" disabled="disabled">変更履歴をCSVでダウンロード</button>
 </div>
 
-<script>
-  document.querySelector('.js-download-calling-history-csv').addEventListener('click', function() {
-    swal({title: "csv を作成中です", text: "このまましばらくお待ち下さい。", showConfirmButton: false})
-
-    var parser = document.createElement('a');
-    parser.href = location.href;
-    parser.search = parser.search ? parser.search + "&calling_history_csv=1" : "?calling_history_csv=1";
-    $.ajax({
-      type: 'GET',
-      url: parser.href,
-      dataType: 'json'
-    })
-    .done(function(data) {
-      var i = -1;
-      monitor = function() {
-        $.ajax({
-          type: 'HEAD',
-          url: data.head_url
-        })
-        .done(function() {
-          if (i !== -1) {
-            clearInterval(i)
-          }
-//          swal.close()
-
-          swal({
-            title: "csv 作成しました",
-            html: true,
-            text: "パスワードは <br><pre>"+data.password+"</pre> です。"
-          }, function() {
-            window.open(data.get_url);
-          })
-        })
-        .fail(function(err) {
-          console.log(err)
-          if (err.status === 404) {
-            // waiting uploading
-          } else {
-            alert('エラーが発生しました');
-            clearInterval(i)
-          }
-        })
-      }
-      i = setInterval(monitor, 3000)
-      monitor()
-      console.log(i)
-    })
-    .fail(function() {
-      alert('エラーが発生しました');
-    });
-
-  })
-</script>
-
-<table class="table table-condensed table-striped table-hover">
+<table class="table table-sm table-hover small-row">
   <thead>
     <tr>
+      <th>
+        <div><i class="fa fa-hashtag" aria-hidden="true"></i> ID</div>
+        <div>経由元</div>
+        <div>価格</div>
+      </th>
+      <th>
+        <div><i class="fa fa-user-circle-o" aria-hidden="true"></i> お名前</div>
+        <div><i class="fa fa-phone" aria-hidden="true"></i> 電話番号</div>
+        <div><i class="fa fa-clock-o" aria-hidden="true"></i> 問い合わせ日時</div>
+      </th>
+      <th>
+        <div><i class="fa fa-home" aria-hidden="true"></i> 種別</div>
+        <div><i class="fa fa-globe" aria-hidden="true"></i> 都道府県</div>
+        <div><i class="fa fa-globe" aria-hidden="true"></i> 開設先都道府県</div>
+      </th>
+      <th>
+        <div>自動見積もり</div>
+        <div>提示画面閲覧済み</div>
+        <div><i class="fa fa-tachometer" aria-hidden="true"></i> 見積もり数</div>
+      </th>
+      <th>問い合わせ<br>ステータス</th>
+      <th>見積もり<br>進行状況</th>
+      <th>管理者メモ</th>
+      <th>対応履歴</th>
       <th></th>
-      <th>ID</th>
-      <th>価格</th>
-      <th>お名前</th>
-      <th>問い合わせ<br>日時</th>
-      <th>経由元</th>
-      <th>電話番号</th>
-      <th>
-        <ul>
-          <li>都道府県</li>
-        </ul>
-      </th>
-      <th>開設先<br>都道府県</th>
-      <th>自動<br>見積もり</th>
-      <th>提示画面<br>閲覧済み</th>
-      <th>見積もり数</th>
-      <th>問い合わせ</th>
-      <th>
-        <ul>
-          <li>管理者メモ</li>
-          <li>対応履歴</li>
-        </ul>
-      </th>
     </tr>
   </thead>
   <tbody>
-    <? @contacts.each { |c| ?>
-      <tr>
+    <?php foreach ($contacts as $contact): ?>
+      <tr<?= $contact->deleted_at ? ' class="table-danger"' : ''; ?>>
         <td>
-          <? if c.callings.reject { |c| c.archived? }.size > 0 ?>
-            <i class="fa fa-phone"></i>
-          <? } ?>
-        </td>
-        <td><?= c.id ?></td>
-        <td><?= boolean_label c.from_kakaku? ?></td>
-        <td style="width: 6em"><?= c.name ?></td>
-        <td style="width: 4em"><?= format_datetime! c.created_at ?></td>
-        <td style="width: 4em"><?= c.pr_tracking_parameter.try!(:display_name) || "無し" ?></td>
-        <td><?= c.tel ?></td>
-        <td style="width: 4em">
-          <ul>
-            <? if c.prefecture.present? ?>
-              <li><?= c.prefecture.name ?></li>
-            <? else ?>
-              <li></li>
-            <? } ?>
-            <li>種別(<?= c.estimate_kind ? c.enum_value_i18n(:estimate_kind).gsub(/の見積もり$/, "") : "" ?>)</li>
-          </ul>
-        </td>
-        <? if c.new_prefecture_name.present? ?>
-          <td><?= c.new_prefecture_name ?></td>
-        <? else ?>
-          <td></td>
-        <? } ?>
-        <td><? if c.sent_auto_estimate_req ?>◯<? else ?>×<? } ?></td>
-        <td><?= c.enum_value_i18n(:is_seen) ?></td>
-        <td style="width: 6em">
-          <ul>
-            <li>送客(<?= c.estimates.size ?>件)</li>
-            <li>集合住宅(<?= boolean_label c.apartment_owner? ?>)</li>
-          </ul>
-        </td>
-        <td>
-          <ul>
-            <li>
-              <span class="status <?= c.status ?>">
-                <?= c.enum_value_i18n(:status) ?>
-                <? unless c.no_action? ?>
-                  <br>(<?= c.enum_value_i18n(:user_status) ?>)
-                <? } ?>
-              </span>
-
-              <? if c.estimate_progress.present? ?>
-                <? if c.estimate_progress == '未連絡' ?>
-                  <span class="status pending"><?= c.estimate_progress ?></span>
-                <? else ?>
-                  <span class="status contracted"><?= c.estimate_progress ?></span>
-                <? } ?>
-                <br>
-              <? } ?>
-              <? unless c.status_reason_unknown? ?>
-                理由: <?= c.enum_value_i18n(:status_reason) ?>
-              <? } ?>
-            </li>
-            <li><?= MyView::link_to('編集', edit_admin_lpgas_contact_path(c) ?></li>
-            <li><?= MyView::link_to('提示画面', lpgas_contact_path(c, token: c.token, pin: c.pin), target: "_blank" ?></li>
-            <li><?= lpgas_contact_cancel_link(c) ?></li>
-            <? if c.callings.reject { |c| c.archived? }.size == 0 ?>
-              <li><?= MyView::link_to('架電リストに追加', admin_lpgas_contact_calling_path(c), ["class" => 'btn btn-default btn-xs', ["method" => 'post' ?></li>
-            <? } ?>
-          </ui>
-        </td>
-        <td>
-          <div data-scroll-y-container="1" style="margin-bottom: 0.4em">
-            <?= newline_to_br c.admin_memo ?>
+          <div><i class="fa fa-hashtag" aria-hidden="true"></i> <?= $contact->id; ?></div>
+          <div><?= $contact->tracking ? $contact->tracking->display_name : '無し'; ?></div>
+          <div>
+            <?php if ($contact->from_kakaku): ?>
+              <span class="badge badge-success">TRUE</span>
+            <?php else: ?>
+              <span class="badge badge-default">FALSE</span>
+            <?php endif; ?>
           </div>
-          <div data-scroll-y-container="1">
-            <?= newline_to_br c.calling_histories.sorted.map(&:one_line_string).take(20).join("\n") ?>
+        </td>
+        <td>
+          <div><i class="fa fa-user-circle-o" aria-hidden="true"></i> <?= $contact->name; ?></div>
+          <div class="text-primary"><i class="fa fa-phone" aria-hidden="true"></i> <?= $contact->tel; ?></div>
+          <div><i class="fa fa-clock-o" aria-hidden="true"></i> <?= \Helper\TimezoneConverter::convertFromString($contact->created_at, 'admin_table'); ?></div>
+        </td>
+        <td>
+          <div class="text-success"><i class="fa fa-home" aria-hidden="true"></i>
+            <?php if ($contact->estimate_kind == \Config::get('models.contact.estimate_kind.new_contract')): ?>
+              新規開設
+            <?php else: ?>
+              現在住居
+            <?php endif; ?>
           </div>
+          <div><i class="fa fa-globe" aria-hidden="true"></i> <?= $contact->prefecture_code ? JpPrefecture::findByCode($contact->prefecture_code)->nameKanji : '-'; ?></div>
+          <div><i class="fa fa-globe" aria-hidden="true"></i> <?= $contact->new_prefecture_code ? JpPrefecture::findByCode($contact->new_prefecture_code)->nameKanji : '-'; ?></div>
+        </td>
+        <td>
+          <div class="d-flex justify-content-around align-items-center">
+            <div><i class="fa <?= $contact->sent_auto_estimate_req ? 'fa-circle-o' : 'fa-times' ?>" aria-hidden="true"></i></div>
+            <div><i class="fa <?= $contact->is_seen == \Config::get('models.contact.is_seen.seen') ? 'fa-circle-o' : 'fa-times' ?>" aria-hidden="true"></i></div>
+            <div><i class="fa fa-tachometer" aria-hidden="true"></i> <?= count($contact->estimates); ?></div>
+          </div>
+          <div>&nbsp;</div>
+          <div>集合住宅
+            <?php if ($contact->apartment_owner): ?>
+              <span class="badge badge-success">TRUE</span>
+            <?php else: ?>
+              <span class="badge badge-default">FALSE</span>
+            <?php endif; ?>
+          </div>
+        </td>
+        <td class="align-middle">
+          <div class="card card-outline-<?= \Config::get('views.contact.status.'.$contact->status); ?> text-center">
+            <div class="card-block p-0">
+              <blockquote class="card-blockquote">
+                <?= __('admin.contact.status.'.\Config::get('views.contact.status.'.$contact->status)) ?>
+                <?php if ($contact->user_status != \Config::get('models.contact.user_status.no_action')): ?>
+                  <br>(<?= __('admin.contact.user_status.'.\Config::get('views.contact.user_status.'.$contact->user_status)); ?>)
+                <?php endif; ?>
+              </blockquote>
+            </div>
+          </div>
+          <?php $status_reason = $contact->status_reason ? \Helper\CancelReasons::getNameByValue($contact->status_reason) : ''; ?>
+          <?php if ($status_reason): ?>
+            <div class="card card-outline-cancelled text-center mt-2" data-toggle="tooltip" data-placement="top" title="<?= $status_reason; ?>">
+              <div class="card-block p-0">
+                <blockquote class="card-blockquote">理由 <i class="fa fa-commenting" aria-hidden="true"></i></blockquote>
+              </div>
+            </div>
+          <?php endif; ?>
+        </td>
+        <td class="align-middle">
+          <?php if ($progress = $contact->getEstimateProgress()): ?>
+            <div class="card card-outline-<?= $progress == 'unknown' ? 'danger' : 'success'; ?> text-center">
+              <div class="card-block p-0">
+                <blockquote class="card-blockquote">
+                  <?= __('admin.estimate.progress.'.$progress); ?>
+                </blockquote>
+              </div>
+            </div>
+          <?php endif; ?>
+        </td>
+        <td class="align-middle">
+          <?php if ($contact->admin_memo): ?>
+            <div class="note-box" data-container="body" data-toggle="popover" data-placement="top" data-content="<?= $contact->admin_memo; ?>">
+              <?= \Str::truncate($contact->admin_memo, 70); ?>
+            </div>
+          <?php endif; ?>
+        </td>
+        <td class="align-middle">
+          <?php if ($histories = $contact->getCallingHistories()): ?>
+            <?php $output = []; ?>
+            <?php foreach ($histories as $h): ?>
+              <?php $output[] = $h->oneLineString(); ?>
+            <?php endforeach; ?>
+            <div class="note-box" data-container="body" data-toggle="popover" data-placement="top" data-content="<?= implode("\n", $output); ?>">
+              <?= implode('<br>', $output); ?>
+            </div>
+          <?php endif; ?>
+        </td>
+        <td class="align-middle p-0">
+          <div><a href="<?= \Uri::create('admin/contacts/:id/edit', ['id' => $contact->id]); ?>" class="btn btn-secondary btn-sm px-1 py-0 w-100" role="button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 編集</a></div>
+          <div><a target="_blank" href="<?= \Uri::create('lpgas/contacts/:id?'.http_build_query(['pin' => $contact->pin, 'token' => $contact->token]), ['id' => $contact->id]); ?>" class="btn btn-secondary btn-sm px-1 py-0 w-100" role="button"><i class="fa fa-external-link" aria-hidden="true"></i> 提示画面</a></div>
+          <?php if (!$contact->isCancelled()): ?>
+            <div><a href="#" class="btn-cancel btn btn-danger btn-sm px-1 py-0 w-100" role="button" data-contact-id="<?= $contact->id; ?>" data-contact-name="<?= $contact->name; ?>" data-contact-pref="<?= JpPrefecture::findByCode($contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $contact->tel; ?>"><i class="fa fa-fire" aria-hidden="true"></i> キャンセル</a></div>
+          <?php endif; ?>
         </td>
       </tr>
-    <? } ?>
+    <?php endforeach; ?>
   </tbody>
 </table>
 
-<?= paginate @contacts ?>
+<!-- MODAL CANCEL START -->
+<?= render('admin/_modal_cancel'); ?>
+<!-- MODAL CANCEL END -->
+
+<?= \Pagination::instance('contacts')->render(); ?>

@@ -1,286 +1,163 @@
-<style>
-  textarea:invalid {
-    border: 1px solid #db524b;
-  }
-</style>
-
-<? if @contact.original_contact ?>
-  <p class="alert-paragraph">
-    <?= MyView::link_to("問い合わせID=#{@contact.original_contact.id} (#{@contact.enum_value_i18n(:status)})", admin_lpgas_contact_path(@contact.original_contact) ?> の再入力CVです。
-  </p>
-<? } ?>
-
-<? if @contact.deleted_at ?>
-  <p class="alert-paragraph">
-    <?= format_date @contact.deleted_at ?> に個人情報削除済み
-  </p>
-<? } ?>
-
-<? if @contact.lat.zero? && @contact.lng.zero? ?>
-  <p class="alert-paragraph">
-    位置情報が正しく取得できていません。
-  </p>
-<? } ?>
-<? if smart_phone? ?>
-  <table class="table table-condensed table-striped table-hover">
-    <tr>
-      <th>ID</th>
-      <td><?= @contact.id ?></td>
-    </tr>
-    <tr>
-      <th>価格</th>
-      <td><?= boolean_label @contact.from_kakaku? ?></td>
-    </tr>
-    <tr>
-      <th>集合住宅オーナー</th>
-      <td><?= boolean_label @contact.apartment_owner? ?></td>
-    </tr>
-    <tr>
-      <th>自動見積もり</th>
-      <td><? if @contact.sent_auto_estimate_req ?>◯<? else ?>×<? } ?></td>
-    </tr>
-    <tr>
-      <th>提示画面閲覧済み</th>
-      <td><?= @contact.enum_value_i18n(:is_seen) ?></td>
-    </tr>
-    <tr>
-      <th>契約選択</th>
-      <td><?= @contact.estimate_kind ? @contact.enum_value_i18n(:estimate_kind).gsub(/の見積もり$/, "") : "" ?></td>
-    </tr>
-    <tr>
-      <th>端末</th>
-      <td><?= @contact.enum_value_i18n(:terminal) ?></td>
-    </tr>
-    <tr>
-      <th>経由元</th>
-      <td><?= @contact.pr_tracking_parameter.try!(:display_name) || "無し" ?></td>
-    </tr>
-    <tr>
-      <th>推定基本料金</th>
-      <td><?= number_to_currency @contact.basic_price ?></td>
-    </tr>
-    <tr>
-      <th>推定単価</th>
-      <td><?= number_to_currency @contact.unit_price ?></td>
-    </tr>
-    <tr>
-      <th>CV時に紹介前になった理由</th>
-      <td><?= @contact.reason_not_auto_sendable ?></td>
-    </tr>
-  </table>
-<? else ?>
-  <table class="table" style="margin-bottom: 0;">
-    <tr>
-      <td style="padding: 0;">
-        <table class="table table-condensed table-striped table-hover">
-          <tr>
-            <th>ID</th>
-            <td><?= @contact.id ?></td>
-          </tr>
-          <tr>
-            <th>価格</th>
-            <td><?= boolean_label @contact.from_kakaku? ?></td>
-          </tr>
-          <tr>
-            <th>集合住宅オーナー</th>
-            <td><?= boolean_label @contact.apartment_owner? ?></td>
-          </tr>
-          <tr>
-            <th>自動見積もり</th>
-            <td><? if @contact.sent_auto_estimate_req ?>◯<? else ?>×<? } ?></td>
-          </tr>
-          <tr>
-            <th>提示画面閲覧済み</th>
-            <td><?= @contact.enum_value_i18n(:is_seen) ?></td>
-          </tr>
-          <tr>
-            <th>ステータス</th>
-            <td><?= @contact.enum_value_i18n(:status) ?></td>
-          </tr>
-          <tr>
-            <th>小ステータス</th>
-            <td><?= @contact.enum_value_i18n(:user_status) ?></td>
-          </tr>
-        </table>
-      </td>
-      <td style="padding: 0;">
-        <table class="table table-condensed table-striped table-hover">
-          <tr>
-            <th>端末</th>
-            <td><?= @contact.enum_value_i18n(:terminal) ?></td>
-          </tr>
-          <tr>
-            <th>経由元</th>
-            <td><?= @contact.pr_tracking_parameter.try!(:display_name) || "無し" ?></td>
-          </tr>
-          <tr>
-            <th>推定基本料金</th>
-            <td><?= number_to_currency @contact.basic_price ?></td>
-          </tr>
-          <tr>
-            <th>推定単価</th>
-            <td><?= number_to_currency @contact.unit_price ?></td>
-          </tr>
-          <tr>
-            <th>契約選択</th>
-            <td><?= @contact.estimate_kind ? @contact.enum_value_i18n(:estimate_kind).gsub(/の見積もり$/, "") : "" ?></td>
-          </tr>
-          <tr>
-            <th>キャンセル理由</th>
-            <td><?= @contact.enum_value_i18n(:status_reason) ?></td>
-          </tr>
-          <tr>
-            <th>見積り進行状況</th>
-            <td><?= @contact.estimate_progress ?></td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-    <table style="margin-bottom: 20px;">
-      <tr>
-        <th>CV時に紹介前になった理由</th>
-        <td><?= @contact.reason_not_auto_sendable ?></td>
-      </tr>
-    </table>
-  </table>
-<? } ?>
-
-<? disabled = @contact.deleted_at ?>
-
-<?= simple_form_for [:admin, @contact] { |f| ?>
-  <h3>お客様情報</h3>
-
-  <div class="form-group">
-    <div class="form-inline">
-      <?= f.input :name, input_html: {disabled: disabled} ?>
-      <?= f.input :furigana, input_html: {disabled: disabled} ?>
-      <?= f.input :tel, input_html: {disabled: disabled} ?>
-      <?= f.input :email, input_html: {disabled: disabled} ?>
+<?php
+use JpPrefecture\JpPrefecture;
+?>
+<?php if ($contact->deleted_at): ?>
+  <div class="card card-inverse card-danger text-center">
+    <div class="card-block">
+      <blockquote class="card-blockquote"><?= Helper\TimezoneConverter::convertFromString($contact->deleted_at, 'admin_datepicker'); ?> に個人情報削除済み</blockquote>
     </div>
   </div>
+<?php endif; ?>
 
-  <div class="form-group">
-    <div class="form-inline">
-      <?= f.input :zip_code, input_html: {disabled: disabled} ?>
-      <?= f.input :prefecture_code, collection: JpPrefecture::Prefecture.all, value_["method" => :code ?>
-      <?= f.input :address, input_html: {disabled: disabled} ?>
-      <?= f.input :address2, input_html: {disabled: disabled} ?>
+<?php if ($contact->original_contact_id): ?>
+  <?php $original_contact = \Model_Contact::find($contact->original_contact_id); ?>
+  <div class="card card-outline-warning mb-3 text-center">
+    <div class="card-block">
+      <blockquote class="card-blockquote">
+        <i class="fa fa-info-circle" aria-hidden="true"></i> 問い合わせID: <?= $original_contact->id; ?> (<?= __('admin.contact.status.'.\Config::get('views.contact.status.'.$original_contact->status)); ?>)の再入力CVです&nbsp;&nbsp;<a href="<?= \Uri::create('admin/contacts/:id/edit', ['id' => $original_contact->id]); ?>" class="btn btn-secondary btn-sm">詳細</a>
+      </blockquote>
     </div>
   </div>
+<?php endif; ?>
 
-  <h3>開設先の情報</h3>
-
-  <div class="form-group">
-    <div class="form-inline">
-      <?= f.input :house_kind ?>
-      <?= f.input :ownership_kind ?>
-      <?= f.input :house_age, as: :unit, input_html: {unit: "年"} ?>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <div class="form-inline">
-      <? if @contact.new_contract? || @contact.apartment_owner? ?>
-        <?= f.input :new_zip_code, input_html: {disabled: disabled} ?>
-        <?= f.input :new_prefecture_code, collection: JpPrefecture::Prefecture.all, value_["method" => :code ?>
-        <?= f.input :new_address, input_html: {disabled: disabled} ?>
-        <?= f.input :new_address2, input_html: {disabled: disabled} ?>
-        <?= f.input :moving_scheduled_date, as: :string, input_html: {["class" => 'datepicker'} ?>
-      <? else ?>
-        <p class="success-paragraph">開設先と現住所は同じ</p>
-      <? } ?>
-    </div>
-  </div>
-
-  <? if @contact.apartment_owner ?>
-    <?= f.input :number_of_rooms, as: :unit, input_html: {unit: "部屋"} ?>
-    <?= f.input :number_of_active_rooms, as: :unit, input_html: {unit: "部屋"} ?>
-    <?= f.input :estate_management_company_name ?>
-  <? } ?>
-
-  <h3>現在の契約</h3>
-
-  <div class="form-group">
-    <div class="form-inline">
-      <?= f.input :gas_contracted_shop_name ?>
-      <?= f.input :gas_used_years, label: '契約年数', as: :unit, input_html: {unit: "年"} ?>
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="form-inline">
-      <?= f.input :gas_meter_checked_month, as: :unit, input_html: {unit: "月"} ?>
-      <?= f.input :gas_used_amount, as: :unit, input_html: {unit: :m3, field_type: 'text'} ?>
-      <?= f.input :gas_latest_billing_amount, as: :currency ?>
-    </div>
-  </div>
-
-  <h3>ご希望条件</h3>
-
-  <div class="form-group">
-    <div class="form-inline">
-      <?= f.input :preferred_contact_time_between ?>
-      <?= f.input :priority_degree ?>
-      <?= f.input :desired_option ?>
-    </div>
-  </div>
-
-  <h3>使用中のガス機器</h3>
-  <div class="form-group">
-    <div class="form-inline">
-      <?= f.input :using_cooking_stove ?>
-      <?= f.input :using_bath_heater_with_gas_hot_water_supply ?>
-      <?= f.input :using_other_gas_machine ?>
-    </div>
-  </div>
-
-  <?= f.input :body ?>
-  <?= f.input :admin_memo, as: :text ?>
-
-  <div class="form-group">
-    <div class="form-inline">
-      <div class="form-group">
-        <label class="enum control-label">ステータス</label>
-        <div class="form-control"><?= @contact.enum_value_i18n(:status) ?></div>
+<table class="table table-sm table-hover mt-4 th-left small-row">
+  <tr>
+    <th>ID</th>
+    <td><?= $contact->id; ?></td>
+    <th>ID</th>
+    <td><?= __('admin.contact.terminal_types.'.$contact->terminal); ?></td>
+  </tr>
+  <tr>
+    <th>価格</th>
+    <td>
+      <?php if ($contact->from_kakaku): ?>
+        <span class="badge badge-success">TRUE</span>
+      <?php else: ?>
+        <span class="badge badge-default">FALSE</span>
+      <?php endif; ?>
+    </td>
+    <th>経由元</th>
+    <td><?= $contact->tracking ? $contact->tracking->display_name : '無し'; ?></td>
+  </tr>
+  <tr>
+    <th>集合住宅オーナー</th>
+    <td>
+      <?php if ($contact->apartment_owner): ?>
+        <span class="badge badge-success">TRUE</span>
+      <?php else: ?>
+        <span class="badge badge-default">FALSE</span>
+      <?php endif; ?>
+    </td>
+    <th>推定基本料金</th>
+    <td><?= number_format($contact->basicPrice()).'円'; ?></td>
+  </tr>
+  <tr>
+    <th>自動見積もり</th>
+    <td>
+      <i class="fa <?= $contact->sent_auto_estimate_req ? 'fa-circle-o' : 'fa-times' ?>" aria-hidden="true"></i>
+    </td>
+    <th>推定単価</th>
+    <td><?= number_format($contact->unitPrice()).'円'; ?></td>
+  </tr>
+  <tr>
+    <th>提示画面閲覧済み</th>
+    <td>
+      <i class="fa <?= $contact->is_seen == \Config::get('models.contact.is_seen.seen') ? 'fa-circle-o' : 'fa-times' ?>" aria-hidden="true"></i>
+    </td>
+    <th>契約選択</th>
+    <td>
+      <?php if ($contact->estimate_kind == \Config::get('models.contact.estimate_kind.new_contract')): ?>
+        新規開設
+      <?php else: ?>
+        現在住居
+      <?php endif; ?>
+    </td>
+  </tr>
+  <tr>
+    <th>問い合わせステータス</th>
+    <td>
+      <div class="card card-outline-<?= \Config::get('views.contact.status.'.$contact->status); ?> text-center max-width">
+        <div class="card-block p-0">
+          <blockquote class="card-blockquote"><?= __('admin.contact.status.'.\Config::get('views.contact.status.'.$contact->status)) ?></blockquote>
+        </div>
       </div>
-      <?= f.input :user_status, required: true, prompt: false, label: "小ステータス" ?>
+    </td>
+    <th>キャンセル理由</th>
+    <td>
+      <?= $contact->status_reason ? \Helper\CancelReasons::getNameByValue($contact->status_reason) : ''; ?>
+    </td>
+  </tr>
+  <tr>
+    <th>小ステータス</th>
+    <td>
+      <?php if ($contact->user_status != \Config::get('models.contact.user_status.no_action')): ?>
+        <div class="card card-outline-<?= \Config::get('views.contact.status.'.$contact->status); ?> text-center max-width">
+          <div class="card-block p-0">
+            <blockquote class="card-blockquote"><?= __('admin.contact.user_status.'.\Config::get('views.contact.user_status.'.$contact->user_status)); ?></blockquote>
+          </div>
+        </div>
+      <?php endif; ?>
+    </td>
+    <th>見積り進行状況</th>
+    <td>
+      <?php if ($progress = $contact->getEstimateProgress()): ?>
+        <div class="card card-outline-<?= $progress == 'unknown' ? 'danger' : 'success'; ?> text-center max-width">
+          <div class="card-block p-0">
+            <blockquote class="card-blockquote"><?= __('admin.estimate.progress.'.$progress); ?></blockquote>
+          </div>
+        </div>
+      <?php endif; ?>
+    </td>
+  </tr>
+</table>
+
+<?php if ($contact->reason_not_auto_sendable): ?>
+  <div class="card">
+    <div class="card-header"><i class="fa fa-info-circle" aria-hidden="true"></i> CV時に紹介前になった理由</div>
+    <div class="card-block">
+      <blockquote class="card-blockquote"><?= $contact->reason_not_auto_sendable; ?></blockquote>
     </div>
   </div>
+<?php endif; ?>
 
-  <? if !@contact.pending? && !@contact.cancelled_before_estimate_req? && !@contact.cancelled? ?>
-    <p class="alert-paragraph">
-      ステータスが「<?= @contact.enum_value_i18n(:status) ?>」の見積もりです。情報の編集はガス会社から見える情報にも影響するので注意してください。<br>
-      また、住所を変更した際には見積もり依頼候補のガス会社が変化します。
-    </p>
-    <?= f.button :submit, ["class" => 'btn-danger', data: {confirm: 1} ?>
-  <? else ?>
-    <?= f.button :submit ?>
-  <? } ?>
-<? } ?>
+<?php if (!$contact->deleted_at): ?>
+<hr>
+<?= \Form::open(['action' => \Uri::create('admin/contacts/:id', ['id' => $contact->id])]); ?>
+  <?= \Form::csrf(); ?>
+  <?= render('admin/contacts/_form_edit', ['contact' => $contact, 'val' => $val]); ?>
+<?= Form::close(); ?>
+<?php endif; ?>
 
+<hr>
 <h2>対応履歴</h2>
-
-<?= simple_form_for :calling_history, url: admin_lpgas_contact_calling_histories_path(@contact), ["method" => 'post', html: {["class" => 'js-calling-history-add'} { |f| ?>
-  <div class="form-group">
-    <div class="form-inline">
-      <div class="form-group">
-        <label class="control-label">日時</label>
-        <div class="form-control"><?= format_datetime Time.zone.now ?></div>
+<?php if (!$contact->deleted_at): ?>
+<?= \Form::open(['action' => \Uri::create('admin/history')]); ?>
+  <?= \Form::csrf(); ?>
+  <input type="hidden" name="contact_id" value="<?= $contact->id; ?>">
+  <div class="form-group row">
+    <div class="col-2">
+      <div class="form-group<?= $val_c->error('calling_method') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="calling_method"><h6>連絡手段</h6></label>
+        <?= Form::select('calling_method', $val_c->input('calling_method', 0), __('admin.calling_history.calling_method'), ['class' => 'form-control', 'id' => 'calling_method']); ?>
       </div>
-      <div class="form-group">
-        <label class="control-label">架電した人</label>
-        <div class="form-control"><?= login_session.current.email ?></div>
+    </div>
+    <div class="col-3">
+      <div class="form-group<?= $val_c->error('note') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="note"><h6><i class="fa fa-asterisk" aria-hidden="true"></i> 備考(理由など)</h6></label>
+        <input type="text" required="required" name="note" class="form-control" id="note" value="">
       </div>
-      <?= f.input :calling_method, collection: ::Lpgas::CallingHistory.as_enum_collection_i18n_for_ransack(:calling_method), required: true, label: "連絡手段", selected: :tel ?>
-      <?= f.input :note, as: :text, required: true, label: '備考(理由など)', input_html: {rows: 1, cols: 30} ?>
+    </div>
+    <div class="col-3">
       <div class="form-group">
-        <label class="control-label">-</label>
-        <?= f.button :submit, '架電履歴に追加する', {["class" => 'btn btn-primary'} ?>
+        <label class="form-control-label"><h6>&nbsp;</h6></label>
+        <p class="form-control-static p-0"><button type="submit" class="btn btn-primary">架電履歴に追加する</button></p>
       </div>
     </div>
   </div>
-<? } ?>
+<?= Form::close(); ?>
+<?php endif; ?>
 
-<table class="table table-striped table-hover">
+<table class="table table-sm table-hover small-row">
   <thead>
     <tr>
       <th>日時</th>
@@ -289,43 +166,39 @@
       <th>備考</th>
     </tr>
   </thead>
-  <tbody class="js-calling-history-list" data-contact-id="<?= @contact.id.to_i ?>">
-    <tr><td>読み込み中</td></tr>
+  <tbody>
+    <?php foreach($contact->calling_histories as $history): ?>
+      <tr>
+        <td><?= Helper\TimezoneConverter::convertFromString($history->created_at, 'admin_table'); ?></td>
+        <td><?= $history->admin_user->email; ?></td>
+        <td><?= __('admin.calling_history.calling_method.'.\Config::get('views.calling_history.calling_method.'.$history->calling_method)); ?></td>
+        <td><?= $history->note; ?></td>
+      </tr>
+    <?php endforeach; ?>
   </tbody>
 </table>
 
-<div class="form-group">
-  <button class="js-calling-history-show-full-list btn btn-primary btn-xs">架電履歴を全て表示する</button>
+<div class="btn-group mb-4" role="group" aria-label="Company">
+  <?php if (!$contact->deleted_at): ?>
+    <a class="btn btn-secondary" href="<?= \Uri::create('admin/contacts/:id/estimates/create', ['id' => $contact->id]); ?>" role="button"><i class="fa fa-paper-plane"></i> ガス会社に見積もり依頼を送る</a>
+  <?php endif; ?>
+  <a class="btn btn-secondary" href="<?= \Uri::create('admin/contacts/:id/estimates', ['id' => $contact->id]); ?>" role="button"><i class="fa fa-handshake-o"></i> 見積もり依頼一覧</a>
+  <a target="_blank" class="btn btn-secondary" href="<?= \Uri::create('lpgas/contacts/:id?'.http_build_query(['token' => $contact->token, 'pin' => $contact->pin]), ['id' => $contact->id]); ?>" role="button"><i class="fa fa-external-link"></i> 提示画面を見る</a>
 </div>
 
-<div class="btn-group" role="group">
-  <?= MyView::link_to(new_admin_lpgas_contact_estimate_path(@contact), id:"check-value", ["class" => 'btn btn-default' { ?>
-    <i class="fa fa-paper-plane"></i>
-    ガス会社に見積もり依頼を送る
-  <? } ?>
-  <?= MyView::link_to(admin_lpgas_contact_estimates_path(@contact), ["class" => 'btn btn-default' { ?>
-    <i class="fa fa-list"></i>
-    見積もり依頼一覧
-  <? } ?>
-  <?= MyView::link_to('提示画面を見る', lpgas_contact_path(@contact, token: @contact.token, pin: @contact.pin), target: "_blank", ["class" => 'btn btn-default' ?>
-  <a class="btn btn-default" href="https://www.google.co.jp/maps/search/<?= @contact.lat ?>,<?= @contact.lng ?>" target="_blank"><i class="fa fa-map-marker"></i>地図</a>
+<div>
+  <?php if (!$contact->deleted_at): ?>
+    <a href="#" class="btn-delete btn btn-danger" role="button" data-contact-id="<?= $contact->id; ?>"><i class="fa fa-trash"></i> 個人情報削除</a>
+  <?php endif; ?>
+  <?php if (!$contact->isCancelled()): ?>
+    <a href="#" class="btn-cancel btn btn-danger" role="button" data-contact-id="<?= $contact->id; ?>" data-contact-name="<?= $contact->name; ?>" data-contact-pref="<?= JpPrefecture::findByCode($contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $contact->tel; ?>"><i class="fa fa-fire" aria-hidden="true"></i> キャンセル</a>
+  <?php endif; ?>
 </div>
 
-<? unless @contact.deleted_at ?>
-  <div style="margin-top: 2em">
-    <?= MyView::link_to(admin_lpgas_contact_path(@contact), data: {confirm: {text: 'この操作は取り消しができません。<br>また、見積り依頼は全てキャンセルされます。', title: '削除対象のユーザーの名前を正しく入力してください', confirmField: "削除対象者氏名", confirmValue: @contact.name}, ["method" => 'delete'}, ["class" => 'btn btn-danger' { ?>
-      <i class="fa fa-trash"></i>
-      個人情報削除
-    <? } ?>
-    <?= lpgas_contact_cancel_link(@contact) ?>
-  </div>
-<? } ?>
-<script type="text/javascript">
-  $("#check-value").click(function(e){
-    if ($('#lpgas_contact_gas_meter_checked_month').val() == "" || $('#lpgas_contact_gas_used_amount').val() == "" || $('#lpgas_contact_gas_latest_billing_amount').val() == ""){
-      e.preventDefault();
+<!-- MODAL DELETE START -->
+<?= render('admin/_modal_delete'); ?>
+<!-- MODAL DELETE END -->
 
-      alert("ガス検針月、ガス使用量、直近の請求額を入力してください。")
-    }
-  });
-</script>
+<!-- MODAL CANCEL START -->
+<?= render('admin/_modal_cancel'); ?>
+<!-- MODAL CANCEL END -->

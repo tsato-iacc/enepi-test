@@ -47,7 +47,7 @@ use JpPrefecture\JpPrefecture;
 </div>
 
 <h4>ピックアップ ※ 3つまで登録可能</h4>
-<!-- FIM ME (Add js) -->
+<!-- FIX ME (Add js) -->
 
 <div class="form-group<?= $val->error('company.lpgas_company_image') ? ' has-danger' : ''?>">
   <label class="form-control-label" for="company_lpgas_company_image"><h6>画像</h6></label>
@@ -86,7 +86,7 @@ use JpPrefecture\JpPrefecture;
 </div>
 
 <div class="form-group">
-  <label class="form-control-label" for="email"><h6>Email</h6></label>
+  <label class="form-control-label"><h6>特徴</h6></label>
   <div class="form-group">
     <div class="form-check form-check-inline">
       <?php $checked = $partner_company->company && $partner_company->company->features ? \Arr::pluck($partner_company->company->features, 'id') : []; ?>
@@ -192,4 +192,29 @@ use JpPrefecture\JpPrefecture;
   <?php if ($val->error('company.business_overview')): ?>
     <div class="form-control-feedback"><?= e($val->error('company.business_overview')) ?></div>
   <?php endif; ?>
+</div>
+
+<div class="form-group<?= $val->error('company.service_features') ? ' has-danger' : ''?>">
+  <label class="form-control-label" for="company_service_features"><h6>サービス特徴</h6></label>
+  <textarea name="company[service_features]" class="form-control" id="company_service_features" rows="2"><?= $val->input('company.service_features', $partner_company->company ? $partner_company->company->service_features : '') ?></textarea>
+  <?php if ($val->error('company.service_features')): ?>
+    <div class="form-control-feedback"><?= e($val->error('company.service_features')) ?></div>
+  <?php endif; ?>
+</div>
+
+<div class="form-group">
+  <?php $estimate_req_sendable = $partner_company->company ? $partner_company->company->estimate_req_sendable : 0; ?>
+  <label class="form-control-label"><h6>送客可</h6></label>
+  <div class="form-group">
+    <label class="custom-control custom-radio">
+      <input name="company[estimate_req_sendable]" value="1" type="radio" class="custom-control-input"<?= $val->input('company.estimate_req_sendable', $estimate_req_sendable) == 1 ? 'checked="checked"' : ''; ?>>
+      <span class="custom-control-indicator"></span>
+      <span class="custom-control-description">OK</span>
+    </label>
+    <label class="custom-control custom-radio">
+      <input name="company[estimate_req_sendable]" value="0" type="radio" class="custom-control-input"<?= $val->input('company.estimate_req_sendable', $estimate_req_sendable) == 0 ? 'checked="checked"' : ''; ?>>
+      <span class="custom-control-indicator"></span>
+      <span class="custom-control-description">NG</span>
+    </label>
+  </div>
 </div>

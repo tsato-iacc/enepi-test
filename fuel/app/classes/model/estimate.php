@@ -162,7 +162,6 @@ class Model_Estimate extends \Orm\Model
     {
         $savings_by_month = $this->savings_by_month($contact);
 
-
         if (!$savings_by_month)
             return null;
 
@@ -195,6 +194,7 @@ class Model_Estimate extends \Orm\Model
                 {
                     $this->contact->status = \Config::get('models.contact.status.cancelled');
                     $this->contact->user_status = \Config::get('models.contact.user_status.no_action');
+                    $this->status_reason = $status_reason;
                     $this->contact->save();
                 }
 
@@ -231,26 +231,88 @@ class Model_Estimate extends \Orm\Model
         return false;
     }
 
-    // 送客 send_to_user
-    public function present($admin_id)
+    // 紹介 send_to_user
+    public function present($admin_id, $change_status = true)
     {
         if ($this->status == \Config::get('models.estimate.status.pending') || $this->status == \Config::get('models.estimate.status.sent_estimate_to_iacc'))
         {
             $this->last_update_admin_user_id = $admin_id;
-            $this->status = \Config::get('models.estimate.status.sent_estimate_to_user');
+            $this->status = $change_status ? \Config::get('models.estimate.status.sent_estimate_to_user') : \Config::get('models.estimate.status.sent_estimate_to_iacc');
 
             if ($this->save())
             {
-                // CHECK ME
-                \Helper\Notifier::notifyCustomerPresent($this);
-                \Helper\Notifier::notifyAdminPresent($this);
-                \Helper\Notifier::notifyCustomerPin($this->contact);
+                if ($change_status)
+                {
+                    \Helper\Notifier::notifyCustomerPresent($this);
+                    \Helper\Notifier::notifyAdminPresent($this);
+                }
+                else
+                {
+                    // \Helper\Notifier::notifyAdminPrePresent($this);
+                }
+                
+                $contact = $this->contact;
+
+                if ($change_status && $contact->status == \Config::get('models.contact.status.pending'))
+                {
+                    $contact->status = \Config::get('models.contact.status.sent_estimate_req');
+                    
+                    if ($contact->save())
+                        \Helper\Notifier::notifyCustomerPin($contact);
+
+                }
+
+                print var_dump($contact);
 
                 return true;
             }
         }
         
         return false;
+    }
+
+    public function setCompanyPriceRule(&$contact)
+    {
+        $nearest_geocode = $this->company->getNearestGeocode($contact);
+
+        if (!$nearest_geocode)
+            return false;
+
+        $price_rule = \Model_PriceRule::find('first', [
+            'where' => [
+                ['company_geocode_id', $nearest_geocode->id],
+                ['using_cooking_stove' => $contact->using_cooking_stove],
+                ['using_bath_heater_with_gas_hot_water_supply' => $contact->using_bath_heater_with_gas_hot_water_supply],
+                ['using_other_gas_machine' => $contact->using_other_gas_machine],
+                ['house_kind' => $contact->house_kind],
+            ]
+        ]);
+
+        if ($price_rule)
+        {
+            $this->set([
+                'basic_price' => $price_rule->basic_price,
+                'fuel_adjustment_cost' => $price_rule->fuel_adjustment_cost,
+                'notes' => $price_rule->notes,
+                'set_plan' => $price_rule->set_plan,
+                'other_set_plan' => $price_rule->other_set_plan,
+            ]);
+
+            $estimate_prices = [];
+
+            foreach ($price_rule->prices as $price)
+            {
+                $estimate_prices[] = new Model_Estimate_Price([
+                    'under_limit' => $price->under_limit,
+                    'upper_limit' => $price->upper_limit,
+                    'unit_price' => $price->unit_price,
+                ]);
+            }
+
+            $this->prices = $estimate_prices;
+        }
+
+        return true;
     }
 
     /**
@@ -285,6 +347,31 @@ class Model_Estimate extends \Orm\Model
     {
         // CHECK ME
         return $this->expired_at && \Date::create_from_string($this->expired_at, 'mysql_date_time') <= \Date::forge();
+    }
+
+    public function ondemand_cost_math_exprs($contact)
+    {
+        $exprs = [];
+
+        $u = $contact->gas_used_amount;
+
+        foreach ($this->prices as $price)
+        {
+            $delta = $price->upper_limit - $price->under_limit;
+
+            if (!$price->upper_limit || $u <= $delta)
+            {
+                $exprs << [$price->unit_price, $u];
+                break;
+            }
+            else
+            {
+                $u -= $delta;
+                $exprs << [$price->unit_price, $u];
+            }
+        }
+
+        return $exprs;
     }
 
     /**
@@ -328,6 +415,22 @@ class Model_Estimate extends \Orm\Model
         }
 
         return false;
+    }
+
+    public function getStatusEst()
+    {
+        $status_est = '';
+
+        if ($this->status == \Config::get('models.estimate.status.sent_estimate_to_user') || $this->status == \Config::get('models.estimate.status.verbal_ok') || $this->status == \Config::get('models.estimate.status.contracted'))
+        {
+            $status_est = 'ok';
+        }
+        elseif ($this->status == \Config::get('models.estimate.status.sent_estimate_to_iacc') || $this->status == \Config::get('models.estimate.status.pending') || $this->status == \Config::get('models.estimate.status.cancelled'))
+        {
+            $status_est = 'ng';
+        }
+
+        return $status_est;
     }
 
     // update_contact_status

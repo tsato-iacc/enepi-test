@@ -66,7 +66,7 @@ class Model_Company extends \Orm\Model
         'offices' => [
             'model_to' => 'Model_Company_Office',
         ],
-        'service_features' => [
+        'company_service_features' => [
             'model_to' => 'Model_Company_ServiceFeature',
         ],
     ];
@@ -114,6 +114,52 @@ class Model_Company extends \Orm\Model
     public function getHeadOffice()
     {
         return \Model_Company_Geocode::find('first', ['where' => [['company_id', $this->id], ['company_office_id', null]]]);
+    }
+
+    public function getCommission(&$contact)
+    {
+        if ($contact->house_kind == \Config::get('models.house_kind.detached'))
+        {
+            if ($contact->using_cooking_stove && $contact->using_bath_heater_with_gas_hot_water_supply)
+                return $this->default_contracted_commission_sw;
+            
+            if ($contact->using_cooking_stove && !$contact->using_bath_heater_with_gas_hot_water_supply)
+                return $this->default_contracted_commission_s;
+
+            if (!$contact->using_cooking_stove && $contact->using_bath_heater_with_gas_hot_water_supply)
+                return $this->default_contracted_commission_w;
+        }
+
+        return null;
+    }
+
+    public function getNearestGeocode(&$contact)
+    {
+        $geocodes = \Model_Company_Geocode::find('all', [
+            'where' => [
+                ['company_id', $this->id]
+            ],
+            'related' => [
+                'zip_codes' => [
+                    'where' => [
+                        ['zip_code', $contact->getZipCode()],
+                    ],
+                ],
+            ],
+        ]);
+
+        return $geocodes ? array_shift($geocodes) : null;
+    }
+
+    public function isNgCompany(&$company_name)
+    {
+        if ($company_name)
+        {
+            if ($this->get('ng', ['where' => [['pattern', $company_name]]]))
+                return true;
+        }
+
+        return false;
     }
 
     /**

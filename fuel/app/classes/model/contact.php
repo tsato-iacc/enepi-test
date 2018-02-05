@@ -7,7 +7,7 @@ use JpPrefecture\JpPrefecture;
 /**
  * class Lpgas::CompanyServiceFeature
  */
-class Model_Contact extends \Orm\Model_Soft
+class Model_Contact extends \Orm\Model
 {
     protected static $_table_name = 'lpgas_contacts';
 
@@ -297,6 +297,52 @@ class Model_Contact extends \Orm\Model_Soft
         return $val;
     }
 
+    public static function admin_validate()
+    {
+        $val = Validation::forge();
+
+        $val->add_field('name', 'name', 'required|max_length[20]');
+        $val->add_field('furigana', 'furigana', 'max_length[20]');
+        $val->add_field('tel', 'tel', 'required|match_pattern[/^(\d{10,11})$/]');
+        $val->add_field('email', 'email', 'required|valid_email');
+        $val->add_field('house_kind', 'house_kind', 'required|match_collection[detached,store_ex,apartment]');
+        $val->add_field('ownership_kind', 'ownership_kind', 'required|match_collection[owner,borrower,unit_owner]');
+        $val->add_field('house_age', 'house_age', 'valid_string[numeric]');
+
+        $val->add_field('zip_code', 'zip_code', 'valid_string[numeric]');
+        $val->add_field('prefecture_code', 'prefecture_code', 'numeric_between[1,47]');
+        $val->add_field('address', 'address', 'max_length[100]');
+        $val->add_field('address2', 'address2', 'max_length[100]');
+
+        $val->add_field('new_zip_code', 'new_zip_code', 'valid_string[numeric]');
+        $val->add_field('new_prefecture_code', 'new_prefecture_code', 'numeric_between[1,47]');
+        $val->add_field('new_address', 'new_address', 'max_length[100]');
+        $val->add_field('new_address2', 'new_address2', 'max_length[100]');
+
+        $val->add_field('gas_contracted_shop_name', 'gas_contracted_shop_name', 'max_length[50]');
+        $val->add_field('number_of_rooms', 'number_of_rooms', 'valid_string[numeric]');
+        $val->add_field('number_of_active_rooms', 'number_of_active_rooms', 'valid_string[numeric]');
+        $val->add_field('estate_management_company_name', 'estate_management_company_name', 'max_length[50]');
+
+        $val->add_field('gas_used_years', 'gas_used_years', 'valid_string[numeric]');
+        $val->add_field('gas_meter_checked_month', 'gas_meter_checked_month', 'required|numeric_between[1,12]');
+        $val->add_field('gas_used_amount', 'gas_used_amount', 'required|match_pattern[/^[0-9]*[.]?[0-9]+$/]');
+        $val->add_field('gas_latest_billing_amount', 'gas_latest_billing_amount', 'required|valid_string[numeric]');
+
+        $val->add_field('using_cooking_stove', 'using_cooking_stove', 'match_value[1]');
+        $val->add_field('using_bath_heater_with_gas_hot_water_supply', 'using_bath_heater_with_gas_hot_water_supply', 'match_value[1]');
+        $val->add_field('using_other_gas_machine', 'using_other_gas_machine', 'match_value[1]');
+        
+        $val->add_field('preferred_contact_time_between', 'preferred_contact_time_between', 'required|match_collection[0,1,2,3,4]');
+        $val->add_field('priority_degree', 'priority_degree', 'required|match_collection[0,1]');
+        $val->add_field('desired_option', 'desired_option', 'required|match_collection[0,1]');
+        $val->add_field('body', 'body', 'max_length[5000]');
+        $val->add_field('admin_memo', 'admin_memo', 'max_length[5000]');
+        $val->add_field('user_status', 'user_status', 'required|match_collection[checking,operating,not_contacted,confirming,thinking,no_action]');
+
+        return $val;
+    }
+
     /**
      * Wrapper for save model
      * @param  [type]  $cascade         [description]
@@ -307,7 +353,7 @@ class Model_Contact extends \Orm\Model_Soft
     {
         $result = false;
 
-        $this->updateGeocode();
+        // $this->updateGeocode();
 
         if ($this->is_new())
         {
@@ -411,6 +457,16 @@ class Model_Contact extends \Orm\Model_Soft
         return $this->_address2;
     }
 
+    public function isCancelled()
+    {
+        return $this->status == \Config::get('models.contact.status.cancelled') || $this->status == \Config::get('models.contact.status.cancelled_before_estimate_req');
+    }
+
+    public function sentEstimates()
+    {
+        return $this->get('estimates', ['where' => [['status', 'in', [2,3,4]]]]);
+    }
+
     public function basicPrice()
     {
         return Simulation::getBasicPrice($this->getPrefectureCode());
@@ -436,14 +492,21 @@ class Model_Contact extends \Orm\Model_Soft
 
     public function cancel($admin_id, $reason)
     {
+        // FIX ME isDeleted
+        if ($this->isCancelled())
+            return;
+
         if ($this->estimates)
         {
             $status_reason = \Helper\CancelReasons::getValueByName($reason);
 
             foreach ($this->estimates as $estimate)
             {
-                $estimate->cancel($admin_id, $status_reason);
+                $estimate->cancel($admin_id, $reason);
             }
+
+            $this->status_reason = $status_reason;
+            $this->save();
         }
         else
         {
@@ -507,7 +570,6 @@ class Model_Contact extends \Orm\Model_Soft
         if ($this->using_other_gas_machine)
             $machines[] = __('admin.contact.gas_machines.using_other_gas_machine');
 
-        // print var_dump($machines);
         return $machines;
     }
 
@@ -519,41 +581,32 @@ class Model_Contact extends \Orm\Model_Soft
         if (!$this->isAutoSendable())
             return false;
 
-        // FIX ME
-        // Create relations [move email to conditions?]
-        // Query is faster?
-        $area_zip_codes = \Model_Company_GeocodeZipCode::find('all', ['where' => [['zip_code', $this->getZipCode()]]]);
-        $area_ids = \Arr::pluck($area_zip_codes, 'company_geocode_id');
-        $area = \Model_Company_Geocode::find('all', ['where' => [['id', 'IN', $area_ids]]]);
-        $companies_ids = Arr::unique(\Arr::pluck($area, 'company_id'));
-
-
-        if (count($companies_ids))
-        {
-            $companies = \Model_Company::find('all', [
-                'related' => [
-                    'partner_company' => [
-                        'where' => [
-                            ['email', '!=', 'info@enepi.jp'],
+        $companies = \Model_Company::find('all', [
+            'where' => [
+                ['estimate_req_sendable', true],
+            ],
+            'related' => [
+                'geocodes' => [
+                    'related' => [
+                        'zip_codes' => [
+                            'where' => [
+                                ['zip_code', $this->getZipCode()],
+                            ],
                         ],
                     ],
                 ],
-                'where' => [
-                    ['id', 'IN', $companies_ids],
-                ]
-            ]);
+                'partner_company' => [
+                    'where' => [
+                        ['email', '!=', 'info@enepi.jp'],
+                    ],
+                ],
+            ],
+        ]);
 
-            if (!$companies)
-            {
-                // Unsupported area
-                $this->_reasons[] = \Config::get('enepi.contact.reasons.unsupported_area');
-                return false;
-            }
-        }
-        else
+        if (count($companies) == 0)
         {
             // Unsupported area
-            $this->_reasons[] = \Config::get('enepi.contact.reasons.unsupported_area');
+            $this->_reasons[] = \Config::get('enepi.contact.reason_not_auto_sendable.unsupported_area');
             return false;
         }
 
@@ -563,52 +616,18 @@ class Model_Contact extends \Orm\Model_Soft
 
         foreach ($companies as $company)
         {
-            if (!$company->estimate_req_sendable)
+            if ($company->isNgCompany($this->gas_contracted_shop_name))
             {
                 $ng_companies++;
                 continue;
             }
 
-            $estimate = new \Model_Estimate(['company_id' => $company->id, 'contact_id' => $this->id, 'auto' => true]);
+            $estimate = new \Model_Estimate(['company_id' => $company->id, 'auto' => true]);
 
-            $nearest_geocode_id = $this->getNearestGeocodeId($company);
-
-            if (!$nearest_geocode_id)
+            if ($estimate->setCompanyPriceRule($this) == false)
                 continue;
-
-            $price_rule = \Model_PriceRule::find('first', [
-                'where' => [
-                    ['company_geocode_id', $nearest_geocode_id],
-                    ['using_cooking_stove' => $this->using_cooking_stove],
-                    ['using_bath_heater_with_gas_hot_water_supply' => $this->using_bath_heater_with_gas_hot_water_supply],
-                    ['using_other_gas_machine' => $this->using_other_gas_machine],
-                    ['house_kind' => $this->house_kind],
-                ]
-            ]);
-
-            if ($price_rule)
-            {
-                $estimate->set([
-                    'basic_price' => $price_rule->basic_price,
-                    'fuel_adjustment_cost' => $price_rule->fuel_adjustment_cost,
-                    'notes' => $price_rule->notes,
-                    'set_plan' => $price_rule->set_plan,
-                    'other_set_plan' => $price_rule->other_set_plan,
-                ]);
-
-                $estimate_prices = [];
-
-                foreach ($price_rule->prices as $price)
-                {
-                    $estimate_prices[] = new Model_Estimate_Price([
-                        'under_limit' => $price->under_limit,
-                        'upper_limit' => $price->upper_limit,
-                        'unit_price' => $price->unit_price,
-                    ]);
-                }
-
-                $estimate->prices = $estimate_prices;
-            }
+            
+            $estimate->status = \Config::get('models.estimate.status.sent_estimate_to_user');
 
             $estimates[] = $estimate;
 
@@ -623,23 +642,24 @@ class Model_Contact extends \Orm\Model_Soft
             $this->estimates = $estimates;
             $this->sent_auto_estimate_req = true;
             $this->status = \Config::get('models.contact.status.sent_estimate_req');
+            $this->user_status = \Config::get('models.contact.user_status.not_contacted');
 
             return true;
         }
         elseif ($estimates && !$has_savings)
         {
             // If matching company found but savings is minus
-            $this->_reasons[] = \Config::get('enepi.contact.reasons.no_savings');
+            $this->_reasons[] = \Config::get('enepi.contact.reason_not_auto_sendable.no_savings');
         }
         elseif (count($companies) == $ng_companies)
         {
             // Only NG companies
-            $this->_reasons[] = \Config::get('enepi.contact.reasons.ng_companies');
+            $this->_reasons[] = \Config::get('enepi.contact.reason_not_auto_sendable.ng_companies');
         }
         else
         {
             // Unknown reason
-            $this->_reasons[] = \Config::get('enepi.contact.reasons.unknown_reason');
+            $this->_reasons[] = \Config::get('enepi.contact.reason_not_auto_sendable.unknown_reason');
         }
 
         return false;
@@ -650,67 +670,53 @@ class Model_Contact extends \Orm\Model_Soft
         // Test contact
         if (in_array($this->name, ['テスト', 'てすと', 'test', 'TEST']) || $this->email == 'info@enepi.jp')
         {
-            $this->_reasons[] = \Config::get('enepi.contact.reasons.test');
+            $this->_reasons[] = \Config::get('enepi.contact.reason_not_auto_sendable.test');
             return false;
         }
 
         // Borrowed apartment
         if ($this->house_kind == \Config::get('models.contact.house_kind.apartment') && $this->ownership_kind == \Config::get('models.contact.ownership_kind.borrower'))
         {
-            $this->_reasons[] = \Config::get('enepi.contact.reasons.borrowed_apartment');
+            $this->_reasons[] = \Config::get('enepi.contact.reason_not_auto_sendable.borrowed_apartment');
             return false;
         }
 
         // Store
         if ($this->house_kind == \Config::get('models.contact.house_kind.store_ex'))
         {
-            $this->_reasons[] = \Config::get('enepi.contact.reasons.store');
+            $this->_reasons[] = \Config::get('enepi.contact.reason_not_auto_sendable.store');
             return false;
         }
 
         // Apartment owner
         if ($this->apartment_owner)
         {
-            $this->_reasons[] = \Config::get('enepi.contact.reasons.apartment_owner');
+            $this->_reasons[] = \Config::get('enepi.contact.reason_not_auto_sendable.apartment_owner');
             return false;
         }
 
         // Unit price equal 0
         if ($this->unitPrice() == 0)
         {
-            $this->_reasons[] = \Config::get('enepi.contact.reasons.unit_price_zero');
+            $this->_reasons[] = \Config::get('enepi.contact.reason_not_auto_sendable.unit_price_zero');
             return false;
         }
 
         // Unit price less then
         if ($this->unitPrice() <= \Config::get('enepi.estimate.unit_price'))
         {
-            $this->_reasons[] = \Config::get('enepi.contact.reasons.unit_price_less');
+            $this->_reasons[] = \Config::get('enepi.contact.reason_not_auto_sendable.unit_price_less');
             return false;
         }
 
         // Check PR tracking
         if (!($ignore_pr_tracking || $this->tracking === null || $this->tracking->auto_sendable))
         {
-            $this->_reasons[] = \Config::get('enepi.contact.reasons.pr_tracking');
+            $this->_reasons[] = \Config::get('enepi.contact.reason_not_auto_sendable.pr_tracking');
             return false;
         }
 
         return true;
-    }
-
-    private function getNearestGeocodeId(&$company)
-    {
-        foreach ($company->geocodes as $geocode)
-        {
-            foreach ($geocode->zip_codes as $zip)
-            {
-                if ($zip->zip_code == $this->getZipCode())
-                    return $geocode->id;
-            }
-        }
-
-        return null;
     }
 
     private function updateGeocode()

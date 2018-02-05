@@ -19,4 +19,12 @@ class TimezoneConverter
 
         return '';
     }
+
+    public static function convertFromStringToUTC($date, $to = 'Y-m-d H:i:s', $from = 'Y-m-d')
+    {
+        if ($utc = new \DateTime($date))
+          return $utc->modify('-9 hour')->format('Y-m-d H:i:s');
+
+        return '';
+    }
 }

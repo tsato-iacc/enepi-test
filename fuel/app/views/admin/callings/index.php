@@ -137,7 +137,7 @@ use JpPrefecture\JpPrefecture;
         <td class="align-middle">
           <?php if ($call->contact->admin_memo): ?>
             <div class="note-box" data-container="body" data-toggle="popover" data-placement="top" data-content="<?= $call->contact->admin_memo; ?>">
-              <?= \Str::truncate($call->contact->admin_memo, 25); ?>
+              <?= \Str::truncate($call->contact->admin_memo, 70); ?>
             </div>
           <?php endif; ?>
         </td>
@@ -153,10 +153,12 @@ use JpPrefecture\JpPrefecture;
           <?php endif; ?>
         </td>
         <td class="p-0">
-          <div><a href="<?= \Uri::create('admin/contacts/:id/edit', ['id' => $call->contact->id]); ?>" class="btn btn-link btn-sm px-1 py-0" role="button">編集</a></div>
-          <div><a href="#" class="btn-cancel btn btn-danger btn-sm px-1 py-0" role="button" data-contact-id="<?= $call->contact->id; ?>" data-contact-name="<?= $call->contact->name; ?>" data-contact-pref="<?= JpPrefecture::findByCode($call->contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $call->contact->tel; ?>"><!-- <i class="fa fa-times-circle-o" aria-hidden="true"></i>  -->キャンセル</a></div>
+          <div><a href="<?= \Uri::create('admin/contacts/:id/edit', ['id' => $call->contact->id]); ?>" class="btn btn-secondary btn-sm px-1 py-0 w-100" role="button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 編集</a></div>
+          <?php if (!$call->contact->isCancelled()): ?>
+            <div><a href="#" class="btn-cancel btn btn-danger btn-sm px-1 py-0 w-100" role="button" data-contact-id="<?= $call->contact->id; ?>" data-contact-name="<?= $call->contact->name; ?>" data-contact-pref="<?= JpPrefecture::findByCode($call->contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $call->contact->tel; ?>"><i class="fa fa-fire" aria-hidden="true"></i> キャンセル</a></div>
+          <?php endif; ?>
           <?php if (!$call->archived): ?>
-            <div><a href="<?= \Uri::create('admin/callings/:id/archive', ['id' => $call->id]); ?>" class="btn btn-warning btn-sm px-1 py-0" role="button"><!-- <i class="fa fa-archive" aria-hidden="true"></i>  -->アーカイブ</a></div>
+            <div><a href="<?= \Uri::create('admin/callings/:id/archive', ['id' => $call->id]); ?>" class="btn btn-info btn-sm px-1 py-0 w-100" role="button"><i class="fa fa-archive" aria-hidden="true"></i> アーカイブ</a></div>
           <?php endif; ?>
         </td>
       </tr>
