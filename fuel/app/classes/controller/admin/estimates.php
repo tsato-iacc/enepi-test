@@ -84,6 +84,29 @@ class Controller_Admin_Estimates extends Controller_Admin
     }
 
     /**
+     * Show
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_update($id)
+    {
+        if (!$estimate = \Model_Estimate::find($id, ['related' => ['contact', 'company', 'estimate_history' => ['related' => ['admin_user', 'partner_company']]]]))
+            throw new HttpNotFoundException;
+
+        print var_dump('OKKKKK');
+        exit;
+        Session::set_flash('error', "ID: {$id} ステータス変更ができませんでした");
+
+        return Response::redirect("admin/estimates/{$id}");
+
+        $this->template->title = 'Estimate - id: '.$id;
+        $this->template->content = View::forge('admin/estimates/show', [
+            'estimate' => $estimate,
+        ]);
+    }
+
+    /**
      * Cancel
      *
      * @access  public

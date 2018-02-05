@@ -80,11 +80,16 @@ class Controller_Admin_Contacts extends Controller_Admin
      * @access  public
      * @return  Response
      */
-    public function action_edit($contact_id)
+    public function action_edit($id)
     {
-        $this->template->title = 'local_contents';
+        if (!$contact = \Model_Contact::find($id, ['related' => ['calling_histories' => ['order_by' => ['id' => 'desc']]]]))
+            throw new HttpNotFoundException;
+
+        $this->template->title = 'Contact edit';
         $this->template->content = View::forge('admin/contacts/edit', [
-            'test' => 'test'
+            'contact' => $contact,
+            'val' => Validation::forge(),
+            'val_c' => Validation::forge('calling'),
         ]);
     }
 
@@ -94,10 +99,55 @@ class Controller_Admin_Contacts extends Controller_Admin
      * @access  public
      * @return  Response
      */
-    public function action_update($contact_id)
+    public function action_update($id)
     {
-        print "UPDATE CONTACT";exit;
-        Response::redirect("admin/companies/{$contact_id}/edit");
+        if (!$contact = \Model_Contact::find($id, ['related' => ['calling_histories' => ['order_by' => ['id' => 'desc']]]]))
+            throw new HttpNotFoundException;
+
+        $val = \Model_Contact::admin_validate();
+
+        if ($val->run())
+        {
+            $contact->set($val->validated());
+
+            $contact->house_kind = \Config::get('models.contact.house_kind.'.$val->validated('house_kind'));
+            $contact->ownership_kind = \Config::get('models.contact.ownership_kind.'.$val->validated('ownership_kind'));
+            $contact->user_status = \Config::get('models.contact.user_status.'.$val->validated('user_status'));
+            $contact->house_age = $val->validated('house_age') ? $val->validated('house_age') : null;
+            $contact->number_of_active_rooms = $val->validated('number_of_active_rooms') ? $val->validated('number_of_active_rooms') : null;
+            
+            if ($contact->save())
+            {
+                Session::set_flash('success', 'OK');
+                Response::redirect("admin/contacts/{$id}/edit");
+            }
+        }
+
+        Session::set_flash('error', 'FAIL');
+
+        $this->template->title = 'Contact edit';
+        $this->template->content = View::forge('admin/contacts/edit', [
+            'contact' => $contact,
+            'val' => $val,
+            'val_c' => Validation::forge('calling'),
+        ]);
+    }
+
+    /**
+     * Show list
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_estimate_index($id)
+    {
+        if (!$contact = \Model_Contact::find($id, ['related' => ['estimates' => ['related' => ['company']]]]))
+            throw new HttpNotFoundException;
+
+        $this->template->title = 'Estimates';
+        $this->template->content = View::forge('admin/contacts/estimates_index', [
+            'estimates' => $contact->estimates,
+        ]);
     }
 
     /**
@@ -106,11 +156,75 @@ class Controller_Admin_Contacts extends Controller_Admin
      * @access  public
      * @return  Response
      */
-    public function action_estimate_create()
+    public function action_estimate_create($id)
     {
-        $this->template->title = 'local_contents';
+        if (!$contact = \Model_Contact::find($id, ['related' => ['estimates' => ['related' => ['company']]]]))
+            throw new HttpNotFoundException;
+        
+        $new_estimates = $this->getNewEstimates($contact);
+
+        $this->template->title = 'New estimate';
         $this->template->content = View::forge('admin/contacts/estimate_create', [
-            'test' => 'test'
+            'contact' => $contact,
+            'new_estimates' => $new_estimates,
+            'val' => Validation::forge(),
+        ]);
+    }
+
+    /**
+     * Create
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_estimate_store($id)
+    {
+        if (!$contact = \Model_Contact::find($id, ['related' => ['estimates' => ['related' => ['company']]]]))
+            throw new HttpNotFoundException;
+
+        $val = Validation::forge();
+
+        foreach (\Input::post('estimates', []) as $key => $v)
+        {
+            $val->add_field("estimates.{$key}.company_id", 'company_id', 'valid_string[numeric]');
+            $val->add_field("estimates.{$key}.status", 'status', 'match_value[1]');
+            $val->add_field("estimates.{$key}.contracted_commission", 'contracted_commission', "required_with[estimates.{$key}.company_id]|valid_string[numeric]");
+        }
+
+        if ($val->run() && array_filter(\Arr::pluck($val->validated('estimates'), 'company_id')))
+        {
+            foreach ($val->validated('estimates') as $estimate)
+            {
+                if (!$estimate['company_id'])
+                    continue;
+
+                $new_estimate = new \Model_Estimate([
+                    'company_id' => $estimate['company_id'],
+                    'contact_id' => $contact->id,
+                    'contracted_commission' => $estimate['contracted_commission'],
+                ]);
+
+                $new_estimate->setCompanyPriceRule($contact);
+
+                if ($new_estimate->save())
+                {
+                    $new_estimate->present($this->admin_id, !$estimate['status']);
+                }
+            }
+
+            Session::set_flash('success', 'OK');
+            return Response::redirect("admin/contacts/{$id}/estimates/create");
+        }
+
+        Session::set_flash('error', 'FAIL');
+
+        $new_estimates = $this->getNewEstimates($contact);
+
+        $this->template->title = 'New estimate';
+        $this->template->content = View::forge('admin/contacts/estimate_create', [
+            'contact' => $contact,
+            'new_estimates' => $new_estimates,
+            'val' => $val,
         ]);
     }
 
@@ -136,6 +250,44 @@ class Controller_Admin_Contacts extends Controller_Admin
         }
 
         Response::redirect('admin/contacts');
+    }
+
+    /**
+     * Delete information about contact
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_destroy($id)
+    {
+        if (!$contact = \Model_Contact::find($id))
+            throw new HttpNotFoundException;
+
+        $contact->cancel($this->admin_id, 'status_reason_unknown');
+        
+        $contact->name ="削除済み";
+        $contact->furigana ="さくじょずみ";
+        $contact->zip_code ="000-0000";
+        $contact->address ="削除済み";
+        $contact->address2 ="削除済み";
+        $contact->email ="info+deleted@enepi.jp";
+        $contact->tel ="000-0000-0000";
+        $contact->new_address = "さくじょずみ";
+        $contact->new_address2 = "さくじょずみ";
+        $contact->new_zip_code = "000-0000";
+        $contact->deleted_at = \Date::forge(time())->format('mysql_date_time');
+        
+        
+        if ($contact->save())
+        {
+            Session::set_flash('success', 'OK');
+        }
+        else
+        {
+            Session::set_flash('error', 'FAIL');
+        }
+
+        Response::redirect("admin/contacts/{$id}/edit");
     }
 
     /**
@@ -240,5 +392,57 @@ class Controller_Admin_Contacts extends Controller_Admin
         }
 
         return $related_where;
+    }
+
+    private function getNewEstimates(&$contact)
+    {
+        $sent_companies_ids = [];
+
+        foreach ($contact->estimates as $estimate)
+        {
+            // FIX ME if estimate is expired add do not add to list
+            $sent_companies_ids[] = $estimate->company->id;
+        }
+
+        $where = [];
+        $where[] = ['estimate_req_sendable', true];
+
+        if ($sent_companies_ids)
+        {
+            $where[] = ['id', 'NOT IN', $sent_companies_ids];
+        }
+
+        $companies = \Model_Company::find('all', [
+            'where' => $where,
+            'related' => [
+                'geocodes' => [
+                    'related' => [
+                        'zip_codes' => [
+                            'where' => [
+                                ['zip_code', $contact->getZipCode()],
+                            ],
+                        ],
+                    ],
+                ],
+                'partner_company' => [
+                    'where' => [
+                        ['email', '!=', 'info@enepi.jp'],
+                    ],
+                ],
+            ],
+        ]);
+
+        $new_estimates = [];
+
+        foreach ($companies as $company)
+        {
+            $estimate = new \Model_Estimate(['company_id' => $company->id, 'contact_id' => $contact->id, 'contracted_commission' => $company->getCommission($contact)]);
+
+            $estimate->setCompanyPriceRule($contact);
+
+            $new_estimates[] = $estimate;
+        }
+
+        return $new_estimates;
     }
 }

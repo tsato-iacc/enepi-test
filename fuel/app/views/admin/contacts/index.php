@@ -159,7 +159,7 @@ use JpPrefecture\JpPrefecture;
   </thead>
   <tbody>
     <?php foreach ($contacts as $contact): ?>
-      <tr>
+      <tr<?= $contact->deleted_at ? ' class="table-danger"' : ''; ?>>
         <td>
           <div><i class="fa fa-hashtag" aria-hidden="true"></i> <?= $contact->id; ?></div>
           <div><?= $contact->tracking ? $contact->tracking->display_name : '無し'; ?></div>
@@ -190,7 +190,7 @@ use JpPrefecture\JpPrefecture;
         <td>
           <div class="d-flex justify-content-around align-items-center">
             <div><i class="fa <?= $contact->sent_auto_estimate_req ? 'fa-circle-o' : 'fa-times' ?>" aria-hidden="true"></i></div>
-            <div><i class="fa <?= $contact->sent_auto_estimate_req ? 'fa-circle-o' : 'fa-times' ?>" aria-hidden="true"></i></div>
+            <div><i class="fa <?= $contact->is_seen == \Config::get('models.contact.is_seen.seen') ? 'fa-circle-o' : 'fa-times' ?>" aria-hidden="true"></i></div>
             <div><i class="fa fa-tachometer" aria-hidden="true"></i> <?= count($contact->estimates); ?></div>
           </div>
           <div>&nbsp;</div>
@@ -213,13 +213,21 @@ use JpPrefecture\JpPrefecture;
               </blockquote>
             </div>
           </div>
+          <?php $status_reason = $contact->status_reason ? \Helper\CancelReasons::getNameByValue($contact->status_reason) : ''; ?>
+          <?php if ($status_reason): ?>
+            <div class="card card-outline-cancelled text-center mt-2" data-toggle="tooltip" data-placement="top" title="<?= $status_reason; ?>">
+              <div class="card-block p-0">
+                <blockquote class="card-blockquote">理由 <i class="fa fa-commenting" aria-hidden="true"></i></blockquote>
+              </div>
+            </div>
+          <?php endif; ?>
         </td>
         <td class="align-middle">
           <?php if ($progress = $contact->getEstimateProgress()): ?>
             <div class="card card-outline-<?= $progress == 'unknown' ? 'danger' : 'success'; ?> text-center">
               <div class="card-block p-0">
                 <blockquote class="card-blockquote">
-                  <?= __('admin.estimate.progress.'.$progress) ?>
+                  <?= __('admin.estimate.progress.'.$progress); ?>
                 </blockquote>
               </div>
             </div>
@@ -228,7 +236,7 @@ use JpPrefecture\JpPrefecture;
         <td class="align-middle">
           <?php if ($contact->admin_memo): ?>
             <div class="note-box" data-container="body" data-toggle="popover" data-placement="top" data-content="<?= $contact->admin_memo; ?>">
-              <?= \Str::truncate($contact->admin_memo, 25); ?>
+              <?= \Str::truncate($contact->admin_memo, 70); ?>
             </div>
           <?php endif; ?>
         </td>
@@ -243,10 +251,12 @@ use JpPrefecture\JpPrefecture;
             </div>
           <?php endif; ?>
         </td>
-        <td class="p-0">
+        <td class="align-middle p-0">
           <div><a href="<?= \Uri::create('admin/contacts/:id/edit', ['id' => $contact->id]); ?>" class="btn btn-secondary btn-sm px-1 py-0 w-100" role="button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 編集</a></div>
           <div><a target="_blank" href="<?= \Uri::create('lpgas/contacts/:id?'.http_build_query(['pin' => $contact->pin, 'token' => $contact->token]), ['id' => $contact->id]); ?>" class="btn btn-secondary btn-sm px-1 py-0 w-100" role="button"><i class="fa fa-external-link" aria-hidden="true"></i> 提示画面</a></div>
-          <div><a href="#" class="btn-cancel btn btn-danger btn-sm px-1 py-0 w-100" role="button" data-contact-id="<?= $contact->id; ?>" data-contact-name="<?= $contact->name; ?>" data-contact-pref="<?= JpPrefecture::findByCode($contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $contact->tel; ?>"><!-- <i class="fa fa-times-circle-o" aria-hidden="true"></i>  -->キャンセル</a></div>
+          <?php if (!$contact->isCancelled()): ?>
+            <div><a href="#" class="btn-cancel btn btn-danger btn-sm px-1 py-0 w-100" role="button" data-contact-id="<?= $contact->id; ?>" data-contact-name="<?= $contact->name; ?>" data-contact-pref="<?= JpPrefecture::findByCode($contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $contact->tel; ?>"><i class="fa fa-fire" aria-hidden="true"></i> キャンセル</a></div>
+          <?php endif; ?>
         </td>
       </tr>
     <?php endforeach; ?>

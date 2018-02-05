@@ -21,11 +21,15 @@ return [
             40 => 'thinking',
             999 => 'no_action',
         ],
-
         'house_kind' => [
             0 => 'detached',
             1 => 'apartment',
             2 => 'store_ex',
+        ],
+        'ownership_kind' => [
+            0 => 'owner',
+            1 => 'borrower',
+            2 => 'unit_owner',
         ],
     ],
 
@@ -72,6 +76,17 @@ return [
             0 => 'detached',
             1 => 'apartment',
             2 => 'store_ex',
+        ],
+    ],
+
+    /**
+     * Enum for Model_CallingHistory
+     */
+    'calling_history' => [
+        'calling_method' => [
+            0 => 'tel',
+            10 => 'email',
+            20 => 'chat',
         ],
     ],
 ];

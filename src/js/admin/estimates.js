@@ -7,4 +7,9 @@ if ($('.area-estimates').length) {
   cancelEstimateOrContact('estimate');
   introduceEstimate();
   presentEstimate();
+
+  /**
+   * page admin/estimates/:id
+   */
+  setUpUnitPrice();
 }

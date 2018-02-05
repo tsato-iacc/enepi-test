@@ -27,8 +27,6 @@ return [
             'contracted' => 40,
             'cancelled' => 50,
         ],
-        // 'status_reason' => [
-        // ],
         'user_status' => [
             'checking' => 0,
             'operating' => 10,
@@ -110,6 +108,17 @@ return [
             'detached' => 0,
             'apartment' => 1,
             'store_ex' => 2,
+        ],
+    ],
+
+    /**
+     * Enum for Model_CallingHistory
+     */
+    'calling_history' => [
+        'calling_method' => [
+            'tel' => 0,
+            'email' => 10,
+            'chat' => 20,
         ],
     ],
 ];
