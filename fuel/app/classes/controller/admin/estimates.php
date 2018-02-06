@@ -55,8 +55,8 @@ class Controller_Admin_Estimates extends Controller_Admin
         ]);
 
         $conditions['order_by'] = ['id' => 'desc'];
-        $conditions['rows_limit'] = $pager->per_page;
-        $conditions['rows_offset'] = $pager->offset;
+        $conditions['limit'] = $pager->per_page;
+        $conditions['offset'] = $pager->offset;
 
         $estimates = \Model_Estimate::find('all', $conditions);
         $this->template->title = 'Estimates';
@@ -76,6 +76,29 @@ class Controller_Admin_Estimates extends Controller_Admin
     {
         if (!$estimate = \Model_Estimate::find($id, ['related' => ['contact', 'company', 'estimate_history' => ['related' => ['admin_user', 'partner_company']]]]))
             throw new HttpNotFoundException;
+
+        $this->template->title = 'Estimate - id: '.$id;
+        $this->template->content = View::forge('admin/estimates/show', [
+            'estimate' => $estimate,
+        ]);
+    }
+
+    /**
+     * Show
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_update($id)
+    {
+        if (!$estimate = \Model_Estimate::find($id, ['related' => ['contact', 'company', 'estimate_history' => ['related' => ['admin_user', 'partner_company']]]]))
+            throw new HttpNotFoundException;
+
+        print var_dump('OKKKKK');
+        exit;
+        Session::set_flash('error', "ID: {$id} ステータス変更ができませんでした");
+
+        return Response::redirect("admin/estimates/{$id}");
 
         $this->template->title = 'Estimate - id: '.$id;
         $this->template->content = View::forge('admin/estimates/show', [
@@ -308,22 +331,17 @@ class Controller_Admin_Estimates extends Controller_Admin
                     $conditions['where'][] = ['construction_finished_date', 'IS NOT', NULL];
                     break;
             }
-            
         }
 
+        // Where contact created from
         if ($created_from = \Input::get('created_from'))
-        {
-            $conditions['where'][] = ['created_at', '>=', $created_from];
-        }
+            $conditions['where'][] = ['created_at', '>=', \Helper\TimezoneConverter::convertFromStringToUTC($created_from)];;
 
+        // Where contact created to
         if ($created_to = \Input::get('created_to'))
-        {
-            $conditions['where'][] = ['created_at', '<=', $created_to];
-        }
+            $conditions['where'][] = ['created_at', '>=', \Helper\TimezoneConverter::convertFromStringToUTC($created_to)];
 
         if ($preferred_time = \Input::get('preferred_time'))
-        {
             $conditions['related']['contact']['where'][] = ['preferred_contact_time_between', $preferred_time];
-        }
     }
 }

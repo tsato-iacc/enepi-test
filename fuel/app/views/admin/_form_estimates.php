@@ -122,12 +122,12 @@ use JpPrefecture\JpPrefecture;
           </div>
         </td>
         <td class="align-middle">
-          <div><a href="<?= \Uri::create('admin/estimates/:id', ['id' => $estimate->id]); ?>" class="btn btn-secondary btn-sm px-1 mb-1" role="button">詳細</a></div>
+          <div><a href="<?= \Uri::create('admin/estimates/:id', ['id' => $estimate->id]); ?>" class="btn btn-secondary btn-sm px-1 mb-1 w-100" role="button"><i class="fa fa-address-card-o" aria-hidden="true"></i> 詳細</a></div>
           <?php if ($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_user')): ?>
-            <div><a href="#" class="btn-introduce btn btn-success btn-sm px-1 mb-1" role="button" data-estimate-id="<?= $estimate->id; ?>" data-company-name="<?= $estimate->company->getCompanyName(); ?>" data-contact-pref="<?= JpPrefecture::findByCode($estimate->contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $estimate->contact->tel; ?>">送客</a></div>
+            <div><a href="#" class="btn-introduce btn btn-success btn-sm px-1 mb-1 w-100" role="button" data-estimate-id="<?= $estimate->id; ?>" data-company-name="<?= $estimate->company->getCompanyName(); ?>" data-contact-pref="<?= JpPrefecture::findByCode($estimate->contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $estimate->contact->tel; ?>"><i class="fa fa-recycle" aria-hidden="true"></i> 送客</a></div>
           <?php endif; ?>
           <?php if ($estimate->status != \Config::get('models.estimate.status.contracted') && $estimate->status != \Config::get('models.estimate.status.cancelled')): ?>
-            <div><a href="#" class="btn-cancel btn btn-danger btn-sm px-1" role="button" data-estimate-id="<?= $estimate->id; ?>" data-contact-name="<?= $estimate->contact->name; ?>" data-contact-pref="<?= JpPrefecture::findByCode($estimate->contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $estimate->contact->tel; ?>">キャンセル</a></div>
+            <div><a href="#" class="btn-cancel btn btn-danger btn-sm px-1 w-100" role="button" data-estimate-id="<?= $estimate->id; ?>" data-contact-name="<?= $estimate->contact->name; ?>" data-contact-pref="<?= JpPrefecture::findByCode($estimate->contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $estimate->contact->tel; ?>"><i class="fa fa-fire" aria-hidden="true"></i> キャンセル</a></div>
           <?php endif; ?>
         </td>
       </tr>

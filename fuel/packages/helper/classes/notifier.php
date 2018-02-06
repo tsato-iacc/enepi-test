@@ -85,6 +85,26 @@ class Notifier
         $email->send();
     }
 
+    public static function notifyCustomerPresent(&$estimate)
+    {
+        $saving = $estimate->total_savings_in_year($estimate->contact);
+
+        $email = \Email::forge();
+        $email->to($estimate->contact->email, $estimate->contact->name);
+        $email->subject('プロパンガスのお見積りについて／enepi運営事務局');
+        $email->html_body(\View::forge('notifier/customer/present', ['estimate' => $estimate, 'saving' => $saving]));
+        $email->send();
+    }
+
+    public static function notifyAdminPresent(&$estimate)
+    {
+        $email = \Email::forge();
+        $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
+        $email->subject('見積もりを送信しました');
+        $email->html_body(\View::forge('notifier/admin/present', ['estimate' => $estimate]));
+        $email->send();
+    }
+
     /**
      * SMS
      */
