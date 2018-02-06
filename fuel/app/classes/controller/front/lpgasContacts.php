@@ -255,6 +255,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
      */
     public function get_sms_confirm($contact_id)
     {
+        
         $contact = \Model_Contact::find($contact_id);
         if (!$contact)
         {
@@ -262,15 +263,13 @@ class Controller_Front_LpgasContacts extends Controller_Front
             throw new HttpNotFoundException();
         }
 
-        Tracking::unsetTracking();
-
         $meta = [
             ['name' => 'description', 'content' => 'OOooOOppp'],
             ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
             ['name' => 'puka', 'content' => 'suka'],
         ];
 
-        if(!is_null(\Input::get('conversion_id')) || \Input::get('pin') != $contact->pin)
+        if(\Input::get('conversion_id') && \Input::get('token') && !\Input::get('pin'))
         {
             $this->template = \View::forge('front/template_contact');
 
@@ -308,7 +307,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
             }
 
 
-            $this->template->title = 'ENTER SMS CODE';
+            $this->template->title = 'エネピ';
             $this->template->meta = $meta;
             $this->template->content = View::forge('front/lpgasContacts/sms_confirm', [
                 'contact' => $contact,
@@ -318,8 +317,19 @@ class Controller_Front_LpgasContacts extends Controller_Front
             $this->template->header_decision = $header_decision;
 
         }
-        elseif(!is_null(\Input::get('pin')))
+        elseif(\Input::get('token') && \Input::get('token') == $contact->token && \Input::get('pin'))
         {
+            if (\Input::get('pin') != $contact->pin)
+            {
+                // print var_dump(\Input::get('pin'));exit;
+                $query = [
+                    'conversion_id' => 'LPGAS-'.$contact->id,
+                    'token' => $contact->token,
+                    // 'pin' => '',
+                ];
+
+                return \Response::redirect("lpgas/contacts/{$contact->id}?".http_build_query($query));
+            }
             $this->template = \View::forge('front/template_contact');
 
             $contact = \Model_Contact::find($contact_id);
@@ -385,6 +395,9 @@ class Controller_Front_LpgasContacts extends Controller_Front
             ]);
             $this->template->header_decision = $header_decision;
         }
+        else {
+            print var_dump('fff');exit;
+        }
     }
 
     public function get_details($contact_id, $uuid)
@@ -410,6 +423,10 @@ class Controller_Front_LpgasContacts extends Controller_Front
             \Log::warning("conversion id {$uuid} not found");
             throw new HttpNotFoundException();
         }
+        if($estimate->isExpired())
+        {
+            Session::set_flash('alert', 'この見積もりの有効期限は切れています');
+        }
 
 
         $feature_all = \Model_Company_Feature::find('all');
@@ -429,6 +446,8 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
 
 
+
+
         $flash_message_est = Model_Estimate::find('all', [
             'where' => [
                 ['contact_id', $contact->id],
@@ -436,35 +455,78 @@ class Controller_Front_LpgasContacts extends Controller_Front
             ]
         ]);
 
-
-        $company_name = '';
-        $estimate_verbal_ok_count = 0;
-
         if(!is_null($flash_message_est))
         {
-            $estimate_verbal_ok_count = count($flash_message_est);
-        }
+            $company_name = '';
+            $estimate_verbal_ok_count = 0;
 
-        if($estimate_verbal_ok_count > 0)
-        {
-            $i = 0;
-            foreach($flash_message_est as $f)
+            foreach($flash_message_est as $e)
             {
-                $i++;
-                if($estimate_verbal_ok_count - $i == 1)
+                if($estimate_verbal_ok_count == 0)
                 {
-                    $company_name = $company_name.$f->company->display_name.'、';
+                    $company_name = $e->company->display_name;
+                    $estimate_verbal_ok_count++;
                 }
                 else
                 {
-                    $company_name = $company_name.$f->company->display_name;   
+                    $company_name = $company_name.'、'.$e->company->display_name;
                 }
             }
-
             Session::set_flash('estimate_verbal_ok_message', $company_name.'に依頼済みです');
         }
 
         Tracking::unsetTracking();
+
+
+
+
+
+        $flash_message_notice = Model_Estimate::find('all', [
+            'where' => [
+                ['contact_id', $contact->id],
+                ['status', \Config::get('models.estimate.status.verbal_ok')],
+                ['status', \Config::get('models.estimate.status.contracted')],
+            ]
+        ]);
+
+        if(!is_null($flash_message_notice))
+        {
+            if($contact->status == \Config::get('models.contact.status.contracted'))
+            {
+                foreach($flash_message_notice as $n)
+                {
+                    if($n->status == Config::get('models.estimate.status.contracted'))
+                    {
+                        Session::set_flash('notice', $n->company->display_name.'に依頼済みです');
+                    }
+
+                } 
+            }
+            elseif($contact->status == \Config::get('models.contact.status.verbal_ok'))
+            {
+                $company_display_name = '';
+                $estimate_verbal_ok_count = 0;
+                foreach($flash_message_notice as $n)
+                {
+                    if($n->status == Config::get('models.estimate.status.verbal_ok'))
+                    {
+                        if($estimate_verbal_ok_count == 0)
+                        {
+                            $company_display_name = $n->company->display_name;
+                            $estimate_verbal_ok_count++;
+                        }
+                        else
+                        {
+                            $company_display_name = $company_display_name.'、'.$n->company->display_name;
+                        }
+                    }
+                }
+                Session::set_flash('notice', $company_display_name.'に依頼済みです');
+            }
+        }
+
+
+
 
 
         $meta = [
@@ -548,7 +610,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
 
         $query = [
-            // 'conversion_id' => 'LPGAS-'.$contact->id,
+            'conversion_id' => 'LPGAS-'.$contact->id,
             'pin' => $contact->pin,
             'token' => $contact->token,
         ];

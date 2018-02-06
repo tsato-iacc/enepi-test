@@ -50,7 +50,7 @@
             <span class="tel_nav"><i class="fa fa-hand-o-down" aria-hidden="true"></i>ここをタッチしてお電話できます！</span>
               <div class="btn_tel">
                 <a href="tel:0120771664"  onclick="ga('send', 'event', 'tel', 'click', 'contact_btn_sp', {'nonInteraction': 1});">
-                  <img class="tel" src="/assets/images/estimate_presentation/img_tel-.png" alt="Img tel" />
+                  <img class="tel" src="/assets/images/estimate_presentation/img_tel.png" alt="Img tel" />
                 </a>
               </div>
             </div>
@@ -82,5 +82,9 @@
 
   <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
   <?= Asset::js('front.min.js'); ?>
+  <?= Asset::js('bootstrap.min.js'); ?>
+
+
+
 </body>
 </html>

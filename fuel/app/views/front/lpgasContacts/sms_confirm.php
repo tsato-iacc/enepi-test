@@ -74,7 +74,7 @@
           <div class="page-content">
             <div class="estimate">
               <div class="container">
-                <?//= render "shared/bs_flash" ?>
+                <?= render("shared/bs_flash") ?>
 
                 <div class="container pc">
                   <?if($contact->status == \Config::get('models.contact.status.sent_estimate_req')){ ?>

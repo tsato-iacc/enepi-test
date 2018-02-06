@@ -276,22 +276,28 @@
                   <th class="proposal_plan">ご提案の料金</th>
                   <td class="proposal_price"><?= number_format($estimate->basic_price) ?>円</td>
                   <td class="proposal_price">
-                    <? foreach($estimate->prices as $p){ ?>
-                      <?= number_format(MyView::null_check($p->unit_price)) ?>円 x <?= number_format($contact->gas_used_amount, 1) ?>m3
-                    <? } ?>
-                    <?// @estimate.ondemand_cost_math_exprs.each.with_index do |expr, idx| ?>
-                    <div>
-                      <span style="<?//= "visibility: hidden" if idx == 0 ?>">+ </span>
-                      <?//= format_math_expr expr, left_formatter: -> x { number_to_currency x }, right_formatter: -> x { "%#0.1fm3" % x } ?>
-                    </div>
-                    <?// } ?>
-                  </td>
-                  <td class="proposal_price">
-                    <? if($estimate->fuel_adjustment_cost){ ?>
-                      <?= number_format($estimate->fuel_adjustment_cost) ?>/m3
+
+                    <? $ondemand_cost_math_exprs = $estimate->ondemand_cost_math_exprs($contact) ?>
+                    <? $exprs_count = 0; ?>
+                    <? $exprs_add = 0; ?>
+                    <? foreach($ondemand_cost_math_exprs as $exprs){ ?>
+                      <? $exprs_add += $exprs[0] * $exprs[1]; ?>
+                      <div>
+                        <span style="<? if($exprs_count == 0){print('visibility: hidden');} ?>">+ </span>
+                        <?= number_format(MyView::null_check($exprs[0])) ?>円 x <?= number_format($exprs[1], 1) ?>m3
+                        <? $exprs_count++; ?>
+                      </div>
                     <? } ?>
                   </td>
                   <td class="proposal_price">
+                    <? if(!is_null($estimate->fuel_adjustment_cost)){ ?>
+                      <?= number_format($estimate->fuel_adjustment_cost) ?>円/m3
+                    <? } ?>
+                  </td>
+                  <td class="proposal_price">
+                    <?= number_format($estimate->basic_price + $exprs_add + $estimate->fuel_adjustment_cost * $contact->gas_used_amount) ?>円
+
+
                     <?//=
     //                   number_to_currency(
     //                     @estimate.basic_price +
@@ -530,7 +536,22 @@
   <script type='text/javascript'>
     google.load('visualization', '1.0', {packages: ['corechart'], callback: draw_chart});
     function draw_chart() {
-      var data_table = new google.visualization.DataTable();data_table.addColumn({"type":"string","label":"月"});data_table.addColumn({"type":"number","label":"現在料金"});data_table.addColumn({"type":"number","label":"提案料金"});data_table.addRow([{v: "1月"}, {v: 9261}, {v: 5831}]);data_table.addRow([{v: "2月"}, {v: 8947}, {v: 5650}]);data_table.addRow([{v: "3月"}, {v: 8515}, {v: 5402}]);data_table.addRow([{v: "4月"}, {v: 8044}, {v: 5132}]);data_table.addRow([{v: "5月"}, {v: 7180}, {v: 4635}]);data_table.addRow([{v: "6月"}, {v: 6356}, {v: 4162}]);data_table.addRow([{v: "7月"}, {v: 5570}, {v: 3711}]);data_table.addRow([{v: "8月"}, {v: 5217}, {v: 3508}]);data_table.addRow([{v: "9月"}, {v: 5178}, {v: 3485}]);data_table.addRow([{v: "10月"}, {v: 6041}, {v: 3981}]);data_table.addRow([{v: "11月"}, {v: 6944}, {v: 4500}]);data_table.addRow([{v: "12月"}, {v: 8240}, {v: 5244}]);
+      var data_table = new google.visualization.DataTable();
+      data_table.addColumn({"type":"string","label":"月"});
+      data_table.addColumn({"type":"number","label":"現在料金"});
+      data_table.addColumn({"type":"number","label":"提案料金"});
+      data_table.addRow([{v: "1月"}, {v: 9261}, {v: 5831}]);
+      data_table.addRow([{v: "2月"}, {v: 8947}, {v: 5650}]);
+      data_table.addRow([{v: "3月"}, {v: 8515}, {v: 5402}]);
+      data_table.addRow([{v: "4月"}, {v: 8044}, {v: 5132}]);
+      data_table.addRow([{v: "5月"}, {v: 7180}, {v: 4635}]);
+      data_table.addRow([{v: "6月"}, {v: 6356}, {v: 4162}]);
+      data_table.addRow([{v: "7月"}, {v: 5570}, {v: 3711}]);
+      data_table.addRow([{v: "8月"}, {v: 5217}, {v: 3508}]);
+      data_table.addRow([{v: "9月"}, {v: 5178}, {v: 3485}]);
+      data_table.addRow([{v: "10月"}, {v: 6041}, {v: 3981}]);
+      data_table.addRow([{v: "11月"}, {v: 6944}, {v: 4500}]);
+      data_table.addRow([{v: "12月"}, {v: 8240}, {v: 5244}]);
       var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
       chart.draw(data_table, {width: "100%", height: 300, title: "月別LPガス料金シミュレーション"});
     };

@@ -298,6 +298,7 @@ class Model_Estimate extends \Orm\Model
     public function ondemand_cost_math_exprs($contact)
     {
         $exprs = [];
+        $count = 0;
 
         $u = $contact->gas_used_amount;
 
@@ -307,14 +308,16 @@ class Model_Estimate extends \Orm\Model
 
             if (!$price->upper_limit || $u <= $delta)
             {
-                $exprs << [$price->unit_price, $u];
+                $exprs[$count] = [$price->unit_price, $u];
                 break;
             }
             else
             {
                 $u -= $delta;
-                $exprs << [$price->unit_price, $u];
+                $exprs[$count] = [$price->unit_price, $u];
             }
+
+            $count++;
         }
 
         return $exprs;

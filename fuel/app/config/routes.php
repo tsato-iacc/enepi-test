@@ -15,7 +15,6 @@ return array(
     'lpgas/contacts/(:num)'                                   => [['GET', new Route('front/lpgasContacts/sms_confirm/$1')]],
     'lpgas/contacts/(:num)/estimates/(:any)'                  => [['GET', new Route('front/lpgasContacts/details/$1/$2')]],
     'lpgas/contacts/(:num)/estimates/ok_tentatively'          => [['POST', new Route('front/lpgasContacts/introduce/$1')]],
-    'lpgas/contacts/(:num)/estimates/(:any)/ok_tentatively'   => [['GET', new Route('front/lpgasContacts/introduce_estimate/$1/$2')]],
     ':media/lpgas/contacts/new'                               => [['GET', new Route('front/lpgasContacts/index')]],
     ':media/lpgas/contacts'                                   => [['POST', new Route('front/lpgasContacts/store')]],
     ':media/lpgas/contacts/done'                              => 'front/lpgasContacts/done',
