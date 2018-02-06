@@ -99,23 +99,12 @@ class Model_Estimate extends \Orm\Model
             $this->uuid = \Str::random('uuid');
             $this->status_updated_at = \Date::time()->format('mysql_date_time');
 
-            if ($result = parent::save($cascade, $use_transaction))
-            {
-                // FIX ME (move to package?)
-                // \Package::load('email');
-                // $email = \Email::forge();
-                // $email->to(\Config::get('enepi.company.email'), \Config::get('enepi.company.service_name'));
-                // $email->subject("紹介");
-                // $email->html_body(\View::forge('email/admin/companyIntroduction', ['estimate' => $this]));
-                // $email->send();
-            }
+            $result = parent::save($cascade, $use_transaction);
         }
         else
         {
             $result = parent::save($cascade, $use_transaction);
             // FIX ME
-            // after_save :update_contact_status // $this->updateContactStatus();
-            // after_save { contact.add_to_callings if (sent_estimate_to_user? || verbal_ok?) && !auto? }
             // after_save :log_changes, if: -> { changed? }
         }
 
@@ -237,12 +226,17 @@ class Model_Estimate extends \Orm\Model
         if ($this->status == \Config::get('models.estimate.status.pending') || $this->status == \Config::get('models.estimate.status.sent_estimate_to_iacc'))
         {
             $this->last_update_admin_user_id = $admin_id;
-            $this->status = $change_status ? \Config::get('models.estimate.status.sent_estimate_to_user') : \Config::get('models.estimate.status.sent_estimate_to_iacc');
+            $this->status = $change_status ? \Config::get('models.estimate.status.sent_estimate_to_user') : \Config::get('models.estimate.status.pending');
 
             if ($this->save())
             {
+                $contact = $this->contact;
+
                 if ($change_status)
                 {
+                    // Add to calling again if arhived
+                    \Model_Calling::add($contact);
+
                     \Helper\Notifier::notifyCustomerPresent($this);
                     \Helper\Notifier::notifyAdminPresent($this);
                 }
@@ -251,8 +245,6 @@ class Model_Estimate extends \Orm\Model
                     // \Helper\Notifier::notifyAdminPrePresent($this);
                 }
                 
-                $contact = $this->contact;
-
                 if ($change_status && $contact->status == \Config::get('models.contact.status.pending'))
                 {
                     $contact->status = \Config::get('models.contact.status.sent_estimate_req');
@@ -261,8 +253,6 @@ class Model_Estimate extends \Orm\Model
                         \Helper\Notifier::notifyCustomerPin($contact);
 
                 }
-
-                print var_dump($contact);
 
                 return true;
             }
@@ -432,10 +422,4 @@ class Model_Estimate extends \Orm\Model
 
         return $status_est;
     }
-
-    // update_contact_status
-    // private function updateContactStatus()
-    // {
-
-    // }
 }

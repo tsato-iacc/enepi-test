@@ -26,6 +26,10 @@ class Model_Calling extends \Orm\Model
         'Orm\\Observer_Typing'
     ];
 
+    protected static $_conditions = [
+        'order_by' => ['id' => 'desc'],
+    ];
+
     protected static $_belongs_to = [
         'contact',
     ];
@@ -40,5 +44,14 @@ class Model_Calling extends \Orm\Model
         $val = Validation::forge();
         
         return $val;
+    }
+
+    public static function add(&$contact)
+    {
+        if (\Model_Calling::find('first', ['where' => [['contact_id' => $contact->id],['archived' => 0]]]))
+            return;
+
+        $call = new \Model_Calling(['contact_id' => $contact->id]);
+        $call->save();
     }
 }

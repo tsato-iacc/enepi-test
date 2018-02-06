@@ -107,7 +107,7 @@ use JpPrefecture\JpPrefecture;
     <th>従量単価</th>
     <td>
       <?php if (count($estimate->prices) == 1): ?>
-        <?= number_format(array_shift($estimate->prices)->unit_price); ?>円
+        <?= number_format(reset($estimate->prices)->unit_price); ?>円
       <?php else: ?>
         <?php foreach ($estimate->prices as $price): ?>
           <div><b><?= $price->getRangeLabel() ?>:</b> <?= number_format($price->unit_price); ?>円</div>
@@ -132,7 +132,7 @@ use JpPrefecture\JpPrefecture;
 <div class="d-flex justify-content-around mb-4">
   <a class="btn btn-secondary" href="<?= \Uri::create("lpgas/contacts/{$estimate->contact->id}?".http_build_query(['pin' => $estimate->contact->pin, 'token' => $estimate->contact->token])); ?>" role="button">提示画面</a>
   <!-- CHECK ME -->
-  <?php if ($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_iacc')): ?>
+  <?php if ($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_iacc') || $estimate->status == \Config::get('models.estimate.status.pending')): ?>
     <div><a href="#" class="btn-present btn btn-info" role="button" data-estimate-id="<?= $estimate->id; ?>" data-company-name="<?= $estimate->company->getCompanyName(); ?>" data-contact-pref="<?= JpPrefecture::findByCode($estimate->contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $estimate->contact->tel; ?>">ユーザーに送信</a></div>
   <?php endif; ?>
   <?php if ($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_user')): ?>
@@ -143,9 +143,10 @@ use JpPrefecture\JpPrefecture;
   <?php endif; ?>
 </div>
 
-<?php if ($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_iacc')): ?>
+<?php if ($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_iacc') || $estimate->status == \Config::get('models.estimate.status.pending')): ?>
 <hr>
 <h2>見積り送信</h2>
+
 <?= \Form::open(); ?>
   <?= \Form::csrf(); ?>
   <?= render('admin/_form_prices', ['price_rule' => $estimate]); ?>

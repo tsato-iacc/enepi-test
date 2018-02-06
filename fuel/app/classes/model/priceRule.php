@@ -72,4 +72,30 @@ class Model_PriceRule extends \Orm\Model
 
         return $val;
     }
+
+    /**
+     * [validate description]
+     * @param  string $factory Validation rules factory
+     * @return mixed           Return Fuel\Core\Validation object or null if factory is null
+     */
+    public static function validate_estimate()
+    {
+        $val = Validation::forge();
+
+        $val->add_field('basic_price', 'basic_price', 'required|valid_string[numeric]');
+        $val->add_field('fuel_adjustment_cost', 'fuel_adjustment_cost', 'required|valid_string[numeric]');
+
+        $val->add_field('notes', 'notes', 'max_length[2000]');
+        $val->add_field('set_plan', 'set_plan', 'max_length[2000]');
+        $val->add_field('other_set_plan', 'other_set_plan', 'max_length[2000]');
+
+        foreach (\Input::post('prices', []) as $key => $v)
+        {
+            $val->add_field("prices.{$key}.unit_price", 'unit_price', 'required|valid_string[numeric]');
+            $val->add_field("prices.{$key}.under_limit", 'under_limit', 'required|valid_string[numeric]');
+            $val->add_field("prices.{$key}.upper_limit", 'upper_limit', 'valid_string[numeric]');
+        }
+
+        return $val;
+    }
 }

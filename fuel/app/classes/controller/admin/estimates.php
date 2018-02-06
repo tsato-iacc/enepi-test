@@ -74,9 +74,10 @@ class Controller_Admin_Estimates extends Controller_Admin
      */
     public function action_show($id)
     {
-        if (!$estimate = \Model_Estimate::find($id, ['related' => ['contact', 'company', 'estimate_history' => ['related' => ['admin_user', 'partner_company']]]]))
+        if (!$estimate = \Model_Estimate::find($id, ['related' => ['contact', 'company', 'prices','estimate_history' => ['related' => ['admin_user', 'partner_company']]]]))
             throw new HttpNotFoundException;
 
+        // print var_dump($estimate->prices);exit;
         $this->template->title = 'Estimate - id: '.$id;
         $this->template->content = View::forge('admin/estimates/show', [
             'estimate' => $estimate,
@@ -94,11 +95,55 @@ class Controller_Admin_Estimates extends Controller_Admin
         if (!$estimate = \Model_Estimate::find($id, ['related' => ['contact', 'company', 'estimate_history' => ['related' => ['admin_user', 'partner_company']]]]))
             throw new HttpNotFoundException;
 
-        print var_dump('OKKKKK');
-        exit;
-        Session::set_flash('error', "ID: {$id} ステータス変更ができませんでした");
+        $val = \Model_PriceRule::validate_estimate();
 
-        return Response::redirect("admin/estimates/{$id}");
+        if ($val->run() && count($val->validated('prices')) != 0)
+        {
+            $estimate->basic_price = $val->validated('basic_price');
+            $estimate->fuel_adjustment_cost = $val->validated('fuel_adjustment_cost');
+            $estimate->notes = $val->validated('notes');
+            $estimate->set_plan = $val->validated('set_plan');
+            $estimate->other_set_plan = $val->validated('other_set_plan');
+
+            $prices = [];
+
+            foreach ($val->validated('prices') as $price)
+            {
+                if (!$price['upper_limit'])
+                    unset($price['upper_limit']);
+
+                $prices[] = new \Model_Estimate_Price($price);
+            }
+
+            \DB::start_transaction();
+
+            try
+            {
+                foreach ($estimate->prices as $price)
+                {
+                    $price->delete();
+                }
+
+                $estimate->prices = $prices;
+                
+                if ($estimate->save() && $estimate->present($this->admin_id))
+                {
+                    \DB::commit_transaction();
+                    Session::set_flash('success', "ID: {$id} OK");
+                }
+
+                return Response::redirect("admin/estimates/{$id}");
+            }
+            catch (\Exception $e)
+            {
+                throw $e;
+                
+                \Log::error($e);
+                \DB::rollback_transaction();
+            }
+        }
+
+        Session::set_flash('error', 'Check input');
 
         $this->template->title = 'Estimate - id: '.$id;
         $this->template->content = View::forge('admin/estimates/show', [
@@ -193,6 +238,8 @@ class Controller_Admin_Estimates extends Controller_Admin
         if (!$estimate = \Model_Estimate::find($id, ['related' => ['company']]))
             throw new HttpNotFoundException;
 
+        print var_dump($estimate);
+
         $val = Validation::forge();
         $val->add_field('contacted', 'contacted', 'match_collection[true,false]');
         $val->add_field('visited', 'visited', 'match_collection[true,false]');
@@ -249,7 +296,7 @@ class Controller_Admin_Estimates extends Controller_Admin
                 //         $estimate->cancel($this->partner_id, 'status_reason_request_by_user')
                 //     }
                 // }
-
+                print var_dump($estimate);exit;
                 if ($estimate->save())
                 {
                     \DB::commit_transaction();

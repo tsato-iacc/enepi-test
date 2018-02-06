@@ -57,7 +57,6 @@ class Controller_Admin_Callings extends Controller_Admin
             'num_links' => 20,
         ]);
 
-        $conditions['order_by'] = ['id' => 'desc'];
         $conditions['rows_limit'] = $pager->per_page;
         $conditions['rows_offset'] = $pager->offset;
 
