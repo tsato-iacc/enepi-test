@@ -147,9 +147,37 @@ class Controller_Admin_Tracking extends Controller_Admin
      */
     public function action_statistics()
     {
+        $val = Validation::forge();
+
+        // Where created from
+        if ($created_from = \Input::get('created_from'))
+        {
+            $from = \Helper\TimezoneConverter::convertFromStringToUTC($created_from, 'Y-m-d');
+        }
+        else
+        {
+            $from = date('Y-m-01', strtotime(\Date::time()->format('mysql_date_time')));
+        }
+
+        // Where created to
+        if ($created_to = \Input::get('created_to'))
+        {
+            $to = \Helper\TimezoneConverter::convertFromStringToUTC($created_to, 'Y-m-d');
+        }
+        else
+        {
+            $to = date('Y-m-t', strtotime(\Date::time()->format('mysql_date_time')));
+        }
+
+        $tracks = \Model_Tracking::find('all');
+        $tracks[] = new \Model_Tracking(['name' => 'no', 'display_name' => 'no']);
+
         $this->template->title = 'local_contents';
         $this->template->content = View::forge('admin/tracking/statistics', [
-            'test' => 'test'
+            'tracks' => $tracks,
+            'val' => $val,
+            'from' => $from,
+            'to' => $to,
         ]);
     }
 }

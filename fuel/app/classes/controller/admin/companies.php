@@ -108,7 +108,7 @@ class Controller_Admin_Companies extends Controller_Admin
                     ],
                 ],
                 'contact',
-                'estimate_history',
+                'histories',
             ],
         ];
 

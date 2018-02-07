@@ -67,7 +67,7 @@ use JpPrefecture\JpPrefecture;
   <?php endif; ?>
   <tr>
     <th>紹介した会社</th>
-    <td><a href="<?= \Uri::create('admin/companies/'.$estimate->company->id); ?>"><?= $estimate->company->getCompanyName(); ?></a></td>
+    <td><a href="<?= \Uri::create('admin/companies/'.$estimate->company->id); ?>"><?= $estimate->company->partner_company->company_name; ?>(<?= $estimate->company->display_name ? $estimate->company->display_name : ''; ?>)</a></td>
   </tr>
   <tr>
     <th>ステータス</th>
@@ -165,7 +165,7 @@ use JpPrefecture\JpPrefecture;
     </tr>
   </thead>
   <tbody>
-    <?php foreach (array_reverse($estimate->estimate_history) as $history): ?>
+    <?php foreach (array_reverse($estimate->histories) as $history): ?>
       <?php if (isset($history->diff_json->status)): ?>
       <tr>
         <td><?= \Helper\TimezoneConverter::convertFromString($history->created_at, 'admin_table'); ?></td>
@@ -217,7 +217,7 @@ use JpPrefecture\JpPrefecture;
             </label>
           </div>
           <div class="form-group">
-            <input class="form-control" placeholder="担当者" value="" type="text" name="company_contact_name">
+            <input class="form-control" placeholder="担当者" value="<?= $estimate->company_contact_name; ?>" type="text" name="company_contact_name">
           </div>
           <div class="form-group">
             <textarea name="comment" class="form-control" rows="4" placeholder="メモ"></textarea>
@@ -236,7 +236,7 @@ use JpPrefecture\JpPrefecture;
             <input class="form-control datepicker" placeholder="訪問予定日" value="" type="text" name="visit_scheduled_date">
           </div>
           <div class="form-group">
-            <input class="form-control" placeholder="担当者" value="" type="text" name="company_contact_name">
+            <input class="form-control" placeholder="担当者" value="<?= $estimate->company_contact_name; ?>" type="text" name="company_contact_name">
           </div>
           <div class="form-group">
             <textarea name="comment" class="form-control" rows="4" placeholder="メモ"></textarea>
@@ -265,7 +265,7 @@ use JpPrefecture\JpPrefecture;
             </label>
           </div>
           <div class="form-group">
-            <input class="form-control" placeholder="担当者" value="" type="text" name="company_contact_name">
+            <input class="form-control" placeholder="担当者" value="<?= $estimate->company_contact_name; ?>" type="text" name="company_contact_name">
           </div>
           <div class="form-group">
             <textarea name="comment" class="form-control" rows="4" placeholder="メモ"></textarea>
@@ -294,7 +294,7 @@ use JpPrefecture\JpPrefecture;
             </label>
           </div>
           <div class="form-group">
-            <input class="form-control" placeholder="担当者" value="" type="text" name="company_contact_name">
+            <input class="form-control" placeholder="担当者" value="<?= $estimate->company_contact_name; ?>" type="text" name="company_contact_name">
           </div>
           <div class="form-group">
             <textarea name="comment" class="form-control" rows="4" placeholder="メモ"></textarea>
@@ -313,7 +313,7 @@ use JpPrefecture\JpPrefecture;
             <input class="form-control datepicker" placeholder="訪問予定日" value="" type="text" name="construction_scheduled_date">
           </div>
           <div class="form-group">
-            <input class="form-control" placeholder="担当者" value="" type="text" name="company_contact_name">
+            <input class="form-control" placeholder="担当者" value="<?= $estimate->company_contact_name; ?>" type="text" name="company_contact_name">
           </div>
           <div class="form-group">
             <textarea name="comment" class="form-control" rows="4" placeholder="メモ"></textarea>
@@ -346,33 +346,75 @@ use JpPrefecture\JpPrefecture;
     </tr>
   </thead>
   <tbody>
-    <!-- <% current_status_en = "" %> -->
-    <!-- <% current_status = "" %> -->
-    <!-- <% current_contact_name = "" %> -->
-    <!-- <% @timeline.each.with_index do |feed, i| %> -->
-      <tr>
-        <td>
-          <!-- <% current_contact_name = feed.company_contact_name if feed.company_contact_name %> -->
-          <!-- <%= current_contact_name %> -->
-        </td>
-        <td>
-          <!-- <% if feed.status %> -->
-            <!-- <% current_status_en = feed.status %> -->
-            <!-- <% current_status = feed.status_ja %> -->
-          <!-- <% end %> -->
-          <!-- <span class="status <%= current_status_en %>"><%= current_status %></span> -->
-        </td>
-        <td><!-- <%= format_datetime feed.created_at %> --></td>
-        <td><!-- <%= feed.comment %> --></td>
-        <td><!-- <%= feed.other_changes %> --></td>
-      </tr>
-    <!-- <% end %> -->
+    <?php $company_contact_name = ''; ?>
+    <?php $status = ''; ?>
+    <?php foreach ($timeline as $line): ?>
+      <?php if ($line instanceof \Model_Estimate_History): ?>
+        <tr>
+          <td>
+            <?php if (isset($line->diff_json->company_contact_name)): ?>
+              <?php $company_contact_name = $line->diff_json->company_contact_name->new; ?>
+            <?php endif; ?>
+            <?= $company_contact_name; ?>
+          </td>
+          <td>
+            <?php if (isset($line->diff_json->status)): ?>
+              <?php $status = $line->diff_json->status->new; ?>
+            <?php endif; ?>
+            <?php if ($status): ?>
+              <div class="card card-outline-<?= $status; ?> text-center max-width">
+                <div class="card-block p-0">
+                  <blockquote class="card-blockquote"><?= __('admin.estimate.status.'.$status); ?></blockquote>
+                </div>
+              </div>
+            <?php else: ?>
+              <b>Just created</b>
+            <?php endif; ?>
+          </td>
+          <td><?= \Helper\TimezoneConverter::convertFromString($line->created_at, 'admin_table'); ?></td>
+          <td>
+            <?php if ($line->comment): ?>
+              <?= $line->comment->comment; ?>
+            <?php endif; ?>
+          </td>
+          <td>
+            <?php if (isset($line->diff_json->visited)): ?>
+              <b>訪問済み</b>
+            <?php elseif (isset($line->diff_json->power_of_attorney_acquired)): ?>
+              <b>委任状獲得済み</b>
+            <?php elseif (isset($line->diff_json->contacted)): ?>
+              <b>連絡済み</b>
+            <?php elseif (isset($line->diff_json->visit_scheduled_date)): ?>
+              <b>訪問予定日</b>
+            <?php elseif (isset($line->diff_json->construction_scheduled_date)): ?>
+              <b>工事予定日</b>
+            <?php elseif (isset($line->diff_json->construction_finished_date)): ?>
+              <b>工事完了日</b>
+            <?php endif; ?>
+          </td>
+        </tr>
+      <?php elseif ($line instanceof \Model_Estimate_Comment): ?>
+        <tr>
+          <td><?= $company_contact_name; ?></td>
+          <td>
+            <div class="card card-outline-<?= $status; ?> text-center max-width">
+              <div class="card-block p-0">
+                <blockquote class="card-blockquote"><?= __('admin.estimate.status.'.$status); ?></blockquote>
+              </div>
+            </div>
+          </td>
+          <td><?= \Helper\TimezoneConverter::convertFromString($line->created_at, 'admin_table'); ?></td>
+          <td><?= $line->comment; ?></td>
+          <td></td>
+        </tr>
+      <?php endif; ?>
+    <?php endforeach; ?>
   </tbody>
 </table>
 
-<div class="mb-4">
+<!-- <div class="mb-4">
   <a class="btn btn-secondary" href="<?= \Uri::create('admin/estimates/:id/history', ['id' => $estimate->id]); ?>" role="button">全ての項目の更新履歴を見る</a>
-</div>
+</div> -->
 
 <!-- MODAL CANCEL START -->
 <?= render('admin/_modal_cancel'); ?>

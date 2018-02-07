@@ -72,11 +72,11 @@ class Model_Estimate extends \Orm\Model
         'comments' => [
             'model_to' => 'Model_Estimate_Comment',
         ],
-        'estimate_history' => [
-            'model_to' => 'Model_Estimate_History',
-        ],
         'prices' => [
             'model_to' => 'Model_Estimate_Price',
+        ],
+        'histories' => [
+            'model_to' => 'Model_Estimate_History',
         ],
     ];
 
@@ -90,25 +90,21 @@ class Model_Estimate extends \Orm\Model
      */
     public function save($cascade = null, $use_transaction = false)
     {
-        $result = false;
-        // FIX ME
-        // before_update { self.status_updated_at = Time.now if status_changed? }
-
         if ($this->is_new())
         {
             $this->uuid = \Str::random('uuid');
             $this->status_updated_at = \Date::time()->format('mysql_date_time');
-
-            $result = parent::save($cascade, $use_transaction);
         }
-        else
+
+        if ($this->is_changed('status'))
         {
-            $result = parent::save($cascade, $use_transaction);
-            // FIX ME
-            // after_save :log_changes, if: -> { changed? }
+            $this->status_updated_at = \Date::time()->format('mysql_date_time');
         }
 
-        return $result;
+        // Detect if model was changed
+        $this->detectChanges();
+
+        return parent::save($cascade, $use_transaction);
     }
 
     // FIX ME
@@ -310,7 +306,7 @@ class Model_Estimate extends \Orm\Model
      */
     public function getIntroduceDate()
     {
-        if ($history = $this->estimate_history)
+        if ($history = $this->histories)
         {
             $introduce_arr = [];
 
@@ -390,10 +386,60 @@ class Model_Estimate extends \Orm\Model
         return $sum;
     }
 
+    private function detectChanges()
+    {
+        // Add to history if estimate changed
+        $diff = $this->get_diff();
+        
+        // Reset model relations
+        foreach ($diff[0] as $key => $value)
+        {
+            if (is_array($value))
+                $diff[0][$key] = null;
+        }
+        foreach ($diff[1] as $key => $value)
+        {
+            if (is_array($value))
+                $diff[1][$key] = null;
+        }
+
+        // Convert value to enum
+        $diff[0] = \Helper\ModelReplacer::to_enum($this, $diff[0]);
+        $diff[1] = \Helper\ModelReplacer::to_enum($this, $diff[1]);
+
+        // Diff without value type (0 and '0' are equal)
+        if ($changes = array_diff($diff[1], $diff[0]))
+        {
+            $prepared = [];
+
+            foreach ($changes as $key => $value)
+            {
+                $prepared[$key] = [
+                    'old' => $diff[0][$key],
+                    'new' => $diff[1][$key],
+                ];
+            }
+
+            $prepared['updated_at'] = [
+                'old' => $this->updated_at ? \Date::create_from_string($this->updated_at, 'mysql_date_time')->format('mysql_json') : null,
+                'new' => \Date::time()->format('mysql_json'),
+            ];
+
+            $history = new \Model_Estimate_History([
+                'diff_json' => $prepared,
+                'admin_user_id' => isset($admin_id) ? $admin_id : null,
+                'partner_company_id' => isset($partner_company_id) ? $partner_company_id : null,
+                'user_id' => isset($last_update_user_id) ? $last_update_user_id : null,
+            ]);
+
+            $this->histories[] = $history;
+        }
+    }
+
     // through_verbal_ok
     private function hasVerbal()
     {
-        if ($history = $this->estimate_history)
+        if ($history = $this->histories)
         {
             foreach ($history as $h)
             {
