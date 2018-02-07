@@ -1,3 +1,4 @@
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <div class="estimate">
   <div class="container">
 
@@ -130,7 +131,6 @@
     <div class="panel panel-default estimate">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <?//= link_to @estimate.company.name, lpgas_contact_estimate_path(@contact, @estimate, token: @contact.token) ?>
           <?= $estimate->company->display_name ?>
         </h3>
         <p class="invite_date">紹介日時:<?= date('Y/m/d H:i', strtotime(MyView::null_check($estimate->created_at))) ?></p>
@@ -184,8 +184,13 @@
         <div class="lines">
           <? if(!is_null($estimate->basic_price)){ ?>
             <h3><i><?= MyView::image_tag("estimate_presentation/ico_glaph.png", ["class" => "ico_simulation_glaph"]); ?></i>年間節約シミュレーション</h3>
-              <div id='chart'></div>
-            <?//= render_chart(@chart, 'chart') ?>
+            <div id='chart'></div>
+            <? if (!$this->is_mobile || !is_null($google_chart_json_data)): ?>
+              <!-- GOOGLE CHART START -->
+              <div id='simulation_chart'></div>
+              <input type="hidden" name="google_chart_json_data" value="<?= $google_chart_json_data ?>">
+              <!-- GOOGLE CHART END -->
+            <? endif; ?>
             <div class="scrollable">
               <table class="table table-bordered simulation_table">
                 <thead>

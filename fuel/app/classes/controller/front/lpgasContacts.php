@@ -321,11 +321,9 @@ class Controller_Front_LpgasContacts extends Controller_Front
         {
             if (\Input::get('pin') != $contact->pin)
             {
-                // print var_dump(\Input::get('pin'));exit;
                 $query = [
                     'conversion_id' => 'LPGAS-'.$contact->id,
                     'token' => $contact->token,
-                    // 'pin' => '',
                 ];
 
                 return \Response::redirect("lpgas/contacts/{$contact->id}?".http_build_query($query));
@@ -395,9 +393,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
             ]);
             $this->template->header_decision = $header_decision;
         }
-        else {
-            print var_dump('fff');exit;
-        }
     }
 
     public function get_details($contact_id, $uuid)
@@ -445,7 +440,30 @@ class Controller_Front_LpgasContacts extends Controller_Front
         }
 
 
+        
+        if(is_array($estimate->savings_by_month($contact)))
+        {
+            $data = [
+                    'cols' => [
+                            ['id' => '','label' => '月','pattern' => '','type' => 'string'],
+                            ['id' => '','label' => '地域平均','pattern' => '','type' => 'number'],
+                            ['id' => '','label' => 'エネピ平均削減額','pattern' => '','type' => 'number'],
+                    ],
+                    'rows' => [],
+            ];
 
+            foreach ($estimate->savings_by_month($contact) as $k => $v)
+            {
+                    $key = $k - 1;
+                    $data['rows'][] = ['c' => [['v' => "{$k}月"], ['v' => round($v['before_price'], 0)], ['v' => round($v['after_price'], 0)]]];
+            }
+
+            $google_chart_json_data = json_encode($data);
+        }
+        else
+        {
+            $google_chart_json_data = null;
+        }
 
 
         $flash_message_est = Model_Estimate::find('all', [
@@ -455,7 +473,9 @@ class Controller_Front_LpgasContacts extends Controller_Front
             ]
         ]);
 
-        if(!is_null($flash_message_est))
+
+
+        if($flash_message_est)
         {
             $company_name = '';
             $estimate_verbal_ok_count = 0;
@@ -555,6 +575,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
             'company' => $company,
             'estimate' => $estimate,
             'feature_all' => $feature_all,
+            'google_chart_json_data' => $google_chart_json_data,
         ]);
         $this->template->header_decision = $header_decision;
     }
