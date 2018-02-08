@@ -149,30 +149,24 @@ class Controller_Admin_Tracking extends Controller_Admin
     {
         $val = Validation::forge();
 
-        // Where created from
-        if ($created_from = \Input::get('created_from'))
-        {
-            $from = \Helper\TimezoneConverter::convertFromStringToUTC($created_from, 'Y-m-d');
-        }
-        else
-        {
-            $from = date('Y-m-01', strtotime(\Date::time()->format('mysql_date_time')));
-        }
+        $val->add_field('created_from', 'created_from', 'required|match_pattern[/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/]');
+        $val->add_field('created_to', 'created_from', 'required|match_pattern[/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/]');
 
-        // Where created to
-        if ($created_to = \Input::get('created_to'))
+        if (\Input::get('created_from') && \Input::get('created_to') && $val->run(\Input::get()))
         {
-            $to = \Helper\TimezoneConverter::convertFromStringToUTC($created_to, 'Y-m-d');
+            $from = \Helper\TimezoneConverter::convertFromStringToUTC($val->validated('created_from'));
+            $to = \Helper\TimezoneConverter::convertFromStringToUTC($val->validated('created_to'));
         }
         else
         {
-            $to = date('Y-m-t', strtotime(\Date::time()->format('mysql_date_time')));
+            $from = \Helper\TimezoneConverter::convertFromStringToUTC(date('Y-m-01', strtotime(\Date::time()->format('mysql_date_time'))));
+            $to = \Helper\TimezoneConverter::convertFromStringToUTC(date('Y-m-t', strtotime(\Date::time()->format('mysql_date_time'))));
         }
 
         $tracks = \Model_Tracking::find('all');
         $tracks[] = new \Model_Tracking(['name' => 'no', 'display_name' => 'no']);
 
-        $this->template->title = 'local_contents';
+        $this->template->title = 'Traking statistics';
         $this->template->content = View::forge('admin/tracking/statistics', [
             'tracks' => $tracks,
             'val' => $val,

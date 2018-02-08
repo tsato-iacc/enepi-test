@@ -301,7 +301,6 @@ class Controller_Admin_Estimates extends Controller_Admin
                 //     }
                 // }
 
-                // print var_dump($estimate->is_changed());exit;
                 $is_changed = $estimate->is_changed();
 
                 if ($estimate->save())
@@ -330,8 +329,6 @@ class Controller_Admin_Estimates extends Controller_Admin
             }
             catch (\Exception $e)
             {
-                throw $e;
-                
                 \Log::error($e);
                 \DB::rollback_transaction();
             }
