@@ -93,29 +93,29 @@
         <div class="area-title accordion">■ LPガス/プロパンガス</div>
         <div class="content-wrap accordion-box">
           <div><a href="<?= MyView::create('categories/lpgas'); ?>">プロパンガスに関する記事一覧</a></div>
-          <div><a href="<?= MyView::create('category/lpgas/saving'); ?>">節約術</a></div>
-          <div><a href="<?= MyView::create('category/lpgas/company_list'); ?>">会社一覧</a></div>
-          <div><a href="<?= MyView::create('category/lpgas/knowledge'); ?>">基礎知識</a></div>
-          <div><a href="<?= MyView::create('category/lpgas/estimate'); ?>">見積もりのコツ</a></div>
-          <div><a href="<?= MyView::create('category/lpgas/column'); ?>">コラム</a></div>
+          <div><a href="<?= MyView::create('categories/lpgas/saving'); ?>">節約術</a></div>
+          <div><a href="<?= MyView::create('categories/lpgas/company_list'); ?>">会社一覧</a></div>
+          <div><a href="<?= MyView::create('categories/lpgas/knowledge'); ?>">基礎知識</a></div>
+          <div><a href="<?= MyView::create('categories/lpgas/estimate'); ?>">見積もりのコツ</a></div>
+          <div><a href="<?= MyView::create('categories/lpgas/column'); ?>">コラム</a></div>
         </div>
       </div>
       <div class="area-content">
         <div class="area-title accordion">■ ガス料金シミュレーション</div>
         <div class="content-wrap accordion-box">
-          <div><a href="<?= MyView::create('new_simple_simulation'); ?>">地域別ガス料金検索</a></div>
+          <div><a href="<?= MyView::create('simple_simulations/new'); ?>">地域別ガス料金検索</a></div>
         </div>
       </div>
       <div class="area-content">
         <div class="area-title accordion">■ 都市ガス</div>
         <div class="content-wrap accordion-box">
-          <div><a href="<?= MyView::create('category_path/CMS_CITYGAS'); ?>">都市ガスに関する記事一覧</a></div>
+          <div><a href="<?= MyView::create('categories/citygas'); ?>">都市ガスに関する記事一覧</a></div>
         </div>
       </div>
       <div class="area-content">
         <div class="area-title accordion">■ 電力</div>
         <div class="content-wrap accordion-box">
-          <div><a href="<?= MyView::create('category_path/CMS_ELECTRICITY'); ?>">電力に関する記事一覧</a></div>
+          <div><a href="<?= MyView::create('categories/electricity'); ?>">電力に関する記事一覧</a></div>
         </div>
       </div>
     </div>
