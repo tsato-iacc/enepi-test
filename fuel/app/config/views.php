@@ -31,6 +31,11 @@ return [
             1 => 'borrower',
             2 => 'unit_owner',
         ],
+        'is_seen' => [
+            0 => 'unregistered',
+            1 => 'not_seen',
+            2 => 'seen',
+        ],
     ],
 
     /**

@@ -2,13 +2,6 @@
 use JpPrefecture\JpPrefecture;
 ?>
 
-<!-- FIX ME -->
-<div class="btn-group mb-4" role="group" aria-label="CSV">
-  <button type="button" class="btn btn-secondary" disabled="disabled">検索結果: 219件</button>
-  <button type="button" class="btn btn-secondary" disabled="disabled">現在の検索条件でCSVをダウンロード</button>
-  <button type="button" class="btn btn-secondary" disabled="disabled">変更履歴をCSVでダウンロード</button>
-</div>
-
 <table class="table table-sm table-hover small-row">
   <thead>
     <tr>

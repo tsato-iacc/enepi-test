@@ -1,3 +1,10 @@
+<!-- FIX ME -->
+<div class="btn-group mb-4" role="group" aria-label="CSV">
+  <button type="button" class="btn btn-secondary">全て: <?= $total_items; ?>件</button>
+  <a class="btn btn-secondary" href="<?= \Uri::create('admin/csv/companies/:id/estimates', ['id' => $id]).'.csv'; ?>" role="button">この企業のCSVをダウンロード</a>
+  <button type="button" class="btn btn-secondary">変更履歴をCSVでダウンロード</button>
+</div>
+
 <!-- FORM ESTIMATES START -->
 <?= render('admin/_form_estimates', ['estimates' => $estimates]); ?>
 <!-- FORM ESTIMATES END -->

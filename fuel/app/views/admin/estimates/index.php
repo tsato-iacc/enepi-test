@@ -82,6 +82,13 @@
   <button type="submit" class="btn btn-secondary">検索</button>
 <?= Form::close(); ?>
 
+<!-- FIX ME -->
+<div class="btn-group mb-4" role="group" aria-label="CSV">
+  <button type="button" class="btn btn-secondary">検索結果: <?= $total_items; ?>件</button>
+  <a class="btn btn-secondary<?= $total_items > 1000 ? ' disabled' : ''; ?>"<?= $total_items > 1000 ? ' aria-disabled="true"' : ''; ?> href="<?= \Uri::create('admin/csv/estimates.csv').'?'.$_SERVER["QUERY_STRING"]; ?>" role="button">現在の検索条件でCSVをダウンロード</a>
+  <button type="button" class="btn btn-secondary">変更履歴をCSVでダウンロード</button>
+</div>
+
 <!-- FORM ESTIMATES START -->
 <?= render('admin/_form_estimates', ['estimates' => $estimates]); ?>
 <!-- FORM ESTIMATES END -->

@@ -147,9 +147,31 @@ class Controller_Admin_Tracking extends Controller_Admin
      */
     public function action_statistics()
     {
-        $this->template->title = 'local_contents';
+        $val = Validation::forge();
+
+        $val->add_field('created_from', 'created_from', 'required|match_pattern[/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/]');
+        $val->add_field('created_to', 'created_from', 'required|match_pattern[/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/]');
+
+        if (\Input::get('created_from') && \Input::get('created_to') && $val->run(\Input::get()))
+        {
+            $from = \Helper\TimezoneConverter::convertFromStringToUTC($val->validated('created_from'));
+            $to = \Helper\TimezoneConverter::convertFromStringToUTC($val->validated('created_to'));
+        }
+        else
+        {
+            $from = \Helper\TimezoneConverter::convertFromStringToUTC(date('Y-m-01', strtotime(\Date::time()->format('mysql_date_time'))));
+            $to = \Helper\TimezoneConverter::convertFromStringToUTC(date('Y-m-t', strtotime(\Date::time()->format('mysql_date_time'))));
+        }
+
+        $tracks = \Model_Tracking::find('all');
+        $tracks[] = new \Model_Tracking(['name' => 'no', 'display_name' => 'no']);
+
+        $this->template->title = 'Traking statistics';
         $this->template->content = View::forge('admin/tracking/statistics', [
-            'test' => 'test'
+            'tracks' => $tracks,
+            'val' => $val,
+            'from' => $from,
+            'to' => $to,
         ]);
     }
 }

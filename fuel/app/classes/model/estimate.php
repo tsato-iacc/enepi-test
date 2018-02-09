@@ -72,11 +72,11 @@ class Model_Estimate extends \Orm\Model
         'comments' => [
             'model_to' => 'Model_Estimate_Comment',
         ],
-        'estimate_history' => [
-            'model_to' => 'Model_Estimate_History',
-        ],
         'prices' => [
             'model_to' => 'Model_Estimate_Price',
+        ],
+        'histories' => [
+            'model_to' => 'Model_Estimate_History',
         ],
     ];
 
@@ -90,36 +90,21 @@ class Model_Estimate extends \Orm\Model
      */
     public function save($cascade = null, $use_transaction = false)
     {
-        $result = false;
-        // FIX ME
-        // before_update { self.status_updated_at = Time.now if status_changed? }
-
         if ($this->is_new())
         {
             $this->uuid = \Str::random('uuid');
             $this->status_updated_at = \Date::time()->format('mysql_date_time');
-
-            if ($result = parent::save($cascade, $use_transaction))
-            {
-                // FIX ME (move to package?)
-                // \Package::load('email');
-                // $email = \Email::forge();
-                // $email->to(\Config::get('enepi.company.email'), \Config::get('enepi.company.service_name'));
-                // $email->subject("紹介");
-                // $email->html_body(\View::forge('email/admin/companyIntroduction', ['estimate' => $this]));
-                // $email->send();
-            }
         }
-        else
+
+        if ($this->is_changed('status'))
         {
-            $result = parent::save($cascade, $use_transaction);
-            // FIX ME
-            // after_save :update_contact_status // $this->updateContactStatus();
-            // after_save { contact.add_to_callings if (sent_estimate_to_user? || verbal_ok?) && !auto? }
-            // after_save :log_changes, if: -> { changed? }
+            $this->status_updated_at = \Date::time()->format('mysql_date_time');
         }
 
-        return $result;
+        // Detect if model was changed
+        $this->detectChanges();
+
+        return parent::save($cascade, $use_transaction);
     }
 
     // FIX ME
@@ -139,7 +124,14 @@ class Model_Estimate extends \Orm\Model
 
             $pref_model = Simulation::getUsedAmount($contact->getPrefectureCode());
 
-            $a = 1.0 / $pref_model[$contact->gas_meter_checked_month];
+            if ($contact->gas_meter_checked_month)
+            {
+                $a = 1.0 / $pref_model[$contact->gas_meter_checked_month];
+            }
+            else
+            {
+                $a = 1.0;
+            }
 
             foreach(range(1, 12) as $month)
             {
@@ -245,12 +237,17 @@ class Model_Estimate extends \Orm\Model
         if ($this->status == \Config::get('models.estimate.status.pending') || $this->status == \Config::get('models.estimate.status.sent_estimate_to_iacc'))
         {
             $this->last_update_admin_user_id = $admin_id;
-            $this->status = $change_status ? \Config::get('models.estimate.status.sent_estimate_to_user') : \Config::get('models.estimate.status.sent_estimate_to_iacc');
+            $this->status = $change_status ? \Config::get('models.estimate.status.sent_estimate_to_user') : \Config::get('models.estimate.status.pending');
 
             if ($this->save())
             {
+                $contact = $this->contact;
+
                 if ($change_status)
                 {
+                    // Add to calling again if arhived
+                    \Model_Calling::add($contact);
+
                     \Helper\Notifier::notifyCustomerPresent($this);
                     \Helper\Notifier::notifyAdminPresent($this);
                 }
@@ -259,8 +256,6 @@ class Model_Estimate extends \Orm\Model
                     // \Helper\Notifier::notifyAdminPrePresent($this);
                 }
                 
-                $contact = $this->contact;
-
                 if ($change_status && $contact->status == \Config::get('models.contact.status.pending'))
                 {
                     $contact->status = \Config::get('models.contact.status.sent_estimate_req');
@@ -269,8 +264,6 @@ class Model_Estimate extends \Orm\Model
                         \Helper\Notifier::notifyCustomerPin($contact);
 
                 }
-
-                print var_dump($contact);
 
                 return true;
             }
@@ -328,7 +321,7 @@ class Model_Estimate extends \Orm\Model
      */
     public function getIntroduceDate()
     {
-        if ($history = $this->estimate_history)
+        if ($history = $this->histories)
         {
             $introduce_arr = [];
 
@@ -385,6 +378,26 @@ class Model_Estimate extends \Orm\Model
         return $exprs;
     }
 
+    public function progress()
+    {
+        if ($this->construction_finished_date)
+            return __('admin.estimate.progress.construction_finished_date');
+
+        if ($this->construction_scheduled_date)
+            return __('admin.estimate.progress.construction_scheduled_date');
+        
+        if ($this->power_of_attorney_acquired)
+            return __('admin.estimate.progress.power_of_attorney_acquired');
+        
+        if ($this->visited)
+            return __('admin.estimate.progress.visited');
+        
+        if ($this->contacted)
+            return __('admin.estimate.progress.contacted');
+        
+        return __('admin.estimate.progress.unknown');
+    }
+
     /**
      * Private methods
      */
@@ -411,10 +424,60 @@ class Model_Estimate extends \Orm\Model
         return $sum;
     }
 
+    private function detectChanges()
+    {
+        // Add to history if estimate changed
+        $diff = $this->get_diff();
+        
+        // Reset model relations
+        foreach ($diff[0] as $key => $value)
+        {
+            if (is_array($value))
+                $diff[0][$key] = null;
+        }
+        foreach ($diff[1] as $key => $value)
+        {
+            if (is_array($value))
+                $diff[1][$key] = null;
+        }
+
+        // Convert value to enum
+        $diff[0] = \Helper\ModelReplacer::to_enum($this, $diff[0]);
+        $diff[1] = \Helper\ModelReplacer::to_enum($this, $diff[1]);
+
+        // Diff without value type (0 and '0' are equal)
+        if ($changes = array_diff($diff[1], $diff[0]))
+        {
+            $prepared = [];
+
+            foreach ($changes as $key => $value)
+            {
+                $prepared[$key] = [
+                    'old' => $diff[0][$key],
+                    'new' => $diff[1][$key],
+                ];
+            }
+
+            $prepared['updated_at'] = [
+                'old' => $this->updated_at ? \Date::create_from_string($this->updated_at, 'mysql_date_time')->format('mysql_json') : null,
+                'new' => \Date::time()->format('mysql_json'),
+            ];
+
+            $history = new \Model_Estimate_History([
+                'diff_json' => $prepared,
+                'admin_user_id' => isset($admin_id) ? $admin_id : null,
+                'partner_company_id' => isset($partner_company_id) ? $partner_company_id : null,
+                'user_id' => isset($last_update_user_id) ? $last_update_user_id : null,
+            ]);
+
+            $this->histories[] = $history;
+        }
+    }
+
     // through_verbal_ok
     private function hasVerbal()
     {
-        if ($history = $this->estimate_history)
+        if ($history = $this->histories)
         {
             foreach ($history as $h)
             {
@@ -428,31 +491,19 @@ class Model_Estimate extends \Orm\Model
         return false;
     }
 
-    // public function getStatusEst()
-    // {
-    //     Model_Estimate::find('all', [
-    //         'where' => [
-    //             ['lpgas_contact', $lpgas->id],
-    //             ['status', 'in', [2,4]],
-    //         ]
-    //     ])
-    //     $status_est = '';
+    public function getStatusEst()
+    {
+        $status_est = '';
 
-    //     if ($this->status == \Config::get('models.estimate.status.sent_estimate_to_user') || $this->status == \Config::get('models.estimate.status.verbal_ok') || $this->status == \Config::get('models.estimate.status.contracted'))
-    //     {
-    //         $status_est = 'ok';
-    //     }
-    //     elseif ($this->status == \Config::get('models.estimate.status.sent_estimate_to_iacc') || $this->status == \Config::get('models.estimate.status.pending') || $this->status == \Config::get('models.estimate.status.cancelled'))
-    //     {
-    //         $status_est = 'ng';
-    //     }
+        if ($this->status == \Config::get('models.estimate.status.sent_estimate_to_user') || $this->status == \Config::get('models.estimate.status.verbal_ok') || $this->status == \Config::get('models.estimate.status.contracted'))
+        {
+            $status_est = 'ok';
+        }
+        elseif ($this->status == \Config::get('models.estimate.status.sent_estimate_to_iacc') || $this->status == \Config::get('models.estimate.status.pending') || $this->status == \Config::get('models.estimate.status.cancelled'))
+        {
+            $status_est = 'ng';
+        }
 
-    //     return $status_est;
-    // }
-
-    // update_contact_status
-    // private function updateContactStatus()
-    // {
-
-    // }
+        return $status_est;
+    }
 }
