@@ -67,6 +67,34 @@ class Controller_Admin_Csv extends Controller_Admin
         return \File::download(APPPATH."/tmp/{$name}", '見積り一覧.csv', null, null, true);
     }
 
+    public function action_estimates_history()
+    {
+        $conditions = [
+            'where' => [],
+            'related' => [
+                'company' => [
+                    'related' => [
+                        'partner_company',
+                    ],
+                ],
+                'contact' => [
+                    'where' => [],
+                ],
+            ],
+            'order_by' => [
+                'id' => 'desc',
+            ]
+        ];
+
+        $this->updateEstimateConditions($conditions);
+        $estimates = \Model_Estimate::find('all', $conditions);
+
+        $name = \Str::random('alpha', 16).'.csv';
+        $this->createEstimateCsv($estimates, $name);
+
+        return \File::download(APPPATH."/tmp/{$name}", '見積り一覧.csv', null, null, true);
+    }
+
     public function action_contacts_estimates($id)
     {
         $contact = \Model_Contact::find($id, ['related' => ['tracking', 'estimates' => ['related' => ['company']]]]);
