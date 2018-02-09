@@ -39,14 +39,16 @@ class Controller_Admin_Contacts extends Controller_Admin
                     'where' => [],
                 ],
                 'calling_histories',
+                'tracking',
             ],
         ];
 
         $related_where = $this->updateConditions($conditions);
+        $total_items = \Model_Contact::count($conditions);
 
         $pager = \Pagination::forge('contacts', [
             'name' => 'bootstrap4',
-            'total_items' => \Model_Contact::count($conditions),
+            'total_items' => $total_items,
             'per_page' => 50,
             'uri_segment' => 'page',
             'num_links' => 20,
@@ -71,6 +73,7 @@ class Controller_Admin_Contacts extends Controller_Admin
         $this->template->content = View::forge('admin/contacts/index', [
             'val' => $val,
             'contacts' => $contacts,
+            'total_items' => $total_items,
         ]);
     }
 
@@ -147,6 +150,7 @@ class Controller_Admin_Contacts extends Controller_Admin
         $this->template->title = 'Estimates';
         $this->template->content = View::forge('admin/contacts/estimates_index', [
             'estimates' => $contact->estimates,
+            'id' => $id,
         ]);
     }
 

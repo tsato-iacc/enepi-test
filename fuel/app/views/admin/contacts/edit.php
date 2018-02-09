@@ -24,7 +24,7 @@ use JpPrefecture\JpPrefecture;
   <tr>
     <th>ID</th>
     <td><?= $contact->id; ?></td>
-    <th>ID</th>
+    <th>端末</th>
     <td><?= __('admin.contact.terminal_types.'.$contact->terminal); ?></td>
   </tr>
   <tr>

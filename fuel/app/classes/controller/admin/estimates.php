@@ -40,15 +40,17 @@ class Controller_Admin_Estimates extends Controller_Admin
                 'contact' => [
                     'where' => [],
                 ],
-                'estimate_history',
+                'histories',
             ],
         ];
 
         $this->updateConditions($conditions);
 
+        $total_items = \Model_Estimate::count($conditions);
+
         $pager = \Pagination::forge('estimates', [
             'name' => 'bootstrap4',
-            'total_items' => \Model_Estimate::count($conditions),
+            'total_items' => $total_items,
             'per_page' => 50,
             'uri_segment' => 'page',
             'num_links' => 20,
@@ -59,9 +61,11 @@ class Controller_Admin_Estimates extends Controller_Admin
         $conditions['offset'] = $pager->offset;
 
         $estimates = \Model_Estimate::find('all', $conditions);
+        
         $this->template->title = 'Estimates';
         $this->template->content = View::forge('admin/estimates/index', [
             'estimates' => $estimates,
+            'total_items' => $total_items,
             'val' => Validation::forge(),
         ]);
     }
@@ -74,12 +78,20 @@ class Controller_Admin_Estimates extends Controller_Admin
      */
     public function action_show($id)
     {
-        if (!$estimate = \Model_Estimate::find($id, ['related' => ['contact', 'company', 'estimate_history' => ['related' => ['admin_user', 'partner_company']]]]))
+        if (!$estimate = \Model_Estimate::find($id, ['related' => ['contact', 'company', 'prices','histories' => ['related' => ['admin_user', 'partner_company']]]]))
             throw new HttpNotFoundException;
+
+        $histories = $estimate->get('histories', ['order_by' => ['id' => 'desc']]);
+        $comments = $estimate->get('comments', ['where' => [['estimate_change_log_id', null]], 'order_by' => ['id' => 'desc']]);
+
+        $timeline = $histories + $comments;
+
+        // print var_dump($comments);exit;
 
         $this->template->title = 'Estimate - id: '.$id;
         $this->template->content = View::forge('admin/estimates/show', [
             'estimate' => $estimate,
+            'timeline' => array_reverse(\Arr::sort($timeline, 'created_at', 'desc')),
         ]);
     }
 
@@ -91,14 +103,58 @@ class Controller_Admin_Estimates extends Controller_Admin
      */
     public function action_update($id)
     {
-        if (!$estimate = \Model_Estimate::find($id, ['related' => ['contact', 'company', 'estimate_history' => ['related' => ['admin_user', 'partner_company']]]]))
+        if (!$estimate = \Model_Estimate::find($id, ['related' => ['contact', 'company', 'histories' => ['related' => ['admin_user', 'partner_company']]]]))
             throw new HttpNotFoundException;
 
-        print var_dump('OKKKKK');
-        exit;
-        Session::set_flash('error', "ID: {$id} ステータス変更ができませんでした");
+        $val = \Model_PriceRule::validate_estimate();
 
-        return Response::redirect("admin/estimates/{$id}");
+        if ($val->run() && count($val->validated('prices')) != 0)
+        {
+            $estimate->basic_price = $val->validated('basic_price');
+            $estimate->fuel_adjustment_cost = $val->validated('fuel_adjustment_cost');
+            $estimate->notes = $val->validated('notes');
+            $estimate->set_plan = $val->validated('set_plan');
+            $estimate->other_set_plan = $val->validated('other_set_plan');
+
+            $prices = [];
+
+            foreach ($val->validated('prices') as $price)
+            {
+                if (!$price['upper_limit'])
+                    unset($price['upper_limit']);
+
+                $prices[] = new \Model_Estimate_Price($price);
+            }
+
+            \DB::start_transaction();
+
+            try
+            {
+                foreach ($estimate->prices as $price)
+                {
+                    $price->delete();
+                }
+
+                $estimate->prices = $prices;
+                
+                if ($estimate->save() && $estimate->present($this->admin_id))
+                {
+                    \DB::commit_transaction();
+                    Session::set_flash('success', "ID: {$id} OK");
+                }
+
+                return Response::redirect("admin/estimates/{$id}");
+            }
+            catch (\Exception $e)
+            {
+                throw $e;
+                
+                \Log::error($e);
+                \DB::rollback_transaction();
+            }
+        }
+
+        Session::set_flash('error', 'Check input');
 
         $this->template->title = 'Estimate - id: '.$id;
         $this->template->content = View::forge('admin/estimates/show', [
@@ -114,7 +170,7 @@ class Controller_Admin_Estimates extends Controller_Admin
      */
     public function action_cancel($id)
     {
-        if (!$estimate = \Model_Estimate::find($id, ['related' => ['estimate_history', 'company']]))
+        if (!$estimate = \Model_Estimate::find($id, ['related' => ['histories', 'company']]))
             throw new HttpNotFoundException;
         
         if ($status_reason = \Input::post('status_reason'))
@@ -140,7 +196,7 @@ class Controller_Admin_Estimates extends Controller_Admin
      */
     public function action_introduce($id)
     {
-        if (!$estimate = \Model_Estimate::find($id, ['related' => ['estimate_history', 'company', 'contact']]))
+        if (!$estimate = \Model_Estimate::find($id, ['related' => ['histories', 'company', 'contact']]))
             throw new HttpNotFoundException;
 
         if ($estimate->introduce($this->admin_id))
@@ -167,7 +223,7 @@ class Controller_Admin_Estimates extends Controller_Admin
      */
     public function action_present($id)
     {
-        if (!$estimate = \Model_Estimate::find($id, ['related' => ['estimate_history', 'company']]))
+        if (!$estimate = \Model_Estimate::find($id, ['related' => ['histories', 'company']]))
             throw new HttpNotFoundException;
 
         if ($estimate->present($this->admin_id))
@@ -207,13 +263,6 @@ class Controller_Admin_Estimates extends Controller_Admin
             \DB::start_transaction();
             try
             {
-                $estimate->last_update_admin_user_id = $this->admin_id;
-
-                if ($comment = \Input::post('comment'))
-                {
-                    $history_id = null;
-                    $estimate->comments[] = new \Model_Estimate_Comment(['comment' => $comment, 'estimate_change_log_id' => $history_id]);
-                }
 
                 if ($val->validated('contacted') == 'true')
                     $estimate->contacted = true;
@@ -229,6 +278,12 @@ class Controller_Admin_Estimates extends Controller_Admin
                 
                 if ($val->validated('construction_scheduled_date'))
                     $estimate->construction_scheduled_date = $val->validated('construction_scheduled_date');
+
+                if ($val->validated('company_contact_name'))
+                    $estimate->company_contact_name = $val->validated('company_contact_name');
+
+                if ($estimate->last_update_admin_user_id != $this->admin_id)
+                    $estimate->last_update_admin_user_id = $this->admin_id;
                 
                 // FIX ME Move to partner
                 // 成約済み
@@ -250,8 +305,26 @@ class Controller_Admin_Estimates extends Controller_Admin
                 //     }
                 // }
 
+                $is_changed = $estimate->is_changed();
+
                 if ($estimate->save())
                 {
+                    // Add comment after estimate has saved and history record was created
+                    if ($comment = \Input::post('comment'))
+                    {
+                        $history_id = null;
+
+                        if ($is_changed)
+                        {
+                            $histories = \Arr::sort($estimate->histories, 'id', 'desc');
+                            $h = reset($histories);
+                            $history_id = $h->id;
+                        }
+                        
+                        $comment = new \Model_Estimate_Comment(['estimate_id' => $estimate->id, 'comment' => $comment, 'estimate_change_log_id' => $history_id]);
+                        $comment->save();
+                    }
+
                     \DB::commit_transaction();
                     Session::set_flash('success', "ID: {$id} 更新 OK");
                 }

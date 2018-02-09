@@ -41,4 +41,11 @@ class Model_Estimate_History extends \Orm\Model
         ],
         'partner_company',
     ];
+
+    protected static $_has_one = [
+        'comment' => [
+            'model_to' => 'Model_Estimate_Comment',
+            'key_to' => 'estimate_change_log_id',
+        ],
+    ];
 }

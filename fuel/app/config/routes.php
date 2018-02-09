@@ -111,4 +111,12 @@ return array(
      */
     'partner/estimates'                                    => [['GET', new Route('partner/estimates/index')]],
     'partner/estimates/(:num)'                             => [['GET', new Route('partner/estimates/edit/$1')]],
+
+    /**
+     * CSV
+     */
+    'admin/csv/companies/(:num)/estimates'                 => [['GET', new Route('admin/csv/companies_estimates/$1')]],
+    'admin/csv/estimates'                                  => [['GET', new Route('admin/csv/estimates')]],
+    'admin/csv/contacts'                                   => [['GET', new Route('admin/csv/contacts')]],
+    'admin/csv/contacts/(:num)/estimates'                  => [['GET', new Route('admin/csv/contacts_estimates/$1')]],
 );
