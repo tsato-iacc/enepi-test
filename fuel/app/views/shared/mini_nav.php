@@ -13,7 +13,7 @@
           <li><?= MyView::link_to('基礎知識', "/categories/lpgas/knowledge") ?></li>
           <li><?= MyView::link_to('見積もりのコツ', "/categories/lpgas/estimate") ?></li>
           <li><?= MyView::link_to('コラム',  "/categories/lpgas/column") ?></li>
-          <li class="special"><?= MyView::link_to('すべての記事', "articles") ?></li>
+          <li class="special"><?= MyView::link_to('すべての記事', "/articles") ?></li>
         </ul>
       </div>
     </div>

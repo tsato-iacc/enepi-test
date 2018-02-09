@@ -24,6 +24,12 @@
 
     <? }elseif($css_call == 'old'){ ?>
       <?= Asset::css('application.css'); ?>
+      <?= Asset::css('front.min.css'); ?>
+
+    <? }elseif($css_call == 'index'){ ?>
+      <?= Asset::css('application.css'); ?>
+      <?= Asset::css('estimate_presentation.css'); ?>
+      <?= Asset::css('front.min.css'); ?>
     <? } ?>
 
   </head>
