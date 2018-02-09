@@ -75,7 +75,6 @@
             <div class="estimate">
               <div class="container">
                 <?= render("shared/bs_flash") ?>
-
                 <div class="container pc">
                   <?if($contact->status == \Config::get('models.contact.status.sent_estimate_req')){ ?>
                     <?= MyView::image_tag("estimate_presentation/new_step_img_02.png"); ?>
@@ -92,7 +91,6 @@
                   <h1>連絡を希望する会社を選びましょう！</h1>
                 </div>
 
-              <? if(!empty($contact->pin) && $contact->pin != $pin){ ?>
                 <div class="container section">
                   <h2 class="header"><?= $contact->name ?>様 マッチング会社一覧</h2>
                   <div class="text-center">
@@ -189,17 +187,11 @@
                     });
                   </script>
                 </div>
-              <?}else{ ?>
-                <?//= yield ?>
-              <? } ?>
-            </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      <?//= yield :tail ?>
-
 
     <!-- Yahoo Code for your Target List -->
     　　<script type="text/javascript" language="javascript">

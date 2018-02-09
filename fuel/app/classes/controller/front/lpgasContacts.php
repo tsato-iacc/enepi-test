@@ -48,10 +48,13 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         $this->template->title = 'local_contents';
         $this->template->meta = $meta;
+        $this->template->header = View::forge('front/lpgasContacts/lpgas_contacts_header');
         $this->template->content = View::forge('front/lpgasContacts/index', [
             'contact' => new \Model_Contact(),
             'month_selected' => '',
         ]);
+        $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
+        $this->template->css_call = 'done';
     }
 
     /**
@@ -182,7 +185,10 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         $this->template->title = 'お見積もり情報入力';
         $this->template->meta = $meta;
+        $this->template->header = View::forge('front/lpgasContacts/lpgas_contacts_header');
         $this->template->content = $view;
+        $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
+        $this->template->css_call = 'done';
     }
 
     /**
@@ -202,11 +208,14 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         $this->template->title = 'お見積もり情報入力';
         $this->template->meta = $meta;
+        $this->template->header = View::forge('front/lpgasContacts/done_header');
         $this->template->content = View::forge('front/lpgasContacts/old', [
             'val' => \Model_Contact::validate('old_form'),
             'contact' => new \Model_Contact(),
             'apartment_form' => \Input::get('apartment_form') ? true : false,
         ]);
+        $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
+        $this->template->css_call = 'old';
     }
 
     /**
@@ -237,14 +246,16 @@ class Controller_Front_LpgasContacts extends Controller_Front
             ['name' => 'puka', 'content' => 'suka'],
         ];
 
-        $header_decision = 'done';
-
         $this->template->title = 'DONE';
         $this->template->meta = $meta;
+        $this->template->header = View::forge('front/lpgasContacts/done_header');
         $this->template->content = View::forge('front/lpgasContacts/done', [
-            'contact' => $contact
+            'contact' => $contact,
+            'done_tail' => \View::forge('front/lpgasContacts/done_tail'),
         ]);
-        $this->template->header_decision = $header_decision;
+        $this->template->content->set_global('contact', $contact);
+        $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
+        $this->template->css_call = 'done';
     }
 
     /**
@@ -255,7 +266,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
      */
     public function get_sms_confirm($contact_id)
     {
-        
         $contact = \Model_Contact::find($contact_id);
         if (!$contact)
         {
@@ -263,28 +273,39 @@ class Controller_Front_LpgasContacts extends Controller_Front
             throw new HttpNotFoundException();
         }
 
+
+
         $meta = [
             ['name' => 'description', 'content' => 'OOooOOppp'],
             ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
             ['name' => 'puka', 'content' => 'suka'],
         ];
 
+
+
+        // SMS認証画面
         if(\Input::get('conversion_id') && \Input::get('token') && !\Input::get('pin'))
         {
+
             $this->template = \View::forge('front/template_contact');
 
 
-            $header_decision = 'sms_confirm';
+
+            $header_decision = 'other';
             $pin = \Input::get('pin');
 
 
+
             $pr_tracking_parameter_name = '';
+
             if(!is_null($contact->tracking))
             {
                 $pr_tracking_parameter_name = $contact->tracking->name;
             }
+
             $re_cv_params = ['contact_id' => $contact->id, 'token' => \Input::get('token'), 'pr' => $pr_tracking_parameter_name];
             $re_cv_url = null;
+
 
 
             if(!is_null($contact->from_kakaku))
@@ -307,18 +328,24 @@ class Controller_Front_LpgasContacts extends Controller_Front
             }
 
 
+
             $this->template->title = 'エネピ';
             $this->template->meta = $meta;
+            $this->template->header = View::forge('front/lpgasContacts/lpgas_contacts_header');
             $this->template->content = View::forge('front/lpgasContacts/sms_confirm', [
                 'contact' => $contact,
                 'pin' => $pin,
                 're_cv_url' => $re_cv_url,
             ]);
-            $this->template->header_decision = $header_decision;
+            $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
+            $this->template->css_call = 'presentation';
 
         }
+        // お客様マイページ
         elseif(\Input::get('token') && \Input::get('token') == $contact->token && \Input::get('pin'))
         {
+
+            // SMS認証画面で入力した値が間違っていた場合SMS認証画面に戻る
             if (\Input::get('pin') != $contact->pin)
             {
                 $query = [
@@ -328,14 +355,22 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
                 return \Response::redirect("lpgas/contacts/{$contact->id}?".http_build_query($query));
             }
+
+
+
             $this->template = \View::forge('front/template_contact');
 
+
+
             $contact = \Model_Contact::find($contact_id);
+
             if (!$contact)
             {
                 \Log::warning("conversion id {$contact_id} not found");
                 throw new HttpNotFoundException();
             }
+
+
 
             $est_count_sent_estimate_to_user = count(Model_Estimate::find('all', [
                 'where' => [
@@ -343,6 +378,8 @@ class Controller_Front_LpgasContacts extends Controller_Front
                     ['status', \Config::get('models.estimate.status.sent_estimate_to_user')],
                 ]
             ]));
+
+
 
             $est = Model_Estimate::find('all', [
                 'where' => [
@@ -360,6 +397,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
             $est_count = count($est);
 
 
+
             $prefecture_data = \Model_LocalContentPrefecture::find($contact['prefecture_code']);
             if (!$prefecture_data)
             {
@@ -367,7 +405,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
                 throw new HttpNotFoundException();
             }
 
-            Tracking::unsetTracking();
+
 
             $meta = [
                 ['name' => 'description', 'content' => 'OOooOOppp'],
@@ -375,14 +413,18 @@ class Controller_Front_LpgasContacts extends Controller_Front
                 ['name' => 'puka', 'content' => 'suka'],
             ];
 
-            $header_decision = 'estimate_presentation';
 
+
+            $header_decision = 'other';
             $prefecture_KanjiAndCode   = JpPrefecture::allKanjiAndCode();
             $prefecture_kanji          = $this->prefecture_kanji(  $prefecture_KanjiAndCode,
                 $contact['prefecture_code']);
 
+
+
             $this->template->title = 'エネピ';
             $this->template->meta = $meta;
+            $this->template->header = View::forge('front/lpgasContacts/lpgas_contacts_header');
             $this->template->content = View::forge('front/lpgasContacts/estimate_presentation', [
                 'contact' => $contact,
                 'prefecture_kanji' => $prefecture_kanji,
@@ -390,17 +432,26 @@ class Controller_Front_LpgasContacts extends Controller_Front
                 'est' => $est,
                 'est_count' => $est_count,
                 'est_count_sent_estimate_to_user' => $est_count_sent_estimate_to_user,
+                'estimate_presentation_tail' => \View::forge('front/lpgasContacts/estimate_presentation_tail'),
             ]);
-            $this->template->header_decision = $header_decision;
+            $this->template->content->set_global('contact', $contact);
+            $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
+            $this->template->tail = View::forge('front/lpgasContacts/estimate_presentation_tail', [
+                'contact' => $contact
+            ]);
+            $this->template->css_call = 'presentation';
         }
     }
 
     public function get_details($contact_id, $uuid)
     {
+
         $this->template = \View::forge('front/template_contact');
 
 
+
         $contact = \Model_Contact::find($contact_id);
+
         if (!$contact)
         {
             \Log::warning("conversion id {$contact_id} not found");
@@ -408,23 +459,28 @@ class Controller_Front_LpgasContacts extends Controller_Front
         }
 
 
+
         $estimate = \Model_Estimate::find('first',[
-                'where' => [
-                  ['uuid', $uuid],
-                 ],
+            'where' => [
+                ['uuid', $uuid],
+            ],
         ]);
+
         if (!$estimate)
         {
             \Log::warning("conversion id {$uuid} not found");
             throw new HttpNotFoundException();
         }
+
         if($estimate->isExpired())
         {
             Session::set_flash('alert', 'この見積もりの有効期限は切れています');
         }
 
 
+
         $feature_all = \Model_Company_Feature::find('all');
+
         if (!$feature_all)
         {
             \Log::warning("CompanyFeature not found");
@@ -432,7 +488,9 @@ class Controller_Front_LpgasContacts extends Controller_Front
         }
 
 
+
         $company = [];
+
         foreach ($contact->estimate as $e){
             if($e->uuid == $uuid){
                 $company = $e;
@@ -466,14 +524,13 @@ class Controller_Front_LpgasContacts extends Controller_Front
         }
 
 
+
         $flash_message_est = Model_Estimate::find('all', [
             'where' => [
                 ['contact_id', $contact->id],
                 ['status', \Config::get('models.estimate.status.verbal_ok')],
             ]
         ]);
-
-
 
         if($flash_message_est)
         {
@@ -494,10 +551,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
             }
             Session::set_flash('estimate_verbal_ok_message', $company_name.'に依頼済みです');
         }
-
-        Tracking::unsetTracking();
-
-
 
 
 
@@ -547,8 +600,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
 
 
-
-
         $meta = [
             ['name' => 'description', 'content' => 'OOooOOppp'],
             ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
@@ -556,19 +607,16 @@ class Controller_Front_LpgasContacts extends Controller_Front
         ];
 
 
-        $header_decision = 'details';
-
-
-        $prefecture_KanjiAndCode   = JpPrefecture::allKanjiAndCode();
-        $prefecture_kanji          = $this->prefecture_kanji(  $prefecture_KanjiAndCode,
-            $contact['prefecture_code']);
-
-
+        $header_decision = 'other';
+        $prefecture_KanjiAndCode = JpPrefecture::allKanjiAndCode();
+        $prefecture_kanji = $this->prefecture_kanji($prefecture_KanjiAndCode, $contact['prefecture_code']);
         $used_amount_by_month = $this->used_amount_by_month($contact);
+
 
 
         $this->template->title = 'エネピ';
         $this->template->meta = $meta;
+        $this->template->header = View::forge('front/lpgasContacts/lpgas_contacts_header');
         $this->template->content = View::forge('front/lpgasContacts/details', [
             'contact' => $contact,
             'prefecture_kanji' => $prefecture_kanji,
@@ -577,21 +625,25 @@ class Controller_Front_LpgasContacts extends Controller_Front
             'feature_all' => $feature_all,
             'google_chart_json_data' => $google_chart_json_data,
         ]);
-        $this->template->header_decision = $header_decision;
+        $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
+        $this->template->css_call = 'presentation';
+
     }
 
 
 
-    public function post_introduce($contact_id){
+    public function post_introduce($contact_id)
+    {
 
         $contact = \Model_Contact::find($contact_id);
+
         if (!$contact)
         {
             \Log::warning("conversion id {$contact_id} not found");
             throw new HttpNotFoundException();
         }
 
-        Tracking::unsetTracking();
+
 
         $meta = [
             ['name' => 'description', 'content' => 'OOooOOppp'],
@@ -600,7 +652,9 @@ class Controller_Front_LpgasContacts extends Controller_Front
         ];
 
 
+
         $this->template = \View::forge('front/template_contact');
+
 
 
         $select_estimate = \Input::post('estimate_ids', []);
@@ -618,6 +672,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
             $e = Model_Estimate::find('first', ['where' => [['uuid', $select_estimate]]]);
             $e->introduce(null, null, $contact_id);
         }
+
 
 
         $preferred_contact_time_between = \Input::post('preferred_contact_time_between', null);
@@ -686,9 +741,12 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         $this->template->title = 'プロパンガス料金シミュレーション 結果';
         $this->template->meta = $meta;
+        $this->template->header = View::forge('front/lpgasContacts/lpgas_contacts_header');
         $this->template->content = View::forge('front/lpgasContacts/old', [
             'breadcrumb' => $breadcrumb,
         ]);
+        $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
+        $this->template->css_call = 'done';
 
     }
 
