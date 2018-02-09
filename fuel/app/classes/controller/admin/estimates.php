@@ -46,9 +46,11 @@ class Controller_Admin_Estimates extends Controller_Admin
 
         $this->updateConditions($conditions);
 
+        $total_items = \Model_Estimate::count($conditions);
+
         $pager = \Pagination::forge('estimates', [
             'name' => 'bootstrap4',
-            'total_items' => \Model_Estimate::count($conditions),
+            'total_items' => $total_items,
             'per_page' => 50,
             'uri_segment' => 'page',
             'num_links' => 20,
@@ -59,9 +61,11 @@ class Controller_Admin_Estimates extends Controller_Admin
         $conditions['offset'] = $pager->offset;
 
         $estimates = \Model_Estimate::find('all', $conditions);
+        
         $this->template->title = 'Estimates';
         $this->template->content = View::forge('admin/estimates/index', [
             'estimates' => $estimates,
+            'total_items' => $total_items,
             'val' => Validation::forge(),
         ]);
     }

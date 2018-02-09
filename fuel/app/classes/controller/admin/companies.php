@@ -112,9 +112,10 @@ class Controller_Admin_Companies extends Controller_Admin
             ],
         ];
 
+        $total_items = \Model_Estimate::count($conditions);
         $pager = \Pagination::forge('estimates', [
             'name' => 'bootstrap4',
-            'total_items' => \Model_Estimate::count($conditions),
+            'total_items' => $total_items,
             'per_page' => 50,
             'uri_segment' => 'page',
             'num_links' => 20,
@@ -128,6 +129,8 @@ class Controller_Admin_Companies extends Controller_Admin
         $this->template->title = 'Company estimates';
         $this->template->content = View::forge('admin/companies/estimates_index', [
             'estimates' => $estimates,
+            'total_items' => $total_items,
+            'id' => $id,
         ]);
     }
 

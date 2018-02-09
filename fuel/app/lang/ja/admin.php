@@ -83,6 +83,11 @@ return [
             11 => '11月',
             12 => '12月',
         ],
+        'is_seen' => [
+            'unregistered' => '記録なし',
+            'not_seen' => '×',
+            'seen' => '◯',
+        ],
     ],
 
     'estimate' => [

@@ -124,7 +124,14 @@ class Model_Estimate extends \Orm\Model
 
             $pref_model = Simulation::getUsedAmount($contact->getPrefectureCode());
 
-            $a = 1.0 / $pref_model[$contact->gas_meter_checked_month];
+            if ($contact->gas_meter_checked_month)
+            {
+                $a = 1.0 / $pref_model[$contact->gas_meter_checked_month];
+            }
+            else
+            {
+                $a = 1.0;
+            }
 
             foreach(range(1, 12) as $month)
             {
@@ -358,6 +365,26 @@ class Model_Estimate extends \Orm\Model
         }
 
         return $exprs;
+    }
+
+    public function progress()
+    {
+        if ($this->construction_finished_date)
+            return __('admin.estimate.progress.construction_finished_date');
+
+        if ($this->construction_scheduled_date)
+            return __('admin.estimate.progress.construction_scheduled_date');
+        
+        if ($this->power_of_attorney_acquired)
+            return __('admin.estimate.progress.power_of_attorney_acquired');
+        
+        if ($this->visited)
+            return __('admin.estimate.progress.visited');
+        
+        if ($this->contacted)
+            return __('admin.estimate.progress.contacted');
+        
+        return __('admin.estimate.progress.unknown');
     }
 
     /**
