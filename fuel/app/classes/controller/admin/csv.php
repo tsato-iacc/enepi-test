@@ -83,19 +83,29 @@ class Controller_Admin_Csv extends Controller_Admin
             ],
             'order_by' => [
                 'id' => 'desc',
-            ]
+            ],
         ];
 
         $this->updateEstimateConditions($conditions);
         $estimates = \Model_Estimate::find('all', $conditions);
 
         $ids = \Arr::pluck($estimates, 'id');
-        $query = DB::select('*')->from('lpgas_estimate_change_logs')->where('id', 'IN', $ids);
 
-        var_dump($query)
+        $histories = \Model_Estimate_History::find('all',[
+            'where' => [
+                ['estimate_id', 'IN', $ids],
+            ],
+            'related' => [
+                'admin_user',
+                'partner_company',
+            ],
+            'order_by' => [
+                'id' => 'desc',
+            ],
+        ]);
 
         $name = \Str::random('alpha', 16).'.csv';
-        $this->createEstimateHistoryCsv($query, $name);
+        $this->createEstimateHistoryCsv($histories, $name);
 
         return \File::download(APPPATH."/tmp/{$name}", '見積り一覧.csv', null, null, true);
     }
@@ -260,20 +270,51 @@ class Controller_Admin_Csv extends Controller_Admin
         }
     }
     
-    private function createEstimateHistoryCsv(&$estimates, &$name)
+    private function createEstimateHistoryCsv(&$histories, &$name)
     {
-        $headers = \Config::get('csv.estimate_history');
+        $headers = \Config::get('csv.estimates_history');
         $format = \Format::forge();
 
         \File::update(APPPATH.DIRECTORY_SEPARATOR.'/tmp/', $name, mb_convert_encoding($format->to_csv([$headers])."\n", 'SJIS'));
 
-        foreach ($estimates as $estimate)
+        foreach ($histories as $history)
         {
-            $line = [
-                
-            ];
+            if (isset($history->diff_json->uuid))
+                continue;
 
-            \File::append(APPPATH.DIRECTORY_SEPARATOR.'/tmp/', $name, mb_convert_encoding($format->to_csv([$line])."\n", 'SJIS'));
+            $user = '';
+
+            if ($history->admin_user_id)
+            {
+                $user = $history->admin_user->email;
+            }
+            else if ($history->partner_company_id)
+            {
+                $user = $history->partner_company->company_name;
+            }
+
+            foreach ($history->diff_json as $key => $val)
+            {
+                if (in_array($key, ['updated_at', 'last_update_admin_user_id', 'last_update_partner_company_id']))
+                {
+                    print var_dump($val);
+                    continue;
+                }
+
+                if ($val->old == $val->new)
+                    continue;
+
+                $line = [
+                    $history->estimate->uuid,
+                    $user,
+                    $key,
+                    $val->old,
+                    $val->new,
+                    \Helper\TimezoneConverter::convertFromString($history->created_at, 'admin_table'),
+                ];
+                
+                \File::append(APPPATH.DIRECTORY_SEPARATOR.'/tmp/', $name, mb_convert_encoding($format->to_csv([$line])."\n", 'SJIS'));
+            }
         }
     }
 
