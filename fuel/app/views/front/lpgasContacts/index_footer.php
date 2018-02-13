@@ -27,6 +27,11 @@
 	.lp004-footer-ul a:hover {
 		color: #00a0e9;
 	}
+	
+	.modal-open .modal {
+	    overflow-x: hidden;
+	    overflow-y: auto;
+	}
 
 	.modal {
 	    position: fixed;
@@ -34,12 +39,15 @@
 	    right: 0;
 	    bottom: 0;
 	    left: 0;
+	    width: 100%;
+    	height: 100%;
 	    z-index: 1050;
 	    display: none;
 	    overflow: hidden;
 	    -webkit-overflow-scrolling: touch;
 	    outline: 0;
 		background-color: rgba(0,0,0,0.10);
+		padding-top: 0;
 	}
 
     .modal-dialog {
@@ -51,38 +59,72 @@
 	    font-size: 14px;
 	    line-height: 1.42857143;
 	    color: #333;
+	    left: 50px;
+    }
+
+    .modal-content {
+    	border-radius: 6px;
     }
 
 	.modal-header {
         font-size: 16px;
+        border-radius: 4px 4px 0px 0px / 4px 4px 0px 0px;
         background-color: #00a0e9;
-        border-radius: 0px;
         color: #FFF;
 	}
 
 	.modal-title {
         font-size: 14px;
+        font-weight: normal;
         margin: 0;
         padding: 0;
         background-color: #00a0e9;
 	}
 
+
+
+	.modal-body {
+		padding: 15px;
+	}
+
 	.modal-body h3 {
-		padding-bottom: 8px;
+		font-family: inherit;
+	    font-weight: 500;
+	    line-height: 1.1;
+	    color: inherit;
         font-size: 20px;
 		border-bottom: 2px solid #00a0e9;
+		padding-bottom: 8px;
 		position: relative;
-    	padding: 15px;
 	}
 
 	.modal-body p {
 	    margin: 0 0 10px;
 	}
 
+    .modal-body ul li {
+    	list-style-type: disc;
+    	list-style-position: inside;
+    	margin-bottom: 16px;
+    	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		padding-left: 1em;
+		text-indent: -1.3em;
+    }
+
 	.modal-body .responsible-address {
 	    background-color: #dff5ff;
 	    padding: 10px;
 	}
+
+	.modal-body .responsible-address a {
+	    color: #333;
+		text-decoration: none;
+	}
+
+	.modal-body .responsible-address a:hover {
+		color: #00a0e9;
+	}
+
 </style>
 
 
