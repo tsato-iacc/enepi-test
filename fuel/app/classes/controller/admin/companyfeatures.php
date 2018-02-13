@@ -30,7 +30,7 @@ class Controller_Admin_CompanyFeatures extends Controller_Admin
     public function action_index()
     {
         $this->template->title = 'local_contents';
-        $this->template->content = View::forge('admin/companyFeatures/index', [
+        $this->template->content = View::forge('admin/companyfeatures/index', [
             'test' => 'test'
         ]);
     }
@@ -56,7 +56,7 @@ class Controller_Admin_CompanyFeatures extends Controller_Admin
     public function action_edit($id)
     {
         $this->template->title = 'local_contents';
-        $this->template->content = View::forge('admin/companyFeatures/edit', [
+        $this->template->content = View::forge('admin/companyfeatures/edit', [
             'test' => 'test'
         ]);
     }

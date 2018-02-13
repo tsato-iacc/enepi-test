@@ -30,7 +30,7 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
     public function action_index()
     {
         $this->template->title = '会社一覧';
-        $this->template->content = View::forge('admin/partnerCompanies/index', [
+        $this->template->content = View::forge('admin/partnercompanies/index', [
             'companies' => \Model_Partner_Company::find('all'),
         ]);
     }
@@ -44,7 +44,7 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
     public function action_create()
     {
         $this->template->title = 'local_contents';
-        $this->template->content = View::forge('admin/partnerCompanies/create', [
+        $this->template->content = View::forge('admin/partnercompanies/create', [
             'val' => \Model_Partner_Company::validate(),
             'partner_company' => new \Model_Partner_Company(),
         ]);
@@ -103,7 +103,7 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
         Session::set_flash('error', 'partner_companyを追加できませんでした');
 
         $this->template->title = 'New partner_company';
-        $this->template->content = View::forge('admin/partnerCompanies/create', [
+        $this->template->content = View::forge('admin/partnercompanies/create', [
             'partner_company' => $partner_company,
             'val' => $val,
         ]);
@@ -121,7 +121,7 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
             throw new HttpNotFoundException;
 
         $this->template->title = 'Edit partner_company';
-        $this->template->content = View::forge('admin/partnerCompanies/edit', [
+        $this->template->content = View::forge('admin/partnercompanies/edit', [
             'val' => \Model_Partner_Company::validate(),
             'partner_company' => $partner_company,
         ]);
@@ -187,7 +187,7 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
         Session::set_flash('error', 'partner_companyを更新できませんでした');
 
         $this->template->title = 'Edit partner_company';
-        $this->template->content = View::forge('admin/partnerCompanies/edit', [
+        $this->template->content = View::forge('admin/partnercompanies/edit', [
             'val' => $val,
             'partner_company' => $partner_company,
         ]);
@@ -205,7 +205,7 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
             throw new HttpNotFoundException;
 
         $this->template->title = 'List of emails';
-        $this->template->content = View::forge('admin/partnerCompanies/emails_index', [
+        $this->template->content = View::forge('admin/partnercompanies/emails_index', [
             'val' => \Model_Partner_Email::validate(),
             'partner_company' => $partner_company,
         ]);
@@ -237,7 +237,7 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
         Session::set_flash('error', 'emailを更新できませんでした');
 
         $this->template->title = 'List of emails';
-        $this->template->content = View::forge('admin/partnerCompanies/emails_index', [
+        $this->template->content = View::forge('admin/partnercompanies/emails_index', [
             'val' => $val,
             'partner_company' => $partner_company,
         ]);

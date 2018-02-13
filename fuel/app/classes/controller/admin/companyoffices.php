@@ -33,7 +33,7 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
             throw new HttpNotFoundException;
 
         $this->template->title = '営業拠点一覧';
-        $this->template->content = View::forge('admin/companyOffices/index', [
+        $this->template->content = View::forge('admin/companyoffices/index', [
             'val' => Validation::forge(),
             'company' => $company,
         ]);
@@ -90,7 +90,7 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
         Session::set_flash('error', 'officeを追加できませんでした');
 
         $this->template->title = '営業拠点一覧';
-        $this->template->content = View::forge('admin/companyOffices/index', [
+        $this->template->content = View::forge('admin/companyoffices/index', [
             'val' => $val,
             'company' => $company,
         ]);
@@ -142,7 +142,7 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
             throw new HttpNotFoundException;
 
         $this->template->title = '料金テーブル';
-        $this->template->content = View::forge('admin/companyOffices/prices_index', [
+        $this->template->content = View::forge('admin/companyoffices/prices_index', [
             'company' => $company,
             'geocode' => $geocode,
             'count' => 24 - count($geocode->price_rules),
@@ -178,7 +178,7 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
             $price_rule = \Model_PriceRule::forge($val->validated());
 
         $this->template->title = '料金テーブル';
-        $this->template->content = View::forge('admin/companyOffices/prices_create', [
+        $this->template->content = View::forge('admin/companyoffices/prices_create', [
             'company' => $company,
             'geocode' => $geocode,
             'price_rule' => $price_rule,
@@ -312,7 +312,7 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
             throw new HttpNotFoundException;
 
         $this->template->title = '対応可能市区町村';
-        $this->template->content = View::forge('admin/companyOffices/area_index', [
+        $this->template->content = View::forge('admin/companyoffices/area_index', [
             'company' => $company,
             'geocode' => $geocode,
         ]);
