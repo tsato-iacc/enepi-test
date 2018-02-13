@@ -1,20 +1,23 @@
-<? if flash[:notice] ?>
+<? if(Session::get_flash('notice')){ ?>
   <div class="alert alert-success">
     <i class="fa fa-info-circle"></i>
-    <?= flash[:notice] ?>
+    <?= Session::get_flash('notice'); ?>
   </div>
 <? } ?>
-<? if flash[:warning] ?>
+<? if(Session::get_flash('warning')){ ?>
   <div class="alert alert-warning">
     <i class="fa fa-info-danger"></i>
-    <?= flash[:warning] ?>
+    <?= Session::get_flash('warning'); ?>
   </div>
 <? } ?>
-<? if flash[:alert] ?>
+<? if(Session::get_flash('alert')){ ?>
   <div class="alert alert-danger">
     <i class="fa fa-info-danger"></i>
-    <?// FIXME ?>
-    <?= raw flash[:alert] ?>
+    <?= Session::get_flash('alert'); ?>
   </div>
 <? } ?>
-<? flash[:error] = flash[:alert] = flash[:warning] = flash[:notice] = nil ?>
+
+<? Session::delete_flash('error'); ?>
+<? Session::delete_flash('alert'); ?>
+<? Session::delete_flash('warning'); ?>
+<? Session::delete_flash('notice'); ?>

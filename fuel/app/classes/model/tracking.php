@@ -88,4 +88,26 @@ class Model_Tracking extends \Orm\Model
     {
         $this->support_ssl = true;
     }
+
+
+    public function conversion_tags_for($cv_point, $conversion_id, $pr_tracking_parameter)
+    {
+
+        $conversion_tag1 = '';
+        if($this->id == $conversion_id && $this->render_conversion_tag_only_if_match && $this->cv_point == $cv_point)
+        {
+            $conversion_tag1 = $this->conversion_tag;
+        }
+
+
+        $conversion_tag2 = '';
+        if(!$this->render_conversion_tag_only_if_match && $this->cv_point == $cv_point)
+        {
+            $conversion_tag2 = $this->conversion_tag;
+        }
+
+
+        return $conversion_tag1.'\n'.$conversion_tag2;
+    }
+
 }

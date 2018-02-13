@@ -200,11 +200,19 @@ class Model_Estimate extends \Orm\Model
     }
 
     // 送客 ok_tentatively
-    public function introduce($admin_id)
+    public function introduce($admin_id = null, $partner_id = null, $user_id = null)
     {
         if ($this->status == \Config::get('models.estimate.status.sent_estimate_to_user'))
         {
-            $this->last_update_admin_user_id = $admin_id;
+            if ($admin_id)
+                $this->last_update_admin_user_id = $admin_id;
+
+            if ($partner_id)
+                $this->last_update_partner_company_id = $partner_id;
+
+            if ($admin_id)
+                $this->last_update_user_id = $user_id;
+            
             $this->status = \Config::get('models.estimate.status.verbal_ok');
 
             if ($this->save())
@@ -345,6 +353,7 @@ class Model_Estimate extends \Orm\Model
     public function ondemand_cost_math_exprs($contact)
     {
         $exprs = [];
+        $count = 0;
 
         $u = $contact->gas_used_amount;
 
@@ -354,14 +363,16 @@ class Model_Estimate extends \Orm\Model
 
             if (!$price->upper_limit || $u <= $delta)
             {
-                $exprs << [$price->unit_price, $u];
+                $exprs[$count] = [$price->unit_price, $u];
                 break;
             }
             else
             {
                 $u -= $delta;
-                $exprs << [$price->unit_price, $u];
+                $exprs[$count] = [$price->unit_price, $u];
             }
+
+            $count++;
         }
 
         return $exprs;

@@ -47,24 +47,7 @@
       <a <?= MyView::link_to('/', ["class" => "submit"]); ?> >ホームへ戻る</a>
     <? } ?>
   </div>
-
-  <? if(!($contact->sent_auto_estimate_req != null)){ ?>
-    <?//= content_for :tail do ?>
-      <?// r}er "cv_tags", contact: @contact, cv_point: :cv_point_done_estimate ?>
-    <?// } ?>
-  <? } ?>
 </div>
 
-<? if($from_kakaku != null){ ?>
-  <script type="text/javascript">
-      if(typeof _satellite !!= "undefined"){
-          _satellite.pageBottom();
-      }
-  </script>
-<? } ?>
-
-<script src="https://ca.iacc.tokyo/js/ca.js"></script>
-<script>
-cacv('見積もり完了(手動送客)', {ch:'63912289', link:'<?//= @contact.id ?>', tel:'<?//= @contact.tel ?>', name:'<?//= @contact.name ?>', mail:'<?//= @contact.email ?>', zip:'<?//= @contact.zip_code ?>', address:'<?//= @contact.address ?>'});
-</script>
+<?= $done_tail ?>
 
