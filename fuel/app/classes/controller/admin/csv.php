@@ -67,6 +67,39 @@ class Controller_Admin_Csv extends Controller_Admin
         return \File::download(APPPATH."/tmp/{$name}", '見積り一覧.csv', null, null, true);
     }
 
+    public function action_estimates_history()
+    {
+        $conditions = [
+            'where' => [],
+            'related' => [
+                'company' => [
+                    'related' => [
+                        'partner_company',
+                    ],
+                ],
+                'contact' => [
+                    'where' => [],
+                ],
+            ],
+            'order_by' => [
+                'id' => 'desc',
+            ]
+        ];
+
+        $this->updateEstimateConditions($conditions);
+        $estimates = \Model_Estimate::find('all', $conditions);
+
+        $ids = \Arr::pluck($estimates, 'id');
+        $query = DB::select('*')->from('lpgas_estimate_change_logs')->where('id', 'IN', $ids);
+
+        var_dump($query)
+
+        $name = \Str::random('alpha', 16).'.csv';
+        $this->createEstimateHistoryCsv($query, $name);
+
+        return \File::download(APPPATH."/tmp/{$name}", '見積り一覧.csv', null, null, true);
+    }
+
     public function action_contacts_estimates($id)
     {
         $contact = \Model_Contact::find($id, ['related' => ['tracking', 'estimates' => ['related' => ['company']]]]);
@@ -221,6 +254,23 @@ class Controller_Admin_Csv extends Controller_Admin
                 $contact->priority_degree == \Config::get('models.contact.priority_degree.regular') ? '通常' : '至急',
                 __('admin.contact.desired_option.'.$contact->desired_option),
                 $contact->body,
+            ];
+
+            \File::append(APPPATH.DIRECTORY_SEPARATOR.'/tmp/', $name, mb_convert_encoding($format->to_csv([$line])."\n", 'SJIS'));
+        }
+    }
+    
+    private function createEstimateHistoryCsv(&$estimates, &$name)
+    {
+        $headers = \Config::get('csv.estimate_history');
+        $format = \Format::forge();
+
+        \File::update(APPPATH.DIRECTORY_SEPARATOR.'/tmp/', $name, mb_convert_encoding($format->to_csv([$headers])."\n", 'SJIS'));
+
+        foreach ($estimates as $estimate)
+        {
+            $line = [
+                
             ];
 
             \File::append(APPPATH.DIRECTORY_SEPARATOR.'/tmp/', $name, mb_convert_encoding($format->to_csv([$line])."\n", 'SJIS'));

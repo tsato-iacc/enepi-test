@@ -1,1 +1,1 @@
-<?= render('admin/partnerCompanies/_form'); ?>
+<?= render('admin/partnercompanies/_form'); ?>

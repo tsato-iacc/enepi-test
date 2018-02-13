@@ -121,11 +121,15 @@ use JpPrefecture\JpPrefecture;
 <!-- SEARCH FORM END -->
 
 <!-- FIX ME -->
+<?php if ($auth_user->isAdmin()): ?>
 <div class="btn-group mb-4" role="group" aria-label="CSV">
   <button type="button" class="btn btn-secondary">検索結果: <?= $total_items; ?>件</button>
   <a class="btn btn-secondary<?= $total_items > 1000 ? ' disabled' : ''; ?>"<?= $total_items > 1000 ? ' aria-disabled="true"' : ''; ?> href="<?= \Uri::create('admin/csv/contacts.csv').'?'.$_SERVER["QUERY_STRING"]; ?>" role="button">現在の検索条件でCSVをダウンロード</a>
   <button type="button" class="btn btn-secondary">変更履歴をCSVでダウンロード</button>
 </div>
+<?php else: ?>
+<h4>検索結果: <?= $total_items; ?>件</h4>
+<?php endif; ?>
 
 <table class="table table-sm table-hover small-row">
   <thead>

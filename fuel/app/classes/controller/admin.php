@@ -6,6 +6,7 @@ class Controller_Admin extends Controller_Base
 
     // FIX ME Set real id
     protected $admin_id = 20;
+    protected $auth_user = null;
 
     public function before()
     {
@@ -16,6 +17,8 @@ class Controller_Admin extends Controller_Base
             // if (Auth::check())
             if (true)
             {
+                $this->auth_user = \Model_AdminUser::find($this->admin_id);
+                \View::set_global('auth_user', $this->auth_user, false);
                 // check permission
                 // if (!Auth::member(\Config::get('carme.groups.superadmin')) && !$access)
                 //     throw new HttpNotFoundException;
