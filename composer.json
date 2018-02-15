@@ -28,7 +28,8 @@
         "iacc/cms-php": "dev-master",
         "notfoundsam/jp_prefecture": "dev-master",
         "aws/aws-sdk-php": "^3.36",
-        "mobiledetect/mobiledetectlib": "^2.8"
+        "mobiledetect/mobiledetectlib": "^2.8",
+        "twilio/sdk": "^5.16"
     },
     "suggest": {
         "dwoo/dwoo" : "Allow Dwoo templating with the Parser package",

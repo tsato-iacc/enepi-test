@@ -4,7 +4,7 @@
 if ($('.area-contacts').length) {
   
   // See helper_functions.js
-  cancelEstimateOrContact('contact');
+  cancelEstimateOrContact('contact', 'admin');
   introduceEstimate();
   deleteContact();
 }

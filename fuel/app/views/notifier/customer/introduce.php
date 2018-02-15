@@ -39,3 +39,5 @@ Mail：<?= \Config::get('enepi.service.email'); ?><br>
 <br>
 その他ご不明な点などございましたら、気兼ねなくご連絡いただけますと幸いでございます。<br>
 お手数おかけ致しますが、何卒宜しくお願い申し上げます。<br>
+<br>
+<?= render('notifier/footer'); ?>

@@ -94,7 +94,7 @@ class Controller_Front_Categories extends Controller_Front
         ];
 
         // FIX ME!
-        $this->template->title = 'local_contents';
+        $this->template->title = 'プロパンガス(LPガス)に関する記事一覧';
         $this->template->meta = $meta;
 
         $this->template->content = View::forge('front/categories/index', [
@@ -182,7 +182,7 @@ class Controller_Front_Categories extends Controller_Front
         ];
 
         // FIX ME!
-        $this->template->title = 'local_contents';
+        $this->template->title = 'エネピ';
         $this->template->meta = $meta;
 
         $this->template->content = View::forge('front/categories/articles', [

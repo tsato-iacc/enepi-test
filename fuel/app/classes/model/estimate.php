@@ -167,13 +167,21 @@ class Model_Estimate extends \Orm\Model
         return $sum;
     }
 
-    public function cancel($admin_id, $status_reason)
+    public function cancel(&$auth_user, $status_reason)
     {
         $reason_val = \Helper\CancelReasons::getValueByName($status_reason);
         
         if ($this->status != \Config::get('models.estimate.status.cancelled') && $this->status != \Config::get('models.estimate.status.contracted') && $reason_val !== null)
         {
-            $this->last_update_admin_user_id = $admin_id;
+            if ($auth_user instanceof \Model_AdminUser)
+            {
+                $this->last_update_admin_user_id = $auth_user->id;
+            }
+            else if ($auth_user instanceof \Model_Partner_Company)
+            {
+                $this->last_update_partner_company_id = $auth_user->id;
+            }
+
             $this->status_reason = $reason_val;
             $this->status = \Config::get('models.estimate.status.cancelled');
 
@@ -200,11 +208,19 @@ class Model_Estimate extends \Orm\Model
     }
 
     // 送客 ok_tentatively
-    public function introduce($admin_id)
+    public function introduce($admin_id = null, $partner_id = null, $user_id = null)
     {
         if ($this->status == \Config::get('models.estimate.status.sent_estimate_to_user'))
         {
-            $this->last_update_admin_user_id = $admin_id;
+            if ($admin_id)
+                $this->last_update_admin_user_id = $admin_id;
+
+            if ($partner_id)
+                $this->last_update_partner_company_id = $partner_id;
+
+            if ($admin_id)
+                $this->last_update_user_id = $user_id;
+            
             $this->status = \Config::get('models.estimate.status.verbal_ok');
 
             if ($this->save())
@@ -245,7 +261,7 @@ class Model_Estimate extends \Orm\Model
                 }
                 else
                 {
-                    // \Helper\Notifier::notifyAdminPrePresent($this);
+                    \Helper\Notifier::notifyAdminPrePresent($this);
                 }
                 
                 if ($change_status && $contact->status == \Config::get('models.contact.status.pending'))
@@ -345,6 +361,7 @@ class Model_Estimate extends \Orm\Model
     public function ondemand_cost_math_exprs($contact)
     {
         $exprs = [];
+        $count = 0;
 
         $u = $contact->gas_used_amount;
 
@@ -354,14 +371,16 @@ class Model_Estimate extends \Orm\Model
 
             if (!$price->upper_limit || $u <= $delta)
             {
-                $exprs << [$price->unit_price, $u];
+                $exprs[$count] = [$price->unit_price, $u];
                 break;
             }
             else
             {
                 $u -= $delta;
-                $exprs << [$price->unit_price, $u];
+                $exprs[$count] = [$price->unit_price, $u];
             }
+
+            $count++;
         }
 
         return $exprs;

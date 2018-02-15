@@ -121,11 +121,15 @@ use JpPrefecture\JpPrefecture;
 <!-- SEARCH FORM END -->
 
 <!-- FIX ME -->
+<?php if ($auth_user->isAdmin()): ?>
 <div class="btn-group mb-4" role="group" aria-label="CSV">
   <button type="button" class="btn btn-secondary">検索結果: <?= $total_items; ?>件</button>
   <a class="btn btn-secondary<?= $total_items > 1000 ? ' disabled' : ''; ?>"<?= $total_items > 1000 ? ' aria-disabled="true"' : ''; ?> href="<?= \Uri::create('admin/csv/contacts.csv').'?'.$_SERVER["QUERY_STRING"]; ?>" role="button">現在の検索条件でCSVをダウンロード</a>
   <button type="button" class="btn btn-secondary">変更履歴をCSVでダウンロード</button>
 </div>
+<?php else: ?>
+<h4>検索結果: <?= $total_items; ?>件</h4>
+<?php endif; ?>
 
 <table class="table table-sm table-hover small-row">
   <thead>
@@ -254,7 +258,7 @@ use JpPrefecture\JpPrefecture;
         <td class="align-middle p-0">
           <div><a href="<?= \Uri::create('admin/contacts/:id/edit', ['id' => $contact->id]); ?>" class="btn btn-secondary btn-sm px-1 py-0 w-100" role="button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 編集</a></div>
           <div><a target="_blank" href="<?= \Uri::create('lpgas/contacts/:id?'.http_build_query(['pin' => $contact->pin, 'token' => $contact->token]), ['id' => $contact->id]); ?>" class="btn btn-secondary btn-sm px-1 py-0 w-100" role="button"><i class="fa fa-external-link" aria-hidden="true"></i> 提示画面</a></div>
-          <?php if (!$contact->isCancelled()): ?>
+          <?php if (!$contact->isCancelled() && !$contact->isContracted()): ?>
             <div><a href="#" class="btn-cancel btn btn-danger btn-sm px-1 py-0 w-100" role="button" data-contact-id="<?= $contact->id; ?>" data-contact-name="<?= $contact->name; ?>" data-contact-pref="<?= JpPrefecture::findByCode($contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $contact->tel; ?>"><i class="fa fa-fire" aria-hidden="true"></i> キャンセル</a></div>
           <?php endif; ?>
         </td>

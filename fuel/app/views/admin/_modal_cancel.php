@@ -19,7 +19,11 @@
           </div>
           <div class="form-group mb-1">
             <label for="cancel_groups"><i class="fa fa-asterisk" aria-hidden="true"></i> 変更理由のカテゴリ</label>
-            <?= Form::select('reason_groups', '', ['' => ''] + \Helper\CancelReasons::getGroups(), ['class' => 'form-control', 'id' => 'cancel_groups', 'required' => 'required']); ?>
+            <?php if (\Uri::segment(1) == 'admin'): ?>
+              <?= Form::select('reason_groups', '', ['' => ''] + \Helper\CancelReasons::getAdminGroups(), ['class' => 'form-control', 'id' => 'cancel_groups', 'required' => 'required']); ?>
+            <?php else: ?>
+              <?= Form::select('reason_groups', '', ['' => ''] + \Helper\CancelReasons::getPartnerGroups(), ['class' => 'form-control', 'id' => 'cancel_groups', 'required' => 'required']); ?>
+            <?php endif; ?>
           </div>
           <div class="form-group mb-0">
             <label for="status_reason"><i class="fa fa-asterisk" aria-hidden="true"></i> キャンセル理由</label>

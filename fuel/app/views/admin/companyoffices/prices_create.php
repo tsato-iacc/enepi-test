@@ -63,9 +63,9 @@
   <input type="hidden" name="using_other_gas_machine" value="<?= $price_rule->using_other_gas_machine; ?>">
   <input type="hidden" name="house_kind" value="<?= $price_rule->house_kind; ?>">
 
-  <?= render('admin/_form_prices', ['price_rule' => $price_rule]); ?>
+  <?= render('admin/_table_prices', ['price_rule' => $price_rule]); ?>
 <?= Form::close(); ?>
 
 <!-- TEMPLATE PRICES START -->
-<?= render('admin/_form_prices_template'); ?>
+<?= render('admin/_table_prices_template'); ?>
 <!-- TEMPLATE PRICES END -->

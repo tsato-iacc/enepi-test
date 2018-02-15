@@ -12,16 +12,31 @@ namespace Helper;
 
 class CancelReasons
 {
-    public static function getGroups()
+    public static function getAdminGroups()
     {
         $groups = [];
 
         foreach (\Config::get('enepi.contact.cancel_reasons') as $group)
         {
             if (!in_array($group['group'], $groups))
-            {
                 $groups[$group['group']] = $group['group'];
-            }
+        }
+
+        return $groups;
+    }
+
+    public static function getPartnerGroups()
+    {
+        $groups = [];
+
+        foreach (\Config::get('enepi.contact.cancel_reasons') as $key => $group)
+        {
+
+            if (in_array($key, ['status_reason_unknown', 'status_reason_duplication', 'status_reason_abuse', 'status_reason_test', 'status_reason_resolved', 'status_reason_troublesome', 'status_reason_dont_remember']))
+                continue;
+
+            if (!in_array($group['group'], $groups))
+                $groups[$group['group']] = $group['group'];
         }
 
         return $groups;

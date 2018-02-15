@@ -2,6 +2,10 @@
 
 class Model_AdminUser extends \Orm\Model
 {
+    const ADMIN = 1;
+    const MODERATOR = 2;
+    const BANNED = 6;
+
     protected static $_table_name = 'admin_users';
 
     protected static $_properties = [
@@ -13,7 +17,7 @@ class Model_AdminUser extends \Orm\Model
         'password_reset_token_salt',
         'created_at',
         'updated_at',
-        // 'deleted_at',
+        'role',
     ];
 
     protected static $_observers = [
@@ -70,6 +74,11 @@ class Model_AdminUser extends \Orm\Model
             $this->sendMailWithPassword();
 
         return $result;
+    }
+
+    public function isAdmin()
+    {
+        return $this->role == self::ADMIN;
     }
 
     private function sendMailWithPassword()

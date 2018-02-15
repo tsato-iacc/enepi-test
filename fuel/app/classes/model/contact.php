@@ -378,10 +378,6 @@ class Model_Contact extends \Orm\Model
         }
         else
         {
-            // FIX ME Check status contracted
-            // if ($this->status == \Config::get('models.contact.status.cancelled') || $this->status == \Config::get('models.contact.status.contracted'))
-            //     $this->user_status = \Config::get('models.contact.user_status.no_action');
-
             $result = parent::save($cascade, $use_transaction);
         }
 
@@ -461,6 +457,11 @@ class Model_Contact extends \Orm\Model
         return $this->status == \Config::get('models.contact.status.cancelled') || $this->status == \Config::get('models.contact.status.cancelled_before_estimate_req');
     }
 
+    public function isContracted()
+    {
+        return $this->status == \Config::get('models.contact.status.contracted');
+    }
+
     public function sentEstimates()
     {
         return $this->get('estimates', ['where' => [['status', 'in', [2,3,4]]]]);
@@ -489,10 +490,10 @@ class Model_Contact extends \Orm\Model
         return $this->_unit_price;
     }
 
-    public function cancel($admin_id, $reason)
+    public function cancel(&$auth_user, $reason)
     {
         // FIX ME isDeleted
-        if ($this->isCancelled())
+        if ($this->isCancelled() || $this->isContracted())
             return;
 
         if ($this->estimates)
@@ -501,9 +502,10 @@ class Model_Contact extends \Orm\Model
 
             foreach ($this->estimates as $estimate)
             {
-                $estimate->cancel($admin_id, $reason);
+                $estimate->cancel($auth_user, $reason);
             }
 
+            $this->status = \Config::get('models.contact.status.cancelled');
             $this->status_reason = $status_reason;
             $this->save();
         }
@@ -570,6 +572,15 @@ class Model_Contact extends \Orm\Model
             $machines[] = __('admin.contact.gas_machines.using_other_gas_machine');
 
         return $machines;
+    }
+
+    public function contactDesired($preferred_contact_time_between, $priority_degree, $desired_option)
+    {
+        $this->preferred_contact_time_between = $preferred_contact_time_between;
+        $this->priority_degree = $priority_degree;
+        $this->desired_option = $desired_option;
+
+        $this->save();
     }
 
     /**

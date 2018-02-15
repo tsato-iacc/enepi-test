@@ -245,7 +245,7 @@ class Controller_Admin_Contacts extends Controller_Admin
 
         if ($reason = \Input::post('status_reason'))
         {
-            $contact->cancel($this->admin_id, $reason);
+            $contact->cancel($this->auth_user, $reason);
             Session::set_flash('success', 'cancel');
         }
         else
@@ -267,7 +267,7 @@ class Controller_Admin_Contacts extends Controller_Admin
         if (!$contact = \Model_Contact::find($id))
             throw new HttpNotFoundException;
 
-        $contact->cancel($this->admin_id, 'status_reason_unknown');
+        $contact->cancel($this->auth_user, 'status_reason_unknown');
         
         $contact->name ="削除済み";
         $contact->furigana ="さくじょずみ";
