@@ -4,6 +4,15 @@
 }
 </style>
 
+
+
+<?
+
+
+?>
+
+
+
 <div class="estimate">
   <div class="container">
 
@@ -247,7 +256,7 @@
                 <div class="inner">
                   <div style="clear:both;">
                     <div class="company-logo">
-                      <?= MyView::image_tag($e->company->lpgas_company_logo, ["class" => "media-object", "alt" => mb_substr($e->company->lpgas_company_logo, 0, mb_strpos($e->company->lpgas_company_logo, "."))]); ?>
+                      <?= MyView::image_tag_s3($e->company->lpgas_company_logo, ["class" => "media-object", "alt" => mb_substr($e->company->lpgas_company_logo, 0, mb_strpos($e->company->lpgas_company_logo, "."))]); ?>
                     </div>
                     <div style="width: 50%; float:right;">
                       <table class="table yearly_saving_price_table">
@@ -394,7 +403,7 @@
                   <? } ?>
                   <div class="bt_company_detail">
                       <a<?= MyView::link_to(
-                        "/lpgas/contacts/".$contact->id."/estimates/"."$e->uuid"."?pin="."$contact->pin"."&amp;token="."$contact->token", 
+                        "/lpgas/contacts/".$contact->id."/estimates/"."$e->uuid"."?pin="."$contact->pin"."&amp;token="."$contact->token",
                         ["class" => "btn_detail", ]
                       ); ?>>
                       詳しく見る<?= MyView::image_tag("estimate_presentation/ico_arrow.png", ["class" => "ico_arrow"]); ?>
@@ -432,7 +441,7 @@
                   <dd>
                     <div class="info_l">
                       <div class="thumb">
-                        <?= MyView::image_tag($e->company->lpgas_company_logo, ["class" => "media-object", "alt" => mb_substr($e->company->lpgas_company_logo, 0, mb_strpos($e->company->lpgas_company_logo, "."))]); ?>
+                        <?= MyView::image_tag_s3(S3::makeImageUrl($e), ["class" => "media-object", "alt" => mb_substr($e->company->lpgas_company_logo, 0, mb_strpos($e->company->lpgas_company_logo, "."))]); ?>
                       </div>
                     </div>
 
