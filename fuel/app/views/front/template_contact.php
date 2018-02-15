@@ -124,5 +124,31 @@
     <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
     <?= Asset::js('front.min.js'); ?>
     <?= Asset::js('bootstrap.min.js'); ?>
+
+    <script>
+    　　$(function () {
+    　　　　$('[data-toggle="popover"]').popover()
+    　　　　$('[data-toggle="popover"]').popover()
+
+    　　　　$('[data-ajax]').on('click', function(e) {
+    　　　　　　var $target = $(e.target)
+    　　　　　　var href = $target.data('href')
+    　　　　　　var method = $target.data('method') || 'GET'
+    　　　　　　if (href) {
+    　　　　　　　　var xhr = new XMLHttpRequest();
+    　　　　　　　　xhr.open(method, href);
+    　　　　　　　　xhr.setRequestHeader("Content-Type", "application/json");
+
+    　　　　　　　　xhr.onreadystatechange = function() {
+    　　　　　　　　　　if (xhr.readyState == 4) {
+    　　　　　　　　　　　　debugger;
+    　　　　　　　　　　}
+    　　　　　　　　};
+    　　　　　　　　xhr.send(JSON.stringify(null));
+    　　　　　　}
+    　　　　})
+    　　});
+    </script>
+    
   </body>
 </html>

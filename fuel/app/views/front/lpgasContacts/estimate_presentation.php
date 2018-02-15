@@ -2,6 +2,10 @@
 .checkbox-big input[type="checkbox"]+label {
   background-image: url(/assets/images/checkbox2.png);
 }
+
+.matching-list-area .matching-list-heading .company-name-ttl .checkbox-big-sp input[type="checkbox"]+label{
+  background-image: url(/assets/images/checkbox2.png);
+}
 </style>
 
 <div class="estimate">
@@ -230,7 +234,6 @@
                 <div class="matching-list-heading">
                   <div class="company-name-ttl">
                     <div class="checkbox-big-sp">
-                      <input type="checkbox">
                       <?if($e->status ==\Config::get('models.estimate.status.sent_estimate_to_user')){ ?>
                         <?=  MyView::checkbox_tag("estimate_ids[".$count."]", ["id" => "estimate_ids_".$count, "value" => $e->uuid, "class" => "form-control",]) ?>
                       <? } ?>
