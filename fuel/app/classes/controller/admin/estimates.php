@@ -86,8 +86,6 @@ class Controller_Admin_Estimates extends Controller_Admin
 
         $timeline = $histories + $comments;
 
-        // print var_dump($comments);exit;
-
         $this->template->title = 'Estimate - id: '.$id;
         $this->template->content = View::forge('admin/estimates/show', [
             'estimate' => $estimate,
@@ -175,7 +173,7 @@ class Controller_Admin_Estimates extends Controller_Admin
         
         if ($status_reason = \Input::post('status_reason'))
         {
-            if ($estimate->cancel($this->admin_id, $status_reason))
+            if ($estimate->cancel($this->auth_userl, $status_reason))
             {
                 Session::set_flash('success', "ID: {$id} ステータスをキャンセルに変更しました");
 
@@ -202,7 +200,6 @@ class Controller_Admin_Estimates extends Controller_Admin
         if ($estimate->introduce($this->admin_id))
         {
             $query = [
-                // 'conversion_id' => "LPGAS-{$estimate->contact->id}",
                 'token' => $estimate->contact->token,
                 'pin' => $estimate->contact->pin,
             ];
@@ -263,7 +260,6 @@ class Controller_Admin_Estimates extends Controller_Admin
             \DB::start_transaction();
             try
             {
-
                 if ($val->validated('contacted') == 'true')
                     $estimate->contacted = true;
                 
@@ -284,26 +280,6 @@ class Controller_Admin_Estimates extends Controller_Admin
 
                 if ($estimate->last_update_admin_user_id != $this->admin_id)
                     $estimate->last_update_admin_user_id = $this->admin_id;
-                
-                // FIX ME Move to partner
-                // 成約済み
-                // if ($val->validated('construction_finished_date'))
-                // {
-                //     if ($estimate->status != \Config::get('models.estimate.status.verbal_ok'))
-                //         throw new Exception('Invalid status. Should be verbal_ok');
-                        
-                //     $estimate->construction_finished_date = $val->validated('visit_scheduled_date');
-                //     $estimate->contact->status = \Config::get('models.contact.status.contacted');
-
-                //     # 成約済みになったら他の見積りをキャンセルにする
-                //     foreach ($estimate->contact->estimates as $e)
-                //     {
-                //         if ($e->id == $estimate->id)
-                //             continue;
-
-                //         $estimate->cancel($this->partner_id, 'status_reason_request_by_user')
-                //     }
-                // }
 
                 $is_changed = $estimate->is_changed();
 

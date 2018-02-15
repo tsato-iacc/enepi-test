@@ -6,7 +6,7 @@
 </div>
 
 <!-- FORM ESTIMATES START -->
-<?= render('admin/_form_estimates', ['estimates' => $estimates]); ?>
+<?= render('admin/_table_estimates', ['estimates' => $estimates]); ?>
 <!-- FORM ESTIMATES END -->
 
 <!-- MODAL CANCEL START -->

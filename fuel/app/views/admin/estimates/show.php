@@ -9,7 +9,7 @@ use JpPrefecture\JpPrefecture;
   </tr>
   <tr>
     <th>問い合わせID</th>
-    <td><a href="<?= \Uri::create('admin/contact/'.$estimate->contact->id); ?>"></a></td>
+    <td><a href="<?= \Uri::create('admin/contacts/:id/edit', ['id' => $estimate->contact->id]); ?>"><i class="fa fa-user"></i> <?= $estimate->contact->id; ?></a></td>
   </tr>
   <tr>
     <th>有効期限</th>
@@ -149,7 +149,7 @@ use JpPrefecture\JpPrefecture;
 
 <?= \Form::open(); ?>
   <?= \Form::csrf(); ?>
-  <?= render('admin/_form_prices', ['price_rule' => $estimate]); ?>
+  <?= render('admin/_table_prices', ['price_rule' => $estimate]); ?>
 <?= Form::close(); ?>
 <hr>
 <?php endif; ?>
@@ -223,7 +223,7 @@ use JpPrefecture\JpPrefecture;
             <textarea name="comment" class="form-control" rows="4" placeholder="メモ"></textarea>
           </div>
           <button type="submit" class="btn btn-primary btn-sm mb-2">更新する</button>
-        <?php elseif (\Config::get('models.estimate.status.contacted') == $estimate->status): ?>
+        <?php elseif ($estimate->contacted): ?>
           <span class="true-label">完了済み</span>
         <?php endif; ?>
       </td>
@@ -350,6 +350,7 @@ use JpPrefecture\JpPrefecture;
     <?php $status = ''; ?>
     <?php foreach ($timeline as $line): ?>
       <?php if ($line instanceof \Model_Estimate_History): ?>
+        <?php if (isset($line->diff_json->is_read) && $line->diff_json->is_read->new) continue; ?>
         <tr>
           <td>
             <?php if (isset($line->diff_json->company_contact_name)): ?>
@@ -429,5 +430,5 @@ use JpPrefecture\JpPrefecture;
 <!-- MODAL PRESENT END -->
 
 <!-- TEMPLATE PRICES START -->
-<?= render('admin/_form_prices_template'); ?>
+<?= render('admin/_table_prices_template'); ?>
 <!-- TEMPLATE PRICES END -->

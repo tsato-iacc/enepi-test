@@ -40,7 +40,7 @@ class Notifier
 
         $email = \Email::forge();
         $email->to($estimate->company->partner_company->getEmails(), $estimate->company->getCompanyName());
-        $email->subject($subject + '／enepi運営事務局');
+        $email->subject($subject.'／enepi運営事務局');
         $email->html_body(\View::forge('notifier/company/estimateCancel', ['estimate' => $estimate, 'by_user' => $by_user]));
         $email->send();
     }
@@ -102,6 +102,15 @@ class Notifier
         $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
         $email->subject('見積もりを送信しました');
         $email->html_body(\View::forge('notifier/admin/present', ['estimate' => $estimate]));
+        $email->send();
+    }
+
+    public static function notifyAdminPrePresent(&$estimate)
+    {
+        $email = \Email::forge();
+        $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
+        $email->subject('見積もりが提示されました');
+        $email->html_body(\View::forge('notifier/admin/prepresent', ['estimate' => $estimate]));
         $email->send();
     }
 

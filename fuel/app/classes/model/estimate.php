@@ -167,13 +167,21 @@ class Model_Estimate extends \Orm\Model
         return $sum;
     }
 
-    public function cancel($admin_id, $status_reason)
+    public function cancel(&$auth_user, $status_reason)
     {
         $reason_val = \Helper\CancelReasons::getValueByName($status_reason);
         
         if ($this->status != \Config::get('models.estimate.status.cancelled') && $this->status != \Config::get('models.estimate.status.contracted') && $reason_val !== null)
         {
-            $this->last_update_admin_user_id = $admin_id;
+            if ($auth_user instanceof \Model_AdminUser)
+            {
+                $this->last_update_admin_user_id = $auth_user->id;
+            }
+            else if ($auth_user instanceof \Model_Partner_Company)
+            {
+                $this->last_update_partner_company_id = $auth_user->id;
+            }
+
             $this->status_reason = $reason_val;
             $this->status = \Config::get('models.estimate.status.cancelled');
 
@@ -253,7 +261,7 @@ class Model_Estimate extends \Orm\Model
                 }
                 else
                 {
-                    // \Helper\Notifier::notifyAdminPrePresent($this);
+                    \Helper\Notifier::notifyAdminPrePresent($this);
                 }
                 
                 if ($change_status && $contact->status == \Config::get('models.contact.status.pending'))

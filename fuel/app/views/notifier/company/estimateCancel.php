@@ -1,5 +1,5 @@
 <p>
-  株式会社<?= $estimate->company->name ?><br>
+  <?= $estimate->company->partner_company->company_name; ?><br>
   ご担当者様
 </p>
 
@@ -35,3 +35,5 @@ enepi(エネピ)運営事務局でございます。
   <!-- FIX ME -->
   <?= "link_to partner_root_url, partner_root_url" ?>
 </p>
+<br>
+<?= render('notifier/footer'); ?>

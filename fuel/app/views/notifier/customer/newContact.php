@@ -51,3 +51,4 @@ Mail：<?= \Config::get('enepi.service.email'); ?><br>
 心よりお祈り申し上げます。<br>
 どうぞよろしくお願い申し上げます。<br>
 <br>
+<?= render('notifier/footer'); ?>

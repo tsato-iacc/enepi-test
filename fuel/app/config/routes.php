@@ -72,6 +72,7 @@ return array(
     'admin/estimates/(:num)/introduce'                     => [['POST', new Route('admin/estimates/introduce/$1')]],
     'admin/estimates/(:num)/present'                       => [['POST', new Route('admin/estimates/present/$1')]],
     'admin/estimates/(:num)/cancel'                        => [['POST', new Route('admin/estimates/cancel/$1')]],
+    'admin/estimates/(:num)/progress'                      => [['POST', new Route('admin/estimates/progress/$1')]],
     'admin/estimates/history'                              => [['GET', new Route('admin/estimates/history')]],
 
     'admin/contacts'                                       => [['GET', new Route('admin/contacts/index')]],
@@ -111,7 +112,9 @@ return array(
      * Partner
      */
     'partner/estimates'                                    => [['GET', new Route('partner/estimates/index')]],
-    'partner/estimates/(:num)'                             => [['GET', new Route('partner/estimates/edit/$1')]],
+    'partner/estimates/(:num)'                             => [['GET', new Route('partner/estimates/show/$1')]],
+    'partner/estimates/(:num)/cancel'                      => [['POST', new Route('partner/estimates/cancel/$1')]],
+    'partner/estimates/(:num)/progress'                    => [['POST', new Route('partner/estimates/progress/$1')]],
 
     /**
      * CSV
