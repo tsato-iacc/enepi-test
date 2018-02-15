@@ -12,17 +12,20 @@ namespace Helper;
 
 class Mail
 {
-	public static function mail_send($e)
+	public static function mail_send_o($e)
 	{
 
 		$client = \Aws\Ses\SesClient::factory(array(
 				'version'=> 'latest',
 				'region' => "us-east-1",
+				'key'    => 'AKIAI2NFTZUSEGDK5E4Q',
+				'secret' => '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',
+
 
     			// 環境変数にしないと
     			'credentials' => [
     				'key'    => 'AKIAI2NFTZUSEGDK5E4Q',
-    				'secret' => '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'
+    				'secret' => 'pC5VM1JhVYPKVwTGahoFFBiN38zVqaluFTTpJELR',
     			],
 		));
 
@@ -60,6 +63,43 @@ class Mail
 		} catch (SesException $error) {
 			echo("The email was not sent. Error message: ".$error->getAwsErrorMessage()."\n");
 		}
+	}
+
+
+	public static function mail_send($e)
+	{
+
+		define('REGION','us-east-1');
+
+
+		$client = \Aws\Ses\SesClient::factory(array(
+
+				'credentials' => [
+						'key'    => 'AKIAI2NFTZUSEGDK5E4Q',
+						'secret' => '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',
+				],
+
+				'version'=> 'latest',
+				'region' => REGION
+		));
+
+
+		$request = array();
+		$request['Source'] = "info@enepi.jp";
+		$request['Destination']['ToAddresses'] = array("dfukushi@iacc.co.jp");
+		$request['Message']['Subject']['Data'] = "サブジェクト";
+		$request['Message']['Body']['Text']['Data'] = "ボディ";
+
+		try {
+			$result = $client->sendEmail($request);
+			$messageId = $result->get('MessageId');
+			//echo("Email sent! Message ID: $messageId"."\n");
+
+		} catch (Exception $e) {
+			//echo("The email was not sent. Error message: ");
+			//echo($e->getMessage()."\n");
+		}
+
 	}
 
 }
