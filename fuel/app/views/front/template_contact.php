@@ -16,7 +16,6 @@
 
     <? if($css_call == 'done'){ ?>
       <?= Asset::css('application.css'); ?>
-      <?= Asset::css('front.min.css'); ?>
 
     <? }elseif($css_call == 'presentation'){ ?>
       <?= Asset::css('estimate_presentation.css'); ?>
@@ -39,7 +38,9 @@
 
     <?= $content; ?>
 
-    <?= $footer; ?>
+    <? if(isset($footer)){ ?>
+      <?= $footer; ?>
+    <? } ?>
     
     <!-- Yahoo Code for your Target List -->
     <script type="text/javascript" language="javascript">

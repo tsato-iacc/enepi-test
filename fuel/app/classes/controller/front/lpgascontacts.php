@@ -254,7 +254,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
             'done_tail' => \View::forge('front/lpgasContacts/done_tail'),
         ]);
         $this->template->content->set_global('contact', $contact);
-        $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
         $this->template->css_call = 'done';
     }
 
