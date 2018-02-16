@@ -20,6 +20,7 @@ return array(
     ':media/lpgas/contacts/done'                              => 'front/lpgasContacts/done',
 
     'simple_simulations/new'                                  => 'front/simpleSimulation',
+    'new_simple_simulation_path'                              => 'front/simpleSimulation',
     'simple_simulations'                                      => 'front/simpleSimulation',
     'articles'                                                => 'front/articles',
     'articles/(:num)'                                         => 'front/articles/show/$1',

@@ -16,7 +16,6 @@
 
     <? if($css_call == 'done'){ ?>
       <?= Asset::css('application.css'); ?>
-      <?= Asset::css('estimate_presentation.css'); ?>
       <?= Asset::css('front.min.css'); ?>
 
     <? }elseif($css_call == 'presentation'){ ?>

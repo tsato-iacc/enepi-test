@@ -1,5 +1,5 @@
 <div class="simulation-register-form" id="simulation_register_form">
-  <h3>↓↓このままガス会社の料金プランを見る↓↓<div class="info scroll"><i class="fa fa-info-circle" aria-hidden="true"></i><span>詳しくはことら</span></div></h3>
+  <h3>↓↓このままガス会社の料金プランを見る↓↓<div class="info scroll"><i class="fa fa-info-circle" aria-hidden="true"></i><span>詳しくはこちら</span></div></h3>
 
   <div class="form-wrap">
     <?= \Form::open(['action' => \Uri::create('lpgas_contacts')]); ?>

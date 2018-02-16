@@ -246,7 +246,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
             ['name' => 'puka', 'content' => 'suka'],
         ];
 
-        $this->template->title = 'DONE';
+        $this->template->title = 'エネピ -  お見積もりの問い合わせ完了';
         $this->template->meta = $meta;
         $this->template->header = View::forge('front/lpgasContacts/done_header');
         $this->template->content = View::forge('front/lpgasContacts/done', [

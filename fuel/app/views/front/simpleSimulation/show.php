@@ -24,7 +24,7 @@
                 </tr>
                 <tr class="usage-status-content">
                   <th>■世帯人数</th>
-                  <td><?= \Config::get('enepi.household.key_string.'.$household) ?></td>
+                  <td><?= \Config::get('enepi.household.key_numeric.'.$household) ?></td>
                 </tr>
                 <tr class="usage-status-content">
                   <?php if ($bill): ?>
