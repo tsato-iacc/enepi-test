@@ -37,10 +37,9 @@ class S3
 				'version' => 'latest',
 				'region'  => "ap-northeast-1",
 
-				// 環境変数にしないと
 				'credentials' => [
-						'key'    => 'AKIAI2NFTZUSEGDK5E4Q',
-						'secret' => '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'
+					'key'    => getenv("AWS_ACCESS_KEY_ID"),
+					'secret' => getenv("AWS_SECRET_ACCESS_KEY"),
 				],
 		));
 

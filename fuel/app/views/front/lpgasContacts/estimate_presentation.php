@@ -10,14 +10,6 @@
 
 
 
-<?
-
-Mail::mail_send("");
-
-?>
-
-
-
 <div class="estimate">
   <div class="container">
 
