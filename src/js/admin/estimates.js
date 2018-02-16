@@ -4,7 +4,7 @@
 if ($('.area-estimates').length) {
   
   // See helper_functions.js
-  cancelEstimateOrContact('estimate');
+  cancelEstimateOrContact('estimate', 'admin');
   introduceEstimate();
   presentEstimate();
 

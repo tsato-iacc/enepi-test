@@ -1,4 +1,4 @@
-function cancelEstimateOrContact(type) {
+function cancelEstimateOrContact(type, area) {
   $('.btn-cancel').each(function() {
     $(this).on('click', function() {
       
@@ -8,7 +8,7 @@ function cancelEstimateOrContact(type) {
       var tel = $(this).attr('data-contact-tel');
       var modal = $('#contactCancel');
 
-      modal.find('form').attr('action', '/admin/' + type + 's/' + id + '/cancel');
+      modal.find('form').attr('action', '/' + area + '/' + type + 's/' + id + '/cancel');
       modal.find('span.contact-name').text(name);
       modal.find('span.contact-pref').text(pref);
       modal.find('span.contact-tel').text(tel);

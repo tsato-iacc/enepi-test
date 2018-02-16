@@ -20,7 +20,7 @@ class Notifier
         $email = \Email::forge();
         $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
         $email->subject("{$contact->name}様よりLPガスに関する問い合わせがありました");
-        $email->html_body(\View::forge('notifier/admin/newContact', ['contact' => $contact]));
+        $email->html_body(\View::forge('notifier/admin/new_contact', ['contact' => $contact]));
         $email->send();
     }
 
@@ -29,7 +29,7 @@ class Notifier
         $email = \Email::forge();
         $email->to($contact->email, $contact->name);
         $email->subject('お問い合わせ頂き、ありがとうございます／プロパンガス一括見積もりサービス enepi（エネピ）運営事務局');
-        $email->html_body(\View::forge('notifier/customer/newContact', ['contact' => $contact]));
+        $email->html_body(\View::forge('notifier/customer/new_contact', ['contact' => $contact]));
         $email->send();
     }
 
@@ -40,8 +40,8 @@ class Notifier
 
         $email = \Email::forge();
         $email->to($estimate->company->partner_company->getEmails(), $estimate->company->getCompanyName());
-        $email->subject($subject + '／enepi運営事務局');
-        $email->html_body(\View::forge('notifier/company/estimateCancel', ['estimate' => $estimate, 'by_user' => $by_user]));
+        $email->subject($subject.'／enepi運営事務局');
+        $email->html_body(\View::forge('notifier/company/estimate_cancel', ['estimate' => $estimate, 'by_user' => $by_user]));
         $email->send();
     }
 
@@ -52,7 +52,7 @@ class Notifier
         $email = \Email::forge();
         $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
         $email->subject('キャンセル');
-        $email->html_body(\View::forge('notifier/admin/estimateCancel', ['estimate' => $estimate, 'reason' => $reason]));
+        $email->html_body(\View::forge('notifier/admin/estimate_cancel', ['estimate' => $estimate, 'reason' => $reason]));
         $email->send();
     }
 
@@ -102,6 +102,15 @@ class Notifier
         $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
         $email->subject('見積もりを送信しました');
         $email->html_body(\View::forge('notifier/admin/present', ['estimate' => $estimate]));
+        $email->send();
+    }
+
+    public static function notifyAdminPrePresent(&$estimate)
+    {
+        $email = \Email::forge();
+        $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
+        $email->subject('見積もりが提示されました');
+        $email->html_body(\View::forge('notifier/admin/pre_present', ['estimate' => $estimate]));
         $email->send();
     }
 

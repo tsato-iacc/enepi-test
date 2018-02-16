@@ -65,13 +65,7 @@ use JpPrefecture\JpPrefecture;
       <i class="fa <?= $contact->is_seen == \Config::get('models.contact.is_seen.seen') ? 'fa-circle-o' : 'fa-times' ?>" aria-hidden="true"></i>
     </td>
     <th>契約選択</th>
-    <td>
-      <?php if ($contact->estimate_kind == \Config::get('models.contact.estimate_kind.new_contract')): ?>
-        新規開設
-      <?php else: ?>
-        現在住居
-      <?php endif; ?>
-    </td>
+    <td><?= $contact->estimate_kind == \Config::get('models.contact.estimate_kind.new_contract') ? '新規開設' : '現在住居'; ?></td>
   </tr>
   <tr>
     <th>問い合わせステータス</th>

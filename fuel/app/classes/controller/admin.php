@@ -6,7 +6,6 @@ class Controller_Admin extends Controller_Base
 
     // FIX ME Set real id
     protected $admin_id = 20;
-    protected $auth_user = null;
 
     public function before()
     {

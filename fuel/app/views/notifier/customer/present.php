@@ -38,3 +38,4 @@ enepi運営事務局でございます。<br>
 <br>
 ご検討の程、何卒宜しくお願い申し上げます<br>
 <br>
+<?= render('notifier/footer'); ?>

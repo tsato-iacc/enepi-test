@@ -378,10 +378,6 @@ class Model_Contact extends \Orm\Model
         }
         else
         {
-            // FIX ME Check status contracted
-            // if ($this->status == \Config::get('models.contact.status.cancelled') || $this->status == \Config::get('models.contact.status.contracted'))
-            //     $this->user_status = \Config::get('models.contact.user_status.no_action');
-
             $result = parent::save($cascade, $use_transaction);
         }
 
@@ -461,6 +457,11 @@ class Model_Contact extends \Orm\Model
         return $this->status == \Config::get('models.contact.status.cancelled') || $this->status == \Config::get('models.contact.status.cancelled_before_estimate_req');
     }
 
+    public function isContracted()
+    {
+        return $this->status == \Config::get('models.contact.status.contracted');
+    }
+
     public function sentEstimates()
     {
         return $this->get('estimates', ['where' => [['status', 'in', [2,3,4]]]]);
@@ -489,10 +490,10 @@ class Model_Contact extends \Orm\Model
         return $this->_unit_price;
     }
 
-    public function cancel($admin_id, $reason)
+    public function cancel(&$auth_user, $reason)
     {
         // FIX ME isDeleted
-        if ($this->isCancelled())
+        if ($this->isCancelled() || $this->isContracted())
             return;
 
         if ($this->estimates)
@@ -501,9 +502,10 @@ class Model_Contact extends \Orm\Model
 
             foreach ($this->estimates as $estimate)
             {
-                $estimate->cancel($admin_id, $reason);
+                $estimate->cancel($auth_user, $reason);
             }
 
+            $this->status = \Config::get('models.contact.status.cancelled');
             $this->status_reason = $status_reason;
             $this->save();
         }
@@ -579,18 +581,6 @@ class Model_Contact extends \Orm\Model
         $this->desired_option = $desired_option;
 
         $this->save();
-
-        // if ($this->save())
-        // {
-        //     $this->contact->status = \Config::get('models.contact.status.verbal_ok');
-        //     $this->contact->save();
-
-        //     \Helper\Notifier::notifyCustomerIntroduce($this);
-        //     \Helper\Notifier::notifyCompanyIntroduce($this);
-        //     \Helper\Notifier::notifyAdminIntroduce($this);
-
-        //     return true;
-        // }
     }
 
     /**

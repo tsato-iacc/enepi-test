@@ -13,7 +13,4 @@
 //= common/bootstrap.js
 //= common/helper_functions.js
 
-//= admin/callings.js
-//= admin/estimates.js
-//= admin/companies.js
-//= admin/contacts.js
+//= partner/estimates.js

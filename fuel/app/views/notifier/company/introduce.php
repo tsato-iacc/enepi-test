@@ -1,6 +1,6 @@
 <?= $estimate->uuid; ?>さんが連絡希望<br>
 <br>
-<?= $estimate->company->getCompanyName(); ?><br>
+<?= $estimate->company->partner_company->company_name; ?><br>
 ご担当者様<br>
 <br>
 お世話になります。<br>
@@ -19,3 +19,5 @@ enepi(エネピ)運営事務局でございます。<br>
 <br>
 お手数おかけ致しますが、何卒宜しくお願い致します。<br>
 ご不明な点がございましたら、お気軽にお問い合わせくださいますようお願い申し上げます。<br>
+<br>
+<?= render('notifier/footer'); ?>
