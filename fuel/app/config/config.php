@@ -124,6 +124,7 @@ return array(
 			'orm',
 			'helper',
       'email',
+      'eauth',
 		],
 
 		/**
