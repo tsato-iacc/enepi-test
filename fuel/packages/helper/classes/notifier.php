@@ -19,7 +19,7 @@ class Notifier
     {
         $email = \Email::forge();
         $email->to($user->email);
-        $email->subject('管理者アカウントを発行しました。パスワードを設定してください。');
+        $email->subject('管理者アカウントを発行しました。');
         $email->html_body(\View::forge('notifier/admin/password', ['user' => $user, 'password' => $password]));
         $email->send();
     }
