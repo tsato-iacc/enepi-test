@@ -193,8 +193,8 @@ use JpPrefecture\JpPrefecture;
         </td>
         <td>
           <div class="d-flex justify-content-around align-items-center">
-            <div><i class="fa <?= $contact->sent_auto_estimate_req ? 'fa-circle-o' : 'fa-times' ?>" aria-hidden="true"></i></div>
-            <div><i class="fa <?= $contact->is_seen == \Config::get('models.contact.is_seen.seen') ? 'fa-circle-o' : 'fa-times' ?>" aria-hidden="true"></i></div>
+            <div><i class="fa <?= $contact->sent_auto_estimate_req ? 'fa-circle-o text-success' : 'fa-times' ?>" aria-hidden="true"></i></div>
+            <div><i class="fa <?= $contact->is_seen == \Config::get('models.contact.is_seen.seen') ? 'fa-circle-o text-success' : 'fa-times' ?>" aria-hidden="true"></i></div>
             <div><i class="fa fa-tachometer" aria-hidden="true"></i> <?= count($contact->estimates); ?></div>
           </div>
           <div>&nbsp;</div>

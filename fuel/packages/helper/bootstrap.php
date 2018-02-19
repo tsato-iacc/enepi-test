@@ -24,4 +24,9 @@
   'Helper\\Notifier'                          => __DIR__.'/classes/notifier.php',
   'Helper\\S3'                                => __DIR__.'/classes/s3.php',
   'Helper\\Mail'                              => __DIR__.'/classes/mail.php',
+
+  /**
+   * Email classes.
+   */
+  'Helper\\Email_Driver_Ses'                 => __DIR__.'/classes/email/driver/ses.php',
 ));

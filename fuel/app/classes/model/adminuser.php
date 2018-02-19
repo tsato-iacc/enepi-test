@@ -40,12 +40,7 @@ class Model_AdminUser extends \Orm\Model
     public static function validate($user = null)
     {
         $val = Validation::forge();
-        $val->add_callable('AddValidation');
-
-        if ($user === null)
-            return $val;
-
-        $val->add('email', 'email')->add_rule('required')->add_rule('match_pattern', '/\A[\w+\-.]+@iacc\.co\.jp/i')->add_rule('unique', 'admin_users.email', $user->id);
+        $val->add('email', 'email')->add_rule('required')->add_rule('match_pattern', '/\A[\w+\-.]+@iacc\.co\.jp/i');
         
         return $val;
     }

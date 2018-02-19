@@ -4,7 +4,7 @@
   </a>
   <div class="collapse navbar-collapse">
     <ul class="navbar-nav mr-auto"></ul>
-    <span class="navbar-text">email@iacc.co.jp</span>
+    <span class="navbar-text"><?= $auth_user->email; ?></span>
     <ul class="navbar-nav">
       <li class="nav-item active">
         <a class="nav-link" href="<?= \Uri::create('parner/logout'); ?>"><i class="fa fa-sign-out"></i>ログアウト</a>

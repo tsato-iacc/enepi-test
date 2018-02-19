@@ -265,7 +265,7 @@ abstract class Eauth_Login_Enepiauth extends \Eauth_Login_Driver
 			'salt'               => $salt,
 			'email'              => $email,
 			'role'               => $role,
-			'last_login'         => null,
+			'last_login'         => '',
 			'login_hash'         => '',
 			'created_at'         => \Date::forge()->format('mysql'),
 		);

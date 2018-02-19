@@ -381,6 +381,12 @@ class Controller_Front_LpgasContacts extends Controller_Front
                 throw new HttpNotFoundException();
             }
 
+            // Don't update if logded in as Admin
+            if (!Eauth::check('admin'))
+            {
+                $contact->is_seen = \Config::get('models.contact.is_seen.seen');
+                $contact->save();
+            }
 
 
             $est_count_sent_estimate_to_user = count(Model_Estimate::find('all', [
