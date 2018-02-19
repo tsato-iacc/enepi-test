@@ -263,29 +263,3 @@
     　　　　<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NCCZDM6"　height="0" width="0" style="display: none; visibility: hidden"></iframe>
     　　</noscript>
     <!-- End Google Tag Manager (noscript) -->
-
-
-    <script>
-    　　$(function () {
-    　　　　$('[data-toggle="popover"]').popover()
-    　　　　$('[data-toggle="popover"]').popover()
-
-    　　　　$('[data-ajax]').on('click', function(e) {
-    　　　　　　var $target = $(e.target)
-    　　　　　　var href = $target.data('href')
-    　　　　　　var method = $target.data('method') || 'GET'
-    　　　　　　if (href) {
-    　　　　　　　　var xhr = new XMLHttpRequest();
-    　　　　　　　　xhr.open(method, href);
-    　　　　　　　　xhr.setRequestHeader("Content-Type", "application/json");
-
-    　　　　　　　　xhr.onreadystatechange = function() {
-    　　　　　　　　　　if (xhr.readyState == 4) {
-    　　　　　　　　　　　　debugger;
-    　　　　　　　　　　}
-    　　　　　　　　};
-    　　　　　　　　xhr.send(JSON.stringify(null));
-    　　　　　　}
-    　　　　})
-    　　});
-    </script>
