@@ -26,15 +26,14 @@
   ③切替希望ガス会社が決まりましたら、ガス会社と直接やり取りできる様対応いたします。<br>
   ④ガス会社が訪問・工事を行い、切替が完了します。<br>
   <br>
-  <!-- FIX ME -->
-  <% if NewYearHoliday.holiday?(Time.zone.now) %>
-    <%= NewYearHoliday.holiday_email_contact.gsub("{name}", $contact.name).split("\n").join("<br>").html_safe %><br>
-  <% else %>
+  <?php if (\Model_Holiday::isHolliday()): ?>
+    <?= \Model_Holiday::holiday_email_contact(); ?><br>
+  <?php else: ?>
     お客様へのお見積りの準備に時間を要することがございますが、<br>
     原則1週間以内には必ずご連絡を差し上げております。<br>
     1週間を経過しても連絡がない場合に関しましては、お手数ではございますが、<br>
     再度、enepi運営事務局までお問い合わせいただきますようお願い申し上げます。<br>
-  <% end %>
+  <?php endif; ?>
   <br>
   ご不明な点などございましたら、下記連絡先かこのメールの返信に、<br>
   気兼ねなくご連絡いただけますと幸いです。<br>
