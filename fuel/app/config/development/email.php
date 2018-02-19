@@ -5,7 +5,7 @@ return [
     'driver' => 'smtp',
     'from' => [
       'email' => 'dev-info@enepi.jp',
-      'name' => '[DEVELOP] Enepi',
+      'name' => '[DEVELOP] エネピ',
     ],
     'return_path' => false,
     'wordwrap' => null,

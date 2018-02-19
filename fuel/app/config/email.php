@@ -3,21 +3,13 @@
 return [
   'defaults' => [
     'useragent' => null,
-    'driver' => 'smtp',
+    'driver' => 'ses',
     'from' => [
       'email' => 'info@enepi.jp',
-      'name' => 'Enepi',
+      'name' => 'エネピ',
     ],
     'return_path' => false,
     'wordwrap' => null,
-    'smtp' => [
-      'host' => getenv('SMTP_HOSTNAME'),
-      'port' => 587,
-      'username' => getenv('SMTP_USERNAME'),
-      'password' => getenv('SMTP_PASSWORD'),
-      'timeout' => 30,
-      'starttls' => true,
-    ],
     'newline' => "\r\n",
   ],
 ];

@@ -121,10 +121,10 @@ return array(
 		 * );
 		 */
 		'packages' => [
-			'orm',
-			'helper',
-      'email',
       'eauth',
+      'email',
+      'orm',
+      'helper',
 		],
 
 		/**

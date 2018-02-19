@@ -20,8 +20,11 @@ class Controller_Front_Test extends Controller_Front
     	}else if($cmd == "mail"){
 
     		$to = Input::post('to');
-    		Mail::mail_send("info@enepi.jp", $to, "テストメール", "届いてますか？\n日本語文字化けしていませんか？");
-
+            $email = \Email::forge();
+            $email->to($to, \Config::get('enepi.service.name'));
+            $email->subject('テストメール');
+            $email->html_body("届いてますか？\n日本語文字化けしていませんか？");
+            $email->send();
     	}
 
 
