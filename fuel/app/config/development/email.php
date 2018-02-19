@@ -2,7 +2,7 @@
 
 return [
   'defaults' => [
-    'driver' => 'ses',
+    'driver' => 'smtp',
     'from' => [
       'email' => 'dev-info@enepi.jp',
       'name' => '[DEVELOP] エネピ',
