@@ -310,12 +310,24 @@ class Controller_Front_LpgasContacts extends Controller_Front
             if(!is_null($contact->from_kakaku))
             {
                 $endpoint = 'https://propanegas.kakaku.com';
+                if($_SERVER['FUEL_ENV'] == \Fuel::DEVELOPMENT)
+                {
+                    $endpoint = '';
+                }
+
+                elseif($_SERVER['FUEL_ENV'] == \Fuel::STAGING)
+                {
+                    $endpoint = 'https://stg.kakaku.enepi.jp';
+                }
+
                 $re_cv_url = $endpoint.'/'.$this->lpgas_contact_path($re_cv_params, $contact);
             }
+
             elseif(!is_null($contact->from_enechange))
             {
                 $re_cv_url = $this->lpgas_contact_path($re_cv_params, $contact);
             }
+
             else
             {
                 $re_cv_params_query = '';

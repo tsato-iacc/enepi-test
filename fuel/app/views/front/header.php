@@ -15,13 +15,13 @@
 
       <ul style="float: left;">
         <li class="m">
-          <?= MyView::link_to('ガス料金<br>シミュレーション', '/simple_simulations/new'); ?>
+          <a href="/simple_simulations/new" class="<?= \Uri::segment(1) == 'simple_simulations' ? ' active' : ''?>">ガス料金<br>シミュレーション</a>
         </li>
         <li class="m">
-          <a <?= MyView::link_to('/local_contents', ["class" => "active"]); ?>>地域別<br>ガス料金検索</a>
+          <a href="/local_contents" class="<?= \Uri::segment(1) == 'local_contents' ? ' active' : ''?>">地域別<br>ガス料金検索</a>
         </li>
         <li class="m" style="border-right: 1px solid #eeeeee; padding-left: 0; padding-top: 0; ">
-          <?= MyView::link_to('プロパンガス<br>(LPガス)記事一覧', '/categories/lpgas'); ?>
+          <a href="/categories/lpgas" class="<?= \Uri::segment(1) == 'categories' && \Uri::segment(2) == 'lpgas' ? ' active' : ''?>">プロパンガス<br>(LPガス)記事一覧</a>
         </li>
       </ul>
     </div>
