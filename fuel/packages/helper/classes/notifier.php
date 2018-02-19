@@ -15,6 +15,15 @@ class Notifier
     /**
      * EMAIL
      */
+    public static function notifyAdminPassword(&$user, &$password)
+    {
+        $email = \Email::forge();
+        $email->to($user->email);
+        $email->subject('管理者アカウントを発行しました。');
+        $email->html_body(\View::forge('notifier/admin/password', ['user' => $user, 'password' => $password]));
+        $email->send();
+    }
+
     public static function notifyAdminNewContact(&$contact)
     {
         $email = \Email::forge();

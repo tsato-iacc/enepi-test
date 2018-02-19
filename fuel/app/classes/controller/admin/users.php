@@ -57,18 +57,36 @@ class Controller_Admin_Users extends Controller_Admin
      */
     public function post_store()
     {
-        $user = new \Model_AdminUser();
+        // $user = new \Model_AdminUser();
 
-        $val = \Model_AdminUser::validate($user);
+        $val = Validation::forge();
+        $val->add('email', 'email')->add_rule('required')->add_rule('match_pattern', '/\A[\w+\-.]+@iacc\.co\.jp/i');
 
         if ($val->run())
         {
-            $user->set($val->validated());
+            $password = \Str::random('hexdec', 16);
+            $auth = Eauth::instance('admin');
 
-            if ($user->save())
-                Session::set_flash('success', '管理者を追加しました');
+            try
+            {
+                $user_id = $auth->create_user($val->validated('email'), $password, 2);
 
-            Response::redirect('admin/users');
+                if ($user_id)
+                {
+                    $user = \Model_AdminUser::find($user_id);
+                    \Helper\Notifier::notifyAdminPassword($user, $password);
+
+                    Session::set_flash('success', '管理者を追加しました');
+                    Response::redirect('admin/users');
+                }
+                
+            }
+            catch (Exception $e)
+            {
+                throw $e;
+                
+                \Log::error($e);
+            }
         }
 
         Session::set_flash('error', '管理者を追加できませんでした');

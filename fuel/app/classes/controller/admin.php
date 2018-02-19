@@ -4,23 +4,17 @@ class Controller_Admin extends Controller_Base
 {
     public $template = 'admin/template';
 
-    // FIX ME Set real id
-    protected $admin_id = 20;
-
     public function before()
     {
         parent::before();
-        
+
         if (Request::active()->controller !== 'Controller_Admin' or !in_array(Request::active()->action, ['login', 'logout']))
         {
-            // if (Auth::check())
-            if (true)
+            if (Eauth::check('admin'))
             {
-                $this->auth_user = \Model_AdminUser::find($this->admin_id);
+                $user_id = Eauth::instance('admin')->get('id');
+                $this->auth_user = \Model_AdminUser::find($user_id);
                 \View::set_global('auth_user', $this->auth_user, false);
-                // check permission
-                // if (!Auth::member(\Config::get('carme.groups.superadmin')) && !$access)
-                //     throw new HttpNotFoundException;
             }
             else
             {
@@ -31,9 +25,9 @@ class Controller_Admin extends Controller_Base
 
     public function action_login()
     {
+        Eauth::check('admin') and Response::redirect('admin/estimates');
+
         $this->template = \View::forge('auth/template');
-        // Already logged in
-        // Auth::check() and Response::redirect('admin');
 
         $val = Validation::forge();
 
@@ -44,21 +38,28 @@ class Controller_Admin extends Controller_Base
 
             if ($val->run())
             {
-                // $auth = Auth::instance();
+                $auth = Eauth::instance('admin');
 
-                // // check the credentials. This assumes that you have the previous table created
-                // if (Auth::check() or $auth->login($val->validated('email'), $val->validated('password')))
-                // {
-                //     // credentials ok, go right in
-                //     $current_user = Model\Auth_User::find_by_username(Auth::get_screen_name());
+                // check the credentials. This assumes that you have the previous table created
+                if ($auth->login(\Input::param('email'), \Input::param('password')))
+                {
+                    if (\Input::param('remember', false))
+                    {
+                        // create the remember-me cookie
+                        \Eauth::remember_me();
+                    }
+                    else
+                    {
+                        // delete the remember-me cookie if present
+                        \Eauth::dont_remember_me();
+                    }
 
-                //     Session::set_flash('success', e('Welcome, ' . $current_user->username));
-                //     Response::redirect('admin/article');
-                // }
-                // else
-                // {
-                //     $this->template->set_global('login_error', 'Fail');
-                // }
+                    Response::redirect('admin/estimates');
+                }
+                else
+                {
+                    $this->template->set_global('login_error', 'Fail');
+                }
             }
         }
 
@@ -74,8 +75,8 @@ class Controller_Admin extends Controller_Base
      */
     public function action_logout()
     {
-        // Auth::logout();
-        Response::redirect('/');
+        Eauth::logout();
+        Response::redirect('admin/login');
     }
 
     /**
