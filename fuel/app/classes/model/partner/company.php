@@ -46,18 +46,16 @@ class Model_Partner_Company extends \Orm\Model
      * @param  string $factory Validation rules factory
      * @return mixed           Return Fuel\Core\Validation object
      */
-    public static function validate($partner_company = null)
+    public static function validate()
     {
         $val = \Validation::forge();
-        $val->add_callable('AddValidation');
-
-        if ($partner_company === null)
-            return $val;
 
         $val->add_field('partner_company.company_name', 'partner_company.company_name', 'required|max_length[50]');
         $val->add_field('partner_company.email', 'partner_company.email', 'required|valid_email');
 
-        $val->add('company.tel', 'tel')->add_rule('required')->add_rule('match_pattern', '/^\d{2,3}[\s.-]?\d{4}[\s.-]?\d{4}$/')->add_rule('unique', 'lpgas_companies.tel', $partner_company->company->id);
+        $val->add('company.tel', 'tel')->add_rule('required')->add_rule('match_pattern', '/^\d{2,3}[\s.-]?\d{4}[\s.-]?\d{4}$/');
+        // ->add_rule('unique', 'lpgas_companies.tel', $partner_company->company->id);
+        
         $val->add('company.fax', 'fax')->add_rule('match_pattern', '/^\d{2,3}[\s.-]?\d{4}[\s.-]?\d{4}$/');
         $val->add_field('company.homepage', 'homepage', 'max_length[120]');
         $val->add_field('company.display_name', 'display_name', 'max_length[50]');

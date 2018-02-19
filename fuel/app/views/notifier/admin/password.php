@@ -1,5 +1,6 @@
 <?= $user->email ?>のアカウントを発行しました。<br>
 <br>
-Password: <?= $password; ?><br>
+ログインID: <?= $user->email; ?><br>
+パスワード: <?= $password; ?><br>
 <br>
 <?= render('notifier/footer'); ?>

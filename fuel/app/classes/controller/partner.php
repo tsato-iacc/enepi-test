@@ -13,7 +13,7 @@ class Controller_Partner extends Controller_Base
             if (Eauth::check('partner'))
             {
                 $user_id = Eauth::instance('partner')->get('id');
-                $this->auth_user = \Model_AdminUser::find($user_id);
+                $this->auth_user = \Model_Partner_Company::find($user_id);
                 \View::set_global('auth_user', $this->auth_user, false);
             }
             else
