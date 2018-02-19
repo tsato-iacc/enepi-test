@@ -54,7 +54,7 @@ class Controller_Front_Welcome extends Controller_Front
             ['name' => 'puka', 'content' => 'suka'],
         ];
 
-        $this->template->title = 'TOP';
+        $this->template->title = 'プロパンガス(LPガス)の料金・価格比較でガス代を安く！';
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/welcome/index', [
             'contact' => new \Model_Contact(),

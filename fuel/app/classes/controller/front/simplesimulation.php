@@ -109,6 +109,7 @@ class Controller_Front_SimpleSimulation extends Controller_Front
         $breadcrumb = [
             ['url' => \Uri::create('categories/lpgas'), 'name' => 'LPガス/プロパンガス'],
             ['url' => \Uri::create('simple_simulations/new'), 'name' => '料金シミュレーション'],
+            ['url' => '', 'name' => 'シミュレーション結果'],
         ];
 
         $this->template->title = 'プロパンガス料金シミュレーション 結果';
