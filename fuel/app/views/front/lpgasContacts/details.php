@@ -140,7 +140,7 @@
       <div class="info_estimates_area">
         <div class="info_l_estimates">
           <div class="thumb">
-             <?= MyView::image_tag($company["lpgas_company_logo"], ["class" => "media-object"]); ?>
+            <?= S3::image_tag_s3(S3::makeImageUrl($estimate), ["class" => "media-object", "alt" => mb_substr($estimate->company->lpgas_company_logo, 0, mb_strpos($estimate->company->lpgas_company_logo, "."))]); ?>
           </div>
         </div>
         <div class="info_r_estimates">

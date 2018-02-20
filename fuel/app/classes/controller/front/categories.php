@@ -41,7 +41,6 @@ class Controller_Front_Categories extends Controller_Front
             $category_path = rtrim(implode('/', [$category, $subOne, $subTwo, $subThree]), '/');
 
             $category_header = $client->getCategory($category_path);
-//            var_dump($category_header);
 
             if ($category_header['article']['redirect_url'])
                 return Response::redirect($category_header['article']['redirect_url'], 'location', 301);
@@ -52,6 +51,7 @@ class Controller_Front_Categories extends Controller_Front
                     'page' => 1,
                     'per' => \Config::get('enepi.category.index.per_page'),
                 ];
+
 
                 foreach ($category_content as $k => $v)
                 {
@@ -88,9 +88,13 @@ class Controller_Front_Categories extends Controller_Front
 
         // FIX ME!
         $meta = [
-            ['name' => 'description', 'content' => 'OOooOOppp'],
-            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-            ['name' => 'puka', 'content' => 'suka'],
+            ['name' => 'description',       'content' => $category_header['article']['description']],
+            ['name' => 'charset',           'content' => 'utf-8'],
+            ['name' => 'og:type',           'content' => 'article'],
+            ['name' => 'og:title',          'content' => $category_header['article']['title']],
+            ['name' => 'og:description',    'content' => $category_header['article']['description']],
+            ['name' => 'og:image',         'content' => $category_header['article']['thumbnail_url']],
+            ['name' => 'og:url',           'content' => "http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]],
         ];
 
         // FIX ME!

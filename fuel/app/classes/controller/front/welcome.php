@@ -49,9 +49,9 @@ class Controller_Front_Welcome extends Controller_Front
         // @slots = ::Admin::BatchEstimatePrice.order(estimate_created_at: :desc).limit(20)
         
         $meta = [
-            ['name' => 'description', 'content' => 'OOooOOppp'],
-            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-            ['name' => 'puka', 'content' => 'suka'],
+            ['name' => 'description', 'content' => 'プロパンガス(LPガス)の乗り換え・切り替えでガス代をおトクにするなら料金比較サービス「enepi(エネピ)」！厳選したガス会社のご紹介から切り替え完了まですべて無料サポートをするので安心してご利用頂けます'],
+            ['name' => 'keywords', 'content' => '電気料金, ガス料金, 比較, 電力自由化, ガス自由化, 電気代, ガス代, enepi, エネピ'],
+            ['name' => 'charset', 'content' => 'utf-8'],
         ];
 
         $this->template->title = 'プロパンガス(LPガス)の料金・価格比較でガス代を安く！';
