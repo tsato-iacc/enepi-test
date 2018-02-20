@@ -25,8 +25,8 @@
   <div class="article-list-v3-panel">
     <div class="panel-inner article-list-v3-panel-container">
       <div class="main">
-        <?php foreach ($category_content as $cat): ?>
 
+        <?php foreach ($category_content as $cat): ?>
           <?php if ($cat['content']['articles']): ?>
             <h2><?= $cat['name'] ?> <span class="article-count">(記事数: <?= $cat['article_count'] ?>)</span></h2>
             <ul>
@@ -39,15 +39,18 @@
         <?php endforeach; ?>
 
         <?php if ($articles['articles']): ?>
-          <h2><?= \Asset::img('categories/article.png'); ?><?= $category['name'] ?>の新着記事 <span class="article-count">(記事数: <?= $category['article_count'] ?>)</span></h2>
+          <h2>
+            <?= \Asset::img('categories/article.png'); ?><?= $category['name'] ?>の新着記事 
+            <span class="article-count">(記事数: <?= $category['article_count'] ?>)</span>
+          </h2>
           <ul>
             <?= render('front/articles/partial/list_items', ['articles' => $articles['articles'], 'mini' => false]); ?>
           </ul>
-
           <div class="more_link">
-            <?=  MyView::link_to("もっと見る", $category["path_name_prog"]."/articles") ?>
+            <?=  MyView::link_to("もっと見る", '/categories/'.$category["path_name_prog"]."/articles") ?>
           </div>
         <?php endif; ?>
+
       </div>
       <?= Presenter::Forge('front/sidebar', 'category'); ?>
     </div>
