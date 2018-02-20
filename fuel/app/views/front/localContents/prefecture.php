@@ -192,7 +192,7 @@
                         <div class="reviewer-info">
                           <i class="fa fa-user fa-lg"></i>
                           <span class="personal-info"><?= $prefecture_kanji[key($prefecture_kanji)] ?>
-                          <? if(isset($r->city_code)){ ?>
+                          <? if($r->city_code){ ?>
                             <?= $r->region->city_name ?>
                           <? } ?>
                           在住/</span>
