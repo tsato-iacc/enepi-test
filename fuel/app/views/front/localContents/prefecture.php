@@ -191,15 +191,16 @@
                       <div class="word-of-mouth-header">
                         <div class="reviewer-info">
                           <i class="fa fa-user fa-lg"></i>
-                          <span class="personal-info"><?= $prefecture_kanji[key($prefecture_kanji)] ?>
-                          <? if($r->city_code){ ?>
-                            <?= $r->region->city_name ?>
-                          <? } ?>
+                          <span class="personal-info">
+                            <?= $prefecture_kanji[key($prefecture_kanji)] ?>
+                            <? if($r->city_code != 0){ ?>
+                              <?= $r->region->city_name ?>
+                            <? } ?>
                           在住/</span>
                           <span class="personal-info"><?= $r->reviewer_gender ?></span>
-                          <? if(isset($r->reviewer_age)){ ?>
-                            <span class="personal-info"><?= $r->reviewer_age ?>歳/</span>
-                          <? } ?>
+                            <? if(isset($r->reviewer_age)){ ?>
+                              <span class="personal-info"><?= $r->reviewer_age ?>歳/</span>
+                            <? } ?>
                           <span class="personal-info"><?= $r->reviewer_occupation ?></span>
                         </div>
                         <ul class="detail-list">

@@ -624,8 +624,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
         $header_decision = 'other';
         $prefecture_KanjiAndCode = JpPrefecture::allKanjiAndCode();
         $prefecture_kanji = $this->prefecture_kanji($prefecture_KanjiAndCode, $contact['prefecture_code']);
-        $used_amount_by_month = $this->used_amount_by_month($contact);
-
 
 
         $this->template->title = 'エネピ';
@@ -773,29 +771,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
             }
         }
         return $prefecture_kanji;
-    }
-
-    private function used_amount_by_month($contact){
-
-        if(isset($contact['prefecture_code']))
-        {
-            $pref_model = JpPrefecture::usedAmountModel($contact['prefecture_code']);
-        }
-        else
-       {
-            $pref_model = JpPrefecture::usedAmountModel($contact['new_prefecture_code']);
-        }
-
-        $a = 1.0 / $pref_model[$contact['gas_meter_checked_month']];
-        $used_amount_by_month = [];
-
-        for($month = 0; $month < 12; $month++)
-        {
-            $m = $month + 1;
-            $used_amount_by_month[$m] = $contact->gas_used_amount * $a * $pref_model[$m];
-        }
-
-        return $used_amount_by_month;
     }
 
     private function lpgas_contact_path($re_cv_params, $contact){
