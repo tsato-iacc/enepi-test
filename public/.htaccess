@@ -9,14 +9,6 @@
 	RewriteEngine on
 
 
-  # http -> https rewrite
-  RewriteCond %{HTTP:X-Forwarded-Port} !^443$
-  RewriteCond %{HTTP_USER_AGENT} !^ELB-HealthChecker
-  RewriteCond %{REQUEST_URI} !=/server-status
-  RewriteCond %{HTTP:X-FORWARDED-FOR} !^$
-  RewriteRule ^(.*)?$ https://%{HTTP_HOST}/$1 [R=301,L]
-
-
      SetOutputFilter DEFLATE
 
      # Mozilla4系などの古いブラウザで無効、しかしMSIEは除外
