@@ -1,8 +1,3 @@
-<? $from_kakaku = null;
-   $smart_phone = null;
-   $from_enechange = null;?>
-
-
 <? if($from_kakaku != null and $smart_phone != null){ ?>
   <script src="//assets.adobedtm.com/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-2baf9a6b9fae7a21c0cfb818c33122e38669f89d.js"></script>
 <? }elseif($from_kakaku != null){ ?>

@@ -618,12 +618,12 @@ $articles_path = "/articles";
       <div class="cta-area-sp">
         <h2>プロパンガス会社の見直しでもっと<?= MyView::image_tag(MyView::asset_url("top/img_otoku.png"), ["class" => 'goodbuy-img']); ?>になる！</h2>
         <?= MyView::image_tag(MyView::asset_url("top/img-cta-balloon.png"), ["class" => 'goodbuy-img', "alt"=> 'まずはエネピに相談！']);  ?>
-        <?= MyView::link_to($form_path, ["class" =>  "ctaarea-button with-arrow-right-icon btn-inner"]); { ?>
+        <a <?= MyView::link_to('/lpgas_contacts/new_form', ["class" => "ctaarea-button with-arrow-right-icon btn-inner"]); ?> >
           <span class="free-txt">無料</span>
           <div class="text">
             <span class="main">プロパンガス代が<br>安くなるか確かめる！</span>
           </div>
-        <? } ?>
+        </a>
       </div>
     </div>
 

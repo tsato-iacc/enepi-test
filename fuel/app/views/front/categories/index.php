@@ -18,8 +18,8 @@
           <?= $category['article']['description'] ?>
         </p>
       </div>
+    </div>
   </div>
-</div>
 
 <div class="panel-inner clearfix">
   <div class="article-list-v3-panel">

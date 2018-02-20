@@ -246,7 +246,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
             ['name' => 'puka', 'content' => 'suka'],
         ];
 
-        $this->template->title = 'DONE';
+        $this->template->title = 'エネピ -  お見積もりの問い合わせ完了';
         $this->template->meta = $meta;
         $this->template->header = View::forge('front/lpgasContacts/done_header');
         $this->template->content = View::forge('front/lpgasContacts/done', [
@@ -254,7 +254,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
             'done_tail' => \View::forge('front/lpgasContacts/done_tail'),
         ]);
         $this->template->content->set_global('contact', $contact);
-        $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
         $this->template->css_call = 'done';
     }
 
@@ -311,12 +310,24 @@ class Controller_Front_LpgasContacts extends Controller_Front
             if(!is_null($contact->from_kakaku))
             {
                 $endpoint = 'https://propanegas.kakaku.com';
+                if($_SERVER['FUEL_ENV'] == \Fuel::DEVELOPMENT)
+                {
+                    $endpoint = '';
+                }
+
+                elseif($_SERVER['FUEL_ENV'] == \Fuel::STAGING)
+                {
+                    $endpoint = 'https://stg.kakaku.enepi.jp';
+                }
+
                 $re_cv_url = $endpoint.'/'.$this->lpgas_contact_path($re_cv_params, $contact);
             }
+
             elseif(!is_null($contact->from_enechange))
             {
                 $re_cv_url = $this->lpgas_contact_path($re_cv_params, $contact);
             }
+
             else
             {
                 $re_cv_params_query = '';

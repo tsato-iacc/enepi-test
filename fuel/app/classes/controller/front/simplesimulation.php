@@ -42,13 +42,19 @@ class Controller_Front_SimpleSimulation extends Controller_Front
         ];
 
         // FIX ME
-        $month_selected = '10';
+        $month_selected = date('n') - 1;
+
+        $sidebar_selected_prefecture_code = null;
+        if(\Input::get('prefecture_code')){
+            $sidebar_selected_prefecture_code = \Input::get('prefecture_code');
+        }
 
         $this->template->title = '簡単入力！プロパンガス料金シミュレーション';
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/simpleSimulation/index', [
             'breadcrumb' => $breadcrumb,
             'month_selected' => $month_selected,
+            'sidebar_selected_prefecture_code' => $sidebar_selected_prefecture_code,
         ]);
     }
 
@@ -103,6 +109,7 @@ class Controller_Front_SimpleSimulation extends Controller_Front
         $breadcrumb = [
             ['url' => \Uri::create('categories/lpgas'), 'name' => 'LPガス/プロパンガス'],
             ['url' => \Uri::create('simple_simulations/new'), 'name' => '料金シミュレーション'],
+            ['url' => '', 'name' => 'シミュレーション結果'],
         ];
 
         $this->template->title = 'プロパンガス料金シミュレーション 結果';

@@ -1,6 +1,4 @@
-<?php
-$smart_phone = false;
-?>
+
 <?= render('front/breadcrumb', ['breadcrumb' => $breadcrumb]); ?>
 
 <div class="article-maintitle-area">
@@ -27,12 +25,11 @@ $smart_phone = false;
         <div class="main">
         <div class="local-content-middle">
           <?= render("shared/social_buttons") ?>
-          <p class="local-content-middle-intro">プロパンガス料金は各業者によって自由に設定ができるため、価格がまちまちです。
-        中にはぼったくりとも思われる悪徳業者も存在しますが、そもそも自分の家のガス代は高いのか安いのかが分からなくて困っている方も多いのではないでしょうか。
-        そこでエネピではプロパンガスの平均利用額を独自で算出し、都道府県ごとに公開をしました。
-        ぜひガス料金の見直しにご活用ください。</p>
+          <p class="local-content-middle-intro">
+            プロパンガス料金は各業者によって自由に設定ができるため、価格がまちまちです。中にはぼったくりとも思われる悪徳業者も存在しますが、そもそも自分の家のガス代は高いのか安いのかが分からなくて困っている方も多いのではないでしょうか。そこでエネピではプロパンガスの平均利用額を独自で算出し、都道府県ごとに公開をしました。ぜひガス料金の見直しにご活用ください。
+          </p>
           <div class="japan-map">
-            <? if($smart_phone){ ?>
+            <? if($is_mobile){ ?>
               <div class="japan-map-box-sh">
                 <h3 class="title-price-info">【地域別プロパンガス料金情報】</h3>
                 <?= render("shared/local_contents") ?>

@@ -1,5 +1,7 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
+<?= render('front/breadcrumb', ['breadcrumb' => $breadcrumb]); ?>
+
 <div class="article-page">
   <div class="article">
     <div class="article-list-v3-panel">
@@ -20,11 +22,11 @@
                 </tr>
                 <tr class="usage-status-content">
                   <th>■ガス使用量</th>
-                  <td><?= $household_average_rate ?>㎥</td>
+                  <td><?= number_format($household_average_rate, 1) ?>㎥</td>
                 </tr>
                 <tr class="usage-status-content">
                   <th>■世帯人数</th>
-                  <td><?= \Config::get('enepi.household.key_string.'.$household) ?></td>
+                  <td><?= \Config::get('enepi.household.key_numeric.'.$household) ?></td>
                 </tr>
                 <tr class="usage-status-content">
                   <?php if ($bill): ?>

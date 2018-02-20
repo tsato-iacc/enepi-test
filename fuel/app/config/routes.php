@@ -22,6 +22,7 @@ return array(
 	'test/test'		                                          => 'front/test/test',
 
     'simple_simulations/new'                                  => 'front/simpleSimulation',
+    'new_simple_simulation_path'                              => 'front/simpleSimulation',
     'simple_simulations'                                      => 'front/simpleSimulation',
     'articles'                                                => 'front/articles',
     'articles/(:num)'                                         => 'front/articles/show/$1',

@@ -107,7 +107,7 @@ class Model_Tracking extends \Orm\Model
         }
 
 
-        return $conversion_tag1.'\n'.$conversion_tag2;
+        return str_replace('{cv_id}', $conversion_id, $conversion_tag1.'\n'.$conversion_tag2);
     }
 
 }
