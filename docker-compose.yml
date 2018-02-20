@@ -32,6 +32,7 @@ services:
       - "TWILLIO_SMS_FROM=+12027967716"
       - AWS_ACCESS_KEY_ID=AKIAI2NFTZUSEGDK5E4Q
       - AWS_SECRET_ACCESS_KEY=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
+      - S3_BUCKET=enepi
     volumes:
       - ./:/app
     ports:

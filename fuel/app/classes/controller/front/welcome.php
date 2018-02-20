@@ -47,7 +47,7 @@ class Controller_Front_Welcome extends Controller_Front
         // end
 
         // @slots = ::Admin::BatchEstimatePrice.order(estimate_created_at: :desc).limit(20)
-        
+
         $meta = [
             ['name' => 'description', 'content' => 'プロパンガス(LPガス)の乗り換え・切り替えでガス代をおトクにするなら料金比較サービス「enepi(エネピ)」！厳選したガス会社のご紹介から切り替え完了まですべて無料サポートをするので安心してご利用頂けます'],
             ['name' => 'keywords', 'content' => '電気料金, ガス料金, 比較, 電力自由化, ガス自由化, 電気代, ガス代, enepi, エネピ'],
@@ -89,8 +89,22 @@ class Controller_Front_Welcome extends Controller_Front
      */
     public function action_404()
     {
-        $this->template->title = '404';
+        $this->template->title = 'ページが見つかりませんでした';
         $this->template->content = View::forge('front/welcome/404');
         return Response::forge($this->template, 404);
+    }
+
+    public function action_500()
+    {
+    	$this->template->title = 'ただいま混み合っております';
+    	$this->template->content = View::forge('front/welcome/500');
+    	return Response::forge($this->template, 500);
+    }
+
+    public function action_503()
+    {
+    	$this->template->title = 'ただいま混み合っております';
+    	$this->template->content = View::forge('front/welcome/500');
+    	return Response::forge($this->template, 503);
     }
 }
