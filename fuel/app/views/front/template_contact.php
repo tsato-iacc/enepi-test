@@ -18,6 +18,7 @@
       <?= Asset::css('application.css'); ?>
 
     <? }elseif($css_call == 'presentation'){ ?>
+      <?= Asset::css('font-awesome.min.css'); ?>
       <?= Asset::css('estimate_presentation.css'); ?>
 
     <? }elseif($css_call == 'old'){ ?>
