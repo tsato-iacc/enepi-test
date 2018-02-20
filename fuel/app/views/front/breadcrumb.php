@@ -7,9 +7,13 @@
       </li>
       <?php foreach($breadcrumb as $k => $v): ?>
         <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-          <a itemprop="item" href="<?= $v['url']; ?>"> » <?= $v['name']; ?></a>
-          <meta itemprop="position" content="<?= $k + 2 ?>">
+          <? if($v['url']){ ?>
+            <a itemprop="item" href="<?= $v['url']; ?>"> » <?= $v['name']; ?></a>
+          <? }else{ ?>
+            <span itemprop="name">» <?= $v['name']; ?></span>
+          <? } ?>
         </li>
+        <meta itemprop="position" content="<?= $k + 2 ?>">
       <?php endforeach;?>
     </ol>
   </div>

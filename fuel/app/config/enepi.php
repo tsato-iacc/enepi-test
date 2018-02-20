@@ -82,7 +82,7 @@ return [
                 1 => 'january', 2 => 'february', 3 => 'march', 4 => 'april', 5 => 'may', 6 => 'june', 7 => 'july', 8 => 'august', 9 => 'september', 10 => 'october', 11 => 'november', 12 => 'december'
             ],
             'key_string' => [
-                'january' => 1, 'february' => 2, 'march' => 3, 'april' => 4, 'may' => 5, 'june' => 6, 'july' => 7, 'august' => 8, 'september' => 9, 'october' => 10, 'november' => 11, 'december' => 12
+                'january' => '1月', 'february' => '2月', 'march' => '3月', 'april' => '4月', 'may' => '5月', 'june' => '6月', 'july' => '7月', 'august' => '8月', 'september' => '9月', 'october' => '10月', 'november' => '11月', 'december' => '12月'
             ],
         ],
     ],
