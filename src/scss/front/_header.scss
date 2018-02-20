@@ -144,10 +144,18 @@ header {
         flex-grow: unset;
         flex-basis: unset;
 
+        .logo {
+          width: 100%;
+        }
+
         > div > div {
           width: 100%;
           max-width: unset;
           padding: 0 10%;
+        }
+
+        .enepi-tel > div {
+          padding: 0 5%;
         }
       }
 

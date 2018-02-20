@@ -38,7 +38,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
      */
     public function action_index()
     {
-        $this->template = \View::forge('front/template_contact');
+        // $this->template = \View::forge('front/template_new_form');
 
         $meta = [
             ['name' => 'description', 'content' => 'OOooOOppp'],
@@ -48,13 +48,10 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         $this->template->title = 'プロパンガス(LPガス)料金を今より安く！無料比較サービス';
         $this->template->meta = $meta;
-        $this->template->header = View::forge('front/lpgasContacts/lpgas_contacts_header');
         $this->template->content = View::forge('front/lpgasContacts/index', [
             'contact' => new \Model_Contact(),
             'month_selected' => '',
         ]);
-        $this->template->footer = View::forge('front/lpgasContacts/index_footer');
-        $this->template->css_call = 'index';
     }
 
     /**
