@@ -14,7 +14,7 @@
   RewriteCond %{HTTP_USER_AGENT} !^ELB-HealthChecker
   RewriteCond %{REQUEST_URI} !=/server-status
   RewriteCond %{HTTP:X-FORWARDED-FOR} !^$
-  RewriteRule ^(.*)?$ https://%{HTTP_HOST}$1 [R=301,L]
+  RewriteRule ^(.*)?$ https://%{HTTP_HOST}/$1 [R=301,L]
 
 
      SetOutputFilter DEFLATE
