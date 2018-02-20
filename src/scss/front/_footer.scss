@@ -1,4 +1,4 @@
-footer {
+.footer {
   overflow: hidden;
   background-color: $main-color;
   color: #FFF;
@@ -235,6 +235,45 @@ footer {
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.2s ease-out;
+    }
+  }
+}
+
+.footer-new-form {
+  padding: 20px 0 0;
+  background-color: #FFF;
+  border-top: 1px solid #CCC;
+  text-align: center;
+
+  .separator {
+    padding: 0 5px;
+    color: #222;
+    font-size: 16px;
+    font-weight: 100;
+  }
+
+  ul {
+    margin: 0 0 16px;
+    padding: 0;
+    height: auto;
+    float: none;
+    border: none;
+
+    li {
+      display: inline;
+      list-style: none;
+      padding: 0;
+
+      a {
+        color: #222 !important;
+        font-size: 14px;
+        font-weight: 100;
+        cursor: pointer;
+
+        &:hover {
+          color: #00a0ea !important;
+        }
+      }
     }
   }
 }

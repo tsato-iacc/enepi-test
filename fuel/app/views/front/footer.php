@@ -1,4 +1,4 @@
-<footer>
+<footer class="footer">
   <div class="container">
     <div class="gas-title">■ プロパンガス料金を調べる</div>
     <div class="area-wrap">

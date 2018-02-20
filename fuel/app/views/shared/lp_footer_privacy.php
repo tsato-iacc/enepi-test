@@ -1,9 +1,11 @@
-<div class="modal fade" id="privacy_modal" tabindex="-1">
-  <div class="modal-dialog">
+<div class="modal fade privacy-modal" id="privacy_modal" tabindex="-1" role="dialog" aria-labelledby="PrivacyModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
-        <h2 class="modal-title">利用規約</h2>
+        <h5 class="modal-title" id="exampleModalLongTitle">利用規約</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
       <div class="modal-body">
         <h3>はじめに</h3>

@@ -18,11 +18,10 @@ enepi運営事務局でございます。<br>
 という流れとなります。<br>
 <?= $company_name ?>様よりご連絡が入りましたら、ご対応よろしくお願い申し上げます。<br>
 <br>
-<!-- FIX ME -->
-<% if NewYearHoliday.holiday?(Time.zone.now) %>
-  <%= NewYearHoliday.holiday_email_estimate_ok.gsub("{name}", $estimate.name).split("\n").join("<br>").html_safe %><br>
+<?php if (\Model_Holiday::isHolliday()): ?>
+  <?= \Model_Holiday::holiday_email_estimate_ok(); ?><br>
   <br>
-<% endif; %>
+<?php endif; ?>
 ■注意事項<br>
 また本件に関して<br>
 ・他候補の会社にする<br>

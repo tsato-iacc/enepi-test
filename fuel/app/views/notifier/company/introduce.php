@@ -13,10 +13,10 @@ enepi(エネピ)運営事務局でございます。<br>
 下記、貴社専用管理画面からご確認の上、ユーザー様にご連絡いただき、<br>
 ご相談・現地調査・契約に向けてご連絡頂きますようお願い申し上げます。<br>
 <br>
-貴社専用管理画面ログインURL<br>
-<!-- CHECK ME -->
-<a href="<?= \Uri::create('partner/estimates/'.$estimate->id); ?>"></a>
-<br>
+<p>
+  貴社専用管理画面ログインURL<br>
+  <a href="<?= \Uri::create('partner/login'); ?>"><?= \Uri::create('partner/login'); ?>
+</p>
 お手数おかけ致しますが、何卒宜しくお願い致します。<br>
 ご不明な点がございましたら、お気軽にお問い合わせくださいますようお願い申し上げます。<br>
 <br>

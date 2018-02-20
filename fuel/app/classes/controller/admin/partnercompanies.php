@@ -31,7 +31,7 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
     {
         $this->template->title = '会社一覧';
         $this->template->content = View::forge('admin/partnercompanies/index', [
-            'companies' => \Model_Partner_Company::find('all'),
+            'companies' => \Model_Partner_Company::find('all', ['order_by' => ['id' => 'desc']]),
         ]);
     }
 
