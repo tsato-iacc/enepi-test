@@ -24,6 +24,15 @@ class Notifier
         $email->send();
     }
 
+    public static function notifyCompanyPassword(&$user, &$password)
+    {
+        $email = \Email::forge();
+        $email->to($user->email, $user->company_name);
+        $email->subject('enepi(エネピ)へのご登録、誠にありがとうございます／enepi運営事務局');
+        $email->html_body(\View::forge('notifier/company/password', ['user' => $user, 'password' => $password]));
+        $email->send();
+    }
+
     public static function notifyAdminNewContact(&$contact)
     {
         $email = \Email::forge();

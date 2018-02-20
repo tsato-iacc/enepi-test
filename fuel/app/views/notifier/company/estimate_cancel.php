@@ -32,8 +32,7 @@ enepi(エネピ)運営事務局でございます。
 <?php endif; ?>
 <p>
   貴社専用管理画面ログインURL<br>
-  <!-- FIX ME -->
-  <?= "link_to partner_root_url, partner_root_url" ?>
+  <a href="<?= \Uri::create('partner/login'); ?>"><?= \Uri::create('partner/login'); ?>
 </p>
 <br>
 <?= render('notifier/footer'); ?>

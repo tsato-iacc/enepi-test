@@ -57,16 +57,14 @@ class Controller_Admin_Users extends Controller_Admin
      */
     public function post_store()
     {
-        // $user = new \Model_AdminUser();
-
-        $val = Validation::forge();
-        $val->add('email', 'email')->add_rule('required')->add_rule('match_pattern', '/\A[\w+\-.]+@iacc\.co\.jp/i');
+        $val = Model_AdminUser::validate();
 
         if ($val->run())
         {
             $password = \Str::random('hexdec', 16);
             $auth = Eauth::instance('admin');
 
+            \DB::start_transaction();
             try
             {
                 $user_id = $auth->create_user($val->validated('email'), $password, 2);
@@ -76,6 +74,8 @@ class Controller_Admin_Users extends Controller_Admin
                     $user = \Model_AdminUser::find($user_id);
                     \Helper\Notifier::notifyAdminPassword($user, $password);
 
+                    \DB::commit_transaction();
+
                     Session::set_flash('success', '管理者を追加しました');
                     Response::redirect('admin/users');
                 }
@@ -83,8 +83,7 @@ class Controller_Admin_Users extends Controller_Admin
             }
             catch (Exception $e)
             {
-                throw $e;
-                
+                \DB::rollback_transaction();
                 \Log::error($e);
             }
         }

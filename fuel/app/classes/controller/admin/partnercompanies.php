@@ -31,7 +31,7 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
     {
         $this->template->title = '会社一覧';
         $this->template->content = View::forge('admin/partnercompanies/index', [
-            'companies' => \Model_Partner_Company::find('all'),
+            'companies' => \Model_Partner_Company::find('all', ['order_by' => ['id' => 'desc']]),
         ]);
     }
 
@@ -58,17 +58,23 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
      */
     public function action_store()
     {
-        $partner_company = new \Model_Partner_Company();
-
-        $val = \Model_Partner_Company::validate($partner_company);
+        $val = \Model_Partner_Company::validate();
 
         if ($val->run())
         {
+            $password = \Str::random('hexdec', 16);
+            $auth = Eauth::instance('partner');
+
             \DB::start_transaction();
             try
             {
-                $partner_company->set($val->validated('partner_company'));
+                $user_id = $auth->create_user($val->validated('partner_company.email'), $password, 2);
 
+                if (!$user_id)
+                    throw new Exception('Could not create user');
+
+                $partner_company = \Model_Partner_Company::find($user_id);
+                $partner_company->set($val->validated('partner_company'));
                 $company = new \Model_Company($val->validated('company'));
 
                 if ($val->validated('company_features'))
@@ -87,6 +93,8 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
 
                 if ($partner_company->save())
                 {
+                    \Helper\Notifier::notifyCompanyPassword($partner_company, $password);
+
                     \DB::commit_transaction();
                     Session::set_flash('success', 'partner_companyを追加しました');
                 }
@@ -95,8 +103,8 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
             }
             catch (\Exception $e)
             {
-                \Log::error($e);
                 \DB::rollback_transaction();
+                \Log::error($e);
             }
         }
 
@@ -104,7 +112,7 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
 
         $this->template->title = 'New partner_company';
         $this->template->content = View::forge('admin/partnercompanies/create', [
-            'partner_company' => $partner_company,
+            'partner_company' => new \Model_Partner_Company(),
             'val' => $val,
         ]);
     }
