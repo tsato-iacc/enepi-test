@@ -25,6 +25,7 @@
   <?= $content; ?>
   
   <?php if (\Uri::segment(2) == 'new_form'): ?>
+    <?= Asset::css('bootstrap_v4.min.css'); ?>
     <footer class="footer-new-form">
       <ul>
         <li><a data-toggle="modal" data-target="#privacy_modal">利用規約</a></li>
