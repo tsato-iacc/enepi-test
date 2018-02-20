@@ -3,6 +3,9 @@
 return array(
     '_root_'  => 'front/welcome/index',
     '_404_'   => 'front/welcome/404',
+	'_500_'   => 'front/welcome/500',
+	'_503_'   => 'front/welcome/503',
+
 	'index2'  => 'front/welcome/index2',
 
     /**
