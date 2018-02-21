@@ -63,11 +63,12 @@ class Controller_Front_Articles extends Controller_Front
             throw new HttpNotFoundException();
         }
 
-        $meta = [];
 
         $breadcrumb = [
             ['url' => \Uri::create('articles'), 'name' => '記事一覧'],
         ];
+
+        $meta = [];
 
         // $this->template->title = 'local_contents';
         $this->template->meta = $meta;
@@ -126,7 +127,6 @@ class Controller_Front_Articles extends Controller_Front
         $meta = [
             ['name' => 'description',     'content' => $article['meta_description']],
             ['name' => 'keywords',        'content' => $article['meta_keywords']],
-            ['name' => 'charset',         'content' => 'utf-8'],
             ['name' => 'ogp:type',        'content' => 'article'],
             ['name' => 'ogp:title',       'content' => $article['meta_title']],
             ['name' => 'ogp:description', 'content' => $article['meta_description']],

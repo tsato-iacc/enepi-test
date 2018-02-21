@@ -40,14 +40,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
     {
         // $this->template = \View::forge('front/template_new_form');
 
-        $meta = [
-            ['name' => 'description', 'content' => 'OOooOOppp'],
-            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-            ['name' => 'puka', 'content' => 'suka'],
-        ];
-
         $this->template->title = 'プロパンガス(LPガス)料金を今より安く！無料比較サービス';
-        $this->template->meta = $meta;
         $this->template->content = View::forge('front/lpgasContacts/index', [
             'contact' => new \Model_Contact(),
             'month_selected' => '',
@@ -198,10 +191,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
     {
         $this->template = \View::forge('front/template_contact');
 
-        $meta = [
-            ['name' => 'description', 'content' => 'プロパンガス会社を簡単ネット見積もり'],
-            ['name' => 'keywords', 'content' => 'プロパンガス,見積もり'],
-        ];
+        $meta = [];
 
         $this->template->title = 'お見積もり情報入力';
         $this->template->meta = $meta;
@@ -237,11 +227,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         Tracking::unsetTracking();
 
-        $meta = [
-            ['name' => 'description', 'content' => 'OOooOOppp'],
-            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-            ['name' => 'puka', 'content' => 'suka'],
-        ];
+        $meta = [];
 
         $this->template->title = 'エネピ -  お見積もりの問い合わせ完了';
         $this->template->meta = $meta;
@@ -271,11 +257,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
 
 
-        $meta = [
-            ['name' => 'description', 'content' => 'OOooOOppp'],
-            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-            ['name' => 'puka', 'content' => 'suka'],
-        ];
+        $meta = [];
 
 
 
@@ -421,11 +403,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
 
 
-            $meta = [
-                ['name' => 'description', 'content' => 'OOooOOppp'],
-                ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-                ['name' => 'puka', 'content' => 'suka'],
-            ];
+            $meta = [];
 
 
 
@@ -614,11 +592,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
 
 
-        $meta = [
-            ['name' => 'description', 'content' => 'OOooOOppp'],
-            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-            ['name' => 'puka', 'content' => 'suka'],
-        ];
+        $meta = [];
 
 
         $header_decision = 'other';
