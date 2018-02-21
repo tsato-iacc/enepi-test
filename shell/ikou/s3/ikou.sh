@@ -6,21 +6,24 @@ aws configure list --profile enepi
 echo "dl ok?"
 read x
 
-aws s3 cp s3://enepi/tmp ./tmp/ --profile enepi --recursive
-aws s3 cp s3://enepi/certificates/ ./certificates/ --profile enepi --recursive
-aws s3 cp s3://enepi/production/ ./production/ --profile enepi --recursive
-aws s3 cp s3://enepi/staging/ ./staging/ --profile enepi --recursive
-aws s3 cp s3://enepi/development/ ./development/ --profile enepi --recursive
+list="tmp certificates production staging development"
+
+for i in ${list}
+do
+	echo "aws s3 cp s3://enepi/${i} ./data/${i}/ --profile enepi --recursive"
+	aws s3 cp s3://enepi/${i} ./data/${i}/ --profile enepi --recursive
+done
+
 
 aws configure list --profile biz
 echo "upload ok?"
 read x
 
-aws s3 cp ./tmp/ s3://enepi-new/tmp/ --profile biz --recursive
-aws s3 cp ./certificates/ s3://enepi-new/certificates/ --profile biz --recursive
-aws s3 cp ./staging/ s3://enepi-new/staging/ --profile biz --recursive
-aws s3 cp ./development/ s3://enepi-new/development/ --profile biz --recursive
-aws s3 cp ./production/ s3://enepi-new/production/ --profile biz --recursive
+for i in ${list}
+do
+	echo "aws s3 cp ./data/${i}/ s3://enepi-new/${i}/ --profile biz --recursive"
+	aws s3 cp ./data/${i}/ s3://enepi-new/${i}/ --profile biz --recursive
+done
 
 echo "success!"
 
