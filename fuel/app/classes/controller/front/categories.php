@@ -88,8 +88,8 @@ class Controller_Front_Categories extends Controller_Front
 
         // FIX ME!
         $meta = [
-            ['name' => 'description',       'content' => $category_header['article']['description']],
-            ['name' => 'charset',           'content' => 'utf-8'],
+            ['name' => 'description',       'content' => $category_header['article']['meta_description']],
+            ['name' => 'keywords',        'content' => $category_header['article']['meta_keywords']],
             ['name' => 'og:type',           'content' => 'article'],
             ['name' => 'og:title',          'content' => $category_header['article']['title']],
             ['name' => 'og:description',    'content' => $category_header['article']['description']],
@@ -177,13 +177,7 @@ class Controller_Front_Categories extends Controller_Front
         ];
         $breadcrumb = array_merge($breadcrumb, $breadcrumb_Individual);
 
-
-        // FIX ME!
-        $meta = [
-            ['name' => 'description', 'content' => 'OOooOOppp'],
-            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-            ['name' => 'puka', 'content' => 'suka'],
-        ];
+        $meta = [];
 
         // FIX ME!
         $this->template->title = 'エネピ';
