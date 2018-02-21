@@ -110,12 +110,6 @@ class Controller_Front_LocalContents extends Controller_Front
             throw new HttpNotFoundException();
         }
 
-        $meta = [
-            ['name' => 'description', 'content' => 'OOooOOppp'],
-            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-            ['name' => 'puka', 'content' => 'suka'],
-        ];
-
         $prefecture_data = \Model_LocalContentPrefecture::find('first', [
           'where' => [
             ['prefecture_code', $code],
@@ -143,6 +137,10 @@ class Controller_Front_LocalContents extends Controller_Front
                                                                $region_count);
         $prefecture_kanji          = $this->prefecture_kanji(  $prefecture_KanjiAndCode,
                                                                $prefecture_data['id']);
+
+        $meta = [
+            ['name' => 'description', 'content' => $prefecture_kanji[key($prefecture_kanji)].'のプロパンガス料金を知りたい方はこちらをチェック！お住まいの地域をクリックして頂くと、市区町村ごとの詳細なガス代を調べられます。プロパンガス(LPガス)は地域によって料金が異なるので、平均的なガス代を把握し、見直しに役立ててください。'],
+        ];
 
         $breadcrumb = [
             ['url' => \Uri::create('categories/lpgas'), 'name' => 'LPガス/プロパンガス'],
@@ -197,12 +195,6 @@ class Controller_Front_LocalContents extends Controller_Front
             throw new HttpNotFoundException();
         }
 
-        $meta = [
-            ['name' => 'description', 'content' => 'OOooOOppp'],
-            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-            ['name' => 'puka', 'content' => 'suka'],
-        ];
-
         $city_data = \Model_LocalContentCity::find('first', [
             'where' => [
                 ['id', $code],
@@ -242,6 +234,12 @@ class Controller_Front_LocalContents extends Controller_Front
                                                                $region_count);
         $prefecture_kanji          = $this->prefecture_kanji(  $prefecture_KanjiAndCode,
                                                                $city_data['prefecture_code']);
+
+
+        $meta = [
+            ['name' => 'description', 'content' => $prefecture_kanji[key($prefecture_kanji)].$city_data->region->city_name.'のプロパンガス料金を知りたい方はこちらをチェック！お住まいの地域をクリックして頂くと、市区町村ごとの詳細なガス代を調べられます。プロパンガス(LPガス)は地域によって料金が異なるので、平均的なガス代を把握し、見直しに役立ててください。'],
+        ];
+
 
         $breadcrumb = [
             ['url' => \Uri::create('categories/lpgas'), 'name' => 'LPガス/プロパンガス'],

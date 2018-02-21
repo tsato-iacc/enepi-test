@@ -103,7 +103,9 @@ class Controller_Front_SimpleSimulation extends Controller_Front
         }
 
         $meta = [
-            ['name' => 'description', 'content' => 'プロパンガス料金のシミュレーション結果ページです。ご入力頂いた内容を元に、今のガス代がどれくらい安くなるか算出しています。ガスの見直しにお役立てください。'],
+            ['name' => 'viewport', 'content' => 'content="width=device-width, initial-scale=1"'],
+            ['property' => 'fb:app_id', 'content' => '590655641075329'],
+
         ];
 
         $breadcrumb = [
