@@ -612,7 +612,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
             'google_chart_json_data' => $google_chart_json_data,
         ]);
         $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
-        $this->template->css_call = 'presentation';
+        $this->template->css_call = 'details';
 
     }
 

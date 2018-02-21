@@ -619,11 +619,21 @@
           <div class="container faq section_second">
             <h2 class="ttl-case-contents">お問い合わせ目的別ガイド</h2>
             <ul class="nav nav-tabs" style="margin-top: 0;" id="case-contents">
-              <li class="active"><a href="#tab1" data-toggle="tab" onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_tab1', {'nonInteraction': 1});">今の家で切り替え予定の方</a></li>
-              <li><a href="#tab2" data-toggle="tab" onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_tab2', {'nonInteraction': 1});">新築物件へお引越しの方</a></li>
-              <li><a href="#tab3" data-toggle="tab" onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_tab3', {'nonInteraction': 1});">中古物件へお引越しの方</a></li>
-              <li><a href="#tab4" data-toggle="tab" onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_tab4', {'nonInteraction': 1});">店舗で切り替え予定の方</a></li>
-              <li><a href="#tab5" data-toggle="tab" onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_tab5', {'nonInteraction': 1});">集合住宅のオーナー様</a></li>
+              <li class="active">
+                <a href="#tab1" data-toggle="tab" onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_tab1', {'nonInteraction': 1});">今の家で切り替え予定の方</a>
+              </li>
+              <li>
+                <a href="#tab2" data-toggle="tab" onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_tab2', {'nonInteraction': 1});">新築物件へお引越しの方</a>
+              </li>
+              <li>
+                <a href="#tab3" data-toggle="tab" onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_tab3', {'nonInteraction': 1});">中古物件へお引越しの方</a>
+              </li>
+              <li>
+                <a href="#tab4" data-toggle="tab" onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_tab4', {'nonInteraction': 1});">店舗で切り替え予定の方</a>
+              </li>
+              <li>
+                <a href="#tab5" data-toggle="tab" onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_tab5', {'nonInteraction': 1});">集合住宅のオーナー様</a>
+              </li>
             </ul>
 
             <div class="tab-content">
