@@ -1,0 +1,14 @@
+#!/bin/sh
+
+cd `dirname $0`
+
+echo "mysqldump -u root -p'87q9e!e3f' -h 127.0.0.1 -P 3309 pps_stg > dump.stg"
+mysqldump -u root -p'87q9e!e3f' -h 127.0.0.1 -P 3309 pps_stg > dump.stg
+
+ls -l dump.stg
+
+echo "upload OK?"
+read x
+
+echo "mysql -u root -p'rootroot' -h enepi-staging.cgnyosygrcom.ap-northeast-1.rds.amazonaws.com pps_stg < dump.stg"
+mysql -u root -p'rootroot' -h enepi-staging.cgnyosygrcom.ap-northeast-1.rds.amazonaws.com pps_stg < dump.stg 
