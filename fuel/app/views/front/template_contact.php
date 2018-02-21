@@ -17,13 +17,14 @@
     <? if($css_call == 'done'){ ?>
       <?= Asset::css('application.css'); ?>
 
-    <? }elseif($css_call == 'presentation'){ ?>
+    <? }elseif($css_call == 'presentation' || $css_call == 'details'){ ?>
       <?= Asset::css('font-awesome.min.css'); ?>
       <?= Asset::css('estimate_presentation.css'); ?>
 
     <? }elseif($css_call == 'old'){ ?>
       <?= Asset::css('application.css'); ?>
       <?= Asset::css('front.min.css'); ?>
+      <?= Asset::js('front.min.js'); ?>
 
     <? }elseif($css_call == 'index'){ ?>
       <?= Asset::css('application.css'); ?>
@@ -123,8 +124,11 @@
     <?php endif; ?>
 
     <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
-    <?= Asset::js('front.min.js'); ?>
     <?= Asset::js('bootstrap.min.js'); ?>
+
+    <? if($css_call == 'details' || $css_call == 'old'){ ?>
+      <?= Asset::js('front.min.js'); ?>
+    <? } ?>
 
     <script>
     　　$(function () {
