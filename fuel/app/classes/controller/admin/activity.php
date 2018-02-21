@@ -49,7 +49,7 @@ class Controller_Admin_Activity extends Controller_Admin
 
         $last = \DateTime::createFromFormat('Y-m-d H:i:s', $last_request->updated_at);        
 
-        if (true || $last <= $three_minute_ago)
+        if ($last <= $three_minute_ago)
         {
             $last_request->updated_at = \Date::forge()->format('mysql_date_time');
             $last_request->save();
