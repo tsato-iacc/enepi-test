@@ -22,3 +22,5 @@ aws s3 cp ./staging/ s3://enepi-new/staging/ --profile biz --recursive
 aws s3 cp ./development/ s3://enepi-new/development/ --profile biz --recursive
 aws s3 cp ./production/ s3://enepi-new/production/ --profile biz --recursive
 
+echo "success!"
+
