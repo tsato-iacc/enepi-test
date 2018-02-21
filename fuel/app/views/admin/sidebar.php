@@ -16,16 +16,22 @@
   <a href="<?= \Uri::create('admin/contacts') ?>" class="list-group-item list-group-item-action<?= \Uri::segment(2) == 'contacts' ? ' active' : ''; ?>"><i class="fa fa-user"></i>問い合わせ一覧</a>
   <a href="<?= \Uri::create('admin/estimates') ?>" class="list-group-item list-group-item-action<?= \Request::active()->controller == 'Controller_Admin_Estimates' && in_array(\Request::active()->action, ['index', 'show']) ? ' active' : ''; ?>"><i class="fa fa-handshake-o"></i>見積もり依頼一覧</a>
   <a href="<?= \Uri::create('admin/activity') ?>" class="list-group-item list-group-item-action<?= \Uri::segment(2) == 'activity' ? ' active' : ''; ?>"><i class="fa fa-bullhorn"></i>対応リスト</a>
-  <a href="<?= \Uri::create('admin/estimates/history') ?>" class="list-group-item list-group-item-action<?= \Request::active()->controller == 'Controller_Admin_Estimates' && \Request::active()->action == 'history' ? ' active' : ''; ?>"><i class="fa fa-table"></i>見積もり依頼変更履歴</a>
-  <a href="<?= \Uri::create('admin/behavior') ?>" class="list-group-item list-group-item-action<?= \Uri::segment(2) == 'behavior' ? ' active' : ''; ?>"><i class="fa fa-history"></i>見積もり提示閲覧履歴</a>
+  <li class="list-group-item" style="color: #ccc;"><i class="fa fa-table"></i>見積もり依頼変更履歴</li>
+  <!-- <a href="<?= \Uri::create('admin/estimates/history') ?>" class="list-group-item list-group-item-action<?= \Request::active()->controller == 'Controller_Admin_Estimates' && \Request::active()->action == 'history' ? ' active' : ''; ?>"><i class="fa fa-table"></i>見積もり依頼変更履歴</a> -->
+  <li class="list-group-item" style="color: #ccc;"><i class="fa fa-history"></i>見積もり提示閲覧履歴</a></li>
+  <!-- <a href="<?= \Uri::create('admin/behavior') ?>" class="list-group-item list-group-item-action<?= \Uri::segment(2) == 'behavior' ? ' active' : ''; ?>"><i class="fa fa-history"></i>見積もり提示閲覧履歴</a> -->
   <a href="<?= \Uri::create('admin/tracking/statistics') ?>" class="list-group-item list-group-item-action<?= \Request::active()->controller == 'Controller_Admin_Tracking' && in_array(\Request::active()->action, ['statistics']) ? ' active' : ''; ?>"><i class="fa fa-pie-chart"></i>経由元別集客状況</a>
   <a href="<?= \Uri::create('admin/bills') ?>" class="list-group-item list-group-item-action<?= \Uri::segment(2) == 'bills' ? ' active' : ''; ?>"><i class="fa fa-jpy"></i>請求額</a>
-  <a href="<?= \Uri::create('admin/unsupported') ?>" class="list-group-item list-group-item-action<?= \Uri::segment(2) == 'unsupported' ? ' active' : ''; ?>"><i class="fa fa-map-marker"></i>非対応都道府県</a>
-  <a href="<?= \Uri::create('admin/company_features') ?>" class="list-group-item list-group-item-action<?= \Uri::segment(2) == 'company_features' ? ' active' : ''; ?>"><i class="fa fa-hand-pointer-o"></i>会社特徴マスタ</a>
-  <a href="<?= \Uri::create('admin/holiday') ?>" class="list-group-item list-group-item-action<?= \Uri::segment(2) == 'holiday' ? ' active' : ''; ?>"><i class="fa fa-bed"></i>年末年始休業設定</a>
+  <li class="list-group-item" style="color: #ccc;"><i class="fa fa-map-marker"></i>非対応都道府県</li>
+  <!-- <a href="<?= \Uri::create('admin/unsupported') ?>" class="list-group-item list-group-item-action<?= \Uri::segment(2) == 'unsupported' ? ' active' : ''; ?>"><i class="fa fa-map-marker"></i>非対応都道府県</a> -->
+  <li class="list-group-item" style="color: #ccc;"><i class="fa fa-hand-pointer-o"></i>会社特徴マスタ</li>
+  <!-- <a href="<?= \Uri::create('admin/company_features') ?>" class="list-group-item list-group-item-action<?= \Uri::segment(2) == 'company_features' ? ' active' : ''; ?>"><i class="fa fa-hand-pointer-o"></i>会社特徴マスタ</a> -->
+  <li class="list-group-item" style="color: #ccc;"><i class="fa fa-bed"></i>年末年始休業設定</li>
+  <!-- <a href="<?= \Uri::create('admin/holiday') ?>" class="list-group-item list-group-item-action<?= \Uri::segment(2) == 'holiday' ? ' active' : ''; ?>"><i class="fa fa-bed"></i>年末年始休業設定</a> -->
 </div>
 
 <div class="list-group sidebar">
   <li class="list-group-item list-group-item-heading"><i class="fa fa-comment"></i>口コミ管理</li>
-  <a href="<?= \Uri::create('admin/reviews') ?>" class="list-group-item list-group-item-action<?= \Uri::segment(2) == 'reviews' ? ' active' : ''; ?>"><i class="fa fa-newspaper-o"></i>口コミ一覧</a>
+  <li class="list-group-item" style="color: #ccc;"><i class="fa fa-newspaper-o"></i>口コミ一覧</li>
+  <!-- <a href="<?= \Uri::create('admin/reviews') ?>" class="list-group-item list-group-item-action<?= \Uri::segment(2) == 'reviews' ? ' active' : ''; ?>"><i class="fa fa-newspaper-o"></i>口コミ一覧</a> -->
 </div>
