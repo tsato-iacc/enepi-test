@@ -32,6 +32,11 @@ ssh -i `pwd`/pps-prod.pem -f -N -C -g -L *:3308:enepi-prod.cebp6jbs7ymd.ap-north
 sudo cp /etc/localtime /etc/localtime.org
 sudo ln -sf  /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
+
+cp `pwd`/../public/.htaccess.prod `pwd`/../public/.htaccess
+
+
+
 date
 echo "fin!"
 echo

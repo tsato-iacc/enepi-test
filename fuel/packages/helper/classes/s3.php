@@ -30,7 +30,7 @@ class S3
 
 	public static function image_tag_s3($key, $hash = null){
 
-		$bucket = "enepi";
+		$bucket = getenv("S3_BUCKET");
 
 		$s3 = new \Aws\S3\S3Client(array(
 
