@@ -164,7 +164,7 @@ use JpPrefecture\JpPrefecture;
     <?php foreach($contact->calling_histories as $history): ?>
       <tr>
         <td><?= Helper\TimezoneConverter::convertFromString($history->created_at, 'admin_table'); ?></td>
-        <td><?= $history->admin_user->email; ?></td>
+        <td><?= $history->admin_user ? $history->admin_user->email : 'DELETED'; ?></td>
         <td><?= __('admin.calling_history.calling_method.'.\Config::get('views.calling_history.calling_method.'.$history->calling_method)); ?></td>
         <td><?= $history->note; ?></td>
       </tr>

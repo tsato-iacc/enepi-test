@@ -284,11 +284,11 @@ class Controller_Admin_Csv extends Controller_Admin
 
             $user = '';
 
-            if ($history->admin_user_id)
+            if ($history->admin_user)
             {
                 $user = $history->admin_user->email;
             }
-            else if ($history->partner_company_id)
+            else if ($history->partner_company)
             {
                 $user = $history->partner_company->company_name;
             }
