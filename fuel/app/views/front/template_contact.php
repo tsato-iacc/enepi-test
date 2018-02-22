@@ -16,6 +16,7 @@
 
     <? if($css_call == 'done'){ ?>
       <?= Asset::css('application.css'); ?>
+      <?= Asset::css('font-awesome.min.css'); ?>
 
     <? }elseif($css_call == 'presentation' || $css_call == 'details'){ ?>
       <?= Asset::css('font-awesome.min.css'); ?>
