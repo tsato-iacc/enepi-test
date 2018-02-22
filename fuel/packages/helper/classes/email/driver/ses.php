@@ -27,6 +27,12 @@ class Email_Driver_Ses extends \Email_Driver
   protected function _send()
   {
     $client = SesClient::factory([
+
+				// 無理やり既存使う
+                                'credentials' => [
+                                        'key'    => "AKIAI2NFTZUSEGDK5E4Q",
+                                        'secret' => "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",
+                                ],
       'version'=> "latest",
       'region' => "us-east-1"
     ]);
