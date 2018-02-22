@@ -1,0 +1,362 @@
+{
+    "ResourceRecordSets": [
+        {
+            "AliasTarget": {
+                "HostedZoneId": "Z14GRHDCWA56QT", 
+                "EvaluateTargetHealth": false, 
+                "DNSName": "dualstack.awseb-e-f-awsebloa-1dvcrtuuxmlef-472359215.ap-northeast-1.elb.amazonaws.com."
+            }, 
+            "Type": "A", 
+            "Name": "enepi.jp."
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "1 ASPMX.L.GOOGLE.COM."
+                }, 
+                {
+                    "Value": "5 ALT1.ASPMX.L.GOOGLE.COM."
+                }, 
+                {
+                    "Value": "5 ALT2.ASPMX.L.GOOGLE.COM."
+                }, 
+                {
+                    "Value": "10 ALT3.ASPMX.L.GOOGLE.COM."
+                }, 
+                {
+                    "Value": "10 ALT4.ASPMX.L.GOOGLE.COM."
+                }
+            ], 
+            "Type": "MX", 
+            "Name": "enepi.jp.", 
+            "TTL": 3600
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "ns-1960.awsdns-53.co.uk."
+                }, 
+                {
+                    "Value": "ns-58.awsdns-07.com."
+                }, 
+                {
+                    "Value": "ns-833.awsdns-40.net."
+                }, 
+                {
+                    "Value": "ns-1152.awsdns-16.org."
+                }
+            ], 
+            "Type": "NS", 
+            "Name": "enepi.jp.", 
+            "TTL": 172800
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "ns-1960.awsdns-53.co.uk. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
+                }
+            ], 
+            "Type": "SOA", 
+            "Name": "enepi.jp.", 
+            "TTL": 900
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "\"google-site-verification=AfXYBuNKnFxCy9GK16wjc6MoyP1PcezTi_ubI1Eh8b0\""
+                }
+            ], 
+            "Type": "TXT", 
+            "Name": "enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "\"Hr1FpoY2u9IlwVKz5X3/T1YO2KEysdzgRLrQbAoMQhM=\""
+                }
+            ], 
+            "Type": "TXT", 
+            "Name": "_amazonses.enepi.jp.", 
+            "TTL": 1800
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "_57caa3e11de53219c600182264ca5f00.acm-validations.aws."
+                }
+            ], 
+            "Type": "CNAME", 
+            "Name": "_cdb5dc420af1e48859aa4de8dae742ed.enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "72cwtyomqjyrchkm7bsrgiymk5xvakny.dkim.amazonses.com"
+                }
+            ], 
+            "Type": "CNAME", 
+            "Name": "72cwtyomqjyrchkm7bsrgiymk5xvakny._domainkey.enepi.jp.", 
+            "TTL": 1800
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "hum4k2ckmzftwftgsfzrd6cxvwgfhfnf.dkim.amazonses.com"
+                }
+            ], 
+            "Type": "CNAME", 
+            "Name": "hum4k2ckmzftwftgsfzrd6cxvwgfhfnf._domainkey.enepi.jp.", 
+            "TTL": 1800
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "tjgtkh2lhnjsmwewdxwm5qrljyzqx34s.dkim.amazonses.com"
+                }
+            ], 
+            "Type": "CNAME", 
+            "Name": "tjgtkh2lhnjsmwewdxwm5qrljyzqx34s._domainkey.enepi.jp.", 
+            "TTL": 1800
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "awseb-e-x-AWSEBLoa-14NU280HL9UB0-1540968726.ap-northeast-1.elb.amazonaws.com"
+                }
+            ], 
+            "Type": "CNAME", 
+            "Name": "biz.enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "awseb-e-t-AWSEBLoa-1KXR7LEY7PI68-1370153504.ap-northeast-1.elb.amazonaws.com"
+                }
+            ], 
+            "Type": "CNAME", 
+            "Name": "developer.biz.enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "\"PNXE/mYD8YXKjNW9ealRTf4lIgiJC2B0eXUjwGSanG0=\""
+                }
+            ], 
+            "Type": "TXT", 
+            "Name": "_amazonses.mail.biz.enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "cmzed5oxdirl2efztfstulgtpaatfpuq.dkim.amazonses.com"
+                }
+            ], 
+            "Type": "CNAME", 
+            "Name": "cmzed5oxdirl2efztfstulgtpaatfpuq._domainkey.mail.biz.enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "jrkshzp4ldteh466y72ndoihheehmmob.dkim.amazonses.com"
+                }
+            ], 
+            "Type": "CNAME", 
+            "Name": "jrkshzp4ldteh466y72ndoihheehmmob._domainkey.mail.biz.enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "leeoztdi6oizi4spmgkv6om3phgarl3s.dkim.amazonses.com"
+                }
+            ], 
+            "Type": "CNAME", 
+            "Name": "leeoztdi6oizi4spmgkv6om3phgarl3s._domainkey.mail.biz.enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "10 feedback-smtp.us-east-1.amazonses.com"
+                }
+            ], 
+            "Type": "MX", 
+            "Name": "bounce.mail.biz.enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "\"0aVo0InF7uOiRngZZNDhdH5KXl+OchlWnxhvw6Ye0Pk=\""
+                }
+            ], 
+            "Type": "TXT", 
+            "Name": "_amazonses.enepi.jp.enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "63gw46hfxbpgzppnwiqv672zi4b27rnu.dkim.amazonses.com"
+                }
+            ], 
+            "Type": "CNAME", 
+            "Name": "63gw46hfxbpgzppnwiqv672zi4b27rnu._domainkey.enepi.jp.enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "fm5privzqtxqwmisgjarrqzy24meyvp6.dkim.amazonses.com"
+                }
+            ], 
+            "Type": "CNAME", 
+            "Name": "fm5privzqtxqwmisgjarrqzy24meyvp6._domainkey.enepi.jp.enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "zvonzecorhqqvx7di3wfrvy5rfldmt2f.dkim.amazonses.com"
+                }
+            ], 
+            "Type": "CNAME", 
+            "Name": "zvonzecorhqqvx7di3wfrvy5rfldmt2f._domainkey.enepi.jp.enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "\"v=spf1 include:amazonses.com ~all\""
+                }
+            ], 
+            "Type": "TXT", 
+            "Name": "bounce.mail.biz.enepi.jp.enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "d2cu5hqcsiytuo.cloudfront.net"
+                }
+            ], 
+            "Type": "CNAME", 
+            "Name": "kakaku.enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "d29f80bp2lyumg.cloudfront.net"
+                }
+            ], 
+            "Type": "CNAME", 
+            "Name": "stg.kakaku.enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "www128.wixdns.net"
+                }
+            ], 
+            "Type": "CNAME", 
+            "Name": "m.lp.enepi.jp.", 
+            "TTL": 3600
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "www128.wixdns.net"
+                }
+            ], 
+            "Type": "CNAME", 
+            "Name": "www.lp.enepi.jp.", 
+            "TTL": 3600
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "enepi-production.ap-northeast-1.elasticbeanstalk.com"
+                }
+            ], 
+            "Type": "CNAME", 
+            "Name": "new.enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "_3d23ad19a6ec44597a0c2a3271f005cd.acm-validations.aws."
+                }
+            ], 
+            "Type": "CNAME", 
+            "Name": "_528c44985017464ca952836f704305b1.new.enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "enepi-production.ap-northeast-1.elasticbeanstalk.com"
+                }
+            ], 
+            "Type": "CNAME", 
+            "Name": "prod.new.enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "enepi-staging.ap-northeast-1.elasticbeanstalk.com"
+                }
+            ], 
+            "Type": "CNAME", 
+            "Name": "stg.new.enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "AliasTarget": {
+                "HostedZoneId": "Z14GRHDCWA56QT", 
+                "EvaluateTargetHealth": false, 
+                "DNSName": "dualstack.awseb-e-d-awsebloa-4nxeus29gr2a-331714684.ap-northeast-1.elb.amazonaws.com."
+            }, 
+            "Type": "A", 
+            "Name": "stg.enepi.jp."
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "192.168.1.2"
+                }
+            ], 
+            "Type": "A", 
+            "Name": "testtest.enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "ResourceRecords": [
+                {
+                    "Value": "192.168.1.1"
+                }
+            ], 
+            "Type": "A", 
+            "Name": "testtest2.enepi.jp.", 
+            "TTL": 300
+        }, 
+        {
+            "AliasTarget": {
+                "HostedZoneId": "Z2IOGBKJQ59EY6", 
+                "EvaluateTargetHealth": false, 
+                "DNSName": "enepi.jp."
+            }, 
+            "Type": "A", 
+            "Name": "www.enepi.jp."
+        }
+    ]
+}
