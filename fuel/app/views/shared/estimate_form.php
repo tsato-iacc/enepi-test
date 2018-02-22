@@ -9,7 +9,7 @@ use JpPrefecture\JpPrefecture;
   }
 </style>
 
-<div class="register-form" id="register_form" style="border-top: 1px solid #e9e9e9;">
+<div class="register-form" id="register_form">
 
   <div class="mainform-topimg">
     <div class="sp"><?= Asset::img('estimate_form/sp/title.png'); ?></div>
