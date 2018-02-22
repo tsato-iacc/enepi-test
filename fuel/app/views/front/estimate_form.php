@@ -273,7 +273,7 @@
                 <p>※お客様の情報が一般に公開されることはありません</p>
               </div>
 
-              <div class="address-box input-wrap2 gas-usage-box gas-wrap mb-0">
+              <div class="address-box input-wrap2 gas-usage-box gas-wrap">
                 <div class="label3">使用設備<span class="optional">(任意)</span></div>
                 <div class="row-wrap">
                   <div class="remove-error">
@@ -300,7 +300,7 @@
                 </div>
               </div>
 
-              <div class="address-box input-wrap gas-wrap mb-0">
+              <div class="address-box input-wrap gas-wrap">
                 <div class="label3">使用量・料金<span class="optional can-hide">(任意)</span></div>
 
                 <div class="row-wrap">

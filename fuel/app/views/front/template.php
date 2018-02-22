@@ -20,11 +20,35 @@
   <?= Asset::css('front.min.css'); ?>
 </head>
 <body>
-  <?= render('front/header'); ?>
+
+  <?php if ($from_kakaku): ?>
+    <header class="pr-media">
+      <div>
+        <?= Asset::img('kakaku/logo.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+      </div>
+    </header>
+  <?php elseif ($from_enechange): ?>
+    <header class="pr-media">
+      <div>
+        <?= Asset::img('enechange/logo.enechange.png'); ?>
+      </div>
+    </header>
+  <?php else: ?>
+    <?= render('front/header'); ?>
+  <?php endif; ?>
 
   <?= $content; ?>
   
-  <?php if (\Uri::segment(2) == 'new_form'): ?>
+  <?php if ($from_kakaku): ?>
+    <footer class="pr-media">
+      <div class="kakaku-tel">
+        <?= Asset::img('kakaku/tel.png'); ?>
+      </div>
+      <div class="copyright">
+        Copyright © enepi All Rights Reserved.
+      </div>
+    </footer>
+  <?php elseif (\Uri::segment(2) == 'new_form'): ?>
     <?= Asset::css('bootstrap_v4.min.css'); ?>
     <footer class="footer-new-form">
       <ul>
@@ -36,9 +60,9 @@
       </ul>
     </footer>
     <?= render('shared/lp_footer_privacy'); ?>
-  <?php else:?>
+  <?php else: ?>
     <?= render('front/footer'); ?>
-  <?php endif;?>
+  <?php endif; ?>
 
   <?= Asset::js('front.min.js'); ?>
   <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>

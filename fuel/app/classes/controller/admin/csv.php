@@ -297,7 +297,6 @@ class Controller_Admin_Csv extends Controller_Admin
             {
                 if (in_array($key, ['updated_at', 'last_update_admin_user_id', 'last_update_partner_company_id']))
                 {
-                    print var_dump($val);
                     continue;
                 }
 

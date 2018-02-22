@@ -317,7 +317,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
                 $re_cv_url = '/lpgas_contacts/new_form?'.$re_cv_params_query;
             }
 
-
+            Tracking::unsetTracking();
 
             $this->template->title = 'エネピ';
             $this->template->meta = $meta;

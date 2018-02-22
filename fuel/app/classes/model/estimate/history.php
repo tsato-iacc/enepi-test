@@ -48,4 +48,19 @@ class Model_Estimate_History extends \Orm\Model
             'key_to' => 'estimate_change_log_id',
         ],
     ];
+
+    public function getActivityChanges()
+    {
+        $cahnges = [];
+
+        foreach ($this->diff_json as $k => $v)
+        {
+            if (in_array($k, ['last_update_partner_company_id', 'last_update_admin_user_id', 'status_updated_at', 'updated_at']))
+                continue;
+
+            $cahnges[] = $v->old.' <i class="fa fa-arrow-right alert-text"></i> '.$v->new;
+        }
+
+        return implode('<br>', $cahnges);
+    }
 }

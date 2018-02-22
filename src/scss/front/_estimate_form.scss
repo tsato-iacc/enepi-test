@@ -33,14 +33,14 @@
   line-height: 1.42857143;
   
   @media screen and (min-device-width: $device-min-width) {
-    background-image: asset-url("estimate_form/form-bg.png");
+    background-image: url(/assets/images/estimate_form/form-bg.png);
     background-position: 50% -40px;
     background-repeat: no-repeat;
   }  
   
   @media screen and (max-device-width: $device-max-width) {
     padding: 4% 0 2%;
-    background-image: asset-url("estimate_form/sp/form-bg.png");
+    background-image: url(/assets/images/estimate_form/sp/form-bg.png);
     background-position: center bottom;
     background-repeat: no-repeat;
     background-size: 100% 100%;

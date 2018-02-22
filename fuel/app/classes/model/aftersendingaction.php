@@ -8,7 +8,9 @@ class Model_AfterSendingAction extends \Orm\Model
         'id',
         'estimate_id',
         'estimate_change_log_id',
-        'archived',
+        'archived' => [
+            'default' => 0,
+        ],
         'note',
         'at',
         'created_at',
@@ -29,7 +31,10 @@ class Model_AfterSendingAction extends \Orm\Model
 
     protected static $_belongs_to = [
         'estimate',
-        'estimate_change_log',
+        'history' => [
+            'model_to' => 'Model_Estimate_History',
+            'key_from' => 'estimate_change_log_id',
+        ],
     ];
 
     public static function validate($factory = null)
