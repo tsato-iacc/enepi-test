@@ -1,0 +1,33 @@
+{
+  "Changes": [
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "testtest.enepi.jp.",
+        "Type": "A",
+	"TTL" : 300,
+        "ResourceRecords": [
+          {
+            "Value": "192.168.1.2"
+          }
+        ]
+      }
+    },
+
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "testtest2.enepi.jp.",
+        "Type": "A",
+	"TTL" : 300,
+        "ResourceRecords": [
+          {
+            "Value": "192.168.1.1"
+          }
+        ]
+      }
+    }
+
+
+  ]
+}
