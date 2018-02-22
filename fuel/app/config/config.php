@@ -32,8 +32,7 @@ return array(
 	 * Security settings
 	 */
 	'security' => array(
-    // FIX ME
-    'csrf_autoload'            => false,
+    'csrf_autoload'            => true,
 
 		/**
 		 * A salt to make sure the generated security tokens are not predictable

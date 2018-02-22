@@ -48,3 +48,50 @@ img {
     border-bottom: 2px solid #00a0e9;
   }
 }
+
+header.pr-media {
+  border-bottom: 2px solid #eee;
+  
+  > div {
+    max-width: 320px;
+    margin: auto;
+
+    img {
+      width: 100%;
+    }
+  }
+}
+
+footer.pr-media {
+  margin-top: -65px;
+  padding: 0;
+  background-color: #e8f6ff;
+  
+  .kakaku-tel {
+    padding: 15px 0;
+    max-width: 700px;
+    margin: auto;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .copyright {
+    background: #999;
+    color: #FFF;
+    margin: 0 auto;
+    padding: 6px 0;
+    text-align: center;
+    width: 100%;
+    font-size: 13px;
+    font-weight: bold;
+    font-style: italic;
+    font-family: "Helvetica Nue", "メイリオ", "ヒラギノ角ゴ", "Hiragino Kaku Gothic ProN W3", "ＭＳ Ｐゴシック", sans-serif;
+  }
+
+  @media screen and (max-device-width: $device-max-width) {
+    margin-top: 0;
+    padding: 0;
+  }
+}

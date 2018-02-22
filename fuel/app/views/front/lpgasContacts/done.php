@@ -1,4 +1,4 @@
-<? if($from_kakaku != null and $smart_phone != null){ ?>
+<? if($from_kakaku != null and $is_mobile != null){ ?>
   <script src="//assets.adobedtm.com/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-2baf9a6b9fae7a21c0cfb818c33122e38669f89d.js"></script>
 <? }elseif($from_kakaku != null){ ?>
   <script src="//assets.adobedtm.com/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-29577dfd7f420978cd93f3d1b2d6ee3a7d40cf53.js"></script>
