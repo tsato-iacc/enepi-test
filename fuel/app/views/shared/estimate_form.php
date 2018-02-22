@@ -3,28 +3,13 @@ use JpPrefecture\JpPrefecture;
 ?>
 
 <style>
-
-  .register-form {
-      background-image: url(/assets/images/estimate_form/form-bg.png);
-      background-position: 50% -40px;
-      background-repeat: no-repeat;
-  }
-
-  .register-form {
-      background-color: #e8f6ff;
-      padding: 50px 0 70px;
-      font-family: "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,Osaka,"ＭＳ Ｐゴシック","MS PGothic",sans-serif;
-      line-height: 1.42857143;
-  }
-
   .footer-new-form {
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       font-size: 14px;
   }
-
 </style>
 
-<div class="register-form" id="register_form">
+<div class="register-form" id="register_form" style="border-top: 1px solid #e9e9e9;">
 
   <div class="mainform-topimg">
     <div class="sp"><?= Asset::img('estimate_form/sp/title.png'); ?></div>
