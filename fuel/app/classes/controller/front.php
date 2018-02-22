@@ -21,7 +21,6 @@ class Controller_Front extends Controller_Template
     {
         parent::before();
 
-        $this->createMetaData();
         $this->mobileDetect();
         $this->prTrackingDetect();
     }
@@ -31,6 +30,7 @@ class Controller_Front extends Controller_Template
         $template = $this->template;
 
         $template->title = isset($template->title) ? $template->title . \Config::get('enepi.meta.default.title_end') : \Config::get('enepi.meta.default.title') . \Config::get('enepi.meta.default.title_end');
+        $this->createMetaData();
 
         return parent::after($response);
     }

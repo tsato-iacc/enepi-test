@@ -38,13 +38,26 @@ class Controller_Front_LpgasContacts extends Controller_Front
      */
     public function action_index()
     {
-        // $this->template = \View::forge('front/template_new_form');
+        if ($this->param('media') == 'enechange')
+        {
+            $this->template = \View::forge('front/template_old');
+            $this->template->title = 'お見積もり情報入力';
+            $this->template->content = View::forge('front/lpgasContacts/old', [
+                'val' => \Model_Contact::validate('old_form'),
+                'contact' => new \Model_Contact(),
+                'apartment_form' => \Input::get('apartment_form') ? true : false,
+            ]);
+        }
+        else
+        {
+            $this->template = \View::forge('front/template');
+            $this->template->title = 'プロパンガス(LPガス)料金を今より安く！無料比較サービス';
+            $this->template->content = View::forge('front/lpgasContacts/index', [
+                'contact' => new \Model_Contact(),
+                'month_selected' => '',
+            ]);
+        }
 
-        $this->template->title = 'プロパンガス(LPガス)料金を今より安く！無料比較サービス';
-        $this->template->content = View::forge('front/lpgasContacts/index', [
-            'contact' => new \Model_Contact(),
-            'month_selected' => '',
-        ]);
     }
 
     /**
@@ -189,7 +202,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
      */
     public function get_old()
     {
-        $this->template = \View::forge('front/template_contact');
+        $this->template = \View::forge('front/template_old');
 
         $meta = [];
 

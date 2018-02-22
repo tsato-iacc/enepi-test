@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>Enepi - <?= $title; ?></title>
+  <title>enepi - <?= $title; ?></title>
   <link rel="icon" href="<?= \Uri::create('favicon.ico?v=2'); ?>">
   <?= Asset::css('admin.min.css'); ?>
   <?= render('shared/google_tag_manager')?>

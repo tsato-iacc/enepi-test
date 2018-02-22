@@ -13,7 +13,7 @@
 <p>
   ログインID: <?= $user->email; ?><br>
   パスワード: <?= $password; ?><br>
-  Enepi パートナー様管理画面: <a href="<?= \Uri::create('partner/login'); ?>"><?= \Uri::create('partner/login'); ?></a><br>
+  enepi パートナー様管理画面: <a href="<?= \Uri::create('partner/login'); ?>"><?= \Uri::create('partner/login'); ?></a><br>
 </p>
 <p>
   <hr>

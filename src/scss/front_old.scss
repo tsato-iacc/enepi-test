@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+/*
+* Third Party
+*/
+@import "../../bower_components/bootstrap/scss/bootstrap";
+@import "../../bower_components/components-font-awesome/scss/font-awesome";
+@import "../../bower_components/neat/app/assets/stylesheets/neat";
+@import "../../bower_components/bourbon/app/assets/stylesheets/bourbon";
+
+/*
+* Custom
+*/
+
+/* Old styles */
+@import "front/old/variables";
+@import "front/old/application";
+@import "front/old/fixes";
+
+
