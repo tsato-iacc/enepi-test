@@ -50,14 +50,28 @@ class Controller_Front_LpgasContacts extends Controller_Front
         }
         else
         {
+            $contact_id = \Input::get('contact_id');
+            $token = \Input::get('token');
+
+            if ($contact_id && $token)
+            {
+                $contact = \Model_Contact::find($contact_id);
+                
+                if (!$contact || $contact->token != $token)
+                    throw new HttpNotFoundException();
+            }
+            else
+            {
+                $contact = new \Model_Contact();
+            }
+
             $this->template = \View::forge('front/template');
             $this->template->title = 'プロパンガス(LPガス)料金を今より安く！無料比較サービス';
             $this->template->content = View::forge('front/lpgasContacts/index', [
-                'contact' => new \Model_Contact(),
-                'month_selected' => '',
+                'contact' => $contact,
+                'month_selected' => $contact->gas_meter_checked_month ? \Config::get('enepi.simulation.month.key_numeric.'.$contact->gas_meter_checked_month) : '',
             ]);
         }
-
     }
 
     /**
@@ -75,10 +89,17 @@ class Controller_Front_LpgasContacts extends Controller_Front
         $contact->from_enechange = $this->from_enechange;
         $contact->terminal = \Config::get('enepi.terminal_types.'.$this->terminal_type);
 
-        if ($contact_id = \Input::post('contact_id') && $token = \Input::post('token'))
+        $contact_id = \Input::post('contact_id');
+        $token = \Input::post('token');
+
+        if ($contact_id && $token)
         {
-            if ($original = \Model_Contact::find($contact_id) && $original->token = $token)
+            $original = \Model_Contact::find($contact_id);
+            
+            if ($original && $original->token == $token)
+            {
                 $contact->original_contact_id = $original->id;
+            }
         }
 
         $validation_factory = 'new_contract';

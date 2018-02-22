@@ -2,13 +2,6 @@
 use JpPrefecture\JpPrefecture;
 ?>
 
-<style>
-  .footer-new-form {
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      font-size: 14px;
-  }
-</style>
-
 <div class="register-form" id="register_form">
 
   <div class="mainform-topimg">
@@ -58,13 +51,13 @@ use JpPrefecture\JpPrefecture;
                 <h3>ガスの料金比較をしたい物件はどちらですか？</h3>
               </div>
               <div class="content-box sep-two step-hand-navi">
-                <div class="hand-navi-wrap<?= $contact->house_kind ? ' opacity-0' : '' ?>">
+                <div class="hand-navi-wrap<?= !$contact->is_new() ? ' opacity-0' : '' ?>">
                   <div><?= Asset::img('estimate_form/hand-navi.png'); ?></div>
                   <div><?= Asset::img('estimate_form/hand-navi.png'); ?></div>
                   <div><?= Asset::img('estimate_form/hand-navi.png'); ?></div>
                 </div>
                 <div class="house-kind input-wrap remove-error">
-                  <input type="radio" name="lpgas_contact[house_kind]" value="detached" id="detached"<?= $contact->house_kind == 'detached' ? ' checked="checked"' : '' ?>>
+                  <input type="radio" name="lpgas_contact[house_kind]" value="detached" id="detached"<?= $contact->house_kind == \Config::get('models.contact.house_kind.detached') ? ' checked="checked"' : '' ?>>
                   <label class="image-wrap hand-navi-label" for="detached">
                     <div class="normal sp"><?= Asset::img('estimate_form/sp/off-btn-home.png'); ?></div>
                     <div class="invert sp"><?= Asset::img('estimate_form/sp/on-btn-home.png'); ?></div>
@@ -74,7 +67,7 @@ use JpPrefecture\JpPrefecture;
                   </label>
                 </div>
                 <div class="house-kind input-wrap remove-error">
-                  <input type="radio" name="lpgas_contact[house_kind]" value="store_ex" id="store_ex"<?= $contact->house_kind == 'store_ex' ? ' checked="checked"' : '' ?>>
+                  <input type="radio" name="lpgas_contact[house_kind]" value="store_ex" id="store_ex"<?= $contact->house_kind == \Config::get('models.contact.house_kind.store_ex') ? ' checked="checked"' : '' ?>>
                   <label class="image-wrap hand-navi-label" for="store_ex">
                     <div class="normal sp"><?= Asset::img('estimate_form/sp/off-btn-store.png'); ?></div>
                     <div class="invert sp"><?= Asset::img('estimate_form/sp/on-btn-store.png'); ?></div>
@@ -84,7 +77,7 @@ use JpPrefecture\JpPrefecture;
                   </label>
                 </div>
                 <div class="house-kind input-wrap remove-error">
-                  <input type="radio" name="lpgas_contact[house_kind]" value="apartment" id="apartment"<?= $contact->house_kind == 'apartment' ? ' checked="checked"' : '' ?>>
+                  <input type="radio" name="lpgas_contact[house_kind]" value="apartment" id="apartment"<?= $contact->house_kind == \Config::get('models.contact.house_kind.apartment') ? ' checked="checked"' : '' ?>>
                   <label class="image-wrap hand-navi-label" for="apartment">
                     <div class="normal sp"><?= Asset::img('estimate_form/sp/off-btn-land.png'); ?></div>
                     <div class="invert sp"><?= Asset::img('estimate_form/sp/on-btn-land.png'); ?></div>
@@ -105,7 +98,7 @@ use JpPrefecture\JpPrefecture;
                   <span class="next-arrow sp"><?= Asset::img('estimate_form/sp/next-arrow.png'); ?></span>
                 </div>
               </div>
-              <div class="next-btn-hand-navi<?= !$contact->house_kind ? ' opacity-0' : '' ?>"><div><?= Asset::img('estimate_form/hand-navi.png'); ?></div></div>
+              <div class="next-btn-hand-navi<?= $contact->is_new() ? ' opacity-0' : '' ?>"><div><?= Asset::img('estimate_form/hand-navi.png'); ?></div></div>
             </div>
           </div>
           <!-- SLIDE 1 END -->
@@ -118,12 +111,12 @@ use JpPrefecture\JpPrefecture;
                 <h3>どちらでガスを利用しますか？</h3>
               </div>
               <div class="content-box sep-two step-hand-navi">
-                <div class="hand-navi-wrap<?= $contact->estimate_kind ? ' opacity-0' : '' ?>">
+                <div class="hand-navi-wrap<?= !$contact->is_new() ? ' opacity-0' : '' ?>">
                   <div><?= Asset::img('estimate_form/hand-navi.png'); ?></div>
                   <div><?= Asset::img('estimate_form/hand-navi.png'); ?></div>
                 </div>
                 <div class="house-kind input-wrap remove-error error-wrap">
-                  <input type="radio" name="lpgas_contact[estimate_kind]" value="change_contract" id="change_contract"<?= $contact->estimate_kind == 'change_contract' ? ' checked="checked"' : '' ?>>
+                  <input type="radio" name="lpgas_contact[estimate_kind]" value="change_contract" id="change_contract"<?= $contact->estimate_kind == \Config::get('models.contact.estimate_kind.change_contract') ? ' checked="checked"' : '' ?>>
                   <label class="image-wrap hand-navi-label" for="change_contract">
                     <div class="normal sp"><?= Asset::img('estimate_form/sp/off-btn-current.png'); ?></div>
                     <div class="invert sp"><?= Asset::img('estimate_form/sp/on-btn-current.png'); ?></div>
@@ -133,7 +126,7 @@ use JpPrefecture\JpPrefecture;
                   </label>
                 </div>
                 <div class="house-kind input-wrap remove-error error-wrap">
-                  <input type="radio" name="lpgas_contact[estimate_kind]" value="new_contract" id="new_contract"<?= $contact->estimate_kind == 'new_contract' ? ' checked="checked"' : '' ?>>
+                  <input type="radio" name="lpgas_contact[estimate_kind]" value="new_contract" id="new_contract"<?= $contact->estimate_kind == \Config::get('models.contact.estimate_kind.new_contract') ? ' checked="checked"' : '' ?>>
                   <label class="image-wrap hand-navi-label" for="new_contract">
                     <div class="normal sp"><?= Asset::img('estimate_form/sp/off-btn-move.png'); ?></div>
                     <div class="invert sp"><?= Asset::img('estimate_form/sp/on-btn-move.png'); ?></div>
@@ -160,7 +153,7 @@ use JpPrefecture\JpPrefecture;
                   <span class="next-arrow sp"><?= Asset::img('estimate_form/sp/next-arrow.png'); ?></span>
                 </div>
               </div>
-              <div class="next-btn-hand-navi<?= !$contact->estimate_kind ? ' opacity-0' : '' ?>"><div><?= Asset::img('estimate_form/hand-navi.png'); ?></div></div>
+              <div class="next-btn-hand-navi<?= $contact->is_new() ? ' opacity-0' : '' ?>"><div><?= Asset::img('estimate_form/hand-navi.png'); ?></div></div>
             </div>
           </div>
           <!-- SLIDE 2-1 END -->
@@ -219,8 +212,6 @@ use JpPrefecture\JpPrefecture;
 
           <!-- SLIDE 3 START -->
           <div class="swiper-slide">
-            <?php $zip_code = $contact->zip_code ? $contact->zip_code : $contact->new_zip_code; ?>
-            <?php $address = $contact->address ? $contact->address : $contact->new_address; ?>
             <div class="slide-content slide-content-3">
               <div class="content-title">
                 <div class="step-error"></div>
@@ -230,20 +221,20 @@ use JpPrefecture\JpPrefecture;
               <div class="address-box input-wrap error-wrap">
                 <div class="label">〒</div>
                 <div class="field-zip">
-                  <input type="tel" name="zip" value="<?= $zip_code ?>" placeholder="1230000" onkeyup="convertZip(this, 'pref', 'addr')">
+                  <input type="tel" name="zip" value="<?= $contact->getZipCode(); ?>" placeholder="1230000" onkeyup="convertZip(this, 'pref', 'addr')">
                 </div>
               </div>
               <div class="address-box input-wrap error-wrap">
                 <div class="label">住所</div>
                 <div class="field-prefecture select-arrow">
                   <i class="fa fa-sort" aria-hidden="true"></i>
-                  <?= Form::select('pref', $zip_code, ['' => '選択してください'] + JpPrefecture::allKanjiAndCode(), ['id' => 'pref']); ?>
+                  <?= Form::select('pref', $contact->prefecture_code, ['' => '選択してください'] + JpPrefecture::allKanjiAndCode(), ['id' => 'pref']); ?>
                 </div>
               </div>
               <div class="address-box input-wrap error-wrap">
                 <div class="label"></div>
                 <div class="field-address">
-                  <input type="text" name="addr" value="<?= $address ?>" placeholder="例） 港区新橋1-1-1" id="addr">
+                  <input type="text" name="addr" value="<?= $contact->getAddress(); ?>" placeholder="例） 港区新橋1-1-1" id="addr">
                 </div>
               </div>
             </div>
@@ -276,7 +267,7 @@ use JpPrefecture\JpPrefecture;
                 <p>※お客様の情報が一般に公開されることはありません</p>
               </div>
 
-              <div class="address-box input-wrap2 gas-usage-box gas-wrap mb-0">
+              <div class="address-box input-wrap2 gas-usage-box gas-wrap">
                 <div class="label3">使用設備<span class="optional">(任意)</span></div>
                 <div class="row-wrap">
                   <div class="remove-error">
@@ -309,7 +300,7 @@ use JpPrefecture\JpPrefecture;
                 </div>
               </div>
 
-              <div class="address-box input-wrap gas-wrap mb-0">
+              <div class="address-box input-wrap gas-wrap">
                 <div class="label3">
                   <!-- IF DON'T HAVE A GAS BILL -->
                   <span class="have-bill-no hidden">世帯人数・料金</span>
@@ -330,8 +321,8 @@ use JpPrefecture\JpPrefecture;
                     <?= Form::select('lpgas_contact[gas_meter_checked_month]', $month_selected, ['' => '選択'] + \Config::get('enepi.simulation.month.key_string'), ['id' => 'lpgas_contact_gas_meter_checked_month']); ?>
                   </div>
                   <!-- IF DON'T HAVE A GAS BILL -->
-                  <div class="reference have-bill-no hidden">月のガス料金が</div>
-                  <div class="reference have-bill-yes">月のガス使用量が</div>
+                  <div class="reference have-bill-no hidden">のガス料金が</div>
+                  <div class="reference have-bill-yes">のガス使用量が</div>
                 </div>
 
                 <div class="row-wrap">
