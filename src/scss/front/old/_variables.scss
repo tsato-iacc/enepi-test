@@ -1,0 +1,25 @@
+
+$site-color-brand: hsl(47, 90%, 50%);
+$site-color-black: #3C3C3C;
+$site-color-light-gray: #F5F5F5;
+$site-color-gray: #EEEEEE;
+$site-color-dark-gray: darken($site-color-gray, 50);
+
+
+$screen-desktop-min: 992px;
+
+$screen-tablet-max: ($screen-desktop-min - 1);
+$screen-tablet-min: 778px;
+
+$screen-mobile-max: ($screen-tablet-min - 1);
+$screen-mobile-landscape-max: $screen-mobile-max;
+$screen-mobile-landscape-min: 522px;
+$screen-mobile-portrait-max: ($screen-mobile-landscape-min - 1);
+
+$desktop: min-width $screen-desktop-min;
+$tablet: min-width $screen-tablet-min max-width $screen-tablet-max;
+$mobile: max-width $screen-mobile-max;
+$mobile-landscape: min-width $screen-mobile-landscape-min max-width $screen-mobile-landscape-max;
+$mobile-portrait: max-width $screen-mobile-portrait-max;
+$non-desktop: max-width ($screen-desktop-min - 1);
+$non-mobile-portrait: min-width ($screen-mobile-portrait-max + 1);

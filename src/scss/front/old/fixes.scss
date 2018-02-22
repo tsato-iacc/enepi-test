@@ -1,0 +1,210 @@
+$device-max-width: 500px;
+$device-min-width: 501px;
+
+$main-color: #00a0e9;
+
+header.pr-media {
+  height: auto !important;
+  border-bottom: 2px solid #eee;
+  
+  .logo-center {
+    max-width: 320px;
+    margin: auto;
+
+    img {
+      width: 100%;
+    }
+  }
+}
+
+header {
+  height: auto;
+  border: none;
+  
+  .container-wrap {
+    display: flex;
+    justify-content: space-between;
+    height: 70px;
+    margin: 0 10px;
+
+    .navi-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 570px;
+      height: 70px;
+      margin: auto;
+      
+      h1 {
+        margin: 0;
+        font-size: 16px;
+      }
+    }
+
+    img {
+      width: 100%;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-grow: 1;
+      flex-basis: 20%;
+    }
+
+    .logo {
+      display: flex;
+      justify-content: center;
+      background-image: none;
+
+      > div {
+        max-width: 120px;
+        display: flex;
+        align-items: center;
+      }
+
+      a {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .enepi-tel {
+      @extend .logo;
+
+      > div {
+        max-width: 230px;
+      }
+    }
+  }
+
+  @media screen and (max-device-width: $device-max-width) {
+    .container-wrap {
+      margin: 3% 0 3%;
+      height: auto;
+      flex-wrap: wrap;
+
+      .navi-wrap {
+        display: none;
+        width: 100%;
+        margin-top: 2%;
+        border-top: 1px solid #eee;
+        order: 3;
+      }
+
+      .navi {
+        width: 33.333333%;
+      }
+
+      .logo-wrap {
+        flex-grow: unset;
+        flex-basis: unset;
+
+        .logo {
+          width: 100%;
+        }
+
+        > div > div {
+          width: 100%;
+          max-width: unset;
+          padding: 0 10%;
+        }
+
+        .enepi-tel > div {
+          padding: 0 5%;
+        }
+      }
+
+      .pos-left {
+        width: 40%;
+        order: 1;
+      }
+
+      .pos-right {
+        width: 40%;
+        order: 2;
+      }
+    }
+  }
+}
+
+
+.ene-quo-banner-pc {
+  display: flex;
+  justify-content: center;
+
+  @media screen and (max-width: 620px) {
+    display: none;
+  }
+}
+
+.ene-quo-banner-sp {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  @media screen and (min-width: 621px) {
+    display: none;
+  }
+}
+
+.modal-gas-bill {
+  display: flex;
+  justify-content: center;
+}
+
+/* ****************
+ * Open modal button (trigger)
+ * *************** */
+
+.md-btn-area {
+  margin-bottom: 50px;
+}
+
+.md-btn {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  cursor: pointer;
+  background-color: #1246A6;
+  font-size: 1rem;
+  color: #FFF!important;
+  line-height: 20px;
+  &:hover {
+    text-decoration: none;
+  }
+  &:before {
+    content: "";
+    position: absolute;
+    top: 50%; 
+    left: -4px;
+    margin-top: -6px;
+    display: block;
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 5px 5px 5px 0;
+    border-color: transparent #1246A6 transparent transparent;
+    z-index: 0;
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    top: 50%; left: -12px;
+    margin-top: -10px;
+    display: block;
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 6px 6px 6px 0;
+    border-color: transparent #1246A6 transparent transparent;
+    z-index: -1;
+  }
+}

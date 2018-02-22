@@ -1,7 +1,7 @@
 <div class="container">
   <?= \Form::open(['class' => 'form-signin']); ?>
     <?= \Form::csrf(); ?>
-    <h2 class="form-signin-heading">Enepi管理画面</h2>
+    <h2 class="form-signin-heading">enepi管理画面</h2>
     
     <label for="email" class="sr-only">メールアドレス</label>
     <input id="email" type="email" class="form-control" name="email" value="<?= $val->input('email', '') ?>" required autofocus placeholder="メールアドレス">

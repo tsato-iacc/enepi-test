@@ -1,36 +1,38 @@
 <?php
 use JpPrefecture\JpPrefecture;
 ?>
-<div class="container">
+
+<div class="page">
   <div class="skinny">
-    <?php if (!$this->from_enechange): ?>
+    <?php if (\Uri::segment(1) != 'enechange'): ?>
       <div class="step-container">
         <div>
           <?= Asset::img('estimate_presentation/new_step_img_01.png', ['class' => 'lpgas-form-step-image']); ?>
           <p class="step-supply-txt">入力頂いた内容によっては、STEP2で完了する場合がございます。</p>
         </div>
       </div>
+
+      <h2 class="page-title center">
+        エネピなら、お客様にピッタリの<br>プロパンガス会社を簡単ネット見積もり。
+      </h2>
     <?php endif; ?>
 
-    <h2 class="page-title center">
-      エネピなら、お客様にピッタリの<br>プロパンガス会社を簡単ネット見積もり。
-    </h2>
-
-    <?php if ($this->from_enechange): ?>
-      <!-- FIX ME -->
-      <div class="ene-quo-banner-pc"><%= image_tag("enechange/eneQUOheader-5000-pc.png") %></div>
-      <div class="ene-quo-banner-sp"><%= image_tag("enechange/eneQUOheader-5000-sp.png") %></div>
+    <?php if (\Uri::segment(1) == 'enechange'): ?>
+      <div class="ene-quo-banner-pc">
+        <?= Asset::img('enechange/eneQUOheader-5000-pc.png'); ?>
+      </div>
+      <div class="ene-quo-banner-sp">
+        <?= Asset::img('enechange/eneQUOheader-5000-sp.png'); ?>
+      </div>
       <div class="step">
         <h3 class="step-heading">プロパンガス料金 お見積もりまでの流れ</h3>
         <?= Asset::img('enechange/step.png'); ?>
       </div>
     <?php endif; ?>
 
-    
     <?php if ($apartment_form): ?>
       <p class="center">このお見積もりフォームは、集合住宅のオーナー様（大家様）専用のものです。ご入居者様からのお問い合わせには対応致しかねますので、ご了承ください。</p>
     <?php endif; ?>
-    
     
     <?= \Form::open(['action' => $this->estimate_post_url, 'class' => 'table-form', 'id' => 'register_form_old']); ?>
     <?= \Form::csrf(); ?>
@@ -287,7 +289,7 @@ use JpPrefecture\JpPrefecture;
           <th>
             <i class="fa fa-pencil" aria-hidden="true"></i>
             <label for="lpgas_contact_gas_contracted_shop_name" class="required">契約中のガス会社は？</label>
-            <a href="#my-modal" class="md-btn one"><i class="fa fa-question" aria-hidden="true"></i></a>
+            <a href="#" class="md-btn" data-toggle="modal" data-target="#gas_bill"><i class="fa fa-question" aria-hidden="true"></i></a>
           </th>
           <td>
             <input type="text" name="lpgas_contact[gas_contracted_shop_name]" id="lpgas_contact_gas_contracted_shop_name" value="<?= $val->input('lpgas_contact.gas_contracted_shop_name', '') ?>">
@@ -307,7 +309,7 @@ use JpPrefecture\JpPrefecture;
               <i class="fa fa-pencil" aria-hidden="true"></i>
               <label class="required" for="lpgas_contact_gas_meter_checked_month">最近のガス使用量・料金は？</label>
             <?php endif; ?>
-            <a href="#my-modal" class="md-btn one adjustment-box"><i class="fa fa-question" aria-hidden="true"></i></a>
+            <a href="#" class="md-btn adjustment-box" data-toggle="modal" data-target="#gas_bill"><i class="fa fa-question" aria-hidden="true"></i></a>
           </th>
           <td>
             <input data-hyphen-digits="1" type="text" name="lpgas_contact[gas_meter_checked_month]" id="lpgas_contact_gas_meter_checked_month" value="<?= $val->input('lpgas_contact.gas_meter_checked_month', '') ?>">  <span class="unit">月のガス使用量が</span>
@@ -390,7 +392,6 @@ use JpPrefecture\JpPrefecture;
             <?php endif; ?>
           </td>
         </tr>
-
         <tr>
           <th><i class="fa fa-pencil" aria-hidden="true"></i><label class="required" for="lpgas_contact_tel">電話番号は？</label></th>
           <td>
@@ -403,7 +404,6 @@ use JpPrefecture\JpPrefecture;
             <?php endif; ?>
           </td>
         </tr>
-
         <tr>
           <th><i class="fa fa-pencil" aria-hidden="true"></i><label class="required" for="lpgas_contact_email">メールアドレスは？</label></th>
           <td>
@@ -415,7 +415,6 @@ use JpPrefecture\JpPrefecture;
             <?php endif; ?>
           </td>
         </tr>
-
         <?php if ($apartment_form): ?>
           <tr>
             <th><i class="fa fa-pencil" aria-hidden="true"></i><label class="required" for="lpgas_contact_zip_code">郵便番号は？</label></th>
@@ -468,20 +467,31 @@ use JpPrefecture\JpPrefecture;
   </div>
 </div>
 
-<section class="modal-area" id="my-modal">
-  <div class="modal one">
-    <img src="/images/img_receipt.png"/>
-    <div class="close"><span>close</span></div>
+<!-- MODAL GAS BILL START -->
+<div class="modal fade" id="gas_bill" tabindex="-1" role="dialog" aria-labelledby="GassBill" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="GassBill">ガスの使用状況</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body modal-gas-bill">
+        <?= Asset::img('img_receipt.png'); ?>
+      </div>
+    </div>
   </div>
-</section>
+</div>
+<!-- MODAL GAS BILL END -->
 
-<?php if (!$this->from_enechange): ?>
+<!-- <?php if (\Uri::segment(1) != 'enechange'): ?>
   <?php if (\Fuel::$env == \Fuel::PRODUCTION): ?>
     <script src="//app.gorilla-efo.com/js/efo.158.js" type="text/javascript"></script>
   <?php elseif (\Fuel::$env == \Fuel::STAGING): ?>
     <script src="//app.gorilla-efo.com/js/efo.158_test.js" type="text/javascript"></script>
   <?php endif; ?>
-<?php endif; ?>
+<?php endif; ?> -->
 
 <?= render('shared/yahoo_retargeting'); ?>
 <?= render('shared/google_remarketing'); ?>

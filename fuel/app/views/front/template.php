@@ -21,16 +21,10 @@
 </head>
 <body>
 
-  <?php if ($from_kakaku): ?>
+  <?php if (\Uri::segment(1) == 'kakaku'): ?>
     <header class="pr-media">
-      <div>
+      <div class="logo-center">
         <?= Asset::img('kakaku/logo.png', ['alt' => \Config::get('enepi.service.name')]); ?>
-      </div>
-    </header>
-  <?php elseif ($from_enechange): ?>
-    <header class="pr-media">
-      <div>
-        <?= Asset::img('enechange/logo.enechange.png'); ?>
       </div>
     </header>
   <?php else: ?>
@@ -39,7 +33,7 @@
 
   <?= $content; ?>
   
-  <?php if ($from_kakaku): ?>
+  <?php if (\Uri::segment(1) == 'kakaku'): ?>
     <footer class="pr-media">
       <div class="kakaku-tel">
         <?= Asset::img('kakaku/tel.png'); ?>
