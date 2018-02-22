@@ -275,7 +275,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
 
         // SMS認証画面
-        if(\Input::get('conversion_id') && \Input::get('token') && !\Input::get('pin'))
+        if(\Input::get('conversion_id') == 'LPGAS-'.$contact->id && \Input::get('token') == $contact->token && !\Input::get('pin'))
         {
 
             $this->template = \View::forge('front/template_contact');
@@ -445,6 +445,11 @@ class Controller_Front_LpgasContacts extends Controller_Front
                 'contact' => $contact
             ]);
             $this->template->css_call = 'presentation';
+        }
+        else
+        {
+            \Log::warning("conversion_id {$contact->id} or token {$contact->token} is different");
+            throw new HttpNotFoundException();
         }
     }
 
