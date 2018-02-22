@@ -101,7 +101,7 @@
         </div>
       </div>
       <div class="area-content">
-        <div class="area-title accordion">■ ガス料金シミュレーション</div>
+        <div class="area-title accordion">■ プロパンガス料金<br>　 シミュレーション</div>
         <div class="content-wrap accordion-box">
           <div><a href="<?= Uri::create('simple_simulations/new'); ?>">地域別ガス料金検索</a></div>
         </div>

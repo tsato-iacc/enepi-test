@@ -2,11 +2,29 @@
 use JpPrefecture\JpPrefecture;
 ?>
 
+<style>
+
+  .register-form {
+      background-image: url(/assets/images/estimate_form/form-bg.png);
+      background-position: 50% -40px;
+      background-repeat: no-repeat;
+  }
+
+  .register-form {
+      background-color: #e8f6ff;
+      padding: 50px 0 70px;
+      font-family: "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,Osaka,"ＭＳ Ｐゴシック","MS PGothic",sans-serif;
+      line-height: 1.42857143;
+  }
+
+  .footer-new-form {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 14px;
+  }
+
+</style>
+
 <div class="register-form" id="register_form">
-  <div class="mainform-top-text">
-    <div class="mainform-text-box">プロパンガスの料金比較で年間<span class="mainform-top-text-catch">8万円</span><span class="mainform-top-note">(※)</span>も安くなる!!</div>
-    <span class="mainform-top-note-bottom">※条件により異なります。</span>
-  </div>
 
   <div class="mainform-topimg">
     <div class="sp"><?= Asset::img('estimate_form/sp/title.png'); ?></div>
@@ -473,11 +491,14 @@ use JpPrefecture\JpPrefecture;
       </div>
     <?= Form::close(); ?>
   </div>
+
   <?php if (isset($from_kakaku)): ?>
-  <div class="form-kakaku">
-    <p class="terms pc">プロパンガス料金見積もりサービスは、株式会社アイアンドシー・クルーズが運営するサービスです。<br>ご入力いただいた内容を株式会社カカクコムは保持せず、株式会社アイアンドシー・クルーズが取得し、<br>同社がプライバシーポリシーに基づき管理いたします。</p>
-    <p class="terms sp">プロパンガス料金見積もりサービスは、株式会社アイアンドシー・クルーズが運営するサービスです。ご入力いただいた内容を株式会社カカクコムは保持せず、株式会社アイアンドシー・クルーズが取得し、同社がプライバシーポリシーに基づき管理いたします。</p>
-  </div>
+    <?php if ($from_kakaku): ?>
+      <div class="form-kakaku">
+        <p class="terms pc">プロパンガス料金見積もりサービスは、株式会社アイアンドシー・クルーズが運営するサービスです。<br>ご入力いただいた内容を株式会社カカクコムは保持せず、株式会社アイアンドシー・クルーズが取得し、<br>同社がプライバシーポリシーに基づき管理いたします。</p>
+        <p class="terms sp">プロパンガス料金見積もりサービスは、株式会社アイアンドシー・クルーズが運営するサービスです。ご入力いただいた内容を株式会社カカクコムは保持せず、株式会社アイアンドシー・クルーズが取得し、同社がプライバシーポリシーに基づき管理いたします。</p>
+      </div>
+    <?php endif; ?>
   <?php endif; ?>
   <?php $agree_url = isset($from_kakaku) ? 'https://enepi.jp/agreement' : '/agreement'; ?>
   <div class="form-agreement invisible-slide">

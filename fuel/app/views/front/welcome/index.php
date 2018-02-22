@@ -8,15 +8,258 @@ $articles_path = "/articles";
 <?= render('shared/estimate_form', ['contact' => $contact, 'month_selected' => $month_selected]); ?>
 
 <style>
-.cvb_btn:hover{
-    opacity: 0.8;
-}
+  .cvb_btn:hover{
+      opacity: 0.8;
+  }
+
+  .top-attention {
+    background-image: url("/assets/images/map-bg.png");
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    font-size: 1.17em;
+    height: auto; 
+  }
+
+  .top-attention-area {
+    padding: 80px 70px;
+    color: #FFFFFF;
+  }
+
+  .attention-p {
+    display: inline-block;
+  }
+
+  .top-attention-area p {
+    color: #FFFFFF;
+    text-align: left;
+    text-shadow: 1px 1px 1px #000000;
+  }
+
+  .attention-wrap {
+    width: 920px;
+    justify-content: space-around;
+    border-radius: 8px;
+    margin: 0 auto;
+    background: #ffffffe8;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .attention-area-name {
+    color: #000000;
+    text-align: justify;
+    width: 80px;
+    text-justify: inter-ideograph;
+    letter-spacing: 0.6em;
+  }
+
+  .attention-area-name.major {
+    text-align: start;
+    letter-spacing: unset;
+    width: auto;
+  }
+
+  .attention-area-name.koushinetu {
+    letter-spacing: 0.06em;
+  }
+
+  .attention-wrap-by-area.major {
+    display: flex;
+    margin-left: 25px;
+  }
+
+  .attention-wrap-by-area.touhoku {
+    display: flex;
+    margin-left: 25px;
+  }
+
+  .attention-wrap-by-area.kantou {
+    display: flex;
+    margin-left: 30px;
+  }
+
+  .attention-wrap-by-area.koushinetu {
+    display: flex;
+    margin-left: 25px;
+  }
+
+  .attention-wrap-by-area.toukai {
+    display: flex;
+    margin-left: 30px;
+  }
+
+  .attention-wrap-by-area.kinki {
+    display: flex;
+    margin-left: 25px;
+  }
+
+  .attention-wrap-by-area.tyugoku {
+    display: flex;
+    margin-left: 25px;
+  }
+
+  .attention-wrap-by-area.shikoku {
+    display: flex;
+    margin-left: 30px;
+  }
+
+  .attention-wrap-by-area.other {
+    display: flex;
+    margin-left: 80px;
+  }
+
+  .attention-wrap-line {
+    border: 0 none; 
+    height: 1px; 
+    color: #dcdcdc;
+    background-color: #dcdcdc;
+    width: 850px;
+  }
+
+  .attention-wrap-by-area-line1 {
+    margin: 0 auto;
+    width: 900px;
+    line-height: 50px;
+  }
+
+  .attention-wrap-by-area-line2 {
+    display: flex;
+    margin: 0 auto;
+    width: 900px;
+    line-height: 50px;
+  }
+
+  .attention-wrap-by-area-line3 {
+    display: flex;
+    margin: 0 auto;
+    width: 900px;
+    line-height: 50px;
+  }
+
+  .attention-wrap-by-area-line4 {
+    display: flex;
+    margin: 0 auto;
+    width: 900px;
+    line-height: 50px;
+  }
+
+  .area-link {
+    color: #289cdc;
+    font-weight: bold;
+
+  }
+
+    .top-attention-sp {
+    background-image: url("/assets/images/sp-map-bg.png");
+    background-size: cover;
+    background-position: center center;
+    text-align: center;
+    height: auto;
+    line-height: 1.7;
+    padding-bottom: 5px;
+  }
+
+  .top-attention-area-sp {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: #FFFFFF;
+  }
+
+  .top-attention-area-sp p {
+    color: #FFFFFF;
+    text-align: left;
+    text-shadow: 1px 1px 1px #000000;
+  }
+
+ .attention-wrap-sp {
+    width: 98%;
+    justify-content: space-around;
+    border-radius: 8px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.91);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    text-align: left;
+    line-height: 1.6;
+  }
+
+  .attention-wrap-inline-sp div {
+    display: inline-block;
+    text-align: left;
+  }
+
+  .attention-area-sp {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  .attention-area-sp.kantou {
+    display: flex;
+  }
+
+  .attention-area-other-sp {
+    text-align: right;
+    margin-top: 10px;
+    margin-right: 15px;
+  }
+
+  .attention-area-name-sp {
+    color: #000000;
+    text-align: justify;
+    width: 69.5px;
+    text-justify: inter-ideograph;
+    letter-spacing: 0.65em;
+  }
+
+  .attention-area-name-sp.kantou {
+    width: 75px;
+  }
+
+  .attention-area-name-sp.major {
+    text-align: start;
+    letter-spacing: unset;
+    width: auto;
+  }
+
+  .attention-area-name-sp.koushinetu {
+    letter-spacing: 0.05em;
+  }
+
+  .attention-area-list.kantou {
+      width: 80%;
+  }
+
+  .attention-wrap-line-sp {
+    border: 0 none; 
+    height: 1px; 
+    color: #dcdcdc;
+    background-color: #dcdcdc;
+    width: 90%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+  }
+
+  .area-link-sp {
+    color: #289cdc;
+    font-weight: bold;
+    font-size: 1.16em;
+  }
+
+  .attention-line-sp {
+    letter-spacing: -0.5px;
+  }
+
 </style>
 
 <div class="panel" id="knowing">
   <div class="panel-inner">
     <div class="qa-box">
-      <p>なぜ、ガス会社を切り替えるとおトクになれるのかご存知ですか？</p>
+      <p>なぜ、プロパンガス会社を切り替えると<br>おトクになれるのかご存知ですか？</p>
       <div class="inner">
         <a href="#knowing_chooser" class="btn orange-button btn-rounded orange-ico" onclick="ga('send', 'event', 'top-button', 'click', 'shitteiru', 1);"]);>知っている<span class="ico_arrow"></span></a>
         <a href="#reason" class="btn blue-button btn-rounded blue-ico" onclick="ga('send', 'event', 'top-button', 'click', 'shiranai', 1);"]);>知らない<span class="ico_arrow"></span></a>
@@ -44,14 +287,14 @@ $articles_path = "/articles";
 
     <div class="introduce_area">
       <a <?= MyView::link_to($form_path, ["class" => "btn orange-button service-detail", "onclick" => "ga('send', 'event', 'top-button', 'click', 'irai', 1);"]);?>>
-      <div class="text-area">おトクなガス会社へ<br>無料切り替え依頼</div><?= MyView::image_tag(MyView::asset_url("top/bt_bg_estimate.png")); ?><div class="arrow-area"></div>
+      <div class="text-area">おトクなプロパンガス会社へ<br>無料切り替え依頼</div><?= MyView::image_tag(MyView::asset_url("top/bt_bg_estimate.png")); ?><div class="arrow-area"></div>
       </a>
 
       <h3 class="rec-title">こんな方にオススメ！</h3>
       <div class="rec-detail">
         <ul>
           <li>今のガス代が高いので別の会社を紹介してほしい</li>
-          <li>ガス会社の対応が悪いので別の会社にしたい</li>
+          <li>プロパンガス会社の対応が悪いので別の会社にしたい</li>
           <li>支払い方法をカード払いにしたい</li>
         </ul>
       </div>
@@ -59,7 +302,9 @@ $articles_path = "/articles";
 
     <div class="introduce_area">
       <a <?= MyView::link_to($local_contents_path, ["class" =>  "btn green-button service-detail", "onclick" =>  "ga('send', 'event', 'top-button', 'click', 'price-search', 1);"]);?>>
-        <div class="text-area">都道府県別<br>ガス料金を検索</div><?= MyView::image_tag(MyView::asset_url("top/br_bg_search.png")); ?><div class="arrow-area"></div>
+        <div class="text-area hidden_pc">都道府県別<br>プロパンガス料金を検索</div>
+        <div class="text-area hidden_sp">都道府県別<br>プロパンガス<br>料金を検索</div>
+        <?= MyView::image_tag(MyView::asset_url("top/br_bg_search.png")); ?><div class="arrow-area"></div>
       </a>
 
       <h3 class="rec-title">こんな方にオススメ！</h3>
@@ -72,6 +317,201 @@ $articles_path = "/articles";
     </div>
   </div>
 </div>
+
+
+<div class="hidden_pc">
+  <div class="top-attention">
+    <div class="top-attention-area">
+      <?= MyView::image_tag(MyView::asset_url("map-title.png")); ?><br>
+      <div class="attention-p">
+        <p>全国の中でも特に切り替え相談が多い地域をピックアップしました。<br>ガス代に悩んでいる方は是非チェックしてみてください！</p>
+      </div>
+
+      <div class="attention-wrap">
+        <div class="attention-wrap-by-area-line1">
+          <div class="attention-wrap-by-area major">
+            <div class="attention-area-name major">主要都市：</div>
+            <div><a class="area-link" href="/local_contents/city_show/1" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">札幌市</a></div>｜
+            <div><a class="area-link" href="/local_contents/city_show/265" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">仙台市 青葉区</a></div>｜
+            <div><a class="area-link" href="/local_contents/city_show/533" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">さいたま市 大宮区</a></div>｜
+            <div><a class="area-link" href="/local_contents/city_show/621" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">船橋市</a></div>｜
+            <div><a class="area-link" href="/local_contents/city_show/738" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">横浜市 鶴見区</a></div>｜
+            <div><a class="area-link" href="/local_contents/city_show/985" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">名古屋市 中区</a></div>｜
+            <div><a class="area-link" href="/local_contents/city_show/1259" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">大阪市 東淀川区</a></div>
+          </div>
+        </div>
+
+        <hr class="attention-wrap-line">
+
+        <div class="attention-wrap-by-area-line2">
+          <div class="attention-wrap-by-area touhoku">
+            <div class="attention-area-name touhoku">東北：</div>
+            <div><a class="area-link" href="/local_contents/2" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">青森県</a></div>｜
+            <div><a class="area-link" href="/local_contents/3" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">岩手県</a></div>｜
+            <div><a class="area-link" href="/local_contents/7" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">福島県</a></div>
+          </div>
+
+          <div class="attention-wrap-by-area kantou">
+            <div class="attention-area-name kantou">関東：</div>
+            <div><a class="area-link" href="/local_contents/8" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">茨城県</a></div>｜
+            <div><a class="area-link" href="/local_contents/9" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">栃木県</a></div>｜
+            <div><a class="area-link" href="/local_contents/10" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">群馬県</a></div>｜
+            <div><a class="area-link" href="/local_contents/11" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">埼玉県</a></div>｜
+            <div><a class="area-link" href="/local_contents/12" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">千葉県</a></div>｜
+            <div><a class="area-link" href="/local_contents/13" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">東京都</a></div>｜
+            <div><a class="area-link" href="/local_contents/14" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">神奈川県</a></div>
+          </div>
+        </div>
+
+        <div class="attention-wrap-by-area-line3">
+          <div class="attention-wrap-by-area koushinetu">
+            <div class="attention-area-name koushinetu">甲信越：</div>
+            <div><a class="area-link" href="/local_contents/19" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">山梨県</a></div>｜
+            <div><a class="area-link" href="/local_contents/20" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">長野県</a></div>｜
+            <div><a class="area-link" href="/local_contents/15" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">新潟県</a></div>
+          </div>
+
+          <div class="attention-wrap-by-area toukai">
+            <div class="attention-area-name toukai">東海：</div>
+            <div><a class="area-link" href="/local_contents/21" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">岐阜県</a></div>｜
+            <div><a class="area-link" href="/local_contents/22" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">静岡県</a></div>｜
+            <div><a class="area-link" href="/local_contents/23" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">愛知県</a></div>
+          </div>
+
+          <div class="attention-wrap-by-area kinki">
+            <div class="attention-area-name kinki">近畿：</div>
+            <div><a class="area-link" href="/local_contents/25" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">滋賀県</a></div>｜
+            <div><a class="area-link" href="/local_contents/29" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">奈良県</a></div>｜
+            <div><a class="area-link" href="/local_contents/30" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">和歌山県</a></div>
+          </div>
+        </div>
+
+        <div class="attention-wrap-by-area-line4">
+          <div class="attention-wrap-by-area tyugoku">
+            <div class="attention-area-name tyugoku">中国：</div>
+            <div><a class="area-link" href="/local_contents/33" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">岡山県</a></div>｜
+            <div><a class="area-link" href="/local_contents/35" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">山口県</a></div>｜
+            <div><a class="area-link" href="/local_contents/34" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">広島県</a></div>
+          </div>
+
+          <div class="attention-wrap-by-area shikoku">
+            <div class="attention-area-name shikoku">四国：</div>
+            <div><a class="area-link" href="/local_contents/38" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">愛媛県</a></div>｜
+            <div><a class="area-link" href="/local_contents/37" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">香川県</a></div>｜
+            <div><a class="area-link" href="/local_contents/36" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">徳島県</a></div>
+          </div>
+
+          <div class="attention-wrap-by-area other">
+            <div><a class="area-link" href="/local_contents" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">その他の地域の方はコチラ>></a></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="hidden_sp">
+  <div class="top-attention-sp">
+    <div class="top-attention-area-sp">
+      <?= MyView::image_tag(MyView::asset_url("sp-map-title.png")); ?>
+      <p>全国の中でも特に切り替え相談が多い地域をピックアップしました。ガス代に悩んでいる方は是非チェックしてみてください！</p>
+      <div class="attention-wrap-sp">
+        <div class="attention-wrap-inline-sp">
+
+          <div class="attention-area-sp major">
+            <div class="attention-area-name-sp major">主要都市：</div>
+            <div class="attention-area-list major">
+              <div><a class="area-link-sp" href="/local_contents/city_show/1" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">札幌市</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/city_show/265" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">仙台市 青葉区</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/city_show/533" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">さいたま市 大宮区</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/city_show/621" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">船橋市</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/city_show/738" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">横浜市 鶴見区</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/city_show/985" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">名古屋市 中区</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/city_show/1259" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">大阪市 東淀川区</a></div>
+            </div>
+          </div>
+
+          <hr class="attention-wrap-line-sp">
+
+          <div class="attention-area-sp touhoku">
+            <div class="attention-area-name-sp touhoku">東北：</div>
+            <div class="attention-area-list touhoku">
+              <div><a class="area-link-sp" href="/local_contents/2" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">青森県</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/3" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">岩手県</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/7" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">福島県</a></div>
+            </div>
+          </div>
+
+          <div class="attention-area-sp kantou">
+            <div class="attention-area-name-sp kantou">関東：</div>
+            <div class="attention-area-list kantou">
+              <div><a class="area-link-sp" href="/local_contents/8" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">茨城県</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/9" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">栃木県</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/10" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">群馬県</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/11" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">埼玉県</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/12" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">千葉県</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/13" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">東京都</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/14" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">神奈川県</a></div>
+            </div>
+          </div>
+
+          <div class="attention-area-sp koushinetu">
+            <div class="attention-area-name-sp koushinetu">甲信越：</div>
+            <div class="attention-area-list koushinetu">
+              <div><a class="area-link-sp" href="/local_contents/19" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">山梨県</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/20" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">長野県</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/15" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">新潟県</a></div>
+            </div>
+          </div>
+
+          <div class="attention-area-sp toukai">
+            <div class="attention-area-name-sp toukai">東海：</div>
+            <div class="attention-area-list toukai">
+              <div><a class="area-link-sp" href="/local_contents/21" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">岐阜県</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/22" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">静岡県</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/23" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">愛知県</a></div>
+            </div>
+          </div>
+
+          <div class="attention-area-sp kinki">
+            <div class="attention-area-name-sp kinki">近畿：</div>
+            <div class="attention-area-list kinki">
+              <div><a class="area-link-sp" href="/local_contents/25" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">滋賀県</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/29" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">奈良県</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/30" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">和歌山県</a></div>
+            </div>
+          </div>
+
+          <div class="attention-area-sp tyugoku">
+            <div class="attention-area-name-sp tyugoku">中国：</div>
+            <div class="attention-area-list tyugoku">
+              <div><a class="area-link-sp" href="/local_contents/33" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">岡山県</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/35" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">山口県</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/34" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">広島県</a></div>
+            </div>
+          </div>
+
+          <div class="attention-area-sp shikoku">
+            <div class="attention-area-name-sp shikoku">四国：</div>
+            <div class="attention-area-list shikoku">
+              <div><a class="area-link-sp" href="/local_contents/38" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">愛媛県</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/37" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">香川県</a></div><div class="attention-line-sp">｜</div>
+              <div><a class="area-link-sp" href="/local_contents/36" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">徳島県</a></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="attention-area-other-sp">
+          <a class="area-link-sp" href="/local_contents" onclick="caevent('PU' + this.innerHTML, {ch:'63912289'});">その他の地域の方はコチラ>></a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 <div class="panel" id="merit">
   <div class="panel-inner">
@@ -95,7 +535,7 @@ $articles_path = "/articles";
       <li>
         <?= MyView::image_tag(MyView::asset_url("top/ico_merit4.png")); ?>
         <h3>エネピ紹介特典あり</h3>
-        <p>エネピならではのガス切り替え特典があります！</p>
+        <p>エネピならではのプロパンガス切り替え特典があります！</p>
       </li>
     </ul>
   </div>
@@ -127,7 +567,7 @@ $articles_path = "/articles";
 
     <ul>
       <a href="/categories/lpgas/column"><li class="curled-box"><i></i>
-      <?= MyView::image_tag(MyView::asset_url("top/ico_article_01.png")); ?><p>プロパンガスの<br>コラム</p></li></a>
+      <?= MyView::image_tag(MyView::asset_url("top/ico_article_01.png")); ?><p>プロパンガス<br>のコラム</p></li></a>
       <a href="/categories/lpgas/saving"><li class="curled-box"><i></i>
       <?= MyView::image_tag(MyView::asset_url("top/ico_article_02.png")); ?><p>プロパンガス<br>節約術</p></li></a>
       <a href="/categories/lpgas/company_list"><li class="curled-box"><i></i>
@@ -153,29 +593,29 @@ $articles_path = "/articles";
 
     <h3><?= MyView::image_tag(MyView::asset_url("top/ttl_goodvalue-reason1.png"), ["alt" => 'おトクになれる3つの理由1']); ?></h3>
     <div class="inner-area">
-      <p class="lead">適正なガス料金で提供してもらえる！</p>
+      <p class="lead">適正なプロパンガス料金で提供してもらえる！</p>
 
     <div class="example-contents">
       <div class="box margin">
         <?= MyView::image_tag(MyView::asset_url("top/img_reason1-1.png")); ?>
         <h4>例えば「水」の場合…
         同じ商品なのにお店によって値段が違う！</h4>
-        <p>プロパンガス(LPガス)もお店で売られているような商品と同じく、ガス料金をガス会社ごとに自由に決めることができる、「自由料金設定」になっています。
-        そのためガス料金も業者によってバラつきが出ます。</p>
+        <p>プロパンガス(LPガス)もお店で売られているような商品と同じく、プロパンガス料金をガス会社ごとに自由に決めることができる、「自由料金設定」になっています。
+        そのためプロパンガス料金も業者によってバラつきが出ます。</p>
       </div>
 
       <div class="arrow1"><?= MyView::image_tag(MyView::asset_url("top/ico-reason-arrow.png")); ?></div>
 
       <div class="box margin">
-        <h4>ガスの質と量はまったく同じ！</h4>
+        <h4>プロパンガスの質と量はまったく同じ！</h4>
         <?= MyView::image_tag(MyView::asset_url("top/img_reason1-2.png")); ?>
-        <p>毎月の請求するガス料金の決め方は様々ですが、一番多い請求方法は、「基本料金」と「ガスの使用量」の合計金額です。このガス使用量の1㎥に当たる単価が業者によって異なる場合が多く、毎月の請求額に差が出てきます。</p>
+        <p>毎月の請求するプロパンガス料金の決め方は様々ですが、一番多い請求方法は、「基本料金」と「ガスの使用量」の合計金額です。このガス使用量の1㎥に当たる単価が業者によって異なる場合が多く、毎月の請求額に差が出てきます。</p>
       </div>
 
       <div class="arrow2"><?= MyView::image_tag(MyView::asset_url("top/ico-reason-arrow.png")); ?></div>
 
       <div class="box">
-        <h4>ひと月にほぼ同じ量のガスを使用したとして</h4>
+        <h4>ひと月にほぼ同じ量のプロパンガスを使用したとして</h4>
         <?= MyView::image_tag(MyView::asset_url("top/img_reason1-3.png")); ?>
         <p>そのため、ほぼ同じくらいの使用量なのにお隣さんと毎月のガス代が5,000円以上違っている！なんてことが起こります。</p>
         <!--<a href="#">具体的にどれくらい安くなる？▶</a>-->
@@ -187,7 +627,7 @@ $articles_path = "/articles";
         <div class="inner">
           <?= MyView::image_tag(MyView::asset_url("top/ico-danger.png")); ?>
             <ul>
-              <li>ガス使用量はあまり変わらないのに、料金がどんどん高くなっている気がする</li>
+              <li>プロパンガス使用量はあまり変わらないのに、料金がどんどん高くなっている気がする</li>
               <li>前に住んでいたところよりも高額な料金を請求される</li>
             </ul>
         </div>
@@ -203,7 +643,7 @@ $articles_path = "/articles";
         <div class="box margin">
           <h4>例えばこんな場合...</h4>
           <?= MyView::image_tag(MyView::asset_url("top/img_reason2-1.png")); ?>
-          <p>プロパンガス(LPガス)は自宅にガスボンベを設置し、そこから家庭へガスを供給します。ボンベの中のガスが切れるとガスは使用できなくなります。例えば、生活に必要不可欠なガスが切れた場合…</p>
+          <p>プロパンガス(LPガス)は自宅にガスボンベを設置し、そこから家庭へプロパンガスを供給します。ボンベの中のプロパンガスが切れるとガスは使用できなくなります。例えば、生活に必要不可欠なガスが切れた場合…</p>
         </div>
 
         <div class="arrow1"><?= MyView::image_tag(MyView::asset_url("top/ico-reason-arrow.png")); ?></div>
@@ -219,7 +659,7 @@ $articles_path = "/articles";
         <div class="arrow2"><?= MyView::image_tag(MyView::asset_url("top/ico-reason-arrow.png")); ?></div>
 
         <div class="box">
-          <h4>管理体制が万全なガス会社と契約していれば...</h4>
+          <h4>管理体制が万全なプロパンガス会社と契約していれば...</h4>
           <?= MyView::image_tag(MyView::asset_url("top/img_reason2-3.png")); ?>
           <p>体制が整っている会社であれば、夜間や休日に起きた緊急事態にもすぐに対応してくれるので安心です。また、日頃ガス点検をしていない会社の場合は大事故に繋がる可能性もあるので、きちんとした会社に依頼することが大切です。</p>
         </div>
@@ -402,7 +842,7 @@ $articles_path = "/articles";
       </li>
       <li>
         <?= MyView::image_tag(MyView::asset_url("top/ico_reason3.png")); ?>
-        <p>ガス会社への<br>切り替えが必要な連絡は<br>エネピが行います。</p>
+        <p>プロパンガス会社への<br>切り替えが必要な連絡は<br>エネピが行います。</p>
       </li>
     </ul>
   </div>
@@ -427,7 +867,7 @@ $articles_path = "/articles";
       </div>
       <div class="flow-box">
         <div class="flow6">
-          <p>点火テスト後、これまで通り<br>ガスの利用が可能に！</p>
+          <p>点火テスト後、これまで通り<br>プロパンガスの利用が可能に！</p>
         </div>
         <?= MyView::image_tag(MyView::asset_url("top/img_arrow_flow_left.png"), ["class" => 'icon-left']); ?>
         <div class="flow5">
@@ -463,7 +903,7 @@ $articles_path = "/articles";
         </div>
           <?= MyView::image_tag(MyView::asset_url("top/img_arrow_flow_under.png"), ["class" => 'icon-bottom']); ?>
         <div class="flow6">
-          <p>点火テスト後、これまで通り<br>ガスの利用が可能に！</p>
+          <p>点火テスト後、これまで通り<br>プロパンガスの利用が可能に！</p>
         </div>
       </div>
     </div>
@@ -507,7 +947,7 @@ $articles_path = "/articles";
     <div id="accordion" class="accordionbox">
       <dl class="accordionlist">
         <dt class="clearfix">
-          <h3 class="title"><i><?= MyView::image_tag(MyView::asset_url("top/ico_q.png")); ?></i>LPガスは、電気代や都市ガスのような公共料金ではないの？</h3>
+          <h3 class="title"><i><?= MyView::image_tag(MyView::asset_url("top/ico_q.png")); ?></i>プロパンガス（LPガス）は、電気代や都市ガスのような公共料金ではないの？</h3>
           <p class="accordion_icon active">
             <span></span><span></span>
           </p>
@@ -522,7 +962,7 @@ $articles_path = "/articles";
     <div id="accordion" class="accordionbox">
       <dl class="accordionlist">
         <dt class="clearfix">
-          <h3 class="title"><i><?= MyView::image_tag(MyView::asset_url("top/ico_q.png")); ?></i>うちのガス料金って高いと思うけど、相場はいくらくらいなの？</h3>
+          <h3 class="title"><i><?= MyView::image_tag(MyView::asset_url("top/ico_q.png")); ?></i>うちのプロパンガス料金って高いと思うけど、相場はいくらくらいなの？</h3>
           <p class="accordion_icon">
             <span></span><span></span>
           </p>
@@ -537,7 +977,7 @@ $articles_path = "/articles";
     <div id="accordion" class="accordionbox">
       <dl class="accordionlist">
         <dt class="clearfix">
-          <h3 class="title"><i><?= MyView::image_tag(MyView::asset_url("top/ico_q.png")); ?></i>他の業者さんに変えると料金は安くなるの？？</h3>
+          <h3 class="title"><i><?= MyView::image_tag(MyView::asset_url("top/ico_q.png")); ?></i>他の業者さんに変えるとプロパンガス料金は安くなるの？？</h3>
           <p class="accordion_icon">
             <span></span><span></span>
           </p>
@@ -582,7 +1022,7 @@ $articles_path = "/articles";
     <div id="accordion" class="accordionbox">
       <dl class="accordionlist">
         <dt class="clearfix">
-          <h3 class="title"><i><?= MyView::image_tag(MyView::asset_url("top/ico_q.png")); ?></i>ガス会社を変更すると設備の変更などは必要なの？</h3>
+          <h3 class="title"><i><?= MyView::image_tag(MyView::asset_url("top/ico_q.png")); ?></i>プロパンガス会社を変更すると設備の変更などは必要なの？</h3>
           <p class="accordion_icon">
             <span></span><span></span>
           </p>
