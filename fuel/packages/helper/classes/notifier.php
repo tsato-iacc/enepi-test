@@ -146,7 +146,7 @@ class Notifier
             $email->send();
 
         }else{
-            Mail::sms_send($contact->tel, 'TO:{$contact->tel} 認証コード: {$contact->pin}\nこのコードをenepi本人確認画面で入力してください。');
+            Mail::sms_send($contact->tel, "TO:{$contact->tel} 認証コード: {$contact->pin}\nこのコードをenepi本人確認画面で入力してください。");
         }
     }
 }
