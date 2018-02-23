@@ -1,18 +1,19 @@
-<? if($contact->sent_auto_estimate_req){ ?>
+<? if(!$contact->sent_auto_estimate_req){ ?>
+  <? if($contact->pr_tracking_parameter_id){ ?>
 
-  <?//= render "cv_tags", contact: $contact, cv_point: :cv_point_done_estimate ?>
-  <? $conversion_tag_estimate = $contact->tracking->conversion_tags_for(\Config::get('models.tracking.cv_point.estimate'), \Input::get('conversion_id'), $pr_tracking_parameter); ?>
-  <?= $conversion_tag_estimate ?>
+    <? $conversion_tag_estimate = $contact->tracking->conversion_tags_for(\Config::get('models.tracking.cv_point.estimate'), \Input::get('conversion_id')); ?>
+    <?= $conversion_tag_estimate ?>
 
-  <? if($cv_point == \Config::get('models.tracking.cv_point.estimate')){ ?>
-    <? if($from_kakaku){ ?>
-      <?= render('shared/kakaku_tracking_done'); ?>
+    <? if($cv_point == \Config::get('models.tracking.cv_point.estimate')){ ?>
+      <? if($from_kakaku && $_SERVER['FUEL_ENV'] == \Fuel::PRODUCTION){ ?>
+        <?= render('shared/kakaku_tracking_done'); ?>
+      <? } ?>
     <? } ?>
-  <? } ?>
 
+  <? } ?>
 <? } ?>
 
-<? if($from_kakaku != null){ ?>
+<? if($from_kakaku){ ?>
   <script type="text/javascript">
       if(typeof _satellite !!= "undefined"){
           _satellite.pageBottom();
