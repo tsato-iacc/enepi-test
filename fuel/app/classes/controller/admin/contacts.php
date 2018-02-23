@@ -212,7 +212,7 @@ class Controller_Admin_Contacts extends Controller_Admin
 
                 if ($new_estimate->save())
                 {
-                    $new_estimate->present($this->admin_id, !$estimate['status']);
+                    $new_estimate->present($this->auth_user->id, !$estimate['status']);
                 }
             }
 
