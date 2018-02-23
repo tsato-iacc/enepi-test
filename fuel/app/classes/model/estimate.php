@@ -74,6 +74,7 @@ class Model_Estimate extends \Orm\Model
         ],
         'prices' => [
             'model_to' => 'Model_Estimate_Price',
+            'cascade_delete' => true,
         ],
         'histories' => [
             'model_to' => 'Model_Estimate_History',
@@ -167,9 +168,9 @@ class Model_Estimate extends \Orm\Model
         return $sum;
     }
 
-    public function cancel(&$auth_user, $status_reason)
+    public function cancel(&$auth_user, $status_reason = null)
     {
-        $reason_val = \Helper\CancelReasons::getValueByName($status_reason);
+        $reason_val = $status_reason ? \Helper\CancelReasons::getValueByName($status_reason) : 0;
         
         if ($this->status != \Config::get('models.estimate.status.cancelled') && $this->status != \Config::get('models.estimate.status.contracted') && $reason_val !== null)
         {

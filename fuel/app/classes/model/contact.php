@@ -502,7 +502,7 @@ class Model_Contact extends \Orm\Model
 
             foreach ($this->estimates as $estimate)
             {
-                $estimate->cancel($auth_user, $reason);
+                $estimate->cancel($auth_user);
             }
 
             $this->status = \Config::get('models.contact.status.cancelled');

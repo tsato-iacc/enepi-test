@@ -182,11 +182,9 @@ class Controller_Admin_Activity extends Controller_Admin
                 }
                 catch (\Exception $e)
                 {
-                    throw $e;
-                    
                     \Log::error($e);
                     \DB::rollback_transaction();
-                }                
+                }
             }
         }
 

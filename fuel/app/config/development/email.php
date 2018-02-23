@@ -3,6 +3,7 @@
 return [
   'defaults' => [
     'driver' => 'smtp',
+    'encode_headers' => true,
     'from' => [
       'email' => 'dev-info@enepi.jp',
       'name' => '[DEVELOP] エネピ',
