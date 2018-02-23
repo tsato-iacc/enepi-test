@@ -90,24 +90,27 @@ class Model_Tracking extends \Orm\Model
     }
 
 
-    public function conversion_tags_for($cv_point, $conversion_id, $pr_tracking_parameter)
+    public function conversion_tags_for($cv_point, $conversion_id)
     {
 
         $conversion_tag1 = '';
-        if($this->id == $conversion_id && $this->render_conversion_tag_only_if_match && $this->cv_point == $cv_point)
+        if($this->cv_point == $cv_point)
         {
             $conversion_tag1 = $this->conversion_tag;
         }
 
 
         $conversion_tag2 = '';
-        if(!$this->render_conversion_tag_only_if_match && $this->cv_point == $cv_point)
+        $tracking_all = \Model_Tracking::find('all');
+        foreach($tracking_all as $t)
         {
-            $conversion_tag2 = $this->conversion_tag;
+            if($t->render_conversion_tag_only_if_match == 0 && $t->name != $this->name && $t->cv_point == $cv_point)
+            {
+                $conversion_tag2 = $conversion_tag2.$t->conversion_tag;
+            }
         }
 
-
-        return str_replace('{cv_id}', $conversion_id, $conversion_tag1.'\n'.$conversion_tag2);
+        return str_replace('{cv_id}', $conversion_id, $conversion_tag1.$conversion_tag2);
     }
 
 }

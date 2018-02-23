@@ -812,5 +812,5 @@
   <?= render("shared/estimate_flow") ?>
 </div>
 
-<?= $estimate_presentation_tail ?>
+<?= render('front/lpgasContacts/estimate_presentation_tail', ['contact' => $contact], false); ?>
 
