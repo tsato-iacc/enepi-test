@@ -323,8 +323,7 @@ class Controller_Admin_Estimates extends Controller_Admin
                 if ($val->validated('company_contact_name'))
                     $estimate->company_contact_name = $val->validated('company_contact_name');
 
-                if ($estimate->last_update_admin_user_id != $this->auth_user->id)
-                    $estimate->last_update_admin_user_id = $this->auth_user->id;
+                $estimate->last_update_admin_user_id = (int) $this->auth_user->id;
 
                 $is_changed = $estimate->is_changed();
 
@@ -362,6 +361,35 @@ class Controller_Admin_Estimates extends Controller_Admin
         Session::set_flash('error', "ID: {$id} 更新 FAIL");
 
         return Response::redirect("admin/estimates/{$id}");
+    }
+
+    /**
+     * Revert status
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_revert($id, $status)
+    {
+        if (!$estimate = \Model_Estimate::find($id))
+            throw new HttpNotFoundException;
+        
+        $new_status = \Config::get('models.estimate.status.'.$status);
+
+        if ($new_status !== null && $new_status != $estimate->status)
+        {
+            $estimate->status = $new_status;
+            $estimate->last_update_admin_user_id = (int) $this->auth_user->id;
+            $estimate->save();
+
+            Session::set_flash('success', "ステータスを変更しました");
+        }
+        else
+        {
+            Session::set_flash('error', "ステータス変更ができませんでした");
+        }
+
+        return Response::redirect("admin/estimates/{$estimate->id}");
     }
 
     /**
