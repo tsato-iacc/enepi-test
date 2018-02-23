@@ -238,6 +238,8 @@ class Controller_Front_LpgasContacts extends Controller_Front
             throw new HttpNotFoundException();
         }
 
+        // var_dump($contact->tracking->conversion_tag);exit;
+
         Tracking::unsetTracking();
 
         $meta = [];
@@ -247,9 +249,9 @@ class Controller_Front_LpgasContacts extends Controller_Front
         $this->template->header = View::forge('front/lpgasContacts/done_header');
         $this->template->content = View::forge('front/lpgasContacts/done', [
             'contact' => $contact,
-            'done_tail' => \View::forge('front/lpgasContacts/done_tail'),
-        ]);
-        $this->template->content->set_global('contact', $contact);
+        ], false);
+        // $this->template->content->set_global('contact', $contact);
+        $this->template->content->set_global('cv_point', \Config::get('models.tracking.cv_point.estimate'));
         $this->template->css_call = 'done';
     }
 
@@ -437,13 +439,17 @@ class Controller_Front_LpgasContacts extends Controller_Front
                 'est' => $est,
                 'est_count' => $est_count,
                 'est_count_sent_estimate_to_user' => $est_count_sent_estimate_to_user,
-                'estimate_presentation_tail' => \View::forge('front/lpgasContacts/estimate_presentation_tail'),
-            ]);
+            ], false);
             $this->template->content->set_global('contact', $contact);
+            if($contact->status == \Config::get('models.contact.status.sent_estimate_req'))
+            {
+                $this->template->content->set_global('cv_point', \Config::get('models.tracking.cv_point.estimate'));
+            }
+            elseif($contact->status == \Config::get('models.contact.status.verbal_ok'))
+            {
+                $this->template->content->set_global('cv_point', \Config::get('models.tracking.cv_point.verbal_ok'));
+            }
             $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
-            $this->template->tail = View::forge('front/lpgasContacts/estimate_presentation_tail', [
-                'contact' => $contact
-            ]);
             $this->template->css_call = 'presentation';
         }
         else
