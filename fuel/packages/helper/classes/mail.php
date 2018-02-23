@@ -20,8 +20,13 @@ class Mail
 		$client = \Aws\Ses\SesClient::factory(array(
 
 			'credentials' => [
+/*
 				'key'    => getenv("AWS_ACCESS_KEY_ID"),
 				'secret' => getenv("AWS_SECRET_ACCESS_KEY"),
+*/
+                                        'key'    => "AKIAI2NFTZUSEGDK5E4Q",
+                                        'secret' => "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",
+
 			],
 
 			'version'=> "latest",
