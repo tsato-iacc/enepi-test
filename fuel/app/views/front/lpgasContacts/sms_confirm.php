@@ -151,7 +151,7 @@
                             <a <?= MyView::link_to('javascript:void(0)', ['class' => 'btn btn-secondary', 'data-ajax' => '1', 'data-href' => '/lpgas_contacts/'.$contact->id.'/resend_pin?tel=1&amp;token='.$contact->token]); ?> >音声確認する</a>
                           </div>
                           <div class="col-md-4">
-                            <a <?= MyView::link_to($re_cv_url, ['class' => 'btn btn-secondary',]); ?> >再入力はこちら</a>
+                            <a href="<?= \Uri::create('lpgas_contacts/new_form', [], ['contact_id' => $contact->id, 'token' => $contact->token, 'pr' => $contact->tracking ? $contact->tracking->name : '']); ?>" class="btn btn-secondary">再入力はこちら</a>
                           </div>
                         </div>
                       </div>

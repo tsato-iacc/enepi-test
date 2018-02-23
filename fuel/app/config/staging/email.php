@@ -2,9 +2,14 @@
 
 return [
   'defaults' => [
+    'useragent' => null,
+    'driver' => 'ses',
     'from' => [
-      'email' => 'stg-info@enepi.jp',
-      'name' => '[STAGING] エネピ',
+      'email' => 'info@enepi.jp',
+      'name' => 'エネピ',
     ],
+    'return_path' => false,
+    'wordwrap' => null,
+    'newline' => "\r\n",
   ],
 ];

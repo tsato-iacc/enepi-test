@@ -4,6 +4,8 @@ return [
   'defaults' => [
     'useragent' => null,
     'driver' => 'ses',
+    'encoding' => 'base64',
+    'encode_headers' => false,
     'from' => [
       'email' => 'info@enepi.jp',
       'name' => 'エネピ',
