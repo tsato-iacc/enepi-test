@@ -728,46 +728,4 @@ class Model_Contact extends \Orm\Model
 
         return true;
     }
-
-    private function updateGeocode()
-    {
-        // Only if address was changed?
-        $address = JpPrefecture::findByCode($this->getPrefectureCode())->nameKanji . " " . $this->getAddress();
-
-        if ($this->contact_geocode)
-        {
-            // if ($this->contact_geocode->address != $gaddress || $gcode->lat && $gcode->lng)
-            // {
-            //     $this->contact_geocode = $gaddress;
-                // FIX ME
-                // self.lat, self.lng = GeocodeFetcher.fetch_from_address(address)
-                // $gcode->lat = 0.0;
-                // $gcode->lat = 0.0;
-            // }
-        }
-        else
-        {
-            $this->contact_geocode = new \Model_Contact_Geocode(['address' => $address]);
-            // FIX ME
-            // self.lat, self.lng = GeocodeFetcher.fetch_from_address(address)
-            // $gcode->lat = 0.0;
-            // $gcode->lat = 0.0;
-        }
-    }
-
-    // private function addToCallingList()
-    // {
-    //     $condition = [
-    //         'where' => [
-    //             ['contact_id', $this->id],
-    //             ['archived', false],
-    //         ],
-    //     ];
-
-    //     if (\Model_Calling::find('first', $condition))
-    //     {
-    //         $calling = new \Model_Calling(['contact_id' => $this->id]);
-    //         $calling->save();
-    //     }
-    // }
 }

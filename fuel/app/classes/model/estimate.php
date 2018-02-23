@@ -474,9 +474,9 @@ class Model_Estimate extends \Orm\Model
 
             $history = new \Model_Estimate_History([
                 'diff_json' => $prepared,
-                'admin_user_id' => isset($admin_id) ? $admin_id : null,
-                'partner_company_id' => isset($partner_company_id) ? $partner_company_id : null,
-                'user_id' => isset($last_update_user_id) ? $last_update_user_id : null,
+                'admin_user_id' => isset($diff[1]['last_update_admin_user_id']) ? $diff[1]['last_update_admin_user_id'] : null,
+                'partner_company_id' => isset($diff[1]['last_update_partner_company_id']) ? $diff[1]['last_update_partner_company_id'] : null,
+                'user_id' => isset($diff[1]['last_update_user_id']) ? $diff[1]['last_update_user_id'] : null,
             ]);
 
             $this->histories[] = $history;
