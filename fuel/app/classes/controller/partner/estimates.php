@@ -114,7 +114,8 @@ class Controller_Partner_Estimates extends Controller_Partner
         }
 
         $histories = $estimate->get('histories', ['order_by' => ['id' => 'desc']]);
-        $comments = $estimate->get('comments', ['where' => [['estimate_change_log_id', null]], 'order_by' => ['id' => 'desc']]);
+        $comments = $estimate->get('comments', ['order_by' => ['id' => 'desc']]);
+        // $comments = $estimate->get('comments', ['where' => [['estimate_change_log_id', null]], 'order_by' => ['id' => 'desc']]);
 
         $timeline = $histories + $comments;
 

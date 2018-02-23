@@ -82,7 +82,8 @@ class Controller_Admin_Estimates extends Controller_Admin
             throw new HttpNotFoundException;
 
         $histories = $estimate->get('histories', ['order_by' => ['id' => 'desc']]);
-        $comments = $estimate->get('comments', ['where' => [['estimate_change_log_id', null]], 'order_by' => ['id' => 'desc']]);
+        $comments = $estimate->get('comments', ['order_by' => ['id' => 'desc']]);
+        // $comments = $estimate->get('comments', ['where' => [['estimate_change_log_id', null]], 'order_by' => ['id' => 'desc']]);
 
         $timeline = $histories + $comments;
 
@@ -381,6 +382,12 @@ class Controller_Admin_Estimates extends Controller_Admin
             $estimate->status = $new_status;
             $estimate->last_update_admin_user_id = (int) $this->auth_user->id;
             $estimate->save();
+
+            if ($status == 'pending')
+            {
+                $estimate->contact->status = \Config::get('models.contact.status.sent_estimate_req');
+                $estimate->contact->save();
+            }
 
             Session::set_flash('success', "ステータスを変更しました");
         }

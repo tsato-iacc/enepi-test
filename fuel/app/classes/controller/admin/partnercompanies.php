@@ -156,7 +156,7 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
         if (!$partner_company = \Model_Partner_Company::find($id))
             throw new HttpNotFoundException;
 
-        $val = \Model_Partner_Company::validate($partner_company);
+        $val = \Model_Partner_Company::validate();
 
         if ($val->run())
         {
