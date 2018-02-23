@@ -57,7 +57,7 @@ class Controller_Admin_History extends Controller_Admin
             $record = new \Model_CallingHistory();
             $record->calling_method = \Config::get('models.calling_history.calling_method.'.$val->validated('calling_method'));
             $record->note = $val->validated('note');
-            $record->admin_user_id = $this->admin_id;
+            $record->admin_user_id = $this->auth_user->id;
 
             $contact->calling_histories[] = $record;
             

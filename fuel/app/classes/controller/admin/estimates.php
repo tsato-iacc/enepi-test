@@ -135,7 +135,7 @@ class Controller_Admin_Estimates extends Controller_Admin
 
                 $estimate->prices = $prices;
                 
-                if ($estimate->save() && $estimate->present($this->admin_id))
+                if ($estimate->save() && $estimate->present($this->auth_user->id))
                 {
                     \DB::commit_transaction();
                     Session::set_flash('success', "ID: {$id} OK");
@@ -197,7 +197,7 @@ class Controller_Admin_Estimates extends Controller_Admin
         if (!$estimate = \Model_Estimate::find($id, ['related' => ['histories', 'company', 'contact']]))
             throw new HttpNotFoundException;
 
-        if ($estimate->introduce($this->admin_id))
+        if ($estimate->introduce($this->auth_user->id))
         {
             $query = [
                 'token' => $estimate->contact->token,
@@ -223,7 +223,7 @@ class Controller_Admin_Estimates extends Controller_Admin
         if (!$estimate = \Model_Estimate::find($id, ['related' => ['histories', 'company']]))
             throw new HttpNotFoundException;
 
-        if ($estimate->present($this->admin_id))
+        if ($estimate->present($this->auth_user->id))
         {
             Session::set_flash('success', "ID: {$id} ユーザーに送信しました");
 
@@ -278,8 +278,8 @@ class Controller_Admin_Estimates extends Controller_Admin
                 if ($val->validated('company_contact_name'))
                     $estimate->company_contact_name = $val->validated('company_contact_name');
 
-                if ($estimate->last_update_admin_user_id != $this->admin_id)
-                    $estimate->last_update_admin_user_id = $this->admin_id;
+                if ($estimate->last_update_admin_user_id != $this->auth_user->id)
+                    $estimate->last_update_admin_user_id = $this->auth_user->id;
 
                 $is_changed = $estimate->is_changed();
 
