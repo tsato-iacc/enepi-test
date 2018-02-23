@@ -40,7 +40,7 @@ class Email_Driver_Ses extends \Email_Driver
     $request = [];
     $request['Source'] = $this->build_from();
     $request['Destination']['ToAddresses'] = $this->build_to();
-    $request['Message']['Subject']['Data'] = '';
+    $request['Message']['Subject']['Data'] = $this->subject;
     $request['Message']['Subject']['Charset'] = 'UTF-8';
     $request['Message']['Body']['Html']['Data'] = base64_decode($this->body);
     $request['Message']['Body']['Charset']['Data'] = 'UTF-8';
