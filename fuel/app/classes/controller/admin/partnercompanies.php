@@ -19,6 +19,9 @@
  * @package  app
  * @extends  Controller_Admin
  */
+
+use JpPrefecture\JpPrefecture;
+
 class Controller_Admin_PartnerCompanies extends Controller_Admin
 {
     /**
@@ -85,6 +88,13 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
                         ]
                     ]);
                 }
+
+                $company->geocodes[] = new \Model_Company_Geocode([
+                    'company_office_id' => null,
+                    'address' => JpPrefecture::findByCode($company->prefecture_code)->nameKanji." ".$company->address,
+                    'lat' => 0,
+                    'lng' => 0,
+                ]);
 
                 if (!$company->display_name)
                     $company->display_name = $partner_company->company_name;
