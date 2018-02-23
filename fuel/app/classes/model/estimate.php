@@ -74,6 +74,7 @@ class Model_Estimate extends \Orm\Model
         ],
         'prices' => [
             'model_to' => 'Model_Estimate_Price',
+            'cascade_delete' => true,
         ],
         'histories' => [
             'model_to' => 'Model_Estimate_History',

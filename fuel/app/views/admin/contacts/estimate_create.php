@@ -80,7 +80,11 @@ use JpPrefecture\JpPrefecture;
           <td><a href="<?= \Uri::create('admin/partner_companies/:id/edit', ['id' => $estimate->company->id]); ?>"><?= $estimate->company->partner_company->company_name; ?></a></td>
           <td><?= JpPrefecture::findByCode($estimate->contact->getPrefectureCode())->nameKanji." ".$estimate->contact->getAddress(); ?></td>
           <td><?= $estimate->contracted_commission? number_format($estimate->contracted_commission).'円' : ''; ?></td>
-          <td><div><a href="#" class="btn-estimate-delete btn btn-danger btn-sm px-1 py-0 w-100" role="button" data-estimate-id="<?= $estimate->id; ?>" onclick="return alert('Coming soon')"><i class="fa fa-trash" aria-hidden="true"></i> 削除</a></div></td>
+          <td>
+            <?php if (!($estimate->status == \Config::get('models.estimate.status.contracted') || $estimate->status == \Config::get('models.estimate.status.verbal_ok'))): ?>
+              <div><a href="<?= \Uri::create('admin/estimates/:id/delete', ['id' => $estimate->id]); ?>" class="btn-estimate-delete btn btn-danger btn-sm px-1 py-0 w-100" role="button" onclick="return confirm('本当によろしいですか?')"><i class="fa fa-trash" aria-hidden="true"></i> 削除</a></div>
+            <?php endif; ?>
+          </td>
         </tr>
       <?php endforeach; ?>
     </tbody>
