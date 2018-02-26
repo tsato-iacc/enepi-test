@@ -77,8 +77,8 @@ class Model_Tracking extends \Orm\Model
      */
     public function save($cascade = null, $use_transaction = false)
     {
-        // FIX ME Add last_update_admin_user_id
-        $this->last_update_admin_user_id = 10;
+        $admin_id = Eauth::instance('admin')->get('id');
+        $this->last_update_admin_user_id = $admin_id ? $admin_id : null;
         
         return parent::save($cascade, $use_transaction);
     }

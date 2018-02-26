@@ -472,10 +472,13 @@ class Model_Estimate extends \Orm\Model
                 'new' => \Date::time()->format('mysql_json'),
             ];
 
+            $admin_id = Eauth::instance('admin')->get('id');
+            $partner_id = Eauth::instance('partner')->get('id');
+
             $history = new \Model_Estimate_History([
                 'diff_json' => $prepared,
-                'admin_user_id' => isset($diff[1]['last_update_admin_user_id']) ? $diff[1]['last_update_admin_user_id'] : null,
-                'partner_company_id' => isset($diff[1]['last_update_partner_company_id']) ? $diff[1]['last_update_partner_company_id'] : null,
+                'admin_user_id' => $admin_id ? $admin_id : null,
+                'partner_company_id' => $partner_id ? $partner_id : null,
                 'user_id' => isset($diff[1]['last_update_user_id']) ? $diff[1]['last_update_user_id'] : null,
             ]);
 

@@ -114,8 +114,8 @@ class Controller_Partner_Estimates extends Controller_Partner
         }
 
         $histories = $estimate->get('histories', ['order_by' => ['id' => 'desc']]);
-        $comments = $estimate->get('comments', ['order_by' => ['id' => 'desc']]);
-        // $comments = $estimate->get('comments', ['where' => [['estimate_change_log_id', null]], 'order_by' => ['id' => 'desc']]);
+        // $comments = $estimate->get('comments', ['order_by' => ['id' => 'desc']]);
+        $comments = $estimate->get('comments', ['where' => [['estimate_change_log_id', null]], 'order_by' => ['id' => 'desc']]);
 
         $timeline = $histories + $comments;
 
@@ -219,7 +219,8 @@ class Controller_Partner_Estimates extends Controller_Partner
                 if ($val->validated('company_contact_name'))
                     $estimate->company_contact_name = $val->validated('company_contact_name');
 
-                $estimate->last_update_partner_company_id = (int) $this->auth_user->id;
+                if ($estimate->last_update_partner_company_id != $this->auth_user->id)
+                    $estimate->last_update_partner_company_id = $this->auth_user->id;
                 
                 $is_changed = $estimate->is_changed();
 
