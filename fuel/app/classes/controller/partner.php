@@ -75,8 +75,10 @@ class Controller_Partner extends Controller_Base
      */
     public function action_logout()
     {
-        // Auth::logout();
-        Response::redirect('/');
+        $auth = Eauth::instance('partner');
+        $auth->logout();
+        
+        Response::redirect('partner/login');
     }
 
     /**

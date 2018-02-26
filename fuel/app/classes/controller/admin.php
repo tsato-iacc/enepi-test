@@ -75,7 +75,9 @@ class Controller_Admin extends Controller_Base
      */
     public function action_logout()
     {
-        Eauth::logout();
+        $auth = Eauth::instance('admin');
+        $auth->logout();
+        
         Response::redirect('admin/login');
     }
 

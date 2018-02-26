@@ -82,6 +82,7 @@ class Controller_Admin_Estimates extends Controller_Admin
             throw new HttpNotFoundException;
 
         $histories = $estimate->get('histories', ['order_by' => ['id' => 'desc']]);
+        // $comments = $estimate->get('comments', ['order_by' => ['id' => 'desc']]);
         $comments = $estimate->get('comments', ['where' => [['estimate_change_log_id', null]], 'order_by' => ['id' => 'desc']]);
 
         $timeline = $histories + $comments;
@@ -362,6 +363,41 @@ class Controller_Admin_Estimates extends Controller_Admin
         Session::set_flash('error', "ID: {$id} 更新 FAIL");
 
         return Response::redirect("admin/estimates/{$id}");
+    }
+
+    /**
+     * Revert status
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_revert($id, $status)
+    {
+        if (!$estimate = \Model_Estimate::find($id))
+            throw new HttpNotFoundException;
+        
+        $new_status = \Config::get('models.estimate.status.'.$status);
+
+        if ($new_status !== null && $new_status != $estimate->status)
+        {
+            $estimate->status = $new_status;
+            $estimate->last_update_admin_user_id = $this->auth_user->id;
+            $estimate->save();
+
+            if ($status == 'pending')
+            {
+                $estimate->contact->status = \Config::get('models.contact.status.sent_estimate_req');
+                $estimate->contact->save();
+            }
+
+            Session::set_flash('success', "ステータスを変更しました");
+        }
+        else
+        {
+            Session::set_flash('error', "ステータス変更ができませんでした");
+        }
+
+        return Response::redirect("admin/estimates/{$estimate->id}");
     }
 
     /**

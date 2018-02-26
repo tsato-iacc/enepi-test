@@ -80,6 +80,7 @@ return array(
     'admin/estimates/(:num)/cancel'                        => [['POST', new Route('admin/estimates/cancel/$1')]],
     'admin/estimates/(:num)/delete'                        => [['GET', new Route('admin/estimates/destroy/$1')]],
     'admin/estimates/(:num)/progress'                      => [['POST', new Route('admin/estimates/progress/$1')]],
+    'admin/estimates/(:num)/revert/(:any)'                 => [['GET', new Route('admin/estimates/revert/$1/$2')]],
     'admin/estimates/history'                              => [['GET', new Route('admin/estimates/history')]],
 
     'admin/contacts'                                       => [['GET', new Route('admin/contacts/index')]],
