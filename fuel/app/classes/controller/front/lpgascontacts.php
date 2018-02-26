@@ -65,7 +65,13 @@ class Controller_Front_LpgasContacts extends Controller_Front
                 $contact = new \Model_Contact();
             }
 
+            $meta = [
+                ['name' => 'description', 'content' => \Config::get('enepi.meta.default.description')],
+                ['name' => 'keywords', 'content' => \Config::get('enepi.meta.default.keywords')],
+            ];
+
             $this->template = \View::forge('front/template');
+            $this->template->meta = $meta;
             $this->template->title = 'プロパンガス(LPガス)料金を今より安く！無料比較サービス';
             $this->template->content = View::forge('front/lpgasContacts/index', [
                 'contact' => $contact,
