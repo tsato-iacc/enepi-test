@@ -65,7 +65,16 @@ class Notifier
 
     public static function notifyAdminEstimateCancel(&$estimate)
     {
-        $reason = \Helper\CancelReasons::getNameByValue($estimate->status_reason);
+        if ($estimate->contact->status == \Config::get('models.contact.status.cancelled'))
+        {
+            $reason_id = $estimate->contact->status_reason;
+        }
+        else
+        {
+            $reason_id = $estimate->status_reason;
+        }
+
+        $reason = \Helper\CancelReasons::getNameByValue($reason_id);
 
         $email = \Email::forge();
         $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
@@ -114,12 +123,21 @@ class Notifier
         $email->send();
     }
 
-    public static function notifyAdminPresent(&$estimate)
+    public static function notifyAdminPresentContact(&$estimate)
     {
         $email = \Email::forge();
         $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
         $email->subject('見積もりを送信しました');
-        $email->html_body(\View::forge('notifier/admin/present', ['estimate' => $estimate]));
+        $email->html_body(\View::forge('notifier/admin/present_contact', ['estimate' => $estimate]));
+        $email->send();
+    }
+
+    public static function notifyAdminPresentEstimate(&$estimate)
+    {
+        $email = \Email::forge();
+        $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
+        $email->subject('紹介');
+        $email->html_body(\View::forge('notifier/admin/present_estimate', ['estimate' => $estimate]));
         $email->send();
     }
 

@@ -7,7 +7,7 @@ use JpPrefecture\JpPrefecture;
     <div class="card-block">
       <p class="card-text">問い合わせID</p>
     </div>
-    <div class="card-footer"><?= $contact->id; ?></div>
+    <div class="card-footer"><a href="<?= \Uri::create('admin/contacts/:id/edit', ['id' => $contact->id]); ?>"><i class="fa fa-user"></i> <?= $contact->id; ?></a></div>
   </div>
   <div class="card text-center">
     <div class="card-block">
@@ -68,7 +68,9 @@ use JpPrefecture\JpPrefecture;
       <?php foreach($contact->estimates as $estimate): ?>
         <!-- FIX ME Do not display expired estimates -->
         <tr>
-          <td><?= $estimate->uuid; ?></td>
+          <td>
+            <a href="<?= \Uri::create('admin/estimates/:id', ['id' => $estimate->id]); ?>"><i class="fa fa-handshake-o"></i> <?= $estimate->uuid; ?></a>
+          </td>
           <td><?= ''; ?></td>
           <td>
             <div class="card card-outline-<?= \Config::get('views.estimate.status.'.$estimate->status); ?> text-center max-width">
@@ -133,7 +135,7 @@ use JpPrefecture\JpPrefecture;
       <thead>
         <tr>
           <th>会社名</th>
-          <th>IACC見積もり確認中で作成</th>
+          <th>未対応で作成</th>
           <th>住所</th>
           <th>NG企業チェック</th>
           <th>年間節約額</th>

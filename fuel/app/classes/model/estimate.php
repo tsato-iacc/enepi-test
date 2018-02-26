@@ -199,7 +199,12 @@ class Model_Estimate extends \Orm\Model
                     $this->contact->save();
                 }
 
-                $this->hasVerbal() ? \Helper\Notifier::notifyCompanyEstimateCancel($this) : \Helper\Notifier::notifyAdminEstimateCancel($this);
+                if ($this->hasVerbal())
+                {
+                    \Helper\Notifier::notifyCompanyEstimateCancel($this);
+                }
+
+                \Helper\Notifier::notifyAdminEstimateCancel($this);
 
                 return true;
             }
@@ -258,7 +263,8 @@ class Model_Estimate extends \Orm\Model
                     \Model_Calling::add($contact);
 
                     \Helper\Notifier::notifyCustomerPresent($this);
-                    \Helper\Notifier::notifyAdminPresent($this);
+                    \Helper\Notifier::notifyAdminPresentContact($this);
+                    \Helper\Notifier::notifyAdminPresentEstimate($this);
                 }
                 else
                 {

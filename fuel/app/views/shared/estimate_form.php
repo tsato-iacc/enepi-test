@@ -57,7 +57,7 @@ use JpPrefecture\JpPrefecture;
                   <div><?= Asset::img('estimate_form/hand-navi.png'); ?></div>
                 </div>
                 <div class="house-kind input-wrap remove-error">
-                  <input type="radio" name="lpgas_contact[house_kind]" value="detached" id="detached"<?= $contact->house_kind == \Config::get('models.contact.house_kind.detached') ? ' checked="checked"' : '' ?>>
+                  <input type="radio" name="lpgas_contact[house_kind]" value="detached" id="detached"<?= !$contact->is_new() && $contact->house_kind == \Config::get('models.contact.house_kind.detached') ? ' checked="checked"' : '' ?>>
                   <label class="image-wrap hand-navi-label" for="detached">
                     <div class="normal sp"><?= Asset::img('estimate_form/sp/off-btn-home.png'); ?></div>
                     <div class="invert sp"><?= Asset::img('estimate_form/sp/on-btn-home.png'); ?></div>
@@ -67,7 +67,7 @@ use JpPrefecture\JpPrefecture;
                   </label>
                 </div>
                 <div class="house-kind input-wrap remove-error">
-                  <input type="radio" name="lpgas_contact[house_kind]" value="store_ex" id="store_ex"<?= $contact->house_kind == \Config::get('models.contact.house_kind.store_ex') ? ' checked="checked"' : '' ?>>
+                  <input type="radio" name="lpgas_contact[house_kind]" value="store_ex" id="store_ex"<?= !$contact->is_new() && $contact->house_kind == \Config::get('models.contact.house_kind.store_ex') ? ' checked="checked"' : '' ?>>
                   <label class="image-wrap hand-navi-label" for="store_ex">
                     <div class="normal sp"><?= Asset::img('estimate_form/sp/off-btn-store.png'); ?></div>
                     <div class="invert sp"><?= Asset::img('estimate_form/sp/on-btn-store.png'); ?></div>
@@ -77,7 +77,7 @@ use JpPrefecture\JpPrefecture;
                   </label>
                 </div>
                 <div class="house-kind input-wrap remove-error">
-                  <input type="radio" name="lpgas_contact[house_kind]" value="apartment" id="apartment"<?= $contact->house_kind == \Config::get('models.contact.house_kind.apartment') ? ' checked="checked"' : '' ?>>
+                  <input type="radio" name="lpgas_contact[house_kind]" value="apartment" id="apartment"<?= !$contact->is_new() && $contact->house_kind == \Config::get('models.contact.house_kind.apartment') ? ' checked="checked"' : '' ?>>
                   <label class="image-wrap hand-navi-label" for="apartment">
                     <div class="normal sp"><?= Asset::img('estimate_form/sp/off-btn-land.png'); ?></div>
                     <div class="invert sp"><?= Asset::img('estimate_form/sp/on-btn-land.png'); ?></div>
@@ -116,7 +116,7 @@ use JpPrefecture\JpPrefecture;
                   <div><?= Asset::img('estimate_form/hand-navi.png'); ?></div>
                 </div>
                 <div class="house-kind input-wrap remove-error error-wrap">
-                  <input type="radio" name="lpgas_contact[estimate_kind]" value="change_contract" id="change_contract"<?= $contact->estimate_kind == \Config::get('models.contact.estimate_kind.change_contract') ? ' checked="checked"' : '' ?>>
+                  <input type="radio" name="lpgas_contact[estimate_kind]" value="change_contract" id="change_contract"<?= !$contact->is_new() && $contact->estimate_kind == \Config::get('models.contact.estimate_kind.change_contract') ? ' checked="checked"' : '' ?>>
                   <label class="image-wrap hand-navi-label" for="change_contract">
                     <div class="normal sp"><?= Asset::img('estimate_form/sp/off-btn-current.png'); ?></div>
                     <div class="invert sp"><?= Asset::img('estimate_form/sp/on-btn-current.png'); ?></div>
@@ -126,7 +126,7 @@ use JpPrefecture\JpPrefecture;
                   </label>
                 </div>
                 <div class="house-kind input-wrap remove-error error-wrap">
-                  <input type="radio" name="lpgas_contact[estimate_kind]" value="new_contract" id="new_contract"<?= $contact->estimate_kind == \Config::get('models.contact.estimate_kind.new_contract') ? ' checked="checked"' : '' ?>>
+                  <input type="radio" name="lpgas_contact[estimate_kind]" value="new_contract" id="new_contract"<?= !$contact->is_new() && $contact->estimate_kind == \Config::get('models.contact.estimate_kind.new_contract') ? ' checked="checked"' : '' ?>>
                   <label class="image-wrap hand-navi-label" for="new_contract">
                     <div class="normal sp"><?= Asset::img('estimate_form/sp/off-btn-move.png'); ?></div>
                     <div class="invert sp"><?= Asset::img('estimate_form/sp/on-btn-move.png'); ?></div>

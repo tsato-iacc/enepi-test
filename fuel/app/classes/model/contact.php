@@ -499,14 +499,15 @@ class Model_Contact extends \Orm\Model
         if ($this->estimates)
         {
             $status_reason = \Helper\CancelReasons::getValueByName($reason);
+            
+            $this->status = \Config::get('models.contact.status.cancelled');
+            $this->status_reason = $status_reason;
 
             foreach ($this->estimates as $estimate)
             {
                 $estimate->cancel($auth_user);
             }
 
-            $this->status = \Config::get('models.contact.status.cancelled');
-            $this->status_reason = $status_reason;
             $this->save();
         }
         else
