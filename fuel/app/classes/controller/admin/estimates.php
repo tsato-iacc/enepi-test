@@ -82,8 +82,8 @@ class Controller_Admin_Estimates extends Controller_Admin
             throw new HttpNotFoundException;
 
         $histories = $estimate->get('histories', ['order_by' => ['id' => 'desc']]);
-        $comments = $estimate->get('comments', ['order_by' => ['id' => 'desc']]);
-        // $comments = $estimate->get('comments', ['where' => [['estimate_change_log_id', null]], 'order_by' => ['id' => 'desc']]);
+        // $comments = $estimate->get('comments', ['order_by' => ['id' => 'desc']]);
+        $comments = $estimate->get('comments', ['where' => [['estimate_change_log_id', null]], 'order_by' => ['id' => 'desc']]);
 
         $timeline = $histories + $comments;
 
@@ -324,7 +324,8 @@ class Controller_Admin_Estimates extends Controller_Admin
                 if ($val->validated('company_contact_name'))
                     $estimate->company_contact_name = $val->validated('company_contact_name');
 
-                $estimate->last_update_admin_user_id = (int) $this->auth_user->id;
+                if ($estimate->last_update_admin_user_id != $this->auth_user->id)
+                    $estimate->last_update_admin_user_id = $this->auth_user->id;
 
                 $is_changed = $estimate->is_changed();
 
@@ -380,7 +381,7 @@ class Controller_Admin_Estimates extends Controller_Admin
         if ($new_status !== null && $new_status != $estimate->status)
         {
             $estimate->status = $new_status;
-            $estimate->last_update_admin_user_id = (int) $this->auth_user->id;
+            $estimate->last_update_admin_user_id = $this->auth_user->id;
             $estimate->save();
 
             if ($status == 'pending')
