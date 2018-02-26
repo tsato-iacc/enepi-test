@@ -5,8 +5,10 @@
 <meta http-equiv="Cache-Control" content="max-age=7200">
 <link rel="icon" href="<?= \Uri::create('favicon.ico?v=2'); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<?= Html::meta($meta); ?>
-  <title><?= $title; ?></title>
+<? if(isset($meta)){ ?>
+  <?= Html::meta($meta); ?>
+<? } ?>
+<title><?= $title; ?></title>
 
   <?= render('front/ga'); ?>
   <!--

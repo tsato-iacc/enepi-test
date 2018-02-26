@@ -10,6 +10,8 @@
 
 namespace Helper;
 
+
+
 class Mail
 {
 
@@ -20,8 +22,13 @@ class Mail
 		$client = \Aws\Ses\SesClient::factory(array(
 
 			'credentials' => [
+/*
 				'key'    => getenv("AWS_ACCESS_KEY_ID"),
 				'secret' => getenv("AWS_SECRET_ACCESS_KEY"),
+*/
+                                        'key'    => "AKIAI2NFTZUSEGDK5E4Q",
+                                        'secret' => "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",
+
 			],
 
 			'version'=> "latest",
@@ -75,4 +82,39 @@ class Mail
 
 	}
 
+
+	public static function talk_send($to, $msg = "")
+	{
+
+		$client = new \Twilio\Rest\Client(
+				getenv("TWILLIO_ACCOUNT_SID"),
+				getenv("TWILLIO_AUTH_TOKEN")
+				);
+
+		// 080-1234-5678 → 818012345678
+		$to = str_replace("-", "", $to);
+		$to = "+81".substr($to, 1);
+		if(strlen($to) != 13){
+			return;
+		}
+
+		$from = getenv("TWILLIO_SMS_FROM");
+
+		print $to."<br>";
+		print $from."<br>";
+
+		$call = $client->calls->create(
+				$to,
+				$from,
+				array("url" => "https://twimlets.com/holdmusic?Bucket=com.twilio.music.ambient")
+				);
+
+		echo "Call status: " . $call->status . "<br />";
+		echo "URI resource: " . $call->uri . "<br />";
+
+		var_dump($call);
+
+		//print $sid;
+
+	}
 }

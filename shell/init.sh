@@ -34,6 +34,7 @@ sudo ln -sf  /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
 
 cp `pwd`/../public/.htaccess.prod `pwd`/../public/.htaccess
+#cp `pwd`/../public/.htaccess.close `pwd`/../public/.htaccess
 
 
 

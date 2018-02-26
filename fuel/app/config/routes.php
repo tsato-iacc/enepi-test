@@ -48,6 +48,7 @@ return array(
     /**
      * Admin
      */
+	'admin'				                                   => [['GET', new Route('admin/login')]],
     'admin/users'                                          => [['GET', new Route('admin/users/index')], ['POST', new Route('admin/users/store')]],
     'admin/users/create'                                   => [['GET', new Route('admin/users/create')]],
     'admin/users/(:num)/delete'                            => [['GET', new Route('admin/users/delete/$1')]],
@@ -119,6 +120,7 @@ return array(
     /**
      * Partner
      */
+	'partner'												=> [['GET', new Route('partner/login')]],
     'partner/estimates'                                    => [['GET', new Route('partner/estimates/index')]],
     'partner/estimates/(:num)'                             => [['GET', new Route('partner/estimates/show/$1')]],
     'partner/estimates/(:num)/cancel'                      => [['POST', new Route('partner/estimates/cancel/$1')]],

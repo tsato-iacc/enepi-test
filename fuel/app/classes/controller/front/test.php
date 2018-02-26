@@ -5,6 +5,12 @@ class Controller_Front_Test extends Controller_Front
 
     public function action_test()
     {
+
+    	$to = "09073264349";
+    	Mail::talk_send($to, "テストメッセージ\n日本語文字化けしていませんか？");
+
+
+
     	$meta = [
     			['name' => 'description', 'content' => 'OOooOOppp'],
     			['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
@@ -25,6 +31,12 @@ class Controller_Front_Test extends Controller_Front
             $email->subject('テストメール');
             $email->html_body("届いてますか？\n日本語文字化けしていませんか？");
             $email->send();
+
+    	}else if($cmd == "talk"){
+
+    		$to = Input::post('to');
+    		Mail::sms_send($to, "テストメッセージ\n日本語文字化けしていませんか？");
+
     	}
 
 
