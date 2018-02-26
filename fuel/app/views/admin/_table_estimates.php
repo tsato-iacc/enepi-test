@@ -14,7 +14,9 @@ use JpPrefecture\JpPrefecture;
       </th>
       <th>
         <div>未読/既読</div>
-        <div><i class="fa fa-building-o" aria-hidden="true"></i> 会社名</div>
+        <?php if (\Uri::segment(1) == 'admin'): ?>
+          <div><i class="fa fa-building-o" aria-hidden="true"></i> 会社名</div>
+        <?php endif; ?>
         <div><i class="fa fa-user" aria-hidden="true"></i> お名前</div>
         <div><i class="fa fa-phone" aria-hidden="true"></i> 電話番号</div>
         <div><i class="fa fa-clock-o" aria-hidden="true"></i> 希望連絡時間</div>
@@ -56,7 +58,9 @@ use JpPrefecture\JpPrefecture;
               <span class="badge badge-default fs-12px fw-100">未読</span>
             <?php endif; ?>
           </div>
-          <div><i class="fa fa-building-o" aria-hidden="true"></i> <?= $estimate->company->getCompanyName(); ?></div>
+          <?php if (\Uri::segment(1) == 'admin'): ?>
+            <div><i class="fa fa-building-o" aria-hidden="true"></i> <?= $estimate->company->getCompanyName(); ?></div>
+          <?php endif; ?>
           <div><i class="fa fa-user" aria-hidden="true"></i> <?= $estimate->contact->name; ?></div>
           <div><i class="fa fa-phone" aria-hidden="true"></i> <?= $estimate->contact->tel; ?></div>
           <div><i class="fa fa-clock-o" aria-hidden="true"></i> <?= __('admin.contact.preferred_contact_time_between.'.$estimate->contact->preferred_contact_time_between); ?></div>

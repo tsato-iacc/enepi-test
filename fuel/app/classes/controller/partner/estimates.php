@@ -67,6 +67,8 @@ class Controller_Partner_Estimates extends Controller_Partner
         $conditions['rows_offset'] = $pager->offset;
 
         $estimates = \Model_Estimate::find('all', $conditions);
+
+        $this->checkPrivacy($estimates);
         
         $this->template->title = 'Estimates';
         $this->template->content = View::forge('partner/estimates/index', [
@@ -118,6 +120,8 @@ class Controller_Partner_Estimates extends Controller_Partner
         $comments = $estimate->get('comments', ['where' => [['estimate_change_log_id', null]], 'order_by' => ['id' => 'desc']]);
 
         $timeline = $histories + $comments;
+
+        $this->checkPrivacy($estimate);
 
         $this->template->title = 'Estimate - id: '.$id;
         $this->template->content = View::forge('partner/estimates/show', [
@@ -314,5 +318,38 @@ class Controller_Partner_Estimates extends Controller_Partner
 
         if ($preferred_time = \Input::get('preferred_time'))
             $conditions['related']['contact']['where'][] = ['preferred_contact_time_between', $preferred_time];
+    }
+
+    private function checkPrivacy(&$mixed)
+    {
+        $msg = '送客後に表示されます';
+
+        if (is_array($mixed))
+        {
+            foreach ($mixed as $estimate)
+            {
+                if (!($estimate->status == \Config::get('models.estimate.status.contracted') || $estimate->status == \Config::get('models.estimate.status.verbal_ok')))
+                {
+                    $estimate->contact->name = $msg;
+                    $estimate->contact->furigana = $msg;
+                    $estimate->contact->email = $msg;
+                    $estimate->contact->tel = $msg;
+                    $estimate->contact->address2 = $msg;
+                    $estimate->contact->new_address2 = $msg;
+                }
+            }
+        }
+        else
+        {
+            if (!($mixed->status == \Config::get('models.estimate.status.contracted') || $mixed->status == \Config::get('models.estimate.status.verbal_ok')))
+            {
+                $mixed->contact->name = $msg;
+                $mixed->contact->furigana = $msg;
+                $mixed->contact->email = $msg;
+                $mixed->contact->tel = $msg;
+                $mixed->contact->address2 = $msg;
+                $mixed->contact->new_address2 = $msg;
+            }
+        }
     }
 }
