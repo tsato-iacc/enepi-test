@@ -30,7 +30,7 @@ class Controller_Front_Lp extends Controller_Front
     public function action_index($id = null)
     {
 
-        if($id == 001)
+        if($id == "001")
         {
 
             $meta = [
@@ -45,7 +45,7 @@ class Controller_Front_Lp extends Controller_Front
 
         }
 
-        elseif($id == 002)
+        elseif($id == "002")
         {
 
             $meta = [
