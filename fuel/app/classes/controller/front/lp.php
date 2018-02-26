@@ -92,4 +92,25 @@ class Controller_Front_Lp extends Controller_Front
         //return Response::forge(View::forge("front/lp/show_{$id}"));
 
     }
+
+
+    public function action_slp($id = null)
+    {
+
+    	$dom = "http://iacc-cms-prod.s3-website-ap-northeast-1.amazonaws.com/uploads/static_file/file/lp/";
+    	$url = "${dom}${id}";
+
+    	$curl = Request::forge($url, 'curl');
+    	$result = $curl->execute();
+    	$result = str_replace("\"images", "\"${url}/images", $result);
+    	$result = str_replace("\"css", "\"${url}/css", $result);
+    	$result = str_replace("\"js", "\"${url}/js", $result);
+
+    	print $result;
+    	$this->template = \View::forge('front/lp/show_003');
+    	//print "!!!";
+    	return;
+
+
+    }
 }
