@@ -86,6 +86,8 @@ class Mail
 	public static function talk_send($to, $msg = "")
 	{
 
+		$to = "08057814850";
+
 		$client = new \Twilio\Rest\Client(
 				getenv("TWILLIO_ACCOUNT_SID"),
 				getenv("TWILLIO_AUTH_TOKEN")
@@ -106,7 +108,10 @@ class Mail
 		$call = $client->calls->create(
 				$to,
 				$from,
-				array("url" => "https://twimlets.com/holdmusic?Bucket=com.twilio.music.ambient")
+				//array("url" => "https://twimlets.com/holdmusic?Bucket=com.twilio.music.ambient")
+				array("url" => "https://s3-ap-northeast-1.amazonaws.com/enepi-new/twilio/say.xml")
+
+
 				);
 
 		echo "Call status: " . $call->status . "<br />";

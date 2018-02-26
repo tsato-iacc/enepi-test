@@ -34,7 +34,7 @@
   <?php endif; ?>
 
   <?= $content; ?>
-  
+
   <?php if (\Uri::segment(1) == 'kakaku'): ?>
     <footer class="pr-media">
       <div class="kakaku-tel">
