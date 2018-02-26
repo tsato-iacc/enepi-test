@@ -7,7 +7,7 @@
     <span class="navbar-text"><?= $auth_user->email; ?></span>
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="<?= \Uri::create('parner/logout'); ?>"><i class="fa fa-sign-out"></i>ログアウト</a>
+        <a class="nav-link" href="<?= \Uri::create('partner/logout'); ?>"><i class="fa fa-sign-out"></i>ログアウト</a>
       </li>
     </ul>
   </div>

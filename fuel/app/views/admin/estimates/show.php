@@ -386,11 +386,11 @@ use JpPrefecture\JpPrefecture;
             <?php elseif (isset($line->diff_json->contacted)): ?>
               <b>連絡済み</b>
             <?php elseif (isset($line->diff_json->visit_scheduled_date)): ?>
-              <b>訪問予定日</b>
+              <b>訪問予定日</b> : <?= $line->diff_json->visit_scheduled_date->new; ?>
             <?php elseif (isset($line->diff_json->construction_scheduled_date)): ?>
-              <b>工事予定日</b>
+              <b>工事予定日</b> : <?= $line->diff_json->construction_scheduled_date->new; ?>
             <?php elseif (isset($line->diff_json->construction_finished_date)): ?>
-              <b>工事完了日</b>
+              <b>工事完了日</b> : <?= $line->diff_json->construction_finished_date->new; ?>
             <?php endif; ?>
           </td>
         </tr>
