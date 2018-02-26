@@ -1,143 +1,215 @@
+<script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+<?= Asset::js('bootstrap.min.js'); ?>
+
+<?= Asset::css('lp.css'); ?>
+<?= Asset::js('lp.js'); ?>
+
+<style>
+.lp-002 .guide-header__tel {
+    background-image: url(/assets/images/lp/002/ico_tel.png);
+}
+
+.lp-002 .guide-header__logo-img {
+  background-image: url(/assets/images/lp/002/logo-enepi.png);
+}
+.lp-002 .estimate_btn {
+  background-image: url(/assets/images/lp/002/bt_estimate_mainview_off.png);
+}
+
+.lp-002 .estimate_btn:hover{
+  background-image:url(/assets/images/lp/002/bt_estimate_mainview_on.png);
+}
+
+.lp-002 .keyvisual:after {
+  background-image: url(/assets/images/lp/002/img_mainview.png);
+}
+
+.lp-002 .reason__point-txt.reason__point-txt--01.reason__point-txt.reason__point-txt--01{
+  background-image: url(/assets/images/lp/002/img_reason1.png);
+}
+
+.lp-002 .reason__point-txt.reason__point-txt--02.reason__point-txt.reason__point-txt--02{
+  background-image: url(/assets/images/lp/002/img_reason2.png);
+}
+
+.lp-002 .reason__point-txt.reason__point-txt--03.reason__point-txt.reason__point-txt--03{
+  background-image: url(/assets/images/lp/002/img_reason3.png);
+}
+
+.lp-002 .estimate_btn_bottom {
+  background-image: url(/assets/images/lp/002/bt_estimate_off.png);
+}
+
+.lp-002 .estimate_btn_bottom:hover{
+  background-image:url(/assets/images/lp/002/bt_estimate_on.png);
+}
+
+.lp-002 .mechanism__glaph-img {
+  height: auto;
+}
+
+@media only screen and (max-width: 1000px){
+  .lp-002 .guide-keyvisual {
+    height: auto;
+  }
+}
+
+@media only screen and (max-width: 1000px){
+  .lp-002 .guide-keyvisual, .lp-002 .guide-keyvisual:before {
+    height: auto;
+  }
+}
+
+}
+</style>
+
 <!DOCTYPE html>
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <? set_meta_tags title: '大家さん必見！1番安いガス料金を比較し、お得に乗り換えよう！enepi（エネピ）', site: nil ?>
-  <? MyView::description('enepi（エネピ）は、LPガスの料金を「比べて」、よりお得なプランに「乗り換える」ために必要な、お得な情報をご紹介します。最適な料金プランを選んで、ガス代を節約したい方は、enepi（エネピ）をチェック！' ?>
-  <? keywords %W(電気料金 ガス料金 比較 ガス自由化 ガス代 enepi エネピ 大家　アパート　マンション) ?>
+  <?= Html::meta($meta); ?>
+  <title><?= $title; ?></title>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:700' rel='stylesheet' type='text/css'>
 
-  <?= display_meta_tags({
-    site: Dh::Application.config.site_name,
-    separator: "|",
-    charset: 'utf-8',
-    reverse: true,
-  })?>
-
-  <?= stylesheet_link_tag 'lp/lp', media: 'all' ?>
-  <?= javascript_include_tag 'lp' ?>
-  <?= csrf_meta_tags ?>
 
   <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    (function(i,s,o,g,r,a,m){
+      i['GoogleAnalyticsObject']=r;
+      i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)
+      },i[r].l=1*new Date();
+      a=s.createElement(o), m=s.getElementsByTagName(o)[0];
+      a.async=1;
+      a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
     ga('create', 'UA-66015925-1', 'auto');
     ga('send', 'pageview');
   </script>
 
-<!-- Yahoo Code for your Target List -->
-<script type="text/javascript" language="javascript">
-/* <![CDATA[ */
-var yahoo_retargeting_id = 'OHJ9T2SB5Y';
-var yahoo_retargeting_label = '';
-var yahoo_retargeting_page_type = '';
-var yahoo_retargeting_items = [{item_id: '', category_id: '', price: '', quantity: ''}];
-/* ]]> */
-</script>
-<script type="text/javascript" language="javascript" src="https://b92.yahoo.co.jp/js/s_retargeting.js"></script>
-<!-- Yahoo Code for your Target List END-->
+
+  <!-- Yahoo Code for your Target List -->
+  <script type="text/javascript" language="javascript">
+    /* <![CDATA[ */
+    var yahoo_retargeting_id = 'OHJ9T2SB5Y';
+    var yahoo_retargeting_label = '';
+    var yahoo_retargeting_page_type = '';
+    var yahoo_retargeting_items = [{item_id: '', category_id: '', price: '', quantity: ''}];
+    /* ]]> */
+  </script>
+  <script type="text/javascript" language="javascript" src="https://b92.yahoo.co.jp/js/s_retargeting.js"></script>
+  <!-- Yahoo Code for your Target List END-->
 
 
-<!-- YDN -->
-<script type="text/javascript">
-/* <![CDATA[ */
-var google_conversion_id = 835778474;
-var google_custom_params = window.google_tag_params;
-var google_remarketing_only = true;
-/* ]]> */
-</script>
-<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
-</script>
-<noscript>
-<div style="display:inline;">
-<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/835778474/?guid=ON&amp;script=0"/>
-</div>
-</noscript>
-<!-- YDN END -->
+  <!-- YDN -->
+  <script type="text/javascript">
+    /* <![CDATA[ */
+    var google_conversion_id = 835778474;
+    var google_custom_params = window.google_tag_params;
+    var google_remarketing_only = true;
+    /* ]]> */
+  </script>
+  <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+  </script>
+  <noscript>
+    <div style="display:inline;">
+      <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/835778474/?guid=ON&amp;script=0"/>
+    </div>
+  </noscript>
+  <!-- YDN END -->
 
 
-
-<!-- Facebook Pixel Code -->
-<script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '593069570863388');
-  fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=593069570863388&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Facebook Pixel Code -->
-
-
-
-<!-- Yahoo Code for your Target List -->
-<script type="text/javascript" language="javascript">
-/* <![CDATA[ */
-var yahoo_retargeting_id = 'OHJ9T2SB5Y';
-var yahoo_retargeting_label = '';
-var yahoo_retargeting_page_type = '';
-var yahoo_retargeting_items = [{item_id: '', category_id: '', price: '', quantity: ''}];
-/* ]]> */
-</script>
-<script type="text/javascript" language="javascript" src="https://b92.yahoo.co.jp/js/s_retargeting.js"></script>
-<!-- Yahoo Code for your Target List END-->
+  <!-- Facebook Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s){
+      if(f.fbq)return;n=f.fbq=function(){
+        n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)
+      };
+      if(!f._fbq)f._fbq=n;
+      n.push=n;
+      n.loaded=!0;
+      n.version='2.0';
+      n.queue=[];
+      t=b.createElement(e);
+      t.async=!0;
+      t.src=v;
+      s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)
+    }(window, document,'script', 'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '593069570863388');
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=593069570863388&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Facebook Pixel Code -->
 
 
-<!-- YDN -->
-<script type="text/javascript">
-/* <![CDATA[ */
-var google_conversion_id = 835778474;
-var google_custom_params = window.google_tag_params;
-var google_remarketing_only = true;
-/* ]]> */
-</script>
-<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
-</script>
-<noscript>
-<div style="display:inline;">
-<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/835778474/?guid=ON&amp;script=0"/>
-</div>
-</noscript>
-<!-- YDN END -->
+  <!-- Yahoo Code for your Target List -->
+  <script type="text/javascript" language="javascript">
+    /* <![CDATA[ */
+    var yahoo_retargeting_id = 'OHJ9T2SB5Y';
+    var yahoo_retargeting_label = '';
+    var yahoo_retargeting_page_type = '';
+    var yahoo_retargeting_items = [{item_id: '', category_id: '', price: '', quantity: ''}];
+    /* ]]> */
+  </script>
+  <script type="text/javascript" language="javascript" src="https://b92.yahoo.co.jp/js/s_retargeting.js"></script>
+  <!-- Yahoo Code for your Target List END-->
 
 
-
-<!-- Facebook Pixel Code -->
-<script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '593069570863388');
-  fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=593069570863388&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Facebook Pixel Code -->
+  <!-- YDN -->
+  <script type="text/javascript">
+    /* <![CDATA[ */
+    var google_conversion_id = 835778474;
+    var google_custom_params = window.google_tag_params;
+    var google_remarketing_only = true;
+    /* ]]> */
+  </script>
+  <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+  </script>
+  <noscript>
+    <div style="display:inline;">
+      <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/835778474/?guid=ON&amp;script=0"/>
+    </div>
+  </noscript>
+  <!-- YDN END -->
 
 
+  <!-- Facebook Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s){
+      if(f.fbq)return;
+      n=f.fbq=function(){
+        n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)
+      };
+      if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;
+      n.version='2.0';
+      n.queue=[];
+      t=b.createElement(e);
+      t.async=!0;
+      t.src=v;
+      s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)
+    }(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '593069570863388');
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=593069570863388&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Facebook Pixel Code -->
 
-<script src="https://ca.iacc.tokyo/js/ca.js"></script>
-<script>
-capv();
-</script>
+
+  <script src="https://ca.iacc.tokyo/js/ca.js"></script>
+  <script>
+    capv();
+  </script>
 
 </head>
+
   <body id="top" class="lp-002">
   <div class="js-header guide-header-wrap is-up-hidden">
     <div class="guide-header">
@@ -166,25 +238,21 @@ capv();
         <div class="keyvisual">
           <div class="keyvisual__inner fadeInDown">
             <h2 class="keyvisual__main-txt">
-            <?= MyView::image_tag("lp/002/img_catch.png", :alt => "集合住宅にお住いの大家さん必見！" ?>
-            <div class="keyvisual__action-area">
-            <div class="hidden_pc">
-              <p><span>複数のプロパンガス会社</span>の提案を比較！</p>
-            </div>
-            <div class="hidden_sp">
-              <p><span>複数のプロパンガス会社</span>の<br>提案を比較！</p>
-            </div>
-            <div class="hidden_pc">
-                <?= MyView::link_to(Rails.application.config.form_path + "?apartment_form=1"]); { ?>
-                  <div class="estimate_btn">【無料】今すぐ相談する</div>
-                <? } ?>
+              <?= MyView::image_tag("lp/002/img_catch.png", ["alt" => "集合住宅にお住いの大家さん必見！"]); ?>
+              <div class="keyvisual__action-area">
+                <div class="hidden_pc">
+                  <p><span>複数のプロパンガス会社</span>の提案を比較！</p>
+                </div>
+                <div class="hidden_sp">
+                  <p><span>複数のプロパンガス会社</span>の<br>提案を比較！</p>
+                </div>
+                <div class="hidden_pc">
+                  <?= MyView::link_to('<div class="estimate_btn">【無料】今すぐ相談する</div>', '/lpgas_contacts/new_form?apartment_form=1'); ?>
+                </div>
+                <div class="hidden_sp">
+                  <?= MyView::link_to(MyView::image_tag("lp/002/bt_estimate_mainview_off.png", ["alt" => "【無料】今すぐ相談する"]), '/lpgas_contacts/new_form?apartment_form=1'); ?>
+                </div>
               </div>
-              <div class="hidden_sp">
-                <?= MyView::link_to(Rails.application.config.form_path + "?apartment_form=1"]); { ?>
-                  <?= MyView::image_tag("lp/002/bt_estimate_mainview_off.png", :alt => "【無料】今すぐ相談する" ?>
-                <? } ?>
-              </div>
-            </div>
             </h2>
           </div>
         </div>
@@ -233,12 +301,12 @@ capv();
         <h3 class="contents-title">プロパンガス料金の仕組み</h3>
         <div class="hidden_pc">
           <div class="mechanism__glaph-img">
-            <?= MyView::image_tag("lp/002/img_glaph.png" ?>
+            <?= MyView::image_tag("lp/002/img_glaph.png"); ?>
           </div>
         </div>
         <div class="hidden_sp">
           <div class="mechanism__glaph-img">
-            <?= MyView::image_tag("lp/002/img-glaph_sp.png" ?>
+            <?= MyView::image_tag("lp/002/img-glaph_sp.png"); ?>
           </div>
         </div>
         <div class="estimate__contents">
@@ -246,17 +314,13 @@ capv();
             <dt>
               <p><span>無料で一番安いLPガス会社</span>を見つけよう！！</p>
               <div class="hidden_pc">
-                <?= MyView::link_to(Rails.application.config.form_path + "?apartment_form=1"]); { ?>
-                  <div class="estimate_btn_bottom">無料一括見積もり依頼をする</div>
-                <? } ?>
+                <?= MyView::link_to('<div class="estimate_btn_bottom">無料一括見積もり依頼をする</div>', '/lpgas_contacts/new_form?apartment_form=1'); ?>
               </div>
               <div class="hidden_sp">
-                <?= MyView::link_to(Rails.application.config.form_path + "?apartment_form=1"]); { ?>
-                  <?= MyView::image_tag("lp/002/bt_estimate-sp.png", :alt => "【完全無料】一括見積もり依頼をする" ?>
-                <? } ?>
+                  <?= MyView::link_to(MyView::image_tag("lp/002/bt_estimate-sp.png", ["alt" => "【完全無料】一括見積もり依頼をする"]), '/lpgas_contacts/new_form?apartment_form=1'); ?>
               </div>
             </dt>
-            <dd><?= MyView::image_tag("lp/002/img_estimate.png" ?></dd>
+            <dd><?= MyView::image_tag("lp/002/img_estimate.png"); ?></dd>
           </dl>
         </div>
       </div>
@@ -339,7 +403,7 @@ capv();
         <div class="user__voice-box">
           <h3>ガス設備を新しいものに<br>切り替えて頂きました。</h3>
           <div class="thumb">
-            <?= MyView::image_tag("lp/002/img_user1.png" ?>
+            <?= MyView::image_tag("lp/002/img_user1.png"); ?>
           </div>
           <p>13年程前より、10戸のアパートのオーナーになりましたが、なかなか入居者候補の内覧から契約に結びつくことが難しい状態でした。そんな中、管理会社からenepi（エネピ）の紹介を受け、問い合わせてみると、トントン拍子で新しいガス会社との契約に至りました。</p>
 
@@ -349,7 +413,7 @@ capv();
         <div class="user__voice-box">
           <h3>ガス料金を<br>下げることができました。</h3>
           <div class="thumb">
-            <?= MyView::image_tag("lp/002/img_user2.png" ?>
+            <?= MyView::image_tag("lp/002/img_user2.png"); ?>
           </div>
           <p>以前より、入居者からプロパンガス代が高いという苦情をもらっていたのですが、昔からお付き合いのあるガス会社だったので、ガス会社の切り替えに二の足を踏んでいました。ただ、enepi（エネピ）事務局の方とお話することで、ガス会社を変えてみようと決心できました。</p>
           <p>とてもスムーズに切り替えることができ、入居者からも感謝の声が聞けたので、思い切ってガス会社を変えて良かったと思っています。</p>
@@ -360,7 +424,7 @@ capv();
         <div class="user__voice-box">
           <h3>ガス会社によって<br>提案内容は全然違います。</h3>
           <div class="thumb">
-            <?= MyView::image_tag("lp/002/img_user3.png" ?>
+            <?= MyView::image_tag("lp/002/img_user3.png"); ?>
           </div>
           <p>複数の会社から見積もりがもらえるとのことで、enepi（エネピ）に相談してみました。地元の付き合いのガス会社の他、enepi（エネピ）事務局から2社のガス会社をご紹介頂き、計3社から見積もりをもらったのですが、提案内容はまったく違っていました。</p>
 
@@ -370,7 +434,7 @@ capv();
         <div class="user__voice-box">
           <h3>簡単に切り替えることが<br>できました。</h3>
           <div class="thumb">
-            <?= MyView::image_tag("lp/002/img_user4.png" ?>
+            <?= MyView::image_tag("lp/002/img_user4.png"); ?>
           </div>
           <p>パソコンはあまり慣れていませんが、電話を通じて丁寧に対応してもらい、気持ちよくお話することができました。</p>
 
@@ -456,17 +520,13 @@ capv();
           <dt>
               <p><span>無料で一番安いLPガス会社</span>を見つけよう！！</p>
               <div class="hidden_pc">
-                <?= MyView::link_to(Rails.application.config.form_path + "?apartment_form=1"]); { ?>
-                  <div class="estimate_btn_bottom">無料一括見積もり依頼をする</div>
-                <? } ?>
+                <?= MyView::link_to('<div class="estimate_btn_bottom">無料一括見積もり依頼をする</div>', '/lpgas_contacts/new_form?apartment_form=1'); ?>
               </div>
               <div class="hidden_sp">
-                <?= MyView::link_to(Rails.application.config.form_path + "?apartment_form=1"]); { ?>
-                  <?= MyView::image_tag("lp/002/bt_estimate-sp.png", :alt => "【完全無料】一括見積もり依頼をする" ?>
-                <? } ?>
+                <?= MyView::link_to(MyView::image_tag("lp/002/bt_estimate-sp.png", ["alt" => "【完全無料】一括見積もり依頼をする"]), '/lpgas_contacts/new_form?apartment_form=1'); ?>
               </div>
             </dt>
-          <dd><?= MyView::image_tag("lp/002/img_estimate.png" ?></dd>
+          <dd><?= MyView::image_tag("lp/002/img_estimate.png"); ?></dd>
         </dl>
       </div>
     </div>
@@ -487,7 +547,7 @@ capv();
 
     <div class="top-scroll">
       <a href="#top">
-        <?= MyView::image_tag("lp/001/scrolltop-icon.png" ?>
+        <?= MyView::image_tag("lp/001/scrolltop-icon.png"); ?>
       </a>
     </div>
 
