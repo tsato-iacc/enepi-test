@@ -277,7 +277,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
         $this->template->content = View::forge('front/lpgasContacts/done', [
             'contact' => $contact,
         ], false);
-        // $this->template->content->set_global('contact', $contact);
         $this->template->content->set_global('cv_point', \Config::get('models.tracking.cv_point.estimate'));
         $this->template->css_call = 'done';
     }
@@ -304,7 +303,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
 
         // SMS認証画面
-        if(\Input::get('conversion_id') == 'LPGAS-'.$contact->id && \Input::get('token') == $contact->token && !\Input::get('pin'))
+        if(\Input::get('token') == $contact->token && !\Input::get('pin'))
         {
 
             $this->template = \View::forge('front/template_contact');
@@ -368,7 +367,8 @@ class Controller_Front_LpgasContacts extends Controller_Front
                 'contact' => $contact,
                 'pin' => $pin,
                 're_cv_url' => $re_cv_url,
-            ]);
+            ], false);
+            $this->template->content->set_global('cv_point', \Config::get('models.tracking.cv_point.estimate'));
             $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
             $this->template->css_call = 'presentation';
 

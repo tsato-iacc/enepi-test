@@ -263,3 +263,5 @@
     　　　　<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NCCZDM6"　height="0" width="0" style="display: none; visibility: hidden"></iframe>
     　　</noscript>
     <!-- End Google Tag Manager (noscript) -->
+
+    <?= render('front/lpgasContacts/sms_confirm_tail', ['contact' => $contact], false); ?>
