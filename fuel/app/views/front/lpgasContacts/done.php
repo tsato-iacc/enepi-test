@@ -4,6 +4,15 @@
   <script src="//assets.adobedtm.com/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-29577dfd7f420978cd93f3d1b2d6ee3a7d40cf53.js"></script>
 <? } ?>
 
+<style>
+  .hidden_sp{display:none}
+  @media screen and (max-width: 620px){
+    .hidden_sp{
+      display:block
+    }
+  }
+</style>
+
 <? MyView::title("エネピ -  お見積もりの問い合わせ完了") ?>
 
 <div class="skinny">
