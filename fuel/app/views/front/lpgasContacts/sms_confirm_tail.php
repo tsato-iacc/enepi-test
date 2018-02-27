@@ -2,14 +2,18 @@
 	<? if (\Input::get('conversion_id')){  ?>
 		<? if($contact->pr_tracking_parameter_id){ ?>
 
-			    <? $conversion_tag_estimate = $contact->tracking->conversion_tags_for(\Config::get('models.tracking.cv_point.estimate'), \Input::get('conversion_id')); ?>
-			    <?= $conversion_tag_estimate ?>
+		    <? $conversion_tag_estimate = $contact->tracking->conversion_tags_for(\Config::get('models.tracking.cv_point.estimate'), \Input::get('conversion_id')); ?>
+		    <?= $conversion_tag_estimate ?>
 
-				<? if($cv_point == \Config::get('models.tracking.cv_point.estimate')){ ?>
-				  <? if($from_kakaku && $_SERVER['FUEL_ENV'] == \Fuel::PRODUCTION){ ?>
-				    <?= render('shared/kakaku_tracking_done'); ?>
-				  <? } ?>
-				<? } ?>
+			<? if($cv_point == \Config::get('models.tracking.cv_point.estimate')){ ?>
+			  <? if($from_kakaku && $_SERVER['FUEL_ENV'] == \Fuel::PRODUCTION){ ?>
+			    <?= render('shared/kakaku_tracking_done'); ?>
+			  <? } ?>
+			<? } ?>
+
+		<? }else{ ?>
+		    <? $conversion_tag = $contact->conversion_tags_all(\Config::get('models.tracking.cv_point.estimate'), \Input::get('conversion_id')); ?>
+		    <?= $conversion_tag ?>
 
 		<? } ?>
 	<? } ?>

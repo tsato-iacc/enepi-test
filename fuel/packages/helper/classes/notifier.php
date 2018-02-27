@@ -156,7 +156,7 @@ class Notifier
             $email = \Email::forge();
             $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
             $email->subject('SMS');
-            $email->html_body("TO:{$contact->tel} 認証コード: {$contact->pin}\nこのコードをenepi本人確認画面で入力してください。");
+            $email->html_body("認証コード: {$contact->pin}\nこのコードをenepi本人確認画面で入力してください。");
             $email->send();
 
         }else{
