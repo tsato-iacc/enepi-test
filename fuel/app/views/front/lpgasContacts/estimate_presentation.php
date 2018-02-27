@@ -110,7 +110,7 @@
                 <ul class="big" style="color: #f93f3f">
                   <? foreach ($est as $e) { ?>
                   <? if($e->status == 3){ ?>
-                  <li><?= $e->company->display_name ?>への連絡希望を承りました。</li>
+                  <li><?= $e->company->getCompanyName() ?>への連絡希望を承りました。</li>
                   <? } ?>
                   <? } ?>
                 </ul>
@@ -204,7 +204,7 @@
                 <ul class="big" style="color: #f93f3f">
                   <? foreach ($est as $e) { ?>
                     <? if($e->status == 3){ ?>
-                      <li><?= $e->company->display_name ?>への連絡希望を承りました。</li>
+                      <li><?= $e->company->getCompanyName() ?>への連絡希望を承りました。</li>
                     <? } ?>
                   <? } ?>
                 </ul>
@@ -241,7 +241,7 @@
                       <? } ?>
                       <label role="button" for="estimate_ids_<?= $count ?>"></label>
                     </div>
-                    <h3><?= $e->company->display_name ?></h3>
+                    <h3><?= $e->company->getCompanyName() ?></h3>
                     <? if($e->status == 3){ ?>
                       <span class="label label_matching_done">連絡希望チェック済み</span>
                     <? } ?>
@@ -413,7 +413,7 @@
               <div class="panel panel-default estimate <? if(!is_null($e->basic_price)){print "has-price";} ?>">
                 <div class="panel-heading">
                   <h3>
-                    <?= $e->company->display_name ?>
+                    <?= $e->company->getCompanyName() ?>
                     <? if($e->status == 3){ ?>
                     <span class="label label_matching">連絡希望チェック済み</span>
                     <? } ?>

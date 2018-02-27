@@ -131,7 +131,7 @@
     <div class="panel panel-default estimate">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <?= $estimate->company->display_name ?>
+          <?= $estimate->company->getCompanyName() ?>
         </h3>
         <p class="invite_date">紹介日時:<?= date('Y/m/d H:i', strtotime(MyView::null_check($estimate->created_at))) ?></p>
         </dl>
@@ -432,7 +432,7 @@
                   <tbody>
                     <tr>
                       <th>会社名</th>
-                      <td><?= $estimate->company->display_name ?></td>
+                      <td><?= $estimate->company->getCompanyName() ?></td>
                       <th>グループ会社</th>
                       <td><?= $estimate->company->group_company_text ?></td>
                     </tr>
