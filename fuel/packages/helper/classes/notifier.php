@@ -65,16 +65,7 @@ class Notifier
 
     public static function notifyAdminEstimateCancel(&$estimate)
     {
-        if ($estimate->contact->status == \Config::get('models.contact.status.cancelled'))
-        {
-            $reason_id = $estimate->contact->status_reason;
-        }
-        else
-        {
-            $reason_id = $estimate->status_reason;
-        }
-
-        $reason = \Helper\CancelReasons::getNameByValue($reason_id);
+        $reason = \Helper\CancelReasons::getNameByValue($estimate->contact->status_reason);
 
         $email = \Email::forge();
         $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
