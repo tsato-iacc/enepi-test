@@ -358,6 +358,7 @@ class Model_Contact extends \Orm\Model
             $this->token = \Str::random('hexdec', 32);
             $this->pin   = \Str::random('numeric', 4);
             $this->callings[] = new Model_Calling();
+            $this->updated_at = \Date::forge()->format('mysql');
 
             $has_estimates = $this->tryToSendEstimates();
 
