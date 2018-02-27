@@ -43,7 +43,7 @@ return array(
     'local_contents/city_show/(:num)'   => 'front/localContents/city/$1',
 
     'lp/(:any)'                         => 'front/lp/index/$1',
-    's/lp/(:any)'                       => 'front/lp/index/$1',
+    's/lp/(:any)'                       => 'front/lp/slp/$1',
 
     /**
      * Admin
