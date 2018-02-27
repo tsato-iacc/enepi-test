@@ -589,6 +589,23 @@ class Model_Contact extends \Orm\Model
         $this->save();
     }
 
+
+    public function conversion_tags_all($cv_point, $conversion_id)
+    {
+        $conversion_tag = '';
+        $tracking_all = \Model_Tracking::find('all');
+
+        foreach($tracking_all as $t)
+        {
+            if($t->render_conversion_tag_only_if_match == 0 && $t->cv_point == $cv_point)
+            {
+                $conversion_tag = $conversion_tag.$t->conversion_tag;
+            }
+        }
+
+        return str_replace('{cv_id}', $conversion_id, $conversion_tag);
+    }
+
     /**
      * Private methods
      */
