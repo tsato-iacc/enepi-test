@@ -65,7 +65,12 @@ class Notifier
 
     public static function notifyAdminEstimateCancel(&$estimate)
     {
-        $reason = \Helper\CancelReasons::getNameByValue($estimate->contact->status_reason);
+        $reason_id = $estimate->status_reason;
+        
+        if ($reason_id == 0)
+            $reason_id = $estimate->contact->status_reason;
+
+        $reason = \Helper\CancelReasons::getNameByValue($reason_id);
 
         $email = \Email::forge();
         $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
@@ -155,7 +160,7 @@ class Notifier
             $email->send();
 
         }else{
-            Mail::sms_send($contact->tel, "TO:{$contact->tel} 認証コード: {$contact->pin}\nこのコードをenepi本人確認画面で入力してください。");
+            Mail::sms_send($contact->tel, "認証コード: {$contact->pin}\nこのコードをenepi本人確認画面で入力してください。");
         }
     }
 }

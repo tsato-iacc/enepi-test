@@ -46,13 +46,21 @@ class Model_Partner_Company extends \Orm\Model
      * @param  string $factory Validation rules factory
      * @return mixed           Return Fuel\Core\Validation object
      */
-    public static function validate()
+    public static function validate($user_id = null)
     {
         $val = \Validation::forge();
         $val->add_callable('AddValidation');
 
         $val->add_field('partner_company.company_name', 'partner_company.company_name', 'required|max_length[50]');
-        $val->add('partner_company.email', 'partner_company.email')->add_rule('required')->add_rule('valid_email')->add_rule('unique', 'admin_users.email', \Input::post('partner_company.email'));
+        
+        if ($user_id)
+        {
+            $val->add('partner_company.email', 'partner_company.email')->add_rule('required')->add_rule('valid_email')->add_rule('unique', 'partner_companies.email', $user_id);
+        }
+        else
+        {
+            $val->add('partner_company.email', 'partner_company.email')->add_rule('required')->add_rule('valid_email')->add_rule('unique', 'partner_companies.email', \Input::post('partner_company.email'));
+        }
 
         $val->add('company.tel', 'tel')->add_rule('required')->add_rule('match_pattern', '/^\d{2,3}[\s.-]?\d{4}[\s.-]?\d{4}$/');
         // ->add_rule('unique', 'lpgas_companies.tel', $partner_company->company->id);
