@@ -372,6 +372,11 @@ class Model_Contact extends \Orm\Model
                 \Helper\Notifier::notifyAdminNewContact($this);
                 \Helper\Notifier::notifyCustomerNewContact($this);
 
+                foreach ($this->estimates as $estimate)
+                {
+                    \Helper\Notifier::notifyAdminPresentEstimate($estimate);
+                }
+
                 if ($has_estimates)
                     \Helper\Notifier::notifyCustomerPin($this);
             }

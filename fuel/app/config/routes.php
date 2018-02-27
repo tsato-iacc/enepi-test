@@ -97,7 +97,7 @@ return array(
     'admin/companies/(:num)'                               => [['POST', new Route('admin/companies/update/$1')]],
     'admin/companies/(:num)/estimates'                     => [['GET', new Route('admin/companies/estimates_index/$1')]],
     'admin/companies/(:num)/ng'                            => [['GET', new Route('admin/companies/ng_index/$1')], ['POST', new Route('admin/companies/ng_store/$1')]],
-    'admin/companies/(:num)/ng/(:num)'                     => [['DELETE', new Route('admin/companies/ng_destroy/$1')]],
+    'admin/companies/(:num)/ng/(:num)/delete'              => [['GET', new Route('admin/companies/ng_destroy/$1/$2')]],
 
     'admin/companies/(:num)/offices'                       => [['GET', new Route('admin/companyoffices/index/$1')], ['POST', new Route('admin/companyoffices/store/$1')]],
     'admin/companies/(:num)/offices/(:num)/delete'         => [['GET', new Route('admin/companyoffices/destroy/$1/$2')]],

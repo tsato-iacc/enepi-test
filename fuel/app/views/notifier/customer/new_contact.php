@@ -12,7 +12,7 @@
 <br>
 <?php if ($contact->sent_auto_estimate_req): ?>
   このSMSで届いたコードを、以下のページで入力してください。<br>
-  <?= \Uri::create("lpgas/contacts/{$contact->id}?token={$contact->token}"); ?><br>
+  <a href="<?= \Uri::create("lpgas/contacts/{$contact->id}?token={$contact->token}"); ?>"><?= \Uri::create("lpgas/contacts/{$contact->id}?token={$contact->token}"); ?></a><br>
   ■次の画面に進めない方<br>
   ・SMSがどうしても届かない<br>
   ・認証コード入力やその他操作でエラーが発生する<br>
