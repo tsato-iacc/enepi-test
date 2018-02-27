@@ -8,7 +8,7 @@
   </div>
 </div>
 <div class="form-group row">
-  <label for="fuel_adjustment_cost" class="col-3 col-form-label text-right"><b>基本料金</b> <span class="badge badge-default font-weight-normal">必須</span></label>
+  <label for="fuel_adjustment_cost" class="col-3 col-form-label text-right"><b>燃料調整費</b> <span class="badge badge-default font-weight-normal">必須</span></label>
   <div class="col-2">
     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
       <input type="number" name="fuel_adjustment_cost" class="form-control" id="fuel_adjustment_cost" value="<?= $price_rule->fuel_adjustment_cost; ?>" required="required">
