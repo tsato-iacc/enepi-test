@@ -87,10 +87,8 @@ class Controller_Admin extends Controller_Base
      * @access  public
      * @return  void
      */
-    public function action_index()
+    public function action_redirect()
     {
         Response::redirect('admin/estimates');
-        // $this->template->title = 'Dashboard';
-        // $this->template->content = '';
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use JpPrefecture\JpPrefecture;
+
 class Controller_Admin_Api extends Controller_Rest
 {
     const PER_PAGE = 10;
@@ -24,5 +26,61 @@ class Controller_Admin_Api extends Controller_Rest
         }
         
         $this->response(['result' => $result]);
+    }
+
+    public function get_cities_by_prefecture_code()
+    {
+        $response = [];
+        $errors = [];
+
+        $code = \Input::get('prefecture_code');
+
+        $result = \DB::select('city_name')->from('zip_codes')->where('prefecture_code', $code)->group_by('city_name')->order_by('id', 'asc')->execute()->as_array();
+
+        if ($result)
+        {
+            $response['result']['cities'] = $result;
+        }
+        else
+        {
+            $errors[] = 'Invalid input';
+            $response['errors'] = $errors;
+        }
+
+        $this->response($response);
+    }
+
+    public function get_city_zip_codes()
+    {
+        $response = [];
+        $result = [];
+        $errors = [];
+
+        $prefecture_code = \Input::get('prefecture_code');
+        $city_name = \Input::get('city_name');
+
+        $zip_codes = \Model_ZipCode::find('all', [
+            'where' => [
+                ['prefecture_code', $prefecture_code],
+                ['city_name', $city_name],
+            ]
+        ]);
+
+        if ($zip_codes)
+        {
+            foreach ($zip_codes as $zip)
+            {
+              $result['zip_codes'][] = "{$zip->zip_code} (".JpPrefecture::findByCode($zip->prefecture_code)->nameKanji." {$zip->city_name} {$zip->town_area_name})";
+            }
+
+            $response['result'] = $result;
+        }
+        else
+        {
+            $errors[] = 'Invalid input';
+            $response['errors'] = $errors;
+        }
+
+        $this->response($response);
     }
 }

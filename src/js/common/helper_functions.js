@@ -167,3 +167,73 @@ function setUpUnitPrice() {
     }
   }
 }
+
+/*
+ * API Get cities list
+ */
+function getCitiesByPrefectureCode(prefecture_code) {
+  var city_code_select = $('select[name=city_code]');
+
+  if (!prefecture_code) {
+    $('select[name=city_code]').prop('disabled', true);
+    city_code_select.empty();
+    city_code_select.append($('<option>').html("選択してください").val(''));
+
+    return;
+  }
+
+  $.ajax({
+    url: '/admin/api/cities_by_prefecture_code',
+    type: 'GET',
+    data: {
+      // csrf_token_key: "<?= \Security::fetch_token();?>",
+      prefecture_code: prefecture_code
+    },
+    success: function (data) {
+      if (data.errors) {
+        console.log(data.errors);
+      }
+      else if (data.result) {
+        city_code_select.empty();
+        city_code_select.append($('<option>').html("選択してください").val(''));
+        
+        $.each(data.result.cities, function(k, v) {
+          city_code_select.append($('<option>').html(v.city_name).val(v.city_name));
+        });
+
+        city_code_select.prop('disabled', false);
+      }
+    },
+    error: function() {
+      alert('An error has occurred!');
+    }
+  });
+}
+
+function getCityZipCodes(prefecture_code, city_name) {
+  var textarea = $('textarea[name=zip_code]');
+
+  if (!city_name)
+    return;
+
+  $.ajax({
+    url: '/admin/api/city_zip_codes',
+    type: 'GET',
+    data: {
+      // csrf_token_key: "<?= \Security::fetch_token();?>",
+      prefecture_code: prefecture_code,
+      city_name: city_name
+    },
+    success: function (data) {
+      if (data.errors) {
+        console.log(data.errors);
+      }
+      else if (data.result) {
+        textarea.val(data.result.zip_codes.join('\n'));
+      }
+    },
+    error: function() {
+      alert('An error has occurred!');
+    }
+  });
+}

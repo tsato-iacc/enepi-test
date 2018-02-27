@@ -315,6 +315,7 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
         $this->template->content = View::forge('admin/companyoffices/area_index', [
             'company' => $company,
             'geocode' => $geocode,
+            'val' => Validation::forge(),
         ]);
     }
 
@@ -324,10 +325,60 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
      * @access  public
      * @return  Response
      */
-    public function action_area_store($id, $geocode_id)
+    public function action_area_store($id, $office_id)
     {
-        print "CREATE Office's area";exit;
-        Response::redirect("admin/companies/{$id}/offices/{$office_id}");
+        $company = \Model_Company::find($id);
+        $geocode = \Model_Company_Geocode::find($office_id);
+
+        if (!$company || !$geocode)
+            throw new HttpNotFoundException;
+
+        $zip_code = \Input::post('zip_code');
+
+        if (!$zip_code)
+        {
+            Session::set_flash('success', '郵便番号を指定してださい');
+            Response::redirect("admin/companies/{$id}/offices/{$office_id}/area");
+        }
+
+        $pattern = '/ \(.*\)/';
+        $zip_code = preg_replace($pattern, '', $zip_code);
+        $zip_code = explode("\n", $zip_code);
+
+        $geocode_ids = \Arr::pluck(\Model_Company_Geocode::find('all', ['where' => [['company_id', $company->id]]]), 'id');
+        $overlap_zip_codes = \Arr::pluck(\Model_Company_GeocodeZipCode::find('all', ['where' => [['company_geocode_id', 'in', $geocode_ids], ['zip_code', 'in', $zip_code]]]), 'zip_code');
+        
+        if (count($overlap_zip_codes) > 0)
+        {
+            foreach ($overlap_zip_codes as $key => $value) {
+                $k = array_search($value, $zip_code);
+                unset($zip_code[$k]);
+            }
+            
+            Session::set_flash('success', '重複した郵便番号の登録はスキップしました');
+        }
+
+        if (count($zip_code) > 1100)
+        {
+            Session::set_flash('success', '一度に登録できる郵便番号は1100件までです');
+            Response::redirect("admin/companies/{$id}/offices/{$office_id}/area");
+        }
+
+        foreach ($zip_code as $code)
+        {
+            $record = new \Model_Company_GeocodeZipCode([
+                'company_geocode_id' => $geocode->id,
+                'zip_code' => $code,
+                'notes' => '',
+            ]);
+
+            $record->save();
+
+            if (!Session::get_flash('success'))
+                Session::set_flash('success', "件保存しました");
+        }
+
+        Response::redirect("admin/companies/{$id}/offices/{$office_id}/area");
     }
 
     /**

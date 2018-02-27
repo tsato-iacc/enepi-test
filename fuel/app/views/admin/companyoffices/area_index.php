@@ -10,36 +10,31 @@ use JpPrefecture\JpPrefecture;
   <?php endforeach; ?>
 </div> -->
 
-<?= \Form::open(['action' => \Uri::create('admin/tracking')]); ?>
+<?= \Form::open(); ?>
   <?= \Form::csrf(); ?>
   <p>改行して複数の郵便番号を登録できます。</p>
-  <div class="form-inline">    
-    <div class="form-group">
-      <label class="mr-sm-2" for="cv_point">市区町村からも選べます。</label>
-      <?= Form::select('prefecture_code', $val->input('prefecture_code', ''), ['' => '選択して'] + JpPrefecture::allKanjiAndCode(), ['class' => 'form-control', 'id' => 'prefecture_code', 'required' => 'required']); ?>
+  <div class="form-group row">
+    <div class="col-3">
+      <div class="form-inline">
+        <div class="form-group">
+          <label class="mr-sm-2" for="cv_point">市区町村からも選べます。</label>
+          <div class="">
+            <?= Form::select('prefecture_code', $val->input('prefecture_code', ''), ['' => '選択してください'] + JpPrefecture::allKanjiAndCode(), ['class' => 'form-control', 'id' => 'prefecture_code']); ?>
+          </div>
+          <div class="ml-3">
+            <select name="city_code" id="city_list" class="form-control" disabled=""><option value="">選択してください</option></select>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
+  
   <div class="form-group<?= $val->error('zip_code') ? ' has-danger' : ''?>">
-    <label class="form-control-label" for="zip_code"><h6>CVタグ</h6></label>
-    <textarea name="zip_code" class="form-control" id="zip_code" rows="2"><?= $val->input('zip_code', '') ?></textarea>
+    <textarea name="zip_code" class="form-control" id="zip_code" rows="10"><?= $val->input('zip_code', '') ?></textarea>
     <?php if ($val->error('zip_code')): ?>
       <div class="form-control-feedback"><?= e($val->error('zip_code')) ?></div>
     <?php endif; ?>
   </div>
 
-  <div class="form-check">
-    <label class="form-check-label">
-      <input class="form-check-input" type="checkbox" name="render_conversion_tag_only_if_match" value="1"<?= $val->input('render_conversion_tag_only_if_match') ? ' checked="checked"' : '' ?>>
-      経由元が一致する場合のみ完了画面でCVタグを表示
-    </label>
-  </div>
-  <div class="form-check">
-    <label class="form-check-label">
-      <input class="form-check-input" type="checkbox" name="auto_sendable" value="1"<?= $val->input('auto_sendable') ? ' checked="checked"' : '' ?>>
-      自動見積もり可
-    </label>
-  </div>
-
-  <button type="submit" class="btn btn-primary">登録する</button>
+  <button type="submit" class="btn btn-primary">追加</button>
 <?= Form::close(); ?>

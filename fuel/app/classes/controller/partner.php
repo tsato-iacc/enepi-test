@@ -87,10 +87,8 @@ class Controller_Partner extends Controller_Base
      * @access  public
      * @return  void
      */
-    public function action_index()
+    public function action_redirect()
     {
         Response::redirect('partner/estimates');
-        // $this->template->title = 'Dashboard';
-        // $this->template->content = View::forge('admin/index');
     }
 }
