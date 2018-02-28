@@ -12,7 +12,7 @@
   </thead>
   <tbody>
     <?php foreach ($companies as $company): ?>
-      <?php $result = \DB::select(\DB::expr('SUM(contracted_commission) as contracted_commission'))->from('lpgas_estimates')->where('status', 4)->and_where('company_id', $company->id)->and_where('status_updated_at', '>=', $from)->and_where('status_updated_at', '<=', $to)->execute()->as_array(); ?>
+      <?php $result = \DB::select(\DB::expr('SUM(contracted_commission) as contracted_commission'))->from('lpgas_estimates')->where('status', \Config::get('models.estimate.status.contracted'))->and_where('company_id', $company->id)->and_where('status_updated_at', '>=', $from)->and_where('status_updated_at', '<=', $to)->execute()->as_array(); ?>
       <?php $result = reset($result); ?>
       <tr>
         <td><a href="<?= \Uri::create('admin/partner_companies/:id/edit', ['id' => $company->partner_company->id]); ?>"><i class="fa fa-building-o" aria-hidden="true"></i> <?= $company->partner_company->company_name; ?></a></td>

@@ -155,12 +155,12 @@ class Controller_Admin_Tracking extends Controller_Admin
         if (\Input::get('created_from') && \Input::get('created_to') && $val->run(\Input::get()))
         {
             $from = \Helper\TimezoneConverter::convertFromStringToUTC($val->validated('created_from'));
-            $to = \Helper\TimezoneConverter::convertFromStringToUTC($val->validated('created_to'));
+            $to = \Helper\TimezoneConverter::convertFromStringToUTC($val->validated('created_to'), 'Y-m-d H:i:s', 'Y-m-d', true);
         }
         else
         {
             $from = \Helper\TimezoneConverter::convertFromStringToUTC(date('Y-m-01', strtotime(\Date::time()->format('mysql_date_time'))));
-            $to = \Helper\TimezoneConverter::convertFromStringToUTC(date('Y-m-t', strtotime(\Date::time()->format('mysql_date_time'))));
+            $to = \Helper\TimezoneConverter::convertFromStringToUTC(date('Y-m-t', strtotime(\Date::time()->format('mysql_date_time'))), 'Y-m-d H:i:s', 'Y-m-d', true);
         }
 
         $tracks = \Model_Tracking::find('all');
