@@ -5,8 +5,8 @@ return [
     'useragent' => null,
     'driver' => 'ses',
     'from' => [
-      'email' => 'info@enepi.jp',
-      'name' => 'エネピ',
+      'email' => 'stg-info@enepi.jp',
+      'name' => '[STAGING] エネピ',
     ],
     'return_path' => false,
     'wordwrap' => null,

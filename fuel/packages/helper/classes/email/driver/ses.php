@@ -67,8 +67,9 @@ class Email_Driver_Ses extends \Email_Driver
    */
   protected function build_from()
   {
-    return $this->config['from']['email'];
-    // return "エネピ <{$this->config['from']['email']}>";
+    $subject = $this->encode_mimeheader((string) $this->config['from']['name']);
+
+    return "{$subject} <{$this->config['from']['email']}>";
   }
 
   /**
