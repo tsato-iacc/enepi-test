@@ -1,68 +1,3 @@
-<script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
-<?= Asset::js('bootstrap.min.js'); ?>
-
-<?= Asset::css('lp.css'); ?>
-<?= Asset::js('lp.js'); ?>
-
-<style>
-.lp-002 .guide-header__tel {
-    background-image: url(/assets/images/lp/002/ico_tel.png);
-}
-
-.lp-002 .guide-header__logo-img {
-  background-image: url(/assets/images/lp/002/logo-enepi.png);
-}
-.lp-002 .estimate_btn {
-  background-image: url(/assets/images/lp/002/bt_estimate_mainview_off.png);
-}
-
-.lp-002 .estimate_btn:hover{
-  background-image:url(/assets/images/lp/002/bt_estimate_mainview_on.png);
-}
-
-.lp-002 .keyvisual:after {
-  background-image: url(/assets/images/lp/002/img_mainview.png);
-}
-
-.lp-002 .reason__point-txt.reason__point-txt--01.reason__point-txt.reason__point-txt--01{
-  background-image: url(/assets/images/lp/002/img_reason1.png);
-}
-
-.lp-002 .reason__point-txt.reason__point-txt--02.reason__point-txt.reason__point-txt--02{
-  background-image: url(/assets/images/lp/002/img_reason2.png);
-}
-
-.lp-002 .reason__point-txt.reason__point-txt--03.reason__point-txt.reason__point-txt--03{
-  background-image: url(/assets/images/lp/002/img_reason3.png);
-}
-
-.lp-002 .estimate_btn_bottom {
-  background-image: url(/assets/images/lp/002/bt_estimate_off.png);
-}
-
-.lp-002 .estimate_btn_bottom:hover{
-  background-image:url(/assets/images/lp/002/bt_estimate_on.png);
-}
-
-.lp-002 .mechanism__glaph-img {
-  height: auto;
-}
-
-@media only screen and (max-width: 1000px){
-  .lp-002 .guide-keyvisual {
-    height: auto;
-  }
-}
-
-@media only screen and (max-width: 1000px){
-  .lp-002 .guide-keyvisual, .lp-002 .guide-keyvisual:before {
-    height: auto;
-  }
-}
-
-}
-</style>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -207,6 +142,71 @@
   <script>
     capv();
   </script>
+
+  <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+  <?= Asset::js('bootstrap.min.js'); ?>
+
+  <?= Asset::css('lp.css'); ?>
+  <?= Asset::js('lp.js'); ?>
+
+  <style>
+  .lp-002 .guide-header__tel {
+      background-image: url(/assets/images/lp/002/ico_tel.png);
+  }
+
+  .lp-002 .guide-header__logo-img {
+    background-image: url(/assets/images/lp/002/logo-enepi.png);
+  }
+  .lp-002 .estimate_btn {
+    background-image: url(/assets/images/lp/002/bt_estimate_mainview_off.png);
+  }
+
+  .lp-002 .estimate_btn:hover{
+    background-image:url(/assets/images/lp/002/bt_estimate_mainview_on.png);
+  }
+
+  .lp-002 .keyvisual:after {
+    background-image: url(/assets/images/lp/002/img_mainview.png);
+  }
+
+  .lp-002 .reason__point-txt.reason__point-txt--01.reason__point-txt.reason__point-txt--01{
+    background-image: url(/assets/images/lp/002/img_reason1.png);
+  }
+
+  .lp-002 .reason__point-txt.reason__point-txt--02.reason__point-txt.reason__point-txt--02{
+    background-image: url(/assets/images/lp/002/img_reason2.png);
+  }
+
+  .lp-002 .reason__point-txt.reason__point-txt--03.reason__point-txt.reason__point-txt--03{
+    background-image: url(/assets/images/lp/002/img_reason3.png);
+  }
+
+  .lp-002 .estimate_btn_bottom {
+    background-image: url(/assets/images/lp/002/bt_estimate_off.png);
+  }
+
+  .lp-002 .estimate_btn_bottom:hover{
+    background-image:url(/assets/images/lp/002/bt_estimate_on.png);
+  }
+
+  .lp-002 .mechanism__glaph-img {
+    height: auto;
+  }
+
+  @media only screen and (max-width: 1000px){
+    .lp-002 .guide-keyvisual {
+      height: auto;
+    }
+  }
+
+  @media only screen and (max-width: 1000px){
+    .lp-002 .guide-keyvisual, .lp-002 .guide-keyvisual:before {
+      height: auto;
+    }
+  }
+
+  }
+  </style>
 
 </head>
 

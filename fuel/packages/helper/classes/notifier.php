@@ -152,15 +152,26 @@ class Notifier
     public static function notifyCustomerPin(&$contact)
     {
         // FIX ME Use sms
-        if($_SERVER['FUEL_ENV'] == \Fuel::DEVELOPMENT){
+        if($_SERVER['FUEL_ENV'] == \Fuel::DEVELOPMENT)
+        {
             $email = \Email::forge();
             $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
             $email->subject('SMS');
-            $email->html_body("認証コード: {$contact->pin}\nこのコードをenepi本人確認画面で入力してください。");
+            $email->html_body("認証コード：{$contact->pin}\nこのコードをenepi本人確認画面で入力してください。");
             $email->send();
-
-        }else{
-            Mail::sms_send($contact->tel, "認証コード: {$contact->pin}\nこのコードをenepi本人確認画面で入力してください。");
         }
+
+        else
+        {
+            try
+            {
+                Mail::sms_send($contact->tel, "認証コード：{$contact->pin}\nこのコードをenepi本人確認画面で入力してください。");
+            }
+            catch(RestException $e)
+            {
+                // 何もしない
+            }
+        }
+
     }
 }
