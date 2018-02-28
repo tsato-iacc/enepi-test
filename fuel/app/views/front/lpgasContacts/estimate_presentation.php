@@ -252,7 +252,7 @@
                 <div class="inner">
                   <div style="clear:both;">
                     <div class="company-logo">
-                      <?= S3::image_tag_s3(S3::makeImageUrl($e), ["class" => "media-object", "alt" => mb_substr($e->company->lpgas_company_logo, 0, mb_strpos($e->company->lpgas_company_logo, "."))]); ?>
+                      <?= S3::image_tag_s3(S3::makeImageUrl($e->company), ["class" => "media-object", "alt" => mb_substr($e->company->lpgas_company_logo, 0, mb_strpos($e->company->lpgas_company_logo, "."))]); ?>
                     </div>
                     <div style="width: 50%; float:right;">
                       <table class="table yearly_saving_price_table">
@@ -437,7 +437,7 @@
                   <dd>
                     <div class="info_l">
                       <div class="thumb">
-                        <?= S3::image_tag_s3(S3::makeImageUrl($e), ["class" => "media-object", "alt" => mb_substr($e->company->lpgas_company_logo, 0, mb_strpos($e->company->lpgas_company_logo, "."))]); ?>
+                        <?= S3::image_tag_s3(S3::makeImageUrl($e->company), ["class" => "media-object", "alt" => mb_substr($e->company->lpgas_company_logo, 0, mb_strpos($e->company->lpgas_company_logo, "."))]); ?>
                       </div>
                     </div>
 

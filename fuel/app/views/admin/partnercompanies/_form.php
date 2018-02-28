@@ -49,20 +49,39 @@ use JpPrefecture\JpPrefecture;
 <h4>ピックアップ ※ 3つまで登録可能</h4>
 <!-- FIX ME (Add js) -->
 
-<div class="form-group<?= $val->error('company.lpgas_company_image') ? ' has-danger' : ''?>">
-  <label class="form-control-label" for="company_lpgas_company_image"><h6>画像</h6></label>
-  <input type="file" class="form-control-file" id="company_lpgas_company_image" aria-describedby="fileHelp">
-  <?php if ($val->error('company.lpgas_company_image')): ?>
-    <div class="form-control-feedback"><?= e($val->error('company.lpgas_company_image')) ?></div>
+<div class="form-group<?= $company_image_err ? ' has-danger' : ''?>">
+  <label class="form-control-label" for="company_image"><h6>画像</h6></label>
+  <input type="file" class="form-control-file" name="company_image" id="company_image" aria-describedby="fileHelp">
+  <?php if ($company_image_err): ?>
+    <div class="form-control-feedback"><?= e($company_image_err) ?></div>
   <?php endif; ?>
 </div>
-<div class="form-group<?= $val->error('company.lpgas_company_logo') ? ' has-danger' : ''?>">
-  <label class="form-control-label" for="company_lpgas_company_logo"><h6>ロゴ</h6></label>
-  <input type="file" class="form-control-file" id="company_lpgas_company_logo" aria-describedby="fileHelp">
-  <?php if ($val->error('company.lpgas_company_logo')): ?>
-    <div class="form-control-feedback"><?= e($val->error('company.lpgas_company_logo')) ?></div>
+<?php if (!$partner_company->is_new()): ?>
+  <?php if ($partner_company->company->lpgas_company_image): ?>
+    <div class="form-group row">
+      <div class="col-3">
+        <?= S3::image_tag_s3(S3::makeImageUrl($partner_company->company, false), ["class" => "w-100"]); ?>
+      </div>
+    </div>
+  <?php endif; ?>
+<?php endif; ?>
+
+<div class="form-group<?= $company_logo_err ? ' has-danger' : ''?>">
+  <label class="form-control-label" for="company_logo"><h6>ロゴ</h6></label>
+  <input type="file" class="form-control-file" name="company_logo" id="company_logo" aria-describedby="fileHelp">
+  <?php if ($company_logo_err): ?>
+    <div class="form-control-feedback"><?= e($company_logo_err) ?></div>
   <?php endif; ?>
 </div>
+<?php if (!$partner_company->is_new()): ?>
+  <?php if ($partner_company->company->lpgas_company_logo): ?>
+    <div class="form-group row">
+      <div class="col-3">
+        <?= S3::image_tag_s3(S3::makeImageUrl($partner_company->company, true), ["class" => "w-100"]); ?>
+      </div>
+    </div>
+  <?php endif; ?>
+<?php endif; ?>
 
 <div class="form-group row">
   <div class="col-2">

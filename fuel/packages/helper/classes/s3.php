@@ -13,16 +13,16 @@ namespace Helper;
 
 class S3
 {
-	public static function makeImageUrl($e)
+	public static function makeImageUrl(&$company, $logo = true)
 	{
 
 		$fmt = "%s/uploads/partner_companies/%s/lpgas/companies/%s/%s";
 
 		return sprintf($fmt,
-				getenv("FUEL_ENV"),   // develpoer/staging/production
-				$e->company->partner_company_id,
-				$e->company->id,
-				$e->company->lpgas_company_logo);
+				getenv("FUEL_ENV"),   // development/staging/production
+				$company->partner_company_id,
+				$company->id,
+				$logo ? $company->lpgas_company_logo : $company->lpgas_company_image);
 
 	}
 
@@ -70,5 +70,29 @@ class S3
 		}
 	}
 
+	public static function put_image($file, $key, $type)
+	{
+		$bucket = getenv("S3_BUCKET");
+
+		$s3 = new \Aws\S3\S3Client(array(
+
+				'version' => 'latest',
+				'region'  => "ap-northeast-1",
+
+				'credentials' => [
+					'key'    => getenv("AWS_ACCESS_KEY_ID"),
+					'secret' => getenv("AWS_SECRET_ACCESS_KEY"),
+				],
+		));
+
+		$result = $s3->putObject([
+        'Bucket'       => $bucket,
+        'Key'          => $key,
+        'SourceFile'   => $file,
+        'ContentType'  => $type,
+        'ACL'          => 'public-read',
+        'CacheControl' => 'max-age=2678400',
+    ]);
+	}
 
 }

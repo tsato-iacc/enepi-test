@@ -75,18 +75,6 @@ class Controller_Admin_Companies extends Controller_Admin
     }
 
     /**
-     * Update
-     *
-     * @access  public
-     * @return  Response
-     */
-    public function action_update($id)
-    {
-        print "UPDATE COMPANY";exit;
-        Response::redirect("admin/companies/{$id}/edit");
-    }
-
-    /**
      * Show list of estimates
      *
      * @access  public

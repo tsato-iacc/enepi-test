@@ -50,6 +50,8 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
         $this->template->content = View::forge('admin/partnercompanies/create', [
             'val' => \Model_Partner_Company::validate(),
             'partner_company' => new \Model_Partner_Company(),
+            'company_image_err' => false,
+            'company_logo_err' => false,
         ]);
     }
 
@@ -62,6 +64,29 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
     public function action_store()
     {
         $val = \Model_Partner_Company::validate();
+
+        $company_image_err = false;
+        $company_logo_err = false;
+
+        if ($company_image = \Upload::get_errors('company_image'))
+        {
+            $image_error = reset($company_image['errors']);
+            
+            if ($image_error['error'] != \Upload::UPLOAD_ERR_NO_FILE)
+            {
+                $company_image_err = $image_error['message'];
+            }
+        }
+
+        if ($company_logo = \Upload::get_errors('company_logo'))
+        {
+            $logo_error = reset($company_logo['errors']);
+            
+            if ($logo_error['error'] != \Upload::UPLOAD_ERR_NO_FILE)
+            {
+                $company_logo_err = $logo_error['message'];
+            }
+        }
 
         if ($val->run())
         {
@@ -103,6 +128,33 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
 
                 if ($partner_company->save())
                 {
+                    $company = $partner_company->company;
+                    
+                    foreach(Upload::get_files() as $key => $file)
+                    {
+                        $file_name = \Str::random('alpha', 16).'.'.$file['extension'];
+                        \Upload::save($key);
+
+                        if ($file['field'] == 'company_image')
+                        {
+                            $company->lpgas_company_image = $file_name;
+                            $tmp_file = Upload::get_files('company_image')['saved_as'];
+                            $url = \Helper\S3::makeImageUrl($company, false);
+                        }
+                        
+                        if ($file['field'] == 'company_logo')
+                        {
+                            $company->lpgas_company_logo = $file_name;
+                            $tmp_file = Upload::get_files('company_logo')['saved_as'];
+                            $url = \Helper\S3::makeImageUrl($company, true);
+                        }
+                        
+                        \Helper\S3::put_image(APPPATH . 'tmp/'.$tmp_file, $url, $file['type']);
+                        \File::delete(APPPATH . 'tmp/'.$tmp_file);
+                    }
+
+                    $company->save();
+
                     \Helper\Notifier::notifyCompanyPassword($partner_company, $password);
 
                     \DB::commit_transaction();
@@ -124,6 +176,8 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
         $this->template->content = View::forge('admin/partnercompanies/create', [
             'partner_company' => new \Model_Partner_Company(),
             'val' => $val,
+            'company_image_err' => $company_image_err,
+            'company_logo_err' => $company_logo_err,
         ]);
     }
 
@@ -142,6 +196,8 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
         $this->template->content = View::forge('admin/partnercompanies/edit', [
             'val' => \Model_Partner_Company::validate(),
             'partner_company' => $partner_company,
+            'company_image_err' => false,
+            'company_logo_err' => false,
         ]);
     }
 
@@ -157,8 +213,30 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
             throw new HttpNotFoundException;
 
         $val = \Model_Partner_Company::validate($partner_company->id);
+        $company_image_err = false;
+        $company_logo_err = false;
 
-        if ($val->run())
+        if ($company_image = \Upload::get_errors('company_image'))
+        {
+            $image_error = reset($company_image['errors']);
+            
+            if ($image_error['error'] != \Upload::UPLOAD_ERR_NO_FILE)
+            {
+                $company_image_err = $image_error['message'];
+            }
+        }
+
+        if ($company_logo = \Upload::get_errors('company_logo'))
+        {
+            $logo_error = reset($company_logo['errors']);
+            
+            if ($logo_error['error'] != \Upload::UPLOAD_ERR_NO_FILE)
+            {
+                $company_logo_err = $logo_error['message'];
+            }
+        }
+
+        if (!$company_image_err && !$company_logo_err && $val->run())
         {
             \DB::start_transaction();
             try
@@ -168,6 +246,28 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
                 $company = $partner_company->company;
                 $company->set($val->validated('company'));
 
+                foreach(Upload::get_files() as $key => $file)
+                {
+                    $file_name = \Str::random('alpha', 16).'.'.$file['extension'];
+                    \Upload::save($key);
+
+                    if ($file['field'] == 'company_image')
+                    {
+                        $company->lpgas_company_image = $file_name;
+                        $tmp_file = Upload::get_files('company_image')['saved_as'];
+                        $url = \Helper\S3::makeImageUrl($company, false);
+                    }
+                    
+                    if ($file['field'] == 'company_logo')
+                    {
+                        $company->lpgas_company_logo = $file_name;
+                        $tmp_file = Upload::get_files('company_logo')['saved_as'];
+                        $url = \Helper\S3::makeImageUrl($company, true);
+                    }
+                    
+                    \Helper\S3::put_image(APPPATH . 'tmp/'.$tmp_file, $url, $file['type']);
+                    \File::delete(APPPATH . 'tmp/'.$tmp_file);
+                }
 
                 if (!$val->validated('company_features'))
                 {
@@ -197,6 +297,8 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
             }
             catch (\Exception $e)
             {
+                throw $e;
+                
                 \Log::error($e);
                 \DB::rollback_transaction();
             }
@@ -208,6 +310,8 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
         $this->template->content = View::forge('admin/partnercompanies/edit', [
             'val' => $val,
             'partner_company' => $partner_company,
+            'company_image_err' => $company_image_err,
+            'company_logo_err' => $company_logo_err,
         ]);
     }
 
