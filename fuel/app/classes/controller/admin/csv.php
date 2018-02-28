@@ -146,6 +146,30 @@ class Controller_Admin_Csv extends Controller_Admin
         return \File::download(APPPATH."/tmp/{$name}", '問い合わせ一覧.csv', null, null, true);
     }
 
+    public function action_calling_histories()
+    {
+        $conditions = [
+            'where' => [],
+            'related' => [
+                'estimates' => [
+                    'where' => [],
+                ],
+                'calling_histories',
+            ],
+            'order_by' => [
+                'id' => 'asc',
+            ]
+        ];
+
+        $related_where = $this->updateContactConditions($conditions);
+        $contacts = \Model_Contact::find('all', $conditions);
+
+        $name = \Str::random('alpha', 16).'.csv';
+        $this->createCallingHistoriesCsv($contacts, $name);
+
+        return \File::download(APPPATH."/tmp/{$name}", '対応履歴.csv', null, null, true);
+    }
+
     /**
      * Privet methods
      */
@@ -267,6 +291,33 @@ class Controller_Admin_Csv extends Controller_Admin
             ];
 
             \File::append(APPPATH.DIRECTORY_SEPARATOR.'/tmp/', $name, mb_convert_encoding($format->to_csv([$line])."\n", 'SJIS'));
+        }
+    }
+
+    private function createCallingHistoriesCsv(&$contacts, &$name)
+    {
+        $headers = \Config::get('csv.calling_histories');
+        $format = \Format::forge();
+
+        \File::update(APPPATH.DIRECTORY_SEPARATOR.'/tmp/', $name, mb_convert_encoding($format->to_csv([$headers])."\n", 'SJIS'));
+
+        foreach ($contacts as $contact)
+        {
+            foreach ($contact->calling_histories as $history)
+            {
+                $line = [
+                    $contact->id,
+                    $contact->name,
+                    $contact->email,
+                    \Helper\TimezoneConverter::convertFromString($contact->created_at, 'admin_table'),
+                    \Helper\TimezoneConverter::convertFromString($history->created_at, 'admin_table'),
+                    $history->admin_user->email,
+                    __('admin.calling_history.calling_method.'.\Config::get('views.calling_history.calling_method.'.$history->calling_method)),
+                    $history->note,
+                ];
+
+                \File::append(APPPATH.DIRECTORY_SEPARATOR.'/tmp/', $name, mb_convert_encoding($format->to_csv([$line])."\n", 'SJIS'));
+            }
         }
     }
     

@@ -40,7 +40,7 @@
         <td><?= $track->display_name ?></td>
         <td><?= \Model_Contact::count(['where' => [['pr_tracking_parameter_id', $track->id], ['created_at', '>=', $from], ['created_at', '<=', $to]]]); ?></td>
         <td><?= \Model_Estimate::count(['where' => [['created_at', '>=', $from], ['created_at', '<=', $to]], 'related' => ['contact' => ['where' => [['pr_tracking_parameter_id', $track->id]]]]]); ?></td>
-        <td><?= \Model_Estimate::count(['where' => [['created_at', '>=', $from], ['created_at', '<=', $to]], 'related' => ['contact' => ['where' => [['pr_tracking_parameter_id', $track->id], ['status', 4]]]]]); ?></td>
+        <td><?= \Model_Estimate::count(['where' => [['created_at', '>=', $from], ['created_at', '<=', $to]], 'related' => ['contact' => ['where' => [['pr_tracking_parameter_id', $track->id], ['status', \Config::get('models.contact.status.contracted')]]]]]); ?></td>
       </tr>
     <?php endforeach; ?>
   </tbody>

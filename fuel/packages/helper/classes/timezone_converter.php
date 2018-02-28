@@ -20,10 +20,19 @@ class TimezoneConverter
         return '';
     }
 
-    public static function convertFromStringToUTC($date, $to = 'Y-m-d H:i:s', $from = 'Y-m-d')
+    public static function convertFromStringToUTC($date, $to = 'Y-m-d H:i:s', $from = 'Y-m-d', $day_end = false)
     {
         if ($utc = new \DateTime($date))
-          return $utc->modify('-9 hour')->format($to);
+        {
+            $utc->modify('-9 hour');
+            
+            if ($day_end)
+            {
+                $utc->modify('+1 day');
+            }
+
+            return $utc->format($to);
+        }
 
         return '';
     }

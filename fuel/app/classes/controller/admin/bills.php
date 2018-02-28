@@ -30,7 +30,7 @@ class Controller_Admin_Bills extends Controller_Admin
     public function action_index()
     {
         $from = \Helper\TimezoneConverter::convertFromStringToUTC(date('Y-m-01', strtotime(\Date::time()->format('mysql_date_time'))));
-        $to = \Helper\TimezoneConverter::convertFromStringToUTC(date('Y-m-t', strtotime(\Date::time()->format('mysql_date_time'))));
+        $to = \Helper\TimezoneConverter::convertFromStringToUTC(date('Y-m-t', strtotime(\Date::time()->format('mysql_date_time'))), 'Y-m-d H:i:s', 'Y-m-d', true);
 
         $result = \DB::select(\DB::expr('SUM(contracted_commission) as contracted_commission'))->from('lpgas_estimates')->where('status', 4)->and_where('status_updated_at', '>=', $from)->and_where('status_updated_at', '<=', $to)->execute()->as_array();        
         $result = reset($result);

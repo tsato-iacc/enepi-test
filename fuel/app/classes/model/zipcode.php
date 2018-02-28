@@ -31,8 +31,8 @@ class Model_ZipCode extends \Orm\Model
         'Orm\\Observer_Typing'
     ];
 
-    // public function full_name()
-    // {
-    //     $p = JpPrefecture::findByCode(13);
-    // }
+    public function getAddress()
+    {
+        return JpPrefecture::findByCode($this->prefecture_code)->nameKanji." {$this->city_name} {$this->town_area_name}";
+    }
 }
