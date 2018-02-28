@@ -8,7 +8,7 @@ return [
         'tel' => '0120-771-664',
         'tel_kakaku' => '0120-886-447',
         //'email' => 'info@enepi.jp',
-        'email' => 'ktakahashi@iacc.co.jp',
+        'email' => 'test1@enepi.jp',
         'head_office_tel' => '03-5510-8015',
         'head_office_fax' => '03-5510-8016',
     ],
