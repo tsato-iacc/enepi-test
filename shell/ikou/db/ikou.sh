@@ -10,5 +10,5 @@ ls -l dump.prod
 echo "upload OK?  ** prod"
 read x
 
-echo "mysql -u root -p'rootroot' -h enepi-production.cgnyosygrcom.ap-northeast-1.rds.amazonaws.com enepi_production < dump.prod"
-mysql -u root -p'rootroot' -h enepi-production.cgnyosygrcom.ap-northeast-1.rds.amazonaws.com enepi_production < dump.prod
+echo "mysql -u root -p'mi!8e$270e' -h enepi-production.cgnyosygrcom.ap-northeast-1.rds.amazonaws.com enepi_production < dump.prod"
+mysql -u root -p'mi!8e$270e' -h enepi-production.cgnyosygrcom.ap-northeast-1.rds.amazonaws.com enepi_production < dump.prod
