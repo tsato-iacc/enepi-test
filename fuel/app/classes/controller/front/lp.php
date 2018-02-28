@@ -67,21 +67,26 @@ class Controller_Front_Lp extends Controller_Front
 
     public function action_slp($id = null)
     {
+    	$o_uri = $_SERVER['REQUEST_URI'];
+    	$uri = str_replace("/s/", "", $_SERVER['REQUEST_URI']);
 
-    	$dom = "http://iacc-cms-prod.s3-website-ap-northeast-1.amazonaws.com/uploads/static_file/file/lp/";
-    	$url = "${dom}${id}";
+    	$dom = "http://iacc-cms-prod.s3-website-ap-northeast-1.amazonaws.com/uploads/static_file/file/${uri}";
+    	$url = "${dom}";
 
-    	$curl = Request::forge($url, 'curl');
+    	$curl	= Request::forge($url, 'curl');
     	$result = $curl->execute();
-    	$result = str_replace("\"images", "\"${url}/images", $result);
-    	$result = str_replace("\"css", "\"${url}/css", $result);
-    	$result = str_replace("\"js", "\"${url}/js", $result);
+    	$ct		= $curl->response_info("content_type");
 
-    	print $result;
-    	$this->template = \View::forge('front/lp/show_003');
-    	//print "!!!";
+    	if($ct == "text/html"){
+
+    		$result = str_replace("\"images", "\"${o_uri}/images", $result);
+    		$result = str_replace("\"css", "\"${o_uri}/css", $result);
+    		$result = str_replace("\"js", "\"${o_uri}/js", $result);
+
+    	}
+
+    	$this->template = \Response::forge($result, 200, array('Content-Type' => $ct));
     	return;
-
 
     }
 }
