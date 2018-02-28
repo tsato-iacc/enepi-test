@@ -90,7 +90,6 @@ class S3
         'Key'          => $key,
         'SourceFile'   => $file,
         'ContentType'  => $type,
-        'ACL'          => 'public-read',
         'CacheControl' => 'max-age=2678400',
     ]);
 	}
