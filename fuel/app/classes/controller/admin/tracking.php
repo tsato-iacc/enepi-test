@@ -164,7 +164,7 @@ class Controller_Admin_Tracking extends Controller_Admin
         }
 
         $tracks = \Model_Tracking::find('all');
-        $tracks[] = new \Model_Tracking(['name' => 'no', 'display_name' => 'no']);
+        $tracks[] = new \Model_Tracking(['name' => 'no', 'display_name' => '無し']);
 
         $this->template->title = 'Traking statistics';
         $this->template->content = View::forge('admin/tracking/statistics', [
