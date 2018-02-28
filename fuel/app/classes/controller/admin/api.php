@@ -1,7 +1,5 @@
 <?php
 
-use JpPrefecture\JpPrefecture;
-
 class Controller_Admin_Api extends Controller_Rest
 {
     const PER_PAGE = 10;
@@ -63,6 +61,9 @@ class Controller_Admin_Api extends Controller_Rest
             'where' => [
                 ['prefecture_code', $prefecture_code],
                 ['city_name', $city_name],
+            ],
+            'order_by' => [
+                'zip_code' => 'asc'
             ]
         ]);
 
@@ -70,7 +71,7 @@ class Controller_Admin_Api extends Controller_Rest
         {
             foreach ($zip_codes as $zip)
             {
-              $result['zip_codes'][] = "{$zip->zip_code} (".JpPrefecture::findByCode($zip->prefecture_code)->nameKanji." {$zip->city_name} {$zip->town_area_name})";
+              $result['zip_codes'][] = "{$zip->zip_code} (".$zip->getAddress().")";
             }
 
             $response['result'] = $result;

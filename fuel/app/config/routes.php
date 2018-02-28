@@ -105,7 +105,7 @@ return array(
     'admin/companies/(:num)/offices/(:num)/prices/create'  => [['GET', new Route('admin/companyoffices/prices_create/$1/$2')], ['POST', new Route('admin/companyoffices/prices_store/$1/$2')]],
     'admin/companies/(:num)/offices/(:num)/prices/(:num)/delete' => [['GET', new Route('admin/companyoffices/prices_destroy/$1/$2/$3')]],
     'admin/companies/(:num)/offices/(:num)/area'           => [['GET', new Route('admin/companyoffices/area_index/$1/$2')], ['POST', new Route('admin/companyoffices/area_store/$1/$2')]],
-    'admin/companies/(:num)/offices/(:num)/area/(:num)'    => [['DELETE', new Route('admin/companyoffices/area_destroy/$1/$2/$3')]],
+    'admin/companies/(:num)/offices/(:num)/area/(:num)/delete' => [['GET', new Route('admin/companyoffices/area_destroy/$1/$2/$3')]],
 
     'admin/company_features'                               => [['GET', new Route('admin/companyfeatures/index')], ['POST', new Route('admin/companyfeatures/store')]],
     'admin/company_features/(:num)/edit'                   => [['GET', new Route('admin/companyfeatures/edit/$1')]],
