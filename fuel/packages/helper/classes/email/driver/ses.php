@@ -84,7 +84,8 @@ class Email_Driver_Ses extends \Email_Driver
     {
       if ($value['name'])
       {
-        $rcpt[] = "{$value['name']} <{$value['email']}>";
+        $subject = $this->encode_mimeheader((string) "{$value['name']}");
+        $rcpt[] = "{$subject} <{$value['email']}>";
       }
       else
       {
