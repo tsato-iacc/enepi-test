@@ -198,7 +198,7 @@ class Controller_Admin_Estimates extends Controller_Admin
         if (!$estimate = \Model_Estimate::find($id))
             throw new HttpNotFoundException;
 
-        $contact_id = $estimate->contact->id;
+        $contact = $estimate->contact;
 
         if ($estimate->status == \Config::get('models.estimate.status.contracted') || $estimate->status == \Config::get('models.estimate.status.verbal_ok'))
         {
@@ -206,7 +206,6 @@ class Controller_Admin_Estimates extends Controller_Admin
         }
         else
         {
-
             \DB::start_transaction();
             try
             {
@@ -216,6 +215,12 @@ class Controller_Admin_Estimates extends Controller_Admin
                 }
 
                 $estimate->delete();
+
+                if (!$contact->estimates)
+                {
+                    $contact->status = \Config::get('models.contact.status.pending');
+                    $contact->save();
+                }
                 
                 \DB::commit_transaction();
                 Session::set_flash('success', "見積りを削除しました");
@@ -226,10 +231,9 @@ class Controller_Admin_Estimates extends Controller_Admin
                 \Log::error($e);
                 Session::set_flash('error', "見積りを削除できませんでした");
             }
-
         }
 
-        return Response::redirect("admin/contacts/{$contact_id}/estimates/create");
+        return Response::redirect("admin/contacts/{$contact->id}/estimates/create");
     }
 
     /**
