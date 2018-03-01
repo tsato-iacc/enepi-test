@@ -20,6 +20,7 @@
 
     h2.form-signin-heading {
       text-align: center;
+      font-size: 1.4em;
     }
 
     .form-signin {
@@ -46,7 +47,7 @@
       z-index: 2;
     }
     .form-signin input[type="email"] {
-      margin-bottom: -1px;
+      margin-bottom: 10px;
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
     }
@@ -54,6 +55,11 @@
       margin-bottom: 10px;
       border-top-left-radius: 0;
       border-top-right-radius: 0;
+    }
+    .auth-bottom-clear {
+      margin-bottom: 10px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
     }
   </style>
 </head>

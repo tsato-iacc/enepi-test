@@ -1,7 +1,7 @@
 <div class="container">
   <?= \Form::open(['class' => 'form-signin']); ?>
     <?= \Form::csrf(); ?>
-    <h2 class="form-signin-heading">enepi管理画面</h2>
+    <h2 class="form-signin-heading"><?= \Uri::segment(1) == 'partner' ? 'enepiパートナー様管理画面' : 'enepi管理画面'; ?></h2>
     
     <?php if (\Uri::segment(1) == 'partner'): ?>
       <label for="login_id" class="sr-only">ログインID</label>
