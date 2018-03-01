@@ -3,10 +3,14 @@
 return array(
     '_root_'  => 'front/welcome/index',
     '_404_'   => 'front/welcome/404',
-	'_500_'   => 'front/welcome/500',
-	'_503_'   => 'front/welcome/503',
+  	'_500_'   => 'front/welcome/500',
+  	'_503_'   => 'front/welcome/503',
 
-	'index2'  => 'front/welcome/index2',
+    /**
+     * Test routing should be removed
+     */
+    'index2'  => 'front/welcome/index2',
+    'test/test'		                                          => 'front/test/test',
 
     /**
      * Front
@@ -21,8 +25,6 @@ return array(
     ':media/lpgas/contacts/new'                               => [['GET', new Route('front/lpgasContacts/index')]],
     ':media/lpgas/contacts'                                   => [['POST', new Route('front/lpgasContacts/store')]],
     ':media/lpgas/contacts/done'                              => 'front/lpgasContacts/done',
-
-	'test/test'		                                          => 'front/test/test',
 
     'simple_simulations/new'                                  => 'front/simpleSimulation',
     'new_simple_simulation_path'                              => 'front/simpleSimulation',
@@ -133,4 +135,5 @@ return array(
     'admin/csv/estimates'                                  => [['GET', new Route('admin/csv/estimates')]],
     'admin/csv/contacts'                                   => [['GET', new Route('admin/csv/contacts')]],
     'admin/csv/contacts/(:num)/estimates'                  => [['GET', new Route('admin/csv/contacts_estimates/$1')]],
+    'admin/csv/calling_histories'                          => [['GET', new Route('admin/csv/calling_histories')]],
 );

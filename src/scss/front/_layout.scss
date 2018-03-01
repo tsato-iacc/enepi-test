@@ -95,3 +95,46 @@ footer.pr-media {
     padding: 0;
   }
 }
+
+/**
+ * HTTP Errors
+ */
+.http-403, .http-404, .http-500 {
+  background-color: rgba(1,160,233,.04);
+  border-top: 1px solid #eee;
+  padding: 10% 0;
+
+  .message {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    width:35rem;
+    margin:0 auto;
+    background-color: #fff;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .navybutton {
+    text-align:center;
+    padding-top:20px
+  }
+
+  .navybutton a {
+    text-decoration:none;
+    background-color: #00a0e9;
+    color:#fff;
+    border-radius:4px;
+    padding:10px 15px;
+  }
+
+  @media screen and (max-device-width: $device-max-width) {
+    h1 {
+      font-size: 5vw;
+    }
+    .message {
+      width:90%;
+    }
+  }
+}

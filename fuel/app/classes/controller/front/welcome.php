@@ -29,28 +29,7 @@ class Controller_Front_Welcome extends Controller_Front
      */
     public function action_index()
     {
-        // if params[:contact_id].present?
-        //   @lpgas_contact = ::Lpgas::Contact.find(params[:contact_id]).dup
-        //   if @lpgas_contact.house_kind.present?
-        //     @house_kind = @lpgas_contact.house_kind
-        //   end
-        //   if @lpgas_contact.estimate_kind.present?
-        //     @estimate_kind = @lpgas_contact.estimate_kind
-        //   end
-        //   if @lpgas_contact.token != params[:token]
-        //     params.delete(:contact_id)
-        //     params.delete(:token)
-        //     redirect_to url_for(params)
-        //   end
-        // else
-        //   @lpgas_contact = ::Lpgas::Contact.new
-        // end
-
-        // @slots = ::Admin::BatchEstimatePrice.order(estimate_created_at: :desc).limit(20)
-
         $meta = [
-            ['name' => 'description', 'content' => 'プロパンガス(LPガス)の乗り換え・切り替えでガス代をおトクにするなら料金比較サービス「enepi(エネピ)」！厳選したガス会社のご紹介から切り替え完了まですべて無料サポートをするので安心してご利用頂けます'],
-            ['name' => 'keywords', 'content' => '電気料金, ガス料金, 比較, 電力自由化, ガス自由化, 電気代, ガス代, enepi, エネピ'],
             ['name' => 'charset', 'content' => 'utf-8'],
         ];
 
@@ -60,9 +39,7 @@ class Controller_Front_Welcome extends Controller_Front
             'contact' => new \Model_Contact(),
             'month_selected' => '',
         ]);
-        // return Response::forge(View::forge('welcome/index'));
     }
-
 
     public function action_index2()
     {
@@ -77,9 +54,7 @@ class Controller_Front_Welcome extends Controller_Front
     	$this->template->content = View::forge('front/welcome/index2', [
     			'test' => 'test'
     	]);
-    	// return Response::forge(View::forge('welcome/index'));
     }
-
 
     /**
      * The 404 action for the application.
@@ -94,17 +69,17 @@ class Controller_Front_Welcome extends Controller_Front
         return Response::forge($this->template, 404);
     }
 
-    public function action_500()
+    public function action_403()
     {
-    	$this->template->title = 'ただいま混み合っております';
-    	$this->template->content = View::forge('front/welcome/500');
-    	return Response::forge($this->template, 500);
+    	$this->template->title = '403 Forbidden';
+    	$this->template->content = View::forge('front/welcome/403');
+    	return Response::forge($this->template, 403);
     }
 
-    public function action_503()
+    public function action_500()
     {
-    	$this->template->title = 'ただいま混み合っております';
-    	$this->template->content = View::forge('front/welcome/500');
-    	return Response::forge($this->template, 503);
+        $this->template->title = 'ただいま混み合っております';
+        $this->template->content = View::forge('front/welcome/500');
+        return Response::forge($this->template, 500);
     }
 }
