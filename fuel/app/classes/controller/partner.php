@@ -33,6 +33,7 @@ class Controller_Partner extends Controller_Base
 
         if (Input::method() == 'POST')
         {
+            $val->add_field('login_id', 'login_id', 'required');
             $val->add_field('email', 'email', 'required|valid_email');
             $val->add_field('password', 'password', 'required');
 
@@ -41,7 +42,7 @@ class Controller_Partner extends Controller_Base
                 $auth = Eauth::instance('partner');
 
                 // check the credentials. This assumes that you have the previous table created
-                if ($auth->login(\Input::param('email'), \Input::param('password')))
+                if ($auth->login(\Input::param('email'), \Input::param('password'), \Input::param('login_id')))
                 {
                     if (\Input::param('remember', false))
                     {

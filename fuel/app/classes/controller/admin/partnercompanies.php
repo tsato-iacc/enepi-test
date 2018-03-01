@@ -96,7 +96,7 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
             \DB::start_transaction();
             try
             {
-                $user_id = $auth->create_user($val->validated('partner_company.email'), $password, 2);
+                $user_id = $auth->create_user($val->validated('partner_company.email'), $password, 2, $same_email = true);
 
                 if (!$user_id)
                     throw new Exception('Could not create user');
@@ -212,7 +212,7 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
         if (!$partner_company = \Model_Partner_Company::find($id))
             throw new HttpNotFoundException;
 
-        $val = \Model_Partner_Company::validate($partner_company->id);
+        $val = \Model_Partner_Company::validate();
         $company_image_err = false;
         $company_logo_err = false;
 

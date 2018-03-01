@@ -78,6 +78,7 @@ abstract class Eauth_Login_Enepiauth extends \Eauth_Login_Driver
 		// fetch the username and login hash from the session
 		$email    = \Session::get($this->get_session_email_name());
 		$login_hash  = \Session::get($this->get_session_hash_name());
+		$login_id  = \Session::get($this->get_session_login_id());
 
 		// only worth checking if there's both a email and login-hash
 		if ( ! empty($email) and ! empty($login_hash))
@@ -86,6 +87,7 @@ abstract class Eauth_Login_Enepiauth extends \Eauth_Login_Driver
 			{
 				$this->user = \DB::select_array(\Config::get('enepiauth.table_columns', array('*')))
 					->where('email', '=', $email)
+					->and_where('id', '=', $login_id)
 					->from($this->get_table_name())
 					->execute(\Config::get('simpleauth.db_connection'))->current();
 			}
@@ -107,7 +109,8 @@ abstract class Eauth_Login_Enepiauth extends \Eauth_Login_Driver
 		// no valid login when still here, ensure empty session and optionally set guest_login
 		$this->user = \Config::get('enepiauth.guest_login', true) ? static::$guest_login : false;
 		\Session::delete($this->get_session_email_name());
-		\Session::delete($this->get_session_email_name());
+		\Session::delete($this->get_session_hash_name());
+		\Session::delete($this->get_session_login_id());
 
 		return false;
 	}
@@ -117,22 +120,28 @@ abstract class Eauth_Login_Enepiauth extends \Eauth_Login_Driver
 	 *
 	 * @return  bool
 	 */
-	public function validate_user($username_or_email = '', $password = '')
+	public function validate_user($email = '', $password = '', $id = null)
 	{
-		$username_or_email = trim($username_or_email) ?: trim(\Input::post(\Config::get('enepiauth.username_post_key', 'username')));
+		$email = trim($email) ?: trim(\Input::post(\Config::get('enepiauth.username_post_key', 'username')));
 		$password = trim($password) ?: trim(\Input::post(\Config::get('enepiauth.password_post_key', 'password')));
 
-		if (empty($username_or_email) or empty($password))
+		if (empty($email) or empty($password))
 		{
 			return false;
 		}
 
-		$user = \DB::select_array(\Config::get('enepiauth.table_columns', array('*')))
-			->where_open()
-			->where('email', '=', $username_or_email)
-			->where_close()
-			->from($this->get_table_name())
-			->execute(\Config::get('enepiauth.db_connection'))->current();
+		$user = \DB::select_array(\Config::get('enepiauth.table_columns', array('*')));
+		$user->where_open();
+		$user->where('email', '=', $email);
+
+		if ($id)
+		{
+			$user->and_where('id', '=', $id);	
+		}
+		
+		$user->where_close();
+		$user->from($this->get_table_name());
+		$user = $user->execute(\Config::get('enepiauth.db_connection'))->current();
 
 		if ($user && $user['encrypted_password'] == sha1("--{$user['salt']}--{$password}--"))
 			return $user;
@@ -147,13 +156,14 @@ abstract class Eauth_Login_Enepiauth extends \Eauth_Login_Driver
 	 * @param   string
 	 * @return  bool
 	 */
-	public function login($username_or_email = '', $password = '')
+	public function login($email = '', $password = '', $id = null)
 	{
-		if ( ! ($this->user = $this->validate_user($username_or_email, $password)))
+		if ( ! ($this->user = $this->validate_user($email, $password, $id)))
 		{
 			$this->user = \Config::get('enepiauth.guest_login', true) ? static::$guest_login : false;
 			\Session::delete($this->get_session_email_name());
 			\Session::delete($this->get_session_hash_name());
+			\Session::delete($this->get_session_login_id());
 			return false;
 		}
 		
@@ -162,6 +172,7 @@ abstract class Eauth_Login_Enepiauth extends \Eauth_Login_Driver
 
 		\Session::set($this->get_session_email_name(), $this->user['email']);
 		\Session::set($this->get_session_hash_name(), $this->create_login_hash());
+		\Session::set($this->get_session_login_id(), $this->user['id']);
 
 		\Session::instance()->rotate();
 		return true;
@@ -193,11 +204,13 @@ abstract class Eauth_Login_Enepiauth extends \Eauth_Login_Driver
 			$this->user = \Config::get('enepiauth.guest_login', true) ? static::$guest_login : false;
 			\Session::delete($this->get_session_email_name());
 			\Session::delete($this->get_session_hash_name());
+			\Session::delete($this->get_session_login_id());
 			return false;
 		}
 
 		\Session::set($this->get_session_email_name(), $this->user['email']);
 		\Session::set($this->get_session_hash_name(), $this->create_login_hash());
+		\Session::set($this->get_session_login_id(), $this->user['id']);
 
 		// and rotate the session id, we've elevated rights
 		\Session::instance()->rotate();
@@ -218,6 +231,7 @@ abstract class Eauth_Login_Enepiauth extends \Eauth_Login_Driver
 		$this->user = \Config::get('enepiauth.guest_login', true) ? static::$guest_login : false;
 		\Session::delete($this->get_session_email_name());
 		\Session::delete($this->get_session_hash_name());
+		\Session::delete($this->get_session_login_id());
 		return true;
 	}
 
@@ -231,7 +245,7 @@ abstract class Eauth_Login_Enepiauth extends \Eauth_Login_Driver
 	 * @param   Array
 	 * @return  bool
 	 */
-	public function create_user($email, $password, $role = 0)
+	public function create_user($email, $password, $role = 0, $same_email = false)
 	{
 		$password = trim($password);
 		$email = filter_var(trim($email), FILTER_VALIDATE_EMAIL);
@@ -241,18 +255,15 @@ abstract class Eauth_Login_Enepiauth extends \Eauth_Login_Driver
 			throw new \EnepiUserUpdateException('Username, password or email address is not given, or email address is invalid', 1);
 		}
 
-		$same_users = \DB::select_array(\Config::get('enepiauth.table_columns', array('*')))
-			->where('email', '=', $email)
-			->from($this->get_table_name())
-			->execute(\Config::get('enepiauth.db_connection'));
 
-		if ($same_users->count() > 0)
+		if (!$same_email)
 		{
-			if (in_array(strtolower($email), array_map('strtolower', $same_users->current())))
-			{
-				throw new \EnepiUserUpdateException('Email address already exists', 2);
-			}
-			else
+			$same_users = \DB::select_array(\Config::get('enepiauth.table_columns', array('*')))
+				->where('email', '=', $email)
+				->from($this->get_table_name())
+				->execute(\Config::get('enepiauth.db_connection'));
+
+			if ($same_users->count() > 0)
 			{
 				throw new \EnepiUserUpdateException('Username already exists', 3);
 			}
@@ -608,6 +619,8 @@ abstract class Eauth_Login_Enepiauth extends \Eauth_Login_Driver
 	abstract public function get_session_email_name();
 	
 	abstract public function get_session_hash_name();
+
+	abstract public function get_session_login_id();
 }
 
 // end of file enepiauth.php

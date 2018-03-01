@@ -11,7 +11,8 @@
   下記に貴社専用の管理画面のログイン情報をお送りさせて頂きます。
 </p>
 <p>
-  ログインID: <?= $user->email; ?><br>
+  ログインID: <?= $user->id; ?><br>
+  メールアドレス: <?= $user->email; ?><br>
   パスワード: <?= $password; ?><br>
   enepi パートナー様管理画面: <a href="<?= \Uri::create('partner/login'); ?>"><?= \Uri::create('partner/login'); ?></a><br>
 </p>

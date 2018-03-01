@@ -4,7 +4,7 @@
   </a>
   <div class="collapse navbar-collapse">
     <ul class="navbar-nav mr-auto"></ul>
-    <span class="navbar-text"><?= $auth_user->email; ?></span>
+    <span class="navbar-text">(ID: <?= $auth_user->id; ?>) <?= $auth_user->email; ?></span>
     <ul class="navbar-nav">
       <li class="nav-item active">
         <a class="nav-link" href="<?= \Uri::create('partner/logout'); ?>"><i class="fa fa-sign-out"></i>ログアウト</a>

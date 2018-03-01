@@ -37,9 +37,14 @@ class Eauth_Login_Admin extends \Eauth_Login_Enepiauth
     return 'admin_email';
   }
 
-	public function get_session_hash_name()
+  public function get_session_hash_name()
+  {
+    return 'admin_hash';
+  }
+
+	public function get_session_login_id()
 	{
-		return 'admin_hash';
+		return 'admin_id';
 	}
 }
 

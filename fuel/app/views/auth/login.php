@@ -3,8 +3,18 @@
     <?= \Form::csrf(); ?>
     <h2 class="form-signin-heading">enepi管理画面</h2>
     
+    <?php if (\Uri::segment(1) == 'partner'): ?>
+      <label for="login_id" class="sr-only">ログインID</label>
+      <input id="login_id" type="text" class="form-control auth-bottom-clear" name="login_id" value="<?= $val->input('login_id', '') ?>" required autofocus placeholder="ログインID">
+      <?php if ($val->error('login_id')): ?>
+        <span class="help-block">
+          <strong><?= e($val->error('login_id')) ?></strong>
+        </span>
+      <?php endif;?>
+    <?php endif;?>
+
     <label for="email" class="sr-only">メールアドレス</label>
-    <input id="email" type="email" class="form-control" name="email" value="<?= $val->input('email', '') ?>" required autofocus placeholder="メールアドレス">
+    <input id="email" type="email" class="form-control<?= \Uri::segment(1) == 'partner' ? ' rounded-0' : '' ?>" name="email" value="<?= $val->input('email', '') ?>" required<?= \Uri::segment(1) == 'partner' ? '' : ' autofocus' ?> placeholder="メールアドレス">
     <?php if ($val->error('email')): ?>
       <span class="help-block">
         <strong><?= e($val->error('email')) ?></strong>

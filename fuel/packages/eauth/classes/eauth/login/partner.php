@@ -41,6 +41,11 @@ class Eauth_Login_Partner extends \Eauth_Login_Enepiauth
   {
     return 'partner_hash';
   }
+
+  public function get_session_login_id()
+  {
+    return 'partner_id';
+  }
 }
 
 // end of file enepiauth.php
