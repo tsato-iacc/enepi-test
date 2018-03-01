@@ -1,27 +1,3 @@
-<script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
-<?= Asset::js('bootstrap.min.js'); ?>
-
-<?= Asset::css('lp.css'); ?>
-<?= Asset::js('lp.js'); ?>
-
-<style>
-  .lp-001 header .logo-lp {
-    background-image: url("/assets/images/logo.png");
-  }
-
-  .lp-001 .mainview .inner {
-    background-image: url("/assets/images/lp/001/mainview-img.png");
-  }
-
-  @media (max-width: 767px){
-    .lp-001 .mainview .inner{background-image:none;overflow:hidden;text-align:center}
-  }
-
-  .lp-001 .flow-list dd {
-    height: auto;
-  }
-</style>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -154,6 +130,31 @@
         <p class="supply">受付時間：10:00-20:00まで</p>
       </div>
     </div>
+
+    <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+    <?= Asset::js('bootstrap.min.js'); ?>
+
+    <?= Asset::css('lp.css'); ?>
+    <?= Asset::js('lp.js'); ?>
+
+    <style>
+      .lp-001 header .logo-lp {
+        background-image: url("/assets/images/logo.png");
+      }
+
+      .lp-001 .mainview .inner {
+        background-image: url("/assets/images/lp/001/mainview-img.png");
+      }
+
+      @media (max-width: 767px){
+        .lp-001 .mainview .inner{background-image:none;overflow:hidden;text-align:center}
+      }
+
+      .lp-001 .flow-list dd {
+        height: auto;
+      }
+    </style>
+
   </header>
 
   <!-- Mainview ================================================== -->

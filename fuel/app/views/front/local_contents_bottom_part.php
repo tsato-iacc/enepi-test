@@ -1,3 +1,4 @@
+
 <div class="formula-box">
   <h3 class="title-formula">プロパンガス(LPガス)料金の算出方法</h3>
   <div class="formula-itself">
@@ -31,29 +32,29 @@
 
 <? if(isset($code)){ ?>
   <div class="around_articles">
-  <? if($code != 1) {?>
     <div class="prev">
-      <span>前の記事</span>
-      <? $link_prev = intval($code)-1; ?>
-        <?if($category != null and $category == 'prefecture'){ ?>
-          <?= MyView::link_to($prefecture_prev[key($prefecture_prev)].'のプロパンガス(LPガス)料金', '/local_contents/'.$link_prev) ?>
-        <? }elseif($category != null and $category == 'city'){ ?>
-          <?= MyView::link_to($prefecture_prev[key($prefecture_prev)].'のプロパンガス(LPガス)料金', '/local_contents/city_show/'.$link_prev) ?>
-        <? } ?>
+      <? if($code != 1) {?>
+          <span>前の記事</span>
+          <? $link_prev = intval($code)-1; ?>
+            <?if($category != null and $category == 'prefecture'){ ?>
+              <?= MyView::link_to($prefecture_prev[key($prefecture_prev)].'のプロパンガス(LPガス)料金', '/local_contents/'.$link_prev) ?>
+            <? }elseif($category != null and $category == 'city'){ ?>
+              <?= MyView::link_to($prefecture_prev[key($prefecture_prev)].'のプロパンガス(LPガス)料金', '/local_contents/city_show/'.$link_prev) ?>
+            <? } ?>
+      <? } ?>
     </div>
-  <? } ?>
-  <? if($code != $region_count) {?>
     <div class="next">
-      <span>次の記事</span>
-      <? $link_next = intval($code)+1; ?>
-        <?if($category != null and $category == 'prefecture'){ ?>
-          <?= MyView::link_to($prefecture_next[key($prefecture_next)].'のプロパンガス(LPガス)料金', '/local_contents/'.$link_next) ?>
-        <? }elseif($category != null and $category == 'city'){ ?>
-          <?= MyView::link_to($prefecture_next[key($prefecture_next)].'のプロパンガス(LPガス)料金', '/local_contents/city_show/'.$link_next) ?>
-        <? } ?>
+      <? if($code != $region_count) {?>
+          <span>次の記事</span>
+          <? $link_next = intval($code)+1; ?>
+            <?if($category != null and $category == 'prefecture'){ ?>
+              <?= MyView::link_to($prefecture_next[key($prefecture_next)].'のプロパンガス(LPガス)料金', '/local_contents/'.$link_next) ?>
+            <? }elseif($category != null and $category == 'city'){ ?>
+              <?= MyView::link_to($prefecture_next[key($prefecture_next)].'のプロパンガス(LPガス)料金', '/local_contents/city_show/'.$link_next) ?>
+            <? } ?>
+      <? } ?>
     </div>
   </div>
-  <? } ?>
 <? } ?>
 
 <div class="popular-articles">

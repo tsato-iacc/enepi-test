@@ -195,11 +195,33 @@ class Controller_Front_LocalContents extends Controller_Front
             throw new HttpNotFoundException();
         }
 
+
         $city_data = \Model_LocalContentCity::find('first', [
             'where' => [
                 ['id', $code],
             ]
         ]);
+
+        $prefecture_KanjiAndCode = JpPrefecture::allKanjiAndCode();
+        $prefecture_kanji = $this->prefecture_kanji($prefecture_KanjiAndCode, $city_data['prefecture_code']);
+        $prefecture_name = $prefecture_kanji[key($prefecture_kanji)];
+        $city_name = $city_data->region->city_name;
+
+        if($city_data->prefecture_code != 13)
+        {
+            if(mb_substr($city_data->region->city_name, -1) != '市')
+            {
+                $prefecture_name = '';
+            }
+        }
+        else
+        {
+            if(!(mb_substr($city_data->region->city_name, -1) == '市' || mb_substr($city_data->region->city_name, -1) == '区'))
+            {
+                $prefecture_name = '';
+            }
+        }
+
 
         $prefecture_data = \Model_LocalContentPrefecture::find('first', [
             'where' => [
@@ -213,6 +235,7 @@ class Controller_Front_LocalContents extends Controller_Front
             ]
         ]);
 
+
         $reviews = array();
         $reviews = \Model_Review::find('all', [
             'where' => [
@@ -220,36 +243,35 @@ class Controller_Front_LocalContents extends Controller_Front
             ]
         ]);
 
+
         $city_KanjiAndCode = [];
         $region_around_articles = \Model_Region::find('all', []);
         foreach($region_around_articles as $r){
             $city_KanjiAndCode[$r['id']] =  $r['city_name'];
         }
 
+
         $region_count = \Model_Region::count();
-        $prefecture_KanjiAndCode   = JpPrefecture::allKanjiAndCode();
         $average                   = $this->prefecture_average();
         $around_articles           = $this->around_articles(   $city_KanjiAndCode,
                                                                $city_data->id,
                                                                $region_count);
-        $prefecture_kanji          = $this->prefecture_kanji(  $prefecture_KanjiAndCode,
-                                                               $city_data['prefecture_code']);
 
 
         $meta = [
-            ['name' => 'description', 'content' => $prefecture_kanji[key($prefecture_kanji)].$city_data->region->city_name.'のプロパンガス料金を知りたい方はこちらをチェック！お住まいの地域をクリックして頂くと、市区町村ごとの詳細なガス代を調べられます。プロパンガス(LPガス)は地域によって料金が異なるので、平均的なガス代を把握し、見直しに役立ててください。'],
+            ['name' => 'description', 'content' => $prefecture_name.$city_name.'のプロパンガス料金を知りたい方はこちらをチェック！お住まいの地域をクリックして頂くと、市区町村ごとの詳細なガス代を調べられます。プロパンガス(LPガス)は地域によって料金が異なるので、平均的なガス代を把握し、見直しに役立ててください。'],
         ];
 
 
         $breadcrumb = [
             ['url' => \Uri::create('categories/lpgas'), 'name' => 'LPガス/プロパンガス'],
             ['url' => \Uri::create('local_contents'), 'name' => '都道府県料金一覧ページ'],
-            ['url' => \Uri::create('local_contents/'.$code), 'name' => $prefecture_kanji[key($prefecture_kanji)].'プロパンガス(LPガス)の平均利用額はココでチェック!'],
-            ['url' => \Uri::create('local_contents/city_show/'.$code), 'name' => $prefecture_kanji[key($prefecture_kanji)].$city_data->region->city_name.'プロパンガス(LPガス)の平均利用額はココでチェック!'],
+            ['url' => \Uri::create('local_contents/'.$code), 'name' => $prefecture_name.'プロパンガス(LPガス)の平均利用額はココでチェック!'],
+            ['url' => \Uri::create('local_contents/city_show/'.$code), 'name' => $prefecture_name.$city_name.'プロパンガス(LPガス)の平均利用額はココでチェック!'],
         ];
 
 
-        $this->template->title = '【'.$prefecture_kanji[key($prefecture_kanji)].$city_data->region->city_name.'】'.'プロパンガス(LPガス)料金の適正価格と相場！';
+        $this->template->title = '【'.$prefecture_name.$city_name.'】'.'プロパンガス(LPガス)料金の適正価格と相場！';
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/localContents/city', [
             'breadcrumb' => $breadcrumb,
@@ -259,6 +281,8 @@ class Controller_Front_LocalContents extends Controller_Front
             'city_data' => $city_data,
             'prefecture_data' => $prefecture_data,
             'prefecture_kanji' => $prefecture_kanji,
+            'prefecture_name' => $prefecture_name,
+            'city_name' => $city_name,
             'region' => $region,
             'average_basic_rate' => $average['average_basic_rate'],
             'average_commodity_charge_criterion' => $average['average_commodity_charge_criterion'],
