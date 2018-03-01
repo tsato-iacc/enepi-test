@@ -57,7 +57,7 @@ class Notifier
         $subject = $by_user ? "当方にてキャンセル手続きをさせていただきました" : "キャンセルのご要望を受け付けました";
 
         $email = \Email::forge();
-        $email->to($estimate->company->partner_company->getEmails(), $estimate->company->getCompanyName());
+        $email->to($estimate->company->partner_company->getEmails());
         $email->subject($subject.'／enepi運営事務局');
         $email->html_body(\View::forge('notifier/company/estimate_cancel', ['estimate' => $estimate, 'by_user' => $by_user]));
         $email->send();
@@ -93,7 +93,7 @@ class Notifier
     public static function notifyCompanyIntroduce(&$estimate)
     {
         $email = \Email::forge();
-        $email->to($estimate->company->partner_company->getEmails(), $estimate->company->getCompanyName());
+        $email->to($estimate->company->partner_company->getEmails());
         $email->subject('連絡希望をいただきました／enepi運営事務局');
         $email->html_body(\View::forge('notifier/company/introduce', ['estimate' => $estimate]));
         $email->send();
@@ -151,15 +151,17 @@ class Notifier
      */
     public static function notifyCustomerPin(&$contact)
     {
-        // FIX ME Use sms
-        if($_SERVER['FUEL_ENV'] == \Fuel::DEVELOPMENT){
+        if (\Fuel::$env == \Fuel::DEVELOPMENT)
+        {
             $email = \Email::forge();
             $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
             $email->subject('SMS');
-            $email->html_body("認証コード: {$contact->pin}\nこのコードをenepi本人確認画面で入力してください。");
+            $email->html_body("TO:{$contact->tel} 認証コード: {$contact->pin}\nこのコードをenepi本人確認画面で入力してください。");
             $email->send();
 
-        }else{
+        }
+        else
+        {
             Mail::sms_send($contact->tel, "認証コード: {$contact->pin}\nこのコードをenepi本人確認画面で入力してください。");
         }
     }

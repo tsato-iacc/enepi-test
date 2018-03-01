@@ -106,24 +106,20 @@ class Model_Partner_Company extends \Orm\Model
             $this->encrypted_password_reset_token = sha1("--{$this->password_reset_token_salt}--{$password_reset_token}--");
         }
 
-        if ($result = parent::save($cascade, $use_transaction))
-            $this->sendMailWithPassword();
-
-        return $result;
-    }
-
-    // FIX ME
-    private function sendMailWithPassword()
-    {
-
+        return parent::save($cascade, $use_transaction);
     }
 
     public function getEmails()
     {
-        $emails = [];
-        $emails[] = $this->email;
+        $company_name = $this->company->getCompanyName();
 
-        return $emails + \Arr::pluck($this->emails, 'email');
-         
+        $emails = [$this->email => $company_name];
+
+        foreach ($this->emails as $item)
+        {
+            $emails[$item->email] = $company_name;
+        }
+
+        return $emails;
     }
 }
