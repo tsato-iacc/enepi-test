@@ -104,8 +104,7 @@ class Controller_Front_SimpleSimulation extends Controller_Front
 
         $meta = [
             ['name' => 'viewport', 'content' => 'content="width=device-width, initial-scale=1"'],
-            ['property' => 'fb:app_id', 'content' => '590655641075329'],
-
+            ['name' => 'fb:app_id', 'content' => '590655641075329'],
         ];
 
         $breadcrumb = [
