@@ -1,5 +1,5 @@
-<? MyView::title("【#{@prefecture_itself.name}#{@city_itself.city_name}】プロパンガス(LPガス)料金の適正価格と相場！") ?>
-<? MyView::description("#{@prefecture_itself.name}#{@city_itself.city_name}のプロパンガス料金を知りたい方はこちらをチェック！お住まいの地域ごとに平均的なガス代を調べられます。プロパンガス(LPガス)は地域によって料金が異なるので、平均的なガス代を把握し、見直しに役立ててください。") ?>
+<? MyView::title("【{$prefecture_name}{$city_name}】プロパンガス(LPガス)料金の適正価格と相場！") ?>
+<? MyView::description("{$prefecture_name}{$city_name}のプロパンガス料金を知りたい方はこちらをチェック！お住まいの地域ごとに平均的なガス代を調べられます。プロパンガス(LPガス)は地域によって料金が異なるので、平均的なガス代を把握し、見直しに役立ててください。") ?>
 <?= render('front/breadcrumb', ['breadcrumb' => $breadcrumb]); ?>
 <div class="article-maintitle-area">
   <div class="inner">
@@ -7,13 +7,13 @@
       <?= MyView::image_tag("japan-map.png", ["class" => "japan-map-img-small"]) ?>
     </div>
     <div class="text">
-      <h1 class="title" itemprop="headline"><?= $prefecture_kanji[key($prefecture_kanji)].$city_data->region->city_name ?>×プロパンガス(LPガス)の平均利用額はココでチェック!</h1>
+      <h1 class="title" itemprop="headline"><?= $prefecture_name.$city_name ?>×プロパンガス(LPガス)の平均利用額はココでチェック!</h1>
       <ul class="categories">
         <li><i class="icon icon-tag"></i><?= MyView::link_to("LPガス/プロパンガス", "/categories/lpgas") ?></li>
       </ul>
       <p class="description" itemprop="description">
-        エネピ完全オリジナル！<?= $prefecture_kanji[key($prefecture_kanji)].$city_data->region->city_name ?>のプロパンガス料金を調べることができます。石油情報センターより提供される金額を掛け合わせて算出しております。<br>
-        ガス代が高いと感じている方は、このページで<?= $prefecture_kanji[key($prefecture_kanji)].$city_data->region->city_name ?>の適正料金を調べて安いガス会社へ切り替えましょう！
+        エネピ完全オリジナル！<?= $prefecture_name.$city_name ?>のプロパンガス料金を調べることができます。石油情報センターより提供される金額を掛け合わせて算出しております。<br>
+        ガス代が高いと感じている方は、このページで<?= $prefecture_name.$city_name ?>の適正料金を調べて安いガス会社へ切り替えましょう！
       </p>
     </div>
   </div>
@@ -27,7 +27,7 @@
           <?= render ("shared/social_buttons") ?>
           <div class="local-content-preface">
             <p class="local-content-middle-intro">
-              <?= $prefecture_kanji[key($prefecture_kanji)].$city_data->region->city_name ?>でプロパンガスをご利用になられている方はこちらのページをご覧ください。<br>
+              <?= $prefecture_name.$city_name ?>でプロパンガスをご利用になられている方はこちらのページをご覧ください。<br>
               基本料金と従量単価、使用量別のガス料金を掲載しているので、ご自宅のガス料金明細書と比較することができます。<br>
               金額の見直しを検討される方はプロパンガス会社の無料お見積もり依頼をお試しください！<br>
               ページ下のボタンをクリックし、フォームに必要な情報を入力して頂くと、エネピに加盟している厳選ガス会社をご紹介致します。
@@ -36,7 +36,7 @@
           </div>
           <div class="average-rate-box">
             <div class="average-rate-box-title">
-               <h3><?= $prefecture_kanji[key($prefecture_kanji)].$city_data->region->city_name ?>のプロパンガス平均価格</h3>
+               <h3><?= $prefecture_name.$city_name ?>のプロパンガス平均価格</h3>
             </div>
             <div class="average-rate-box-content">
               <div class="average-rate-box-basic">
@@ -65,7 +65,7 @@
           </div>
           <span>※輸送費などにより、地域によっては全国平均と大きく異なる場合もございます。</span>
           <div class="average-usage-box">
-            <h3 style=" margin: 0;"><?= $prefecture_kanji[key($prefecture_kanji)].$city_data->region->city_name ?>の人たちが使っている<br>プロパンガス(LPガス)の平均使用量</h3>
+            <h3 style=" margin: 0;"><?= $prefecture_name.$city_name ?>の人たちが使っている<br>プロパンガス(LPガス)の平均使用量</h3>
             <div class="average-usage-box-circle">
               <div class="average-usage-box-data">
                 <? if($city_data->average_usage != 0){ ?>
@@ -78,8 +78,8 @@
           </div>
 
           <div class="average-rate-list-box">
-            <h3 class="average-monthly-rate-title"><?= $prefecture_kanji[key($prefecture_kanji)].$city_data->region->city_name ?>の使用量別<br>1ヶ月の平均プロパンガス料金</h3>
-            <table summary="<?= $prefecture_kanji[key($prefecture_kanji)].$city_data->region->city_name ?>の使用量別1ヶ月の平均プロパンガス料金" border width="80%" height="200" cellspacing="0" cellpadding="0" style="margin: auto;">
+            <h3 class="average-monthly-rate-title"><?= $prefecture_name.$city_name ?>の使用量別<br>1ヶ月の平均プロパンガス料金</h3>
+            <table summary="<?= $city_name ?>の使用量別1ヶ月の平均プロパンガス料金" border width="80%" height="200" cellspacing="0" cellpadding="0" style="margin: auto;">
               <tr align="center">
                 <th class="usage-breakdown">ガス使用量</th>
                 <th class="usage-breakdown">平均ガス代</th>
@@ -131,7 +131,7 @@
             <div class="average-reduction-rate-box">
               <h3 class="average-monthly-rate-title">そのガス代、もっとおトクに!?</h3>
               <div class="average-reduction-rate-head-title">
-                エネピでガス会社を切り替えた<?= $prefecture_kanji[key($prefecture_kanji)] ?>の人たちの平均削減額は...
+                エネピでガス会社を切り替えた<?= $prefecture_name.$city_name ?>の人たちの平均削減額は...
               </div>
               <div>
                 <dl>
@@ -196,14 +196,14 @@
               </ul>
             </div>
             <div class="word-of-mouth-box">
-              <div class="word-of-mouth-title"><h3 class="word-of-mouth-title-itself"><?= $prefecture_kanji[key($prefecture_kanji)].$city_data->region->city_name ?>の口コミ一覧</h3></div>
+              <div class="word-of-mouth-title"><h3 class="word-of-mouth-title-itself"><?= $prefecture_name.$city_name ?>の口コミ一覧</h3></div>
                 <ul class="word-of-mouth-wrapper">
                   <? foreach($reviews as $r){ ?>
                     <li class="word-of-mouth-list">
                       <div class="word-of-mouth-header">
                         <div class="reviewer-info">
                           <i class="fa fa-user fa-lg"></i>
-                          <span class="personal-info"><?= $prefecture_kanji[key($prefecture_kanji)].$city_data->region->city_name ?>在住/</span>
+                          <span class="personal-info"><?= $prefecture_name.$city_name ?>在住/</span>
                           <span class="personal-info"><?= $r->reviewer_gender ?></span>
                           <? if(isset($r->reviewer_age)){ ?>
                             <span class="personal-info"><?= $r->reviewer_age ?>歳/</span>
@@ -252,7 +252,6 @@
             <?= View::forge('front/local_contents_bottom_part',$result, $code, $prefecture_prev, $prefecture_next); ?>
         </div>
         </div>
-        <?//= render("shared/articles_sidebar") ?>
         <?= Presenter::Forge('front/sidebar'); ?>
       </div>
     </div>
