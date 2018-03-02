@@ -16,8 +16,11 @@ use Fuel\Core\Html;
   <?= Asset::css('application.css'); ?>
   <?= Asset::css('estimate_form.css'); ?>
 
+  <?= render('shared/google_tag_manager.php'); ?>
 </head>
 <body>
+
+<?= render('shared/google_tag_manager_noscript.php'); ?>
 
   <?= $content; ?>
 

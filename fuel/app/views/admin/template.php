@@ -9,12 +9,15 @@
   <title><?= $title; ?></title>
   <?= Asset::css('admin.min.css'); ?>
   <?= render('shared/google_tag_manager'); ?>
+
 </head>
 <body>
+
+  <?= render('shared/google_tag_manager_noscript.php'); ?>
   <?= render('admin/navbar'); ?>
 
   <div class="container-fluid area-<?= \Uri::segment(2); ?> <?= \Request::active()->action; ?>">
-    <div class="row">      
+    <div class="row">
       <div class="col-md-2">
         <?= render('admin/sidebar'); ?>
       </div>

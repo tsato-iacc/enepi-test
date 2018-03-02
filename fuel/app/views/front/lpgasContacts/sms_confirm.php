@@ -1,27 +1,27 @@
-    <head>  
+    <head>
       <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      
+
         ga('create', 'UA-66015925-1', 'auto');
         ga('send', 'pageview');
       </script>
-      
+
       <style>
         .alert-success {
           color: hsl(121, 33%, 35%);
           background-color: hsl(103, 44%, 89%);
           border-color: hsl(93, 44%, 85%);
         }
-      
+
         .alert-danger {
           color: #a94442;
           background-color: #f2dede;
           border-color: #ebccd1;
         }
-      
+
         .alert {
           padding: 15px;
           margin-bottom: 20px;
@@ -29,24 +29,12 @@
           border-radius: 4px;
         }
       </style>
-      
+
       <? if($this->from_enechange == true){ ?>
         <?= render('shared/enechange_tag_manager'); ?>
       <? } ?>
-      
-      <!-- Google Tag Manager -->
-      <script>
-        (function(w,d,s,l,i){
-          w[l]=w[l]||[];
-          w[l].push({
-            'gtm.start':new Date().getTime(),event:'gtm.js'
-          });
-          var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-          f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-NCCZDM6');
-      </script>
-      <!-- End Google Tag Manager -->
-      
+
+
       <?//= yield :head ?>
     </head>
 
@@ -258,10 +246,5 @@
         </div>
 
 
-    <!-- Google Tag Manager (noscript) -->
-    　　<noscript>
-    　　　　<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NCCZDM6"　height="0" width="0" style="display: none; visibility: hidden"></iframe>
-    　　</noscript>
-    <!-- End Google Tag Manager (noscript) -->
 
     <?= render('front/lpgasContacts/sms_confirm_tail', ['contact' => $contact], false); ?>

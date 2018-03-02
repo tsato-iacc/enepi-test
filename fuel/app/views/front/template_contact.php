@@ -33,9 +33,13 @@
       <?= Asset::css('front.min.css'); ?>
     <? } ?>
 
+    <?= render('shared/google_tag_manager.php'); ?>
+
   </head>
 
   <body>
+
+	<?= render('shared/google_tag_manager_noscript.php'); ?>
 
     <?= $header; ?>
 
@@ -44,7 +48,7 @@
     <? if(isset($footer)){ ?>
       <?= $footer; ?>
     <? } ?>
-    
+
     <!-- Yahoo Code for your Target List -->
     <script type="text/javascript" language="javascript">
       /* <![CDATA[ */
@@ -112,12 +116,7 @@
         </div>
       </nav>
     </div>
-  
-    <!-- Google Tag Manager (noscript) -->
-    <noscript>
-      <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NCCZDM6" height="0" width="0" style="display:none;visibility:hidden"></iframe>
-    </noscript>
-    <!-- End Google Tag Manager (noscript) -->
+
 
 
     <?php if ($this->pr_tracking_name == "xmarke"): ?>
@@ -155,6 +154,6 @@
     　　　　})
     　　});
     </script>
-    
+
   </body>
 </html>

@@ -61,9 +61,13 @@
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
     }
+
+    <?= render('shared/google_tag_manager.php'); ?>
   </style>
 </head>
 <body>
+
+  <?= render('shared/google_tag_manager_noscript.php'); ?>
 
   <?= $content; ?>
 
