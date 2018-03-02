@@ -43,16 +43,17 @@ class Controller_Admin_History extends Controller_Admin
      */
     public function action_store()
     {
+        if (!$contact = \Model_Contact::find(\Input::post('contact_id'), ['related' => ['calling_histories' => ['order_by' => ['id' => 'desc']]]]))
+            throw new HttpNotFoundException;
+        
         $val = Validation::forge('calling');
 
         $val->add_field('calling_method', 'calling_method', 'required|match_collection[tel,email,chat]');
-        $val->add_field('note', 'note', 'required|max_length[200]');
+        $val->add_field('note', 'note', 'required|max_length[5000]');
         $val->add_field('contact_id', 'contact_id', 'required|valid_string[numeric]');
 
         if ($val->run())
         {
-            if (!$contact = \Model_Contact::find($val->validated('contact_id'), ['related' => ['calling_histories' => ['order_by' => ['id' => 'desc']]]]))
-                throw new HttpNotFoundException;
 
             $record = new \Model_CallingHistory();
             $record->calling_method = \Config::get('models.calling_history.calling_method.'.$val->validated('calling_method'));
@@ -74,7 +75,7 @@ class Controller_Admin_History extends Controller_Admin
         $this->template->content = View::forge('admin/contacts/edit', [
             'contact' => $contact,
             'val' => Validation::forge(),
-            'val_c' => $val_c,
+            'val_c' => Validation::forge('history'),
         ]);
     }
 }
