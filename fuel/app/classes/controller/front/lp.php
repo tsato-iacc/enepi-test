@@ -29,41 +29,32 @@ class Controller_Front_Lp extends Controller_Front
      */
     public function action_index($id = null)
     {
-
-        if($id == "001")
+        if ($id == "001")
         {
-
-            $meta = [
-                ['name' => 'description', 'content' => \Config::get('enepi.meta.default.description')],
-                ['name' => 'keywords', 'content' => \Config::get('enepi.meta.default.keywords')],
-                ['name' => 'charset', 'content' => 'utf-8'],
-            ];
-
             $this->template = \View::forge('front/lp/show_001');
-            $this->template->meta = $meta;
             $this->template->title = '1番安いガス料金を比較し、お得に乗り換えよう！';
 
+            return;
         }
 
-        elseif($id == "002")
+        elseif ($id == "002")
         {
-
-            $meta = [
-                ['name' => 'description', 'content' => \Config::get('enepi.meta.default.description')],
-                ['name' => 'keywords', 'content' => \Config::get('enepi.meta.default.keywords')],
-                ['name' => 'charset', 'content' => 'utf-8'],
-            ];
-
             $this->template = \View::forge('front/lp/show_002');
-            $this->template->meta = $meta;
             $this->template->title = '大家さん必見！1番安いガス料金を比較し、お得に乗り換えよう！';
 
+            return;
         }
 
-        //return Response::forge(View::forge("front/lp/show_{$id}"));
+        elseif ($id == '004' || $id == '005')
+        {
+            $this->template = \View::forge('front/lp/show_004');
+            $this->template->lp_005 = ($id == '005');
+            
+            return;
+        }
 
+        throw new HttpNotFoundException;
     }
-
 
     public function action_slp($id = null)
     {

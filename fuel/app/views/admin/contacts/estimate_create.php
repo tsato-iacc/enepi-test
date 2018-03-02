@@ -173,7 +173,7 @@ use JpPrefecture\JpPrefecture;
             <?php $saving = $estimate->total_savings_in_year($contact); ?>
             <td><?= number_format($saving); ?>円</td>
             <td>
-              <div class="input-group w-50<?= $val->error("estimates.{$key}.contracted_commission") ? ' has-danger' : ''; ?>">
+              <div class="input-group w-75<?= $val->error("estimates.{$key}.contracted_commission") ? ' has-danger' : ''; ?>">
                 <input class="form-control form-control-sm" type="number" name="<?= "estimates[$key][contracted_commission]"; ?>" value="<?= $val->input("estimates.{$key}.contracted_commission", $estimate->contracted_commission); ?>">
                 <div class="input-group-addon form-control-sm">円</div>
               </div>
