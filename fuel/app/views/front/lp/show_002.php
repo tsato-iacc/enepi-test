@@ -208,7 +208,11 @@
   }
   </style>
 
+  <?= render('shared/google_tag_manager.php'); ?>
+
 </head>
+
+<?= render('shared/google_tag_manager_noscript.php'); ?>
 
   <body id="top" class="lp-002">
   <div class="js-header guide-header-wrap is-up-hidden">
