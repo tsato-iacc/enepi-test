@@ -53,6 +53,14 @@ class Controller_Front_Lp extends Controller_Front
             return;
         }
 
+        elseif ($id == 'form')
+        {
+            $this->template = \View::forge('front/lp/form');
+            $this->template->title = '1番安いガス料金を比較し、お得に乗り換えよう！';
+
+            return;
+        }
+
         throw new HttpNotFoundException;
     }
 

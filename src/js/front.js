@@ -23,4 +23,5 @@
  * Old scripts
  */
 //= front/old/estimate_form.js
+//= front/old/lp_form.js
 

@@ -1,14 +1,6 @@
 <?php
 use JpPrefecture\JpPrefecture;
 ?>
-<!-- <div class="row">
-  <?php foreach (JpPrefecture::allKanjiAndCode() as $key => $name):?>
-    <div class="btn-group col-2 mb-4" role="group" aria-label="Basic example">
-      <button type="button" class="btn btn-secondary w-100"><?= $name; ?></button>
-      <button type="button" class="btn btn-secondary"><i class="fa fa-cogs" aria-hidden="true"></i></button>
-    </div>
-  <?php endforeach; ?>
-</div> -->
 
 <?= \Form::open(); ?>
   <?= \Form::csrf(); ?>

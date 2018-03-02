@@ -55,9 +55,9 @@ use JpPrefecture\JpPrefecture;
               <label class="required" for="lpgas_contact_estimate_kind">ガスを見直したい物件は</label>
             </th>
             <td>
-              <input type="radio" value="change_contract" name="lpgas_contact[estimate_kind]" id="lpgas_contact_estimate_kind_change_contract"<?= $val->input('lpgas_contact.estimate_kind') != 'new_contract' ? ' checked="checked"' : '' ?>>
+              <input type="radio" value="change_contract" name="lpgas_contact[estimate_kind]" id="lpgas_contact_estimate_kind_change_contract"<?= $val->input('lpgas_contact.estimate_kind', \Config::get('views.contact.estimate_kind.'.$contact->estimate_kind)) != 'new_contract' ? ' checked="checked"' : '' ?>>
               <label class="checkbox_label_margin" for="lpgas_contact_estimate_kind_change_contract">現在住居の見積もり</label>
-              <input type="radio" value="new_contract" name="lpgas_contact[estimate_kind]" id="lpgas_contact_estimate_kind_new_contract"<?= $val->input('lpgas_contact.estimate_kind') == 'new_contract' ? ' checked="checked"' : '' ?>>
+              <input type="radio" value="new_contract" name="lpgas_contact[estimate_kind]" id="lpgas_contact_estimate_kind_new_contract"<?= $val->input('lpgas_contact.estimate_kind', \Config::get('views.contact.estimate_kind.'.$contact->estimate_kind)) == 'new_contract' ? ' checked="checked"' : '' ?>>
               <label class="checkbox_label_margin" for="lpgas_contact_estimate_kind_new_contract">新規開設の見積もり</label>
               <?php if ($val->error('lpgas_contact.estimate_kind')): ?>
               <div>
@@ -72,7 +72,7 @@ use JpPrefecture\JpPrefecture;
               <label class="required" for="lpgas_contact_zip_code">現在お住まいの郵便番号は？</label>
             </th>
             <td>
-              〒 <input data-hyphen-digits="1" type="text" name="lpgas_contact[zip_code]" id="lpgas_contact_zip_code" value="<?= $val->input('lpgas_contact.zip_code', '') ?>"> <span class="example">(例: 1500022)</span>
+              〒 <input data-hyphen-digits="1" type="text" name="lpgas_contact[zip_code]" id="lpgas_contact_zip_code" value="<?= $val->input('lpgas_contact.zip_code', $contact->zip_code) ?>"> <span class="example">(例: 1500022)</span>
               <?php if ($val->error('lpgas_contact.zip_code')): ?>
               <div>
                 <span class="attention validation_message"><?= e($val->error('lpgas_contact.zip_code')) ?></span>
@@ -88,7 +88,7 @@ use JpPrefecture\JpPrefecture;
             </th>
             <td>
               <div class="select-wrap styled-select">
-                <div><?= Form::select('lpgas_contact[prefecture_code]', $val->input('lpgas_contact.prefecture_code', ''), ['' => '選択してください'] + JpPrefecture::allKanjiAndCode(), ['id' => 'lpgas_contact_prefecture_code']); ?></div>
+                <div><?= Form::select('lpgas_contact[prefecture_code]', $val->input('lpgas_contact.prefecture_code', $contact->prefecture_code), ['' => '選択してください'] + JpPrefecture::allKanjiAndCode(), ['id' => 'lpgas_contact_prefecture_code']); ?></div>
               </div>
               <?php if ($val->error('lpgas_contact.prefecture_code')): ?>
               <div>
@@ -123,7 +123,7 @@ use JpPrefecture\JpPrefecture;
             </th>
           <?php endif; ?>
           <td>
-            〒 <input data-hyphen-digits="1" type="text" name="lpgas_contact[new_zip_code]" id="lpgas_contact_new_zip_code" value="<?= $val->input('lpgas_contact.new_zip_code', '') ?>">
+            〒 <input data-hyphen-digits="1" type="text" name="lpgas_contact[new_zip_code]" id="lpgas_contact_new_zip_code" value="<?= $val->input('lpgas_contact.new_zip_code', $contact->new_zip_code) ?>">
             <span class="example">(例: 1500022)</span>
             <?php if ($val->error('lpgas_contact.new_zip_code')): ?>
             <div>
@@ -147,7 +147,7 @@ use JpPrefecture\JpPrefecture;
           <?php endif; ?>
           <td>
             <div class="select-wrap styled-select">
-            <div><?= Form::select('lpgas_contact[new_prefecture_code]', $val->input('lpgas_contact.new_prefecture_code', ''), ['' => '選択してください'] + JpPrefecture::allKanjiAndCode(), ['id' => 'lpgas_contact_new_prefecture_code']); ?></div>
+            <div><?= Form::select('lpgas_contact[new_prefecture_code]', $val->input('lpgas_contact.new_prefecture_code', $contact->new_prefecture_code), ['' => '選択してください'] + JpPrefecture::allKanjiAndCode(), ['id' => 'lpgas_contact_new_prefecture_code']); ?></div>
           </div>
             <?php if ($val->error('lpgas_contact.new_prefecture_code')): ?>
             <div>

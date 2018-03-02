@@ -65,13 +65,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
                 $contact = new \Model_Contact();
             }
 
-            $meta = [
-                ['name' => 'description', 'content' => \Config::get('enepi.meta.default.description')],
-                ['name' => 'keywords', 'content' => \Config::get('enepi.meta.default.keywords')],
-            ];
-
             $this->template = \View::forge('front/template');
-            $this->template->meta = $meta;
             $this->template->title = 'プロパンガス(LPガス)料金を今より安く！無料比較サービス';
             $this->template->content = View::forge('front/lpgasContacts/index', [
                 'contact' => $contact,
@@ -229,20 +223,45 @@ class Controller_Front_LpgasContacts extends Controller_Front
      */
     public function get_old()
     {
+        $contact = new \Model_Contact();
+
+        if ($estimate_kind = \Input::get('estimate_kind'))
+        {
+            $contact->estimate_kind = \Config::get('models.contact.estimate_kind.'.$estimate_kind);
+
+            if ($contact->estimate_kind == \Config::get('models.contact.estimate_kind.new_contract'))
+            {
+                if ($prefecture_code = \Input::get('prefecture_code'))
+                {
+                    $contact->new_prefecture_code = $prefecture_code;
+                }
+
+                if ($zip_code = \Input::get('zip_code'))
+                {
+                    $contact->new_zip_code = $zip_code;
+                }
+            }
+            else
+            {
+                if ($prefecture_code = \Input::get('prefecture_code'))
+                {
+                    $contact->prefecture_code = $prefecture_code;
+                }
+
+                if ($zip_code = \Input::get('zip_code'))
+                {
+                    $contact->zip_code = $zip_code;
+                }
+            }
+        }
+
         $this->template = \View::forge('front/template_old');
-
-        $meta = [];
-
         $this->template->title = 'お見積もり情報入力';
-        $this->template->meta = $meta;
-        $this->template->header = View::forge('front/lpgasContacts/done_header');
         $this->template->content = View::forge('front/lpgasContacts/old', [
             'val' => \Model_Contact::validate('old_form'),
-            'contact' => new \Model_Contact(),
+            'contact' => $contact,
             'apartment_form' => \Input::get('apartment_form') ? true : false,
         ]);
-        $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
-        $this->template->css_call = 'old';
     }
 
     /**

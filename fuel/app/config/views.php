@@ -5,6 +5,10 @@ return [
      * Enum for Model_Contact
      */
     'contact' => [
+        'estimate_kind' => [
+            0 => 'change_contract',
+            1 => 'new_contract',
+        ],
         'status' => [
             0 => 'pending',
             10 => 'sent_estimate_req',
