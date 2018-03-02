@@ -135,10 +135,10 @@ use JpPrefecture\JpPrefecture;
         <?= Form::select('calling_method', $val_c->input('calling_method', 0), __('admin.calling_history.calling_method'), ['class' => 'form-control', 'id' => 'calling_method']); ?>
       </div>
     </div>
-    <div class="col-3">
+    <div class="col-4">
       <div class="form-group<?= $val_c->error('note') ? ' has-danger' : ''?>">
         <label class="form-control-label" for="note"><h6><i class="fa fa-asterisk" aria-hidden="true"></i> 備考(理由など)</h6></label>
-        <input type="text" required="required" name="note" class="form-control" id="note" value="">
+        <textarea type="text" required="required" name="note" class="form-control" id="note" rows="1"></textarea>
       </div>
     </div>
     <div class="col-3">
