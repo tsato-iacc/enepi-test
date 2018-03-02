@@ -67,7 +67,7 @@ class Controller_Front_Lp extends Controller_Front
 
     public function action_slp($id = null)
     {
-    	$o_uri = $_SERVER['REQUEST_URI'];
+    	$o_uri = explode("?", $_SERVER['REQUEST_URI'])[0];
     	$uri = str_replace("/s/", "", $_SERVER['REQUEST_URI']);
 
     	$dom = "http://iacc-cms-prod.s3-website-ap-northeast-1.amazonaws.com/uploads/static_file/file/${uri}";
