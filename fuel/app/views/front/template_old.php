@@ -9,11 +9,15 @@
   <title><?= $title; ?></title>
   <?= Asset::css('front_old.min.css'); ?>
   <?= render('front/ga'); ?>
+  <?php if (\Uri::segment(1) == 'enechange'): ?>
+    <?= render('shared/enechange_tag_manager'); ?>
+  <?php endif; ?>
 </head>
 <body>
 
   <header class="pr-media">
     <?php if (\Uri::segment(1) == 'enechange'): ?>
+      <?= render('shared/enechange_tag_manager_noscript'); ?>
       <div class="logo-center">
         <?= Asset::img('enechange/logo.enechange.png'); ?>
       </div>
