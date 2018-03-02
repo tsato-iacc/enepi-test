@@ -40,6 +40,7 @@ class Controller_Front extends Controller_Template
         $template = $this->template;
 
         $meta_default = [
+            ['name' => 'charset', 'content' => 'utf-8'],
             ['name' => 'description', 'content' => \Config::get('enepi.meta.default.description')],
             ['name' => 'keywords', 'content' => \Config::get('enepi.meta.default.keywords')],
         ];

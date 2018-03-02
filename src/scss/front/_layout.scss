@@ -138,3 +138,11 @@ footer.pr-media {
     }
   }
 }
+
+.http-403, .http-404 {
+  background-image: url(/assets/images/estimate_form/form-bg.png);
+  background-position: 50% -40px;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-color: #c3e5fa;
+}
