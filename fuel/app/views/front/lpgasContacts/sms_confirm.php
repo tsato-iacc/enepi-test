@@ -133,7 +133,7 @@
                       <div class="col-md-8 col-md-offset-2">
                         <div class="row">
                           <div class="col-md-4">
-                            <a <?= MyView::link_to('javascript:void(0)', ['class' => 'btn btn-secondary', 'data-ajax' => '1', 'data-href' => '/lpgas_contacts/'.$contact->id.'/resend_pin?token='.$contact->token]); ?> >再度SMSを送る</a>
+                            <a href="javascript:void(0)" class="btn btn-secondary send-sms-btn" data-contact-id="<?= $contact->id; ?>" data-token="<?= $contact->token; ?>">再度SMSを送る</a>
                           </div>
                           <div class="col-md-4">
                             <a <?= MyView::link_to('javascript:void(0)', ['class' => 'btn btn-secondary', 'data-ajax' => '1', 'data-href' => '/lpgas_contacts/'.$contact->id.'/resend_pin?tel=1&amp;token='.$contact->token]); ?> >音声確認する</a>
@@ -248,3 +248,37 @@
 
 
     <?= render('front/lpgasContacts/sms_confirm_tail', ['contact' => $contact], false); ?>
+
+    <!-- SEND SMS START -->
+    <script>
+      $(function() {
+        $('.send-sms-btn').on('click', function() {
+          console.log('push');
+          var contact_id = $(this).attr('data-contact-id');
+          var token = $(this).attr('data-token');
+
+          $.ajax({
+            url: '/front/api/v1/twillio/sms',
+            type: 'POST',
+            data: {
+              // csrf_token_key: "<?= \Security::fetch_token();?>",
+              contact_id: contact_id,
+              token: token
+            },
+            success: function (data) {
+              if (data.result == 'success') {
+                alert('再度SMSを送りました');
+              }
+              else if (data.errors) {
+                alert("エラーが発生しました。\nもう一度試してみてください");
+                console.log(data.errors);
+              }
+            },
+            error: function() {
+              alert('An error has occurred!');
+            }
+          });
+        });
+      });
+    </script>
+    <!-- SEND SMS END -->
