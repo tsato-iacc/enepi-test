@@ -96,7 +96,7 @@ use JpPrefecture\JpPrefecture;
         <?= Form::select('new_prefecture_code', $val->input('new_prefecture_code', $contact->new_prefecture_code), ['' => 'none'] + JpPrefecture::allKanjiAndCode(), ['class' => 'form-control', 'id' => 'new_prefecture_code']); ?>
       </div>
     </div>
-    <div class="col-3">
+    <div class="col-2">
       <div class="form-group<?= $val->error('new_address') ? ' has-danger' : ''?>">
         <label class="form-control-label" for="new_address"><h6>住所</h6></label>
         <input type="text" name="new_address" value="<?= $val->input('new_address', $contact->new_address); ?>" class="form-control" id="new_address">
@@ -106,6 +106,12 @@ use JpPrefecture\JpPrefecture;
       <div class="form-group<?= $val->error('new_address2') ? ' has-danger' : ''?>">
         <label class="form-control-label" for="new_address2"><h6>住所(番地以降)</h6></label>
         <input type="text" name="new_address2" value="<?= $val->input('new_address2', $contact->new_address2); ?>" class="form-control" id="new_address2">
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="form-group<?= $val->error('moving_scheduled_date') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="moving_scheduled_date"><h6>引っ越し予定日</h6></label>
+        <input type="text" name="moving_scheduled_date" class="form-control datepicker" id="moving_scheduled_date" value="<?= $val->input('moving_scheduled_date', $contact->moving_scheduled_date); ?>">
       </div>
     </div>
   </div>

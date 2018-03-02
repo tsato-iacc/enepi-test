@@ -332,6 +332,7 @@ class Model_Contact extends \Orm\Model
         $val->add_field('using_cooking_stove', 'using_cooking_stove', 'match_value[1]');
         $val->add_field('using_bath_heater_with_gas_hot_water_supply', 'using_bath_heater_with_gas_hot_water_supply', 'match_value[1]');
         $val->add_field('using_other_gas_machine', 'using_other_gas_machine', 'match_value[1]');
+        $val->add_field('moving_scheduled_date', 'moving_scheduled_date', 'match_pattern[/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/]');
         
         $val->add_field('preferred_contact_time_between', 'preferred_contact_time_between', 'required|match_collection[0,1,2,3,4]');
         $val->add_field('priority_degree', 'priority_degree', 'required|match_collection[0,1]');
