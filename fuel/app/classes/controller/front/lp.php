@@ -49,7 +49,7 @@ class Controller_Front_Lp extends Controller_Front
         {
             $this->template = \View::forge('front/lp/show_004');
             $this->template->lp_005 = ($id == '005');
-            
+
             return;
         }
 
@@ -81,6 +81,8 @@ class Controller_Front_Lp extends Controller_Front
     		$result = str_replace("\"images", "\"${o_uri}/images", $result);
     		$result = str_replace("\"css", "\"${o_uri}/css", $result);
     		$result = str_replace("\"js", "\"${o_uri}/js", $result);
+    		$result = str_replace("</head>", "</head>\n"."<script type=\"text/javascript\" src=\"/assets/js/lp.js\"></script>\n", $result);
+
 
     	}
 
