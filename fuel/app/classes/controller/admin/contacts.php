@@ -118,6 +118,10 @@ class Controller_Admin_Contacts extends Controller_Admin
             $contact->user_status = \Config::get('models.contact.user_status.'.$val->validated('user_status'));
             $contact->house_age = $val->validated('house_age') ? $val->validated('house_age') : null;
             $contact->number_of_active_rooms = $val->validated('number_of_active_rooms') ? $val->validated('number_of_active_rooms') : null;
+
+            $contact->using_cooking_stove = $val->validated('using_cooking_stove') ? 1 : 0;
+            $contact->using_bath_heater_with_gas_hot_water_supply = $val->validated('using_bath_heater_with_gas_hot_water_supply') ? 1 : 0;
+            $contact->using_other_gas_machine = $val->validated('using_other_gas_machine') ? 1 : 0;
             
             if ($contact->save())
             {
