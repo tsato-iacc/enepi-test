@@ -702,7 +702,8 @@ class Model_Contact extends \Orm\Model
     private function isAutoSendable($ignore_pr_tracking = false)
     {
         // Test contact
-        if (in_array($this->name, ['テスト', 'てすと', 'test', 'TEST']) || $this->email == 'info@enepi.jp')
+        $test = ['テスト', 'てすと', 'test', 'TEST'];
+        if (in_array($this->name, $test) || $this->email == 'info@enepi.jp' || in_array($this->gas_contracted_shop_name, $test))
         {
             $this->_reasons[] = \Config::get('enepi.contact.reason_not_auto_sendable.test');
             return false;
