@@ -189,11 +189,5 @@
 <script
 	src="/assets/estimate_form-e5a59019cc79288c2f05966185e1adb00ceac4a36f0d78599d3fc09ab2cc38bb.js"></script>
 
-<!-- Google Tag Manager (noscript) -->
-<noscript>
-	<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NCCZDM6"
-		height="0" width="0" style="display: none; visibility: hidden"></iframe>
-</noscript>
-<!-- End Google Tag Manager (noscript) -->
 </body>
 </html>

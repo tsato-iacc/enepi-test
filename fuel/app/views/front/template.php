@@ -18,8 +18,13 @@
   <?= Asset::css('simulation_estimate_form.css'); ?>
   <!-- This file must be last -->
   <?= Asset::css('front.min.css'); ?>
+
+  <?= render('shared/google_tag_manager.php'); ?>
 </head>
 <body>
+
+<?= render('shared/google_tag_manager_noscript.php'); ?>
+
 
   <?php if (\Uri::segment(1) == 'kakaku'): ?>
     <header class="pr-media">
