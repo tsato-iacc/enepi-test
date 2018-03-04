@@ -16,13 +16,17 @@ class Model_Contact extends \Orm\Model
         'name',
         'furigana',
         'zip_code',
-        'prefecture_code',
+        'prefecture_code' =>[
+            'default' => null,
+        ],
         'address',
         'address2' => [
             'default' => '',
         ],
         'new_zip_code',
-        'new_prefecture_code',
+        'new_prefecture_code' => [
+            'default' => null,
+        ],
         'new_address',
         'new_address2' => [
             'default' => '',
@@ -47,7 +51,9 @@ class Model_Contact extends \Orm\Model
         'gas_contracted_shop_name' => [
             'default' => '',
         ],
-        'moving_scheduled_date',
+        'moving_scheduled_date' => [
+            'default' => null,
+        ],
         'body',
         'house_kind',
         'ownership_kind' => [

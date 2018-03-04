@@ -120,7 +120,6 @@ use JpPrefecture\JpPrefecture;
 <?= Form::close(); ?>
 <!-- SEARCH FORM END -->
 
-<!-- FIX ME -->
 <?php if ($auth_user->isAdmin()): ?>
 <div class="btn-group mb-4" role="group" aria-label="CSV">
   <button type="button" class="btn btn-secondary">検索結果: <?= $total_items; ?>件</button>

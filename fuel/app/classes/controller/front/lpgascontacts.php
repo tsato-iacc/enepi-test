@@ -177,8 +177,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
             {
                 \Log::error($e);
                 \DB::rollback_transaction();
-                // FIX ME
-                throw $e;
             }
         }
 
@@ -190,7 +188,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
         // Old form or API request
         if ($validation_factory == 'old_form')
         {
-            $this->template = \View::forge('front/template_contact');
+            $this->template = \View::forge('front/template_old');
 
             $view = \View::forge('front/lpgasContacts/old', [
                 'contact' => $contact,

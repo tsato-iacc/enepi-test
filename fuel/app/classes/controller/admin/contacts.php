@@ -113,6 +113,11 @@ class Controller_Admin_Contacts extends Controller_Admin
         {
             $contact->set($val->validated());
 
+            $contact->prefecture_code = $val->validated('prefecture_code') ? $val->validated('prefecture_code') : null;
+            $contact->new_prefecture_code = $val->validated('new_prefecture_code') ? $val->validated('new_prefecture_code') : null;
+            $contact->zip_code = $val->validated('zip_code') ? $val->validated('zip_code') : null;
+            $contact->new_zip_code = $val->validated('new_zip_code') ? $val->validated('new_zip_code') : null;
+            
             $contact->house_kind = \Config::get('models.contact.house_kind.'.$val->validated('house_kind'));
             $contact->ownership_kind = \Config::get('models.contact.ownership_kind.'.$val->validated('ownership_kind'));
             $contact->user_status = \Config::get('models.contact.user_status.'.$val->validated('user_status'));
@@ -122,6 +127,8 @@ class Controller_Admin_Contacts extends Controller_Admin
             $contact->using_cooking_stove = $val->validated('using_cooking_stove') ? 1 : 0;
             $contact->using_bath_heater_with_gas_hot_water_supply = $val->validated('using_bath_heater_with_gas_hot_water_supply') ? 1 : 0;
             $contact->using_other_gas_machine = $val->validated('using_other_gas_machine') ? 1 : 0;
+            $contact->gas_used_years = $val->validated('gas_used_years') ? $val->validated('gas_used_years') : null;
+            $contact->moving_scheduled_date = $val->validated('moving_scheduled_date') ? $val->validated('moving_scheduled_date') : null;
             
             if ($contact->save())
             {
