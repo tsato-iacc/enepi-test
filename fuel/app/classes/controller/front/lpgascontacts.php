@@ -453,10 +453,10 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
 
 
-            $prefecture_data = \Model_LocalContentPrefecture::find($contact['prefecture_code']);
+            $prefecture_data = \Model_LocalContentPrefecture::find($contact->getPrefectureCode());
             if (!$prefecture_data)
             {
-                \Log::warning("prefecture_code {$contact['prefecture_code']} not found");
+                \Log::warning("prefecture_code {$contact->getPrefectureCode()} not found");
                 throw new HttpNotFoundException();
             }
 
@@ -469,7 +469,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
             $header_decision = 'other';
             $prefecture_KanjiAndCode   = JpPrefecture::allKanjiAndCode();
             $prefecture_kanji          = $this->prefecture_kanji(  $prefecture_KanjiAndCode,
-                $contact['prefecture_code']);
+                $contact->getPrefectureCode());
 
 
 
@@ -665,7 +665,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         $header_decision = 'other';
         $prefecture_KanjiAndCode = JpPrefecture::allKanjiAndCode();
-        $prefecture_kanji = $this->prefecture_kanji($prefecture_KanjiAndCode, $contact['prefecture_code']);
+        $prefecture_kanji = $this->prefecture_kanji($prefecture_KanjiAndCode, $contact->getPrefectureCode());
 
 
         $this->template->title = 'エネピ';
@@ -771,7 +771,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         if ($contact->gas_meter_checked_month)
         {
-            $prefecture = \Model_LocalContentPrefecture::find($city->prefecture_code);
+            $prefecture = \Model_LocalContentPrefecture::find($city->getPrefectureCode());
             $contact->gas_used_amount = round($prefecture[$contact->gas_meter_checked_month] / $prefecture->annual_average * $prefecture[$house_hold], 1);
         }
         else
