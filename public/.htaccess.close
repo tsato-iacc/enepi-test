@@ -16,7 +16,7 @@
   RewriteCond %{HTTP:X-FORWARDED-FOR} !^$
   RewriteRule ^(.*)?$ https://%{HTTP_HOST}/$1 [R=301,L]
 
-  RewriteCond %{HTTP:X-Forwarded-For} !^(114\.179\.83\.27|210\.155\.75\.105|210\.155\.75\.104)$
+  RewriteCond %{HTTP:X-Forwarded-For} !^(114\.179\.83\.27|210\.155\.75\.103|210\.155\.75\.104)$
   RewriteRule ^(.*)?$ http://www.lp.enepi.jp/lpsetsuyaku [R=302,L]
 
 
