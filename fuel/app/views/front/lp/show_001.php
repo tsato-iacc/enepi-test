@@ -31,7 +31,7 @@
         atag.src = _protocol + 'js.ptengine.jp/pta.js';
         var stag = document.createElement('script'); stag.type = 'text/javascript'; stag.async = true;
         stag.src = _protocol + 'js.ptengine.jp/pts.js';
-        var s = document.getElementsByTagName('script')[0]; 
+        var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(atag, s); s.parentNode.insertBefore(stag, s);
     })();
   </script>
@@ -93,8 +93,12 @@
 
   <script src="https://ca.iacc.tokyo/js/ca.js"></script>
   <script>capv();</script>
+
+  <?= render('shared/google_tag_manager'); ?>
+
 </head>
 
+<?= render('shared/google_tag_manager_noscript.php'); ?>
 
 <body id="top" class="lp-001">
   <div class="navigation-wrapper">

@@ -13,6 +13,8 @@
 </head>
 <body>
 
+<?= render('shared/google_tag_manager_noscript.php'); ?>
+
   <header>
     <div class="container-wrap">
       <div class="logo-wrap pos-left">
