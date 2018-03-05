@@ -17,7 +17,12 @@ use JpPrefecture\JpPrefecture;
       </h2>
     <?php endif; ?>
 
-    <?php if (\Uri::segment(1) == 'enechange'): ?>
+    <?php if (\Uri::segment(1) == 'kakaku'): ?>
+      <div class="step">
+        <h3 class="step-heading">プロパンガス料金 お見積もりまでの流れ</h3>
+        <?= Asset::img('enechange/step.png'); ?>
+      </div>
+    <?php elseif (\Uri::segment(1) == 'enechange'): ?>
       <div class="ene-quo-banner-pc">
         <?= Asset::img('enechange/eneQUOheader-5000-pc.png'); ?>
       </div>

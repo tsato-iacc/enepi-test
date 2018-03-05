@@ -16,7 +16,12 @@
 <body>
 
   <header class="pr-media">
-    <?php if (\Uri::segment(1) == 'enechange'): ?>
+    <?php if (\Uri::segment(1) == 'kakaku'): ?>
+      <?= render('shared/enechange_tag_manager_noscript'); ?>
+      <div class="logo-center">
+        <?= Asset::img('kakaku/logo.png'); ?>
+      </div>
+    <?php elseif (\Uri::segment(1) == 'enechange'): ?>
       <?= render('shared/enechange_tag_manager_noscript'); ?>
       <div class="logo-center">
         <?= Asset::img('enechange/logo.enechange.png'); ?>
@@ -52,6 +57,24 @@
   <div class="container">
     <?= $content; ?>
   </div>
+
+  <style>
+    .kakaku-fix {
+      width: 600px; margin: 20px auto;
+    }
+    @media screen and (max-device-width: 500px) {
+    .kakaku-fix {
+        width: 100%;
+        margin: 10px 0 0;
+      }
+    }
+  </style>
+
+  <?php if (\Uri::segment(1) == 'kakaku'): ?>
+    <div class="kakaku-fix">
+      <?= Asset::img('kakaku/tel.png'); ?>
+    </div>
+  <?php endif; ?>
   
   <?php if ($this->pr_tracking_name == "xmarke"): ?>
     <img width="1" height="1" border="0" alt="成果報告タグ" src="https://rsch.jp/common/prom/connectlpimg.php?eqid=8def6277d77504dbc3b8bbaf8e447c56546cb41c&po=0023">
