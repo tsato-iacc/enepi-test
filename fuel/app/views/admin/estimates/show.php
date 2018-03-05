@@ -67,7 +67,7 @@ use JpPrefecture\JpPrefecture;
   <?php endif; ?>
   <tr>
     <th>紹介した会社</th>
-    <td><a href="<?= \Uri::create('admin/companies/'.$estimate->company->id); ?>"><?= $estimate->company->partner_company->company_name; ?>(<?= $estimate->company->display_name ? $estimate->company->display_name : ''; ?>)</a></td>
+    <td><a href="<?= \Uri::create('admin/partner_companies/'.$estimate->company->partner_company->id.'/edit'); ?>"><?= $estimate->company->partner_company->company_name; ?>(<?= $estimate->company->display_name ? $estimate->company->display_name : ''; ?>)</a></td>
   </tr>
   <tr>
     <th>ステータス</th>
