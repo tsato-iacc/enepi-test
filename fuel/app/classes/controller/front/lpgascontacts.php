@@ -61,6 +61,8 @@ class Controller_Front_LpgasContacts extends Controller_Front
         }
         else
         {
+            return Response::redirect('lpgas_contacts/new');
+
             $contact_id = \Input::get('contact_id');
             $token = \Input::get('token');
 
