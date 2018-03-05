@@ -287,7 +287,8 @@ class Controller_Admin_Csv extends Controller_Admin
                 __('admin.contact.preferred_contact_time_between.'.$contact->preferred_contact_time_between),
                 $contact->priority_degree == \Config::get('models.contact.priority_degree.regular') ? '通常' : '至急',
                 __('admin.contact.desired_option.'.$contact->desired_option),
-                $contact->body,
+                // FIX ME
+                str_replace(["\r\n", "\n"], '', $contact->body),
             ];
 
             \File::append(APPPATH.DIRECTORY_SEPARATOR.'/tmp/', $name, mb_convert_encoding($format->to_csv([$line])."\n", 'SJIS'));
