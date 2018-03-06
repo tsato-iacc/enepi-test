@@ -2,6 +2,7 @@ if ($('#register_form').length) {
   /*
    * ANONYMOUS FUNCTIONS START
    */
+  
   // SEND FORM
   var sendForm = function (el) {
     var form = el.closest('form');

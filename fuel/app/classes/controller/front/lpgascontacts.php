@@ -39,17 +39,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
     public function action_index()
     {
 
-        if ($this->param('media') == 'kakaku')
-        {
-            $this->template = \View::forge('front/template_old');
-            $this->template->title = 'お見積もり情報入力';
-            $this->template->content = View::forge('front/lpgasContacts/old', [
-                'val' => \Model_Contact::validate('old_form'),
-                'contact' => new \Model_Contact(),
-                'apartment_form' => \Input::get('apartment_form') ? true : false,
-            ]);
-        }
-        else if ($this->param('media') == 'enechange')
+        if ($this->param('media') == 'enechange')
         {
             $this->template = \View::forge('front/template_old');
             $this->template->title = 'お見積もり情報入力';
@@ -61,8 +51,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
         }
         else
         {
-            return Response::redirect('lpgas_contacts/new');
-
             $contact_id = \Input::get('contact_id');
             $token = \Input::get('token');
 

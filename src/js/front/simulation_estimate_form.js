@@ -1,7 +1,9 @@
 if ($('#simulation_register_form').length) {  
   /*
-   * SEND FORM
+   * ANONYMOUS FUNCTIONS START
    */
+  
+  // SEND FORM
   var sendForm = function (el) {
     var form = el.closest('form');
     var estimateKind = $('input[name=lpgas_contact\\[estimate_kind\\]]:checked').val();
@@ -35,6 +37,99 @@ if ($('#simulation_register_form').length) {
       form.submit();
     }
   }
+
+  // Show/Hide error on top of the form
+  var isError = function (is, el, msg) {
+    if (is) {
+      el.closest('form').find('.step-error').text(msg).addClass('show-error');
+    } else {
+      el.closest('form').find('.step-error').removeClass('show-error');
+    }
+  }
+
+  var isInputValid = function (name) {
+    var input = $('input[name=' + name + ']').val();
+
+    if (input) {
+      inputHideError(name);
+    } else {
+      inputShowError(name);
+      return false;
+    }
+
+    return true;
+  }
+
+  var isSelectValid = function (name) {
+    var select = $('#' + name).val();
+
+    if (select) {
+      $('#' + name).closest('.error-wrap').removeClass('input-error');
+    } else {
+      $('#' + name).closest('.error-wrap').addClass('input-error');
+      return false;
+    }
+
+    return true;
+  }
+
+  var isTelValid = function (name) {
+    var telInput = $('input[name=' + name + ']');
+    var tel = telInput.val();
+    var pattern = /^(\d{10,11})$/;
+
+    if (tel) {
+      tel = convertNumber(tel);
+      telInput.val(tel);
+    }
+
+    if (tel && tel.match(pattern)) {
+      inputHideError(name);
+      return true;
+    }
+    else {
+      inputShowError(name);
+      return false;
+    }
+  }
+
+  var isEmailValid = function (name) {
+    var mail = $('input[name=' + name + ']').val();
+    var pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|gov|biz|info|jp)\b/;
+
+    if (mail && mail.match(pattern)) {
+      inputHideError(name);
+      return true;
+    }
+    else {
+      inputShowError(name);
+      return false;
+    }
+  }
+
+  var inputShowError = function (name) {
+    $('input[name=' + name + ']').closest('.error-wrap').addClass('input-error');
+  }
+
+  var inputHideError = function (name) {
+    $('input[name=' + name + ']').closest('.error-wrap').removeClass('input-error');
+  }
+
+  var convertNumber = function (str) {
+    return str.replace(/ー|－|−|-/g, '').replace(/[０-９]/g,function(s){return String.fromCharCode(s.charCodeAt(0)-0xFEE0);});
+  }
+
+  var scrollTo = function (target, offset) {
+    var speed = 400;
+    var tg = target;
+    var position = tg.offset().top - offset;
+
+    $('body,html').animate({scrollTop:　position}, speed, 'swing');
+  }
+
+  /*
+   * ANONYMOUS FUNCTIONS END
+   */
 
   var sending_form = false;
   var form_hidden = true;
@@ -148,93 +243,4 @@ if ($('#simulation_register_form').length) {
    * Convert kanji to furigana
    */
   $.fn.autoKana('input[name=lpgas_contact\\[name\\]]', 'input[name=lpgas_contact\\[furigana\\]]');
-
-  // Show/Hide error on top of the form
-  function isError(is, el, msg) {
-    if (is) {
-      el.closest('form').find('.step-error').text(msg).addClass('show-error');
-    } else {
-      el.closest('form').find('.step-error').removeClass('show-error');
-    }
-  }
-
-  function isInputValid(name) {
-    var input = $('input[name=' + name + ']').val();
-
-    if (input) {
-      inputHideError(name);
-    } else {
-      inputShowError(name);
-      return false;
-    }
-
-    return true;
-  }
-
-  function isSelectValid(name) {
-    var select = $('#' + name).val();
-
-    if (select) {
-      $('#' + name).closest('.error-wrap').removeClass('input-error');
-    } else {
-      $('#' + name).closest('.error-wrap').addClass('input-error');
-      return false;
-    }
-
-    return true;
-  }
-
-  function isTelValid(name) {
-    var telInput = $('input[name=' + name + ']');
-    var tel = telInput.val();
-    var pattern = /^(\d{10,11})$/;
-
-    if (tel) {
-      tel = convertNumber(tel);
-      telInput.val(tel);
-    }
-
-    if (tel && tel.match(pattern)) {
-      inputHideError(name);
-      return true;
-    }
-    else {
-      inputShowError(name);
-      return false;
-    }
-  }
-
-  function isEmailValid(name) {
-    var mail = $('input[name=' + name + ']').val();
-    var pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|gov|biz|info|jp)\b/;
-
-    if (mail && mail.match(pattern)) {
-      inputHideError(name);
-      return true;
-    }
-    else {
-      inputShowError(name);
-      return false;
-    }
-  }
-
-  function inputShowError(name) {
-    $('input[name=' + name + ']').closest('.error-wrap').addClass('input-error');
-  }
-
-  function inputHideError(name) {
-    $('input[name=' + name + ']').closest('.error-wrap').removeClass('input-error');
-  }
-
-  function convertNumber(str) {
-    return str.replace(/ー|－|−|-/g, '').replace(/[０-９]/g,function(s){return String.fromCharCode(s.charCodeAt(0)-0xFEE0);});
-  }
-
-  function scrollTo(target, offset) {
-    var speed = 400;
-    var tg = target;
-    var position = tg.offset().top - offset;
-
-    $('body,html').animate({scrollTop:　position}, speed, 'swing');
-  }
 }
