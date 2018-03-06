@@ -95,6 +95,8 @@ class Controller_Front_LpgasContacts extends Controller_Front
      */
     public function action_store()
     {
+        // FIX ME
+        // IMPORTANT USE CSRF PROTECTION
         $contact = new \Model_Contact();
 
         $contact->pr_tracking_parameter_id = $this->pr_tracking_id;

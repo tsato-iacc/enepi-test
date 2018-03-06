@@ -11,6 +11,7 @@ return [
         //'email' => 'test1@enepi.jp',
         'head_office_tel' => '03-5510-8015',
         'head_office_fax' => '03-5510-8016',
+        'api_security_key' => 'enepi_MhJfy98etGDzZqVeYSoH',
     ],
 
     /**

@@ -168,9 +168,9 @@ class Model_Contact extends \Orm\Model
 
         $val->add_field('lpgas_contact.house_hold', 'house_hold', 'numeric_between[2,7]');
 
-        $val->add_field('lpgas_contact.using_cooking_stove', 'using_cooking_stove', 'match_value[1]');
-        $val->add_field('lpgas_contact.using_bath_heater_with_gas_hot_water_supply', 'using_bath_heater_with_gas_hot_water_supply', 'match_value[1]');
-        $val->add_field('lpgas_contact.using_other_gas_machine', 'using_other_gas_machine', 'match_value[1]');
+        $val->add_field('lpgas_contact.using_cooking_stove', 'using_cooking_stove', 'match_collection[0,1]');
+        $val->add_field('lpgas_contact.using_bath_heater_with_gas_hot_water_supply', 'using_bath_heater_with_gas_hot_water_supply', 'match_collection[0,1]');
+        $val->add_field('lpgas_contact.using_other_gas_machine', 'using_other_gas_machine', 'match_collection[0,1]');
 
         $val->add_field('lpgas_contact.name', 'name', 'required|max_length[20]');
         $val->add_field('lpgas_contact.furigana', 'furigana', 'max_length[20]');
@@ -235,7 +235,7 @@ class Model_Contact extends \Orm\Model
                 if (\Input::post('apartment_form'))
                 {
                     $val->add_field('lpgas_contact.house_kind', 'house_kind', 'required|match_value[apartment]');
-                    $val->add_field('lpgas_contact.apartment_owner', 'apartment_owner', 'required|match_value[1]');
+                    $val->add_field('lpgas_contact.apartment_owner', 'apartment_owner', 'required|match_collection[0,1]');
 
                     $val->add_field('lpgas_contact.gas_contracted_shop_name', 'gas_contracted_shop_name', 'required|max_length[50]');
                     $val->add_field('lpgas_contact.number_of_rooms', 'number_of_rooms', 'required|valid_string[numeric]');
