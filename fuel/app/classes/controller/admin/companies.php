@@ -161,7 +161,7 @@ class Controller_Admin_Companies extends Controller_Admin
             foreach ($ng as $val)
             {
                 if ($val)
-                    $company->ng[] = new \Model_Company_Ng(['pattern' => $val]);
+                    $company->ng[] = new \Model_Company_Ng(['pattern' => trim($val)]);
             }
 
             if ($company->save())
