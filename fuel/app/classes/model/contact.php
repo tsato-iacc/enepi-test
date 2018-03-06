@@ -401,13 +401,20 @@ class Model_Contact extends \Orm\Model
     {
         if ($this->_zip_code === null)
         {
-            if ($this->zip_code)
-            {
-                $this->_zip_code = $this->zip_code;
-            }
-            elseif ($this->new_zip_code)
+            if ($this->estimate_kind == \Config::get('models.contact.estimate_kind.new_contract'))
             {
                 $this->_zip_code = $this->new_zip_code;
+            }
+            else
+            {
+                if ($this->zip_code)
+                {
+                    $this->_zip_code = $this->zip_code;
+                }
+                elseif ($this->new_zip_code)
+                {
+                    $this->_zip_code = $this->new_zip_code;
+                }
             }
         }
 
