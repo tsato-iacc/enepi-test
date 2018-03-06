@@ -215,7 +215,7 @@ class Controller_Admin_Csv extends Controller_Admin
                 $estimate->contact->gas_contracted_shop_name,
                 $estimate->contact->gas_used_years,
                 implode('、', $estimate->contact->getGasMachines()),
-                $estimate->notes,
+                trim($estimate->notes, '\"'),
                 __('admin.contact.preferred_contact_time_between.'.$estimate->contact->preferred_contact_time_between),
                 $estimate->contact->priority_degree == \Config::get('models.contact.priority_degree.regular') ? '通常' : '至急',
                 __('admin.contact.desired_option.'.$estimate->contact->desired_option),
@@ -280,7 +280,7 @@ class Controller_Admin_Csv extends Controller_Admin
                 __('admin.contact.user_status.'.\Config::get('views.contact.user_status.'.$contact->user_status)),
                 $contact->status_reason ? \Helper\CancelReasons::getNameByValue($contact->status_reason) : '',
                 __('admin.estimate.progress.'.$contact->getEstimateProgress()),
-                $contact->admin_memo,
+                trim($contact->admin_memo, '\"'),
                 $contact->sent_auto_estimate_req ? '◯' : '×',
                 __('admin.contact.is_seen.'.\Config::get('views.contact.is_seen.'.$contact->is_seen)),
                 \Uri::create('lpgas/contacts/:id?'.http_build_query(['pin' => $contact->pin, 'token' => $contact->token]), ['id' => $contact->id]),
@@ -289,8 +289,7 @@ class Controller_Admin_Csv extends Controller_Admin
                 __('admin.contact.preferred_contact_time_between.'.$contact->preferred_contact_time_between),
                 $contact->priority_degree == \Config::get('models.contact.priority_degree.regular') ? '通常' : '至急',
                 __('admin.contact.desired_option.'.$contact->desired_option),
-                // FIX ME
-                str_replace(["\r\n", "\n"], '', $contact->body),
+                trim($contact->body, '\"'),
             ];
 
             \File::append(APPPATH.DIRECTORY_SEPARATOR.'/tmp/', $name, mb_convert_encoding($format->to_csv([$line])."\n", 'SJIS'));
@@ -316,7 +315,7 @@ class Controller_Admin_Csv extends Controller_Admin
                     \Helper\TimezoneConverter::convertFromString($history->created_at, 'admin_table'),
                     $history->admin_user->email,
                     __('admin.calling_history.calling_method.'.\Config::get('views.calling_history.calling_method.'.$history->calling_method)),
-                    $history->note,
+                    trim($history->note, '\"'),
                 ];
 
                 \File::append(APPPATH.DIRECTORY_SEPARATOR.'/tmp/', $name, mb_convert_encoding($format->to_csv([$line])."\n", 'SJIS'));
