@@ -282,7 +282,7 @@ class Controller_Admin_Csv extends Controller_Admin
                 $contact->status_reason ? \Helper\CancelReasons::getNameByValue($contact->status_reason) : '',
                 __('admin.estimate.progress.'.$contact->getEstimateProgress()),
                 //trim($contact->admin_memo, '\"'),
-		str_replace("\"", "", trim(str_replace("\r", "", str_replace("\n", "", $estimate->admin_memo)))),
+		str_replace("\"", "", trim(str_replace("\r", "", str_replace("\n", "", $contact->admin_memo)))),
                 $contact->sent_auto_estimate_req ? '◯' : '×',
                 __('admin.contact.is_seen.'.\Config::get('views.contact.is_seen.'.$contact->is_seen)),
                 \Uri::create('lpgas/contacts/:id?'.http_build_query(['pin' => $contact->pin, 'token' => $contact->token]), ['id' => $contact->id]),
