@@ -116,6 +116,15 @@ use JpPrefecture\JpPrefecture;
     </div>
   </div>
 
+  <div class="form-group row mb-0">
+    <div class="col-2 pr-0">
+      <div class="form-group<?= $val->error('history_created_from') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="history_created_from"><h6>対応履歴日時</h6></label>
+        <input type="text" name="history_created_from" value="<?= $val->input('history_created_from', '') ?>" class="form-control datepicker" id="history_created_from">
+      </div>
+    </div>
+  </div>
+
   <button type="submit" class="btn btn-secondary">検索</button>
 <?= Form::close(); ?>
 <!-- SEARCH FORM END -->

@@ -77,6 +77,12 @@
         <?= Form::select('preferred_time', $val->input('preferred_time', ''), ['' => 'none'] + __('admin.contact.preferred_contact_time_between'), ['class' => 'form-control', 'id' => 'preferred_time']); ?>
       </div>
     </div>
+    <div class="col-2 pr-0">
+      <div class="form-group<?= $val->error('history_created_from') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="history_created_from"><h6>変更日時</h6></label>
+        <input type="text" name="history_created_from" value="<?= $val->input('history_created_from', '') ?>" class="form-control datepicker" id="history_created_from">
+      </div>
+    </div>
   </div>
 
   <button type="submit" class="btn btn-secondary">検索</button>

@@ -40,7 +40,9 @@ class Controller_Admin_Estimates extends Controller_Admin
                 'contact' => [
                     'where' => [],
                 ],
-                'histories',
+                'histories' => [
+                    'where' => [],
+                ],
             ],
         ];
 
@@ -473,9 +475,21 @@ class Controller_Admin_Estimates extends Controller_Admin
 
         // Where contact created to
         if ($created_to = \Input::get('created_to'))
-            $conditions['where'][] = ['created_at', '>=', \Helper\TimezoneConverter::convertFromStringToUTC($created_to)];
+            $conditions['where'][] = ['created_at', '>=', \Helper\TimezoneConverter::convertFromStringToUTC($created_to, 'Y-m-d H:i:s', 'Y-m-d', true)];
 
         if ($preferred_time = \Input::get('preferred_time'))
             $conditions['related']['contact']['where'][] = ['preferred_contact_time_between', $preferred_time];
+
+        // Where calling_histories is the day
+        if ($history_created_from = \Input::get('history_created_from'))
+        {
+            $related_where = true;
+
+            $history_created_from = \Helper\TimezoneConverter::convertFromStringToUTC($history_created_from);
+            $history_created_to = \Helper\TimezoneConverter::convertFromStringToUTC($history_created_from, 'Y-m-d H:i:s', 'Y-m-d', true);
+
+            $conditions['related']['histories']['where'][] = ['created_at', '>=', $history_created_from];
+            $conditions['related']['histories']['where'][] = ['created_at', '<=', $history_created_to];
+        }
     }
 }

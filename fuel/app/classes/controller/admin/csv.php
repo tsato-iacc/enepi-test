@@ -154,7 +154,9 @@ class Controller_Admin_Csv extends Controller_Admin
                 'estimates' => [
                     'where' => [],
                 ],
-                'calling_histories',
+                'calling_histories' => [
+                    'where' => [],
+                ],
             ],
             'order_by' => [
                 'id' => 'asc',
@@ -347,7 +349,7 @@ class Controller_Admin_Csv extends Controller_Admin
 
             foreach ($history->diff_json as $key => $val)
             {
-                if (in_array($key, ['updated_at', 'last_update_admin_user_id', 'last_update_partner_company_id']))
+                if (in_array($key, ['status_updated_at', 'updated_at', 'last_update_admin_user_id', 'last_update_partner_company_id']))
                 {
                     continue;
                 }
@@ -439,6 +441,18 @@ class Controller_Admin_Csv extends Controller_Admin
 
         if ($preferred_time = \Input::get('preferred_time'))
             $conditions['related']['contact']['where'][] = ['preferred_contact_time_between', $preferred_time];
+
+        // Where calling_histories is the day
+        if ($history_created_from = \Input::get('history_created_from'))
+        {
+            $related_where = true;
+
+            $history_created_from = \Helper\TimezoneConverter::convertFromStringToUTC($history_created_from);
+            $history_created_to = \Helper\TimezoneConverter::convertFromStringToUTC($history_created_from, 'Y-m-d H:i:s', 'Y-m-d', true);
+
+            $conditions['related']['histories']['where'][] = ['created_at', '>=', $history_created_from];
+            $conditions['related']['histories']['where'][] = ['created_at', '<=', $history_created_to];
+        }
     }
 
     private function updateContactConditions(&$conditions)
@@ -537,6 +551,18 @@ class Controller_Admin_Csv extends Controller_Admin
                     $conditions['related']['estimates']['where'][] = ['construction_finished_date', 'IS NOT', NULL];
                     break;
             }
+        }
+
+        // Where calling_histories is the day
+        if ($history_created_from = \Input::get('history_created_from'))
+        {
+            $related_where = true;
+
+            $history_created_from = \Helper\TimezoneConverter::convertFromStringToUTC($history_created_from);
+            $history_created_to = \Helper\TimezoneConverter::convertFromStringToUTC($history_created_from, 'Y-m-d H:i:s', 'Y-m-d', true);
+
+            $conditions['related']['calling_histories']['where'][] = ['created_at', '>=', $history_created_from];
+            $conditions['related']['calling_histories']['where'][] = ['created_at', '<=', $history_created_to];
         }
 
         return $related_where;

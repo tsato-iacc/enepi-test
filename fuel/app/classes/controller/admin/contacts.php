@@ -38,7 +38,9 @@ class Controller_Admin_Contacts extends Controller_Admin
                 'estimates' => [
                     'where' => [],
                 ],
-                'calling_histories',
+                'calling_histories' => [
+                    'where' => [],
+                ],
                 'tracking',
             ],
         ];
@@ -358,7 +360,7 @@ class Controller_Admin_Contacts extends Controller_Admin
 
         // Where contact created to
         if ($created_to = \Input::get('created_to'))
-            $conditions['where'][] = ['created_at', '<=', \Helper\TimezoneConverter::convertFromStringToUTC($created_to)];
+            $conditions['where'][] = ['created_at', '<=', \Helper\TimezoneConverter::convertFromStringToUTC($created_to, 'Y-m-d H:i:s', 'Y-m-d', true)];
 
         // Where introduce created from
         if ($introduced_from = \Input::get('introduced_from'))
@@ -371,7 +373,7 @@ class Controller_Admin_Contacts extends Controller_Admin
         if ($introduced_to = \Input::get('introduced_to'))
         {
             $related_where = true;
-            $conditions['related']['estimates']['where'][] = ['created_at', '<=', \Helper\TimezoneConverter::convertFromStringToUTC($introduced_to)];
+            $conditions['related']['estimates']['where'][] = ['created_at', '<=', \Helper\TimezoneConverter::convertFromStringToUTC($introduced_to, 'Y-m-d H:i:s', 'Y-m-d', true)];
         }
 
         // Where estimate progress equal
@@ -404,6 +406,18 @@ class Controller_Admin_Contacts extends Controller_Admin
                     $conditions['related']['estimates']['where'][] = ['construction_finished_date', 'IS NOT', NULL];
                     break;
             }
+        }
+
+        // Where calling_histories is the day
+        if ($history_created_from = \Input::get('history_created_from'))
+        {
+            $related_where = true;
+
+            $history_created_from = \Helper\TimezoneConverter::convertFromStringToUTC($history_created_from);
+            $history_created_to = \Helper\TimezoneConverter::convertFromStringToUTC($history_created_from, 'Y-m-d H:i:s', 'Y-m-d', true);
+
+            $conditions['related']['calling_histories']['where'][] = ['created_at', '>=', $history_created_from];
+            $conditions['related']['calling_histories']['where'][] = ['created_at', '<=', $history_created_to];
         }
 
         return $related_where;
