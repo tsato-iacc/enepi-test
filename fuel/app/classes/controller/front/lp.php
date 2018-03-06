@@ -47,11 +47,6 @@ class Controller_Front_Lp extends Controller_Front
 
         elseif ($id == '004' || $id == '005')
         {
-            $q = $_SERVER['QUERY_STRING'];
-            $q = str_replace('/lp/004&', '', $q);
-
-            return Response::redirect('s/lp/003?'.$q);
-
             $this->template = \View::forge('front/lp/show_004');
             $this->template->lp_005 = ($id == '005');
 
