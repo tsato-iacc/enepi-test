@@ -155,8 +155,13 @@ class Model_Company extends \Orm\Model
     {
         if ($company_name)
         {
-            if ($this->get('ng', ['where' => [['pattern', 'like', "%{$company_name}%"]]]))
-                return true;
+            foreach ($this->ng as $ng)
+            {
+                if (mb_strpos($company_name, trim($ng->pattern)) !== false)
+                {
+                    return true;                    
+                }
+            }
         }
 
         return false;
