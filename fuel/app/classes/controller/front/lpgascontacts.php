@@ -38,7 +38,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
      */
     public function action_index()
     {
-
         if ($this->param('media') == 'enechange')
         {
             $this->template = \View::forge('front/template_old');
