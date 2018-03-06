@@ -14,6 +14,8 @@ class Controller_Front_Api_v1_Security extends Controller_Rest
 
     public function get_key()
     {
+        header('Access-Control-Allow-Origin: *');
+        
         $response = [
             'authenticity_token' => \Config::get('enepi.service.api_security_key')
         ];
