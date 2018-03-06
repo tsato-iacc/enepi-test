@@ -131,6 +131,8 @@ return array(
     'partner/estimates/(:num)'                             => [['GET', new Route('partner/estimates/show/$1')]],
     'partner/estimates/(:num)/cancel'                      => [['POST', new Route('partner/estimates/cancel/$1')]],
     'partner/estimates/(:num)/progress'                    => [['POST', new Route('partner/estimates/progress/$1')]],
+    // Old routing
+    'partner/lpgas/estimates/(:any)'                       => [['GET', new Route('partner/estimates/show_old/$1')]],
 
     /**
      * CSV

@@ -116,7 +116,6 @@ class Controller_Partner_Estimates extends Controller_Partner
         }
 
         $histories = $estimate->get('histories', ['order_by' => ['id' => 'desc']]);
-        // $comments = $estimate->get('comments', ['order_by' => ['id' => 'desc']]);
         $comments = $estimate->get('comments', ['where' => [['estimate_change_log_id', null]], 'order_by' => ['id' => 'desc']]);
 
         $timeline = $histories + $comments;
@@ -128,6 +127,29 @@ class Controller_Partner_Estimates extends Controller_Partner
             'estimate' => $estimate,
             'timeline' => array_reverse(\Arr::sort($timeline, 'created_at', 'desc')),
         ]);
+    }
+
+
+
+    /**
+     * Redirect from old url
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_show_old($uuid)
+    {
+        $estimate = \Model_Estimate::find('first', [
+            'where' => [
+                ['uuid', $uuid],
+                ['company_id', '=', $this->auth_user->id],
+            ],
+        ]);
+
+        if (!$estimate)
+            throw new HttpNotFoundException;
+
+        return Response::redirect("partner/estimates/{$estimate->id}");
     }
 
     /**
