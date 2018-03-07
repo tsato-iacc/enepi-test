@@ -107,7 +107,7 @@ class Controller_Admin_Csv extends Controller_Admin
         $name = \Str::random('alpha', 16).'.csv';
         $this->createEstimateHistoryCsv($histories, $name);
 
-        return \File::download(APPPATH."/tmp/{$name}", '見積り一覧.csv', null, null, true);
+        return \File::download(APPPATH."/tmp/{$name}", '変更履歴.csv', null, null, true);
     }
 
     public function action_contacts_estimates($id)
