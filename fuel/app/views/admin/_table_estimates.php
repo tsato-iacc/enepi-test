@@ -46,7 +46,7 @@ use JpPrefecture\JpPrefecture;
             <?php endif; ?>
           </div>
           <div><i class="fa fa-hashtag" aria-hidden="true"></i> <?= $estimate->contact->id; ?></div>
-          <div><i class="fa fa-calendar" aria-hidden="true"></i> <?= $estimate->getIntroduceDate(); ?></div>
+          <div><i class="fa fa-calendar" aria-hidden="true"></i> <?= \Helper\TimezoneConverter::convertFromString($estimate->created_at, 'admin_table'); ?></div>
           <div><i class="fa fa-calendar" aria-hidden="true"></i> <?= $estimate->construction_scheduled_date ? $estimate->construction_scheduled_date : '-'; ?></div>
           <div><i class="fa fa-user-circle-o" aria-hidden="true"></i> <?= $estimate->company_contact_name ? $estimate->company_contact_name : '-'; ?></div>
         </td>

@@ -333,31 +333,32 @@ class Model_Estimate extends \Orm\Model
 
     /**
      * View methods
+     * Don't use permanently
      */
-    public function getIntroduceDate()
-    {
-        if ($history = $this->histories)
-        {
-            $introduce_arr = [];
+    // public function getIntroduceDate()
+    // {
+    //     if ($history = $this->histories)
+    //     {
+    //         $introduce_arr = [];
 
-            foreach ($history as $h)
-            {
-                if (isset($h->diff_json->status) && $h->diff_json->status->new == 'verbal_ok')
-                {
-                    $introduce_arr[] = $h->created_at;
-                }
-            }
+    //         foreach ($history as $h)
+    //         {
+    //             if (isset($h->diff_json->status) && $h->diff_json->status->new == 'verbal_ok')
+    //             {
+    //                 $introduce_arr[] = $h->created_at;
+    //             }
+    //         }
 
-            if ($introduce_arr)
-            {
-                $last = end($introduce_arr);
+    //         if ($introduce_arr)
+    //         {
+    //             $last = end($introduce_arr);
                 
-                return \Helper\TimezoneConverter::convertFromString($last, 'admin_table');
-            }
-        }
+    //             return \Helper\TimezoneConverter::convertFromString($last, 'admin_table');
+    //         }
+    //     }
 
-        return '-';
-    }
+    //     return '-';
+    // }
 
     public function isExpired()
     {
