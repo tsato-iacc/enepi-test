@@ -507,11 +507,11 @@ class Controller_Admin_Estimates extends Controller_Admin
         {
             $related_where = true;
 
-            $history_created_from = \Helper\TimezoneConverter::convertFromStringToUTC($history_created_from);
-            $history_created_to = \Helper\TimezoneConverter::convertFromStringToUTC($history_created_from, 'Y-m-d H:i:s', 'Y-m-d', true);
+            $h_from = \Helper\TimezoneConverter::convertFromStringToUTC($history_created_from);
+            $h_to = \Helper\TimezoneConverter::convertFromStringToUTC($history_created_from, 'Y-m-d H:i:s', 'Y-m-d', true);
 
-            $conditions['related']['histories']['where'][] = ['created_at', '>=', $history_created_from];
-            $conditions['related']['histories']['where'][] = ['created_at', '<=', $history_created_to];
+            $conditions['related']['histories']['where'][] = ['created_at', '>=', $h_from];
+            $conditions['related']['histories']['where'][] = ['created_at', '<=', $h_to];
         }
 
         return $related_where;
