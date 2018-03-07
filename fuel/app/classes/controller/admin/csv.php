@@ -440,7 +440,7 @@ class Controller_Admin_Csv extends Controller_Admin
 
         // Where contact created to
         if ($created_to = \Input::get('created_to'))
-            $conditions['where'][] = ['created_at', '>=', \Helper\TimezoneConverter::convertFromStringToUTC($created_to, 'Y-m-d H:i:s', 'Y-m-d', true)];
+            $conditions['where'][] = ['created_at', '<=', \Helper\TimezoneConverter::convertFromStringToUTC($created_to, 'Y-m-d H:i:s', 'Y-m-d', true)];
 
         if ($preferred_time = \Input::get('preferred_time'))
             $conditions['related']['contact']['where'][] = ['preferred_contact_time_between', $preferred_time];
