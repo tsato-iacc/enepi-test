@@ -440,7 +440,7 @@ class Controller_Admin_Csv extends Controller_Admin
 
         // Where contact created to
         if ($created_to = \Input::get('created_to'))
-            $conditions['where'][] = ['created_at', '>=', \Helper\TimezoneConverter::convertFromStringToUTC($created_to)];
+            $conditions['where'][] = ['created_at', '>=', \Helper\TimezoneConverter::convertFromStringToUTC($created_to, 'Y-m-d H:i:s', 'Y-m-d', true)];
 
         if ($preferred_time = \Input::get('preferred_time'))
             $conditions['related']['contact']['where'][] = ['preferred_contact_time_between', $preferred_time];
@@ -508,7 +508,7 @@ class Controller_Admin_Csv extends Controller_Admin
 
         // Where contact created to
         if ($created_to = \Input::get('created_to'))
-            $conditions['where'][] = ['created_at', '<=', \Helper\TimezoneConverter::convertFromStringToUTC($created_to)];
+            $conditions['where'][] = ['created_at', '<=', \Helper\TimezoneConverter::convertFromStringToUTC($created_to, 'Y-m-d H:i:s', 'Y-m-d', true)];
 
         // Where introduce created from
         if ($introduced_from = \Input::get('introduced_from'))
@@ -521,7 +521,7 @@ class Controller_Admin_Csv extends Controller_Admin
         if ($introduced_to = \Input::get('introduced_to'))
         {
             $related_where = true;
-            $conditions['related']['estimates']['where'][] = ['created_at', '<=', \Helper\TimezoneConverter::convertFromStringToUTC($introduced_to)];
+            $conditions['related']['estimates']['where'][] = ['created_at', '<=', \Helper\TimezoneConverter::convertFromStringToUTC($introduced_to, 'Y-m-d H:i:s', 'Y-m-d', true)];
         }
 
         // Where estimate progress equal
