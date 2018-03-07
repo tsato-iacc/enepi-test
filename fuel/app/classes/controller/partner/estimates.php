@@ -102,7 +102,7 @@ class Controller_Partner_Estimates extends Controller_Partner
                 ],
             ],
             'where' => [
-                ['company_id', '=', $this->auth_user->id],
+                ['company_id', '=', $this->auth_user->company->id],
             ],
         ]);
 
