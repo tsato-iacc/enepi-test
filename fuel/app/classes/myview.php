@@ -6,6 +6,14 @@ use JpPrefecture\Prefecture;
 class MyView{
 
 
+	public static function htbr($v){
+
+		$v = str_replace("\r", "", $v);
+		$v = str_replace("\n", "<br>\n", $v);
+		return $v;
+	}
+
+
 	public static function admin_partner_company_emails_path(){
 
 	}

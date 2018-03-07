@@ -117,7 +117,7 @@ use JpPrefecture\JpPrefecture;
   </tr>
   <tr>
     <th>備考</th>
-    <td><?= $estimate->notes; ?></td>
+    <td><?= MyView::htbr($estimate->notes); ?></td>
   </tr>
   <tr>
     <th>機器・配管セットプラン</th>
@@ -375,7 +375,7 @@ use JpPrefecture\JpPrefecture;
           <td><?= \Helper\TimezoneConverter::convertFromString($line->created_at, 'admin_table'); ?></td>
           <td>
             <?php if ($line->comment): ?>
-              <?= $line->comment->comment; ?>
+              <?= MyView::htbr($line->comment->comment); ?>
             <?php endif; ?>
           </td>
           <td>
@@ -405,7 +405,7 @@ use JpPrefecture\JpPrefecture;
             </div>
           </td>
           <td><?= \Helper\TimezoneConverter::convertFromString($line->created_at, 'admin_table'); ?></td>
-          <td><?= $line->comment; ?></td>
+          <td><?= MyView::htbr($line->comment); ?></td>
           <td></td>
         </tr>
       <?php endif; ?>
