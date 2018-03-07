@@ -18,6 +18,7 @@ class Controller_Admin extends Controller_Base
             }
             else
             {
+                \Session::set('access_url', \Uri::current());
                 Response::redirect('admin/login');
             }
         }
@@ -54,7 +55,15 @@ class Controller_Admin extends Controller_Base
                     //     $auth->dont_remember_me();
                     // }
 
-                    Response::redirect('admin/estimates');
+                    if ($access_url = \Session::get('access_url'))
+                    {
+                        \Session::delete('access_url');
+                        Response::redirect($access_url);
+                    }
+                    else
+                    {
+                        Response::redirect('admin/estimates');
+                    }
                 }
                 else
                 {

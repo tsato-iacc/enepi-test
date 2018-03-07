@@ -18,6 +18,7 @@ class Controller_Partner extends Controller_Base
             }
             else
             {
+                \Session::set('access_url', \Uri::current());
                 Response::redirect('partner/login');
             }
         }
@@ -55,7 +56,15 @@ class Controller_Partner extends Controller_Base
                     //     $auth->dont_remember_me();
                     // }
 
-                    Response::redirect('partner/estimates');
+                    if ($access_url = \Session::get('access_url'))
+                    {
+                        \Session::delete('access_url');
+                        Response::redirect($access_url);
+                    }
+                    else
+                    {
+                        Response::redirect('partner/estimates');
+                    }
                 }
                 else
                 {
