@@ -29,11 +29,11 @@
       </span>
     <?php endif;?>
 
-    <div class="checkbox">
+    <!-- <div class="checkbox">
       <label>
         <input type="checkbox" name="remember"<?= $val->input('remember') ? 'checked="checked"' : '' ?>> ログイン状態を保存する
       </label>
-    </div>
+    </div> -->
     <button class="btn btn-lg btn-primary btn-block" type="submit">ログイン</button>
   <?= Form::close(); ?>
 </div>

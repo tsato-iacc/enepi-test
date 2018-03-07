@@ -43,16 +43,16 @@ class Controller_Admin extends Controller_Base
                 // check the credentials. This assumes that you have the previous table created
                 if ($auth->login(\Input::param('email'), \Input::param('password')))
                 {
-                    if (\Input::param('remember', false))
-                    {
-                        // create the remember-me cookie
-                        \Eauth::remember_me();
-                    }
-                    else
-                    {
-                        // delete the remember-me cookie if present
-                        \Eauth::dont_remember_me();
-                    }
+                    // if (\Input::param('remember', false))
+                    // {
+                    //     // create the remember-me cookie
+                    //     $auth->remember_me();
+                    // }
+                    // else
+                    // {
+                    //     // delete the remember-me cookie if present
+                    //     $auth->dont_remember_me();
+                    // }
 
                     Response::redirect('admin/estimates');
                 }
