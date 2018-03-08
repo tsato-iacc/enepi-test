@@ -26,5 +26,10 @@ use Fuel\Core\Html;
 
   <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
   <?= Asset::js('front.min.js'); ?>
+
+
+  <script src="https://ca.iacc.tokyo/js/ca.js"></script>
+  <script>capv();</script>
+
 </body>
 </html>
