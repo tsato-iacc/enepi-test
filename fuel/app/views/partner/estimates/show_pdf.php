@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <title>プロパンガス切替希望 現場調査票 - enepi</title>
   <style>
-    html { font-family: sans-serif; font-size: 100%; width: 1080px; }
+    
+    body { font-family: jgothic; }
+
+    html { font-size: 100%; width: 1080px; }
 
     td.none { background-image: -webkit-linear-gradient(68deg, transparent 49%, #d9d9d9 49%, #d9d9d9 50%, transparent 50%, transparent); background-repeat: no-repeat; background-size: 100% 100%; }
 
