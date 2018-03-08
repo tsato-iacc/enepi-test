@@ -48,7 +48,7 @@ class Model_Tracking extends \Orm\Model
      */
     public static function validate($tracking = null)
     {
-        $val = ValidateReplacer::forge();
+        $val = Validation::forge();
         $val->add_callable('AddValidation');
 
         if ($tracking === null)

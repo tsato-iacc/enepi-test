@@ -10,6 +10,9 @@
  * @link       http://fuelphp.com
  */
 
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
 /**
  * The Partner Estimates Controller.
  *
@@ -115,6 +118,26 @@ class Controller_Partner_Estimates extends Controller_Partner
             $estimate->save();
         }
 
+        if (\Input::extension() == 'pdf')
+        {
+            // $options = new Options();
+            // $options->set('defaultFont', 'type1');
+            // $dompdf = new Dompdf($options);
+            $dompdf = new Dompdf();
+
+            $html = View::forge('partner/estimates/show_pdf', [
+                'estimate' => $estimate,
+            ], false);
+
+            $dompdf->loadHtml($html);
+
+            // Render the HTML as PDF
+            $dompdf->render();
+
+            // Output the generated PDF to Browser
+            $dompdf->stream();exit;
+        }
+
         $histories = $estimate->get('histories', ['order_by' => ['id' => 'desc']]);
         $comments = $estimate->get('comments', ['where' => [['estimate_change_log_id', null]], 'order_by' => ['id' => 'desc']]);
 
@@ -128,8 +151,6 @@ class Controller_Partner_Estimates extends Controller_Partner
             'timeline' => array_reverse(\Arr::sort($timeline, 'created_at', 'desc')),
         ]);
     }
-
-
 
     /**
      * Redirect from old url
