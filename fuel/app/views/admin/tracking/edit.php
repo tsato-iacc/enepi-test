@@ -3,7 +3,7 @@
   <div class="form-group row">
     <label class="col-sm-2 col-form-label">パラメータ名</label>
     <div class="col-sm-10">
-      <p class="form-control-static">email@example.com</p>
+      <p class="form-control-static"><?= $tracking->name; ?></p>
     </div>
   </div>
 
@@ -29,13 +29,13 @@
 
   <div class="form-check">
     <label class="form-check-label">
-      <input class="form-check-input" type="checkbox" name="render_conversion_tag_only_if_match" value="1"<?= $tracking->render_conversion_tag_only_if_match ? ' checked="checked"' : '' ?>>
+      <?= Form::checkbox('render_conversion_tag_only_if_match', 1, $val->input('render_conversion_tag_only_if_match', $tracking->render_conversion_tag_only_if_match), ['class' => 'form-check-input']); ?>
       経由元が一致する場合のみ完了画面でCVタグを表示
     </label>
   </div>
   <div class="form-check">
     <label class="form-check-label">
-      <input class="form-check-input" type="checkbox" name="auto_sendable" value="1"<?= $tracking->auto_sendable ? ' checked="checked"' : '' ?>>
+      <?= Form::checkbox('auto_sendable', 1, $val->input('auto_sendable', $tracking->auto_sendable), ['class' => 'form-check-input']); ?>
       自動見積もり可
     </label>
   </div>

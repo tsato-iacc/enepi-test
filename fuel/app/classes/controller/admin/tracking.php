@@ -51,7 +51,14 @@ class Controller_Admin_Tracking extends Controller_Admin
 
         if ($val->run())
         {
-            $tracking->set($val->validated(null, 'tracking'));
+            $tracking->set([
+                'name' => $val->validated('name'),
+                'display_name' => $val->validated('display_name'),
+                'conversion_tag' => $val->validated('conversion_tag'),
+                'render_conversion_tag_only_if_match' => $val->validated('render_conversion_tag_only_if_match') ? 1 : 0,
+                'auto_sendable' => $val->validated('auto_sendable') ? 1 : 0,
+                'cv_point' => \Config::get('models.tracking.cv_point.'.$val->validated('cv_point')),
+            ]);
 
             $tracking->checkSSLSupport();
 
@@ -104,7 +111,13 @@ class Controller_Admin_Tracking extends Controller_Admin
 
         if ($val->run())
         {
-            $tracking->set($val->validated(null, 'tracking'));
+            $tracking->set([
+                'display_name' => $val->validated('display_name'),
+                'conversion_tag' => $val->validated('conversion_tag'),
+                'render_conversion_tag_only_if_match' => $val->validated('render_conversion_tag_only_if_match') ? 1 : 0,
+                'auto_sendable' => $val->validated('auto_sendable') ? 1 : 0,
+                'cv_point' => \Config::get('models.tracking.cv_point.'.$val->validated('cv_point')),
+            ]);
 
             if ($tracking->save())
                 Session::set_flash('success', 'trackingを更新しました');
