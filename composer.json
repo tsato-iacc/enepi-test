@@ -29,7 +29,8 @@
         "notfoundsam/jp_prefecture": "dev-master",
         "aws/aws-sdk-php": "^3.36",
         "mobiledetect/mobiledetectlib": "^2.8",
-        "twilio/sdk": "^5.16"
+        "twilio/sdk": "^5.16",
+        "dompdf/dompdf": "^0.8.2"
     },
     "suggest": {
         "dwoo/dwoo" : "Allow Dwoo templating with the Parser package",
