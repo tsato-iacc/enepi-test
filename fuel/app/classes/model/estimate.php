@@ -125,7 +125,7 @@ class Model_Estimate extends \Orm\Model
 
             $pref_model = Simulation::getUsedAmount($contact->getPrefectureCode());
 
-            if ($contact->gas_meter_checked_month)
+            if ($contact->gas_meter_checked_month && isset($pref_model[$contact->gas_meter_checked_month]))
             {
                 $a = 1.0 / $pref_model[$contact->gas_meter_checked_month];
             }
@@ -171,7 +171,7 @@ class Model_Estimate extends \Orm\Model
     public function cancel(&$auth_user, $status_reason = null)
     {
         $reason_val = $status_reason ? \Helper\CancelReasons::getValueByName($status_reason) : 0;
-        
+
         if ($this->status != \Config::get('models.estimate.status.cancelled') && $this->status != \Config::get('models.estimate.status.contracted') && $reason_val !== null)
         {
             if ($auth_user instanceof \Model_AdminUser)
@@ -209,7 +209,7 @@ class Model_Estimate extends \Orm\Model
                 return true;
             }
         }
-        
+
         return false;
     }
 
@@ -226,7 +226,7 @@ class Model_Estimate extends \Orm\Model
 
             if ($admin_id)
                 $this->last_update_user_id = $user_id;
-            
+
             $this->status = \Config::get('models.estimate.status.verbal_ok');
 
             if ($this->save())
@@ -241,7 +241,7 @@ class Model_Estimate extends \Orm\Model
                 return true;
             }
         }
-        
+
         return false;
     }
 
@@ -270,11 +270,11 @@ class Model_Estimate extends \Orm\Model
                 {
                     \Helper\Notifier::notifyAdminPrePresent($this);
                 }
-                
+
                 if ($change_status && $contact->status == \Config::get('models.contact.status.pending'))
                 {
                     $contact->status = \Config::get('models.contact.status.sent_estimate_req');
-                    
+
                     if ($contact->save())
                         \Helper\Notifier::notifyCustomerPin($contact);
 
@@ -283,7 +283,7 @@ class Model_Estimate extends \Orm\Model
                 return true;
             }
         }
-        
+
         return false;
     }
 
@@ -352,7 +352,7 @@ class Model_Estimate extends \Orm\Model
     //         if ($introduce_arr)
     //         {
     //             $last = end($introduce_arr);
-                
+
     //             return \Helper\TimezoneConverter::convertFromString($last, 'admin_table');
     //         }
     //     }
@@ -401,16 +401,16 @@ class Model_Estimate extends \Orm\Model
 
         if ($this->construction_scheduled_date)
             return __('admin.estimate.progress.construction_scheduled_date');
-        
+
         if ($this->power_of_attorney_acquired)
             return __('admin.estimate.progress.power_of_attorney_acquired');
-        
+
         if ($this->visited)
             return __('admin.estimate.progress.visited');
-        
+
         if ($this->contacted)
             return __('admin.estimate.progress.contacted');
-        
+
         return __('admin.estimate.progress.unknown');
     }
 
@@ -444,7 +444,7 @@ class Model_Estimate extends \Orm\Model
     {
         // Add to history if estimate changed
         $diff = $this->get_diff();
-        
+
         // Reset model relations
         foreach ($diff[0] as $key => $value)
         {
