@@ -394,13 +394,46 @@ class Controller_Admin_Estimates extends Controller_Admin
 
         if ($new_status !== null && $new_status != $estimate->status)
         {
+            $cur_status = $estimate->status;
+
             $estimate->status = $new_status;
             $estimate->last_update_admin_user_id = $this->auth_user->id;
             $estimate->save();
 
-            if ($status == 'pending')
+            if ($new_status < (int) $cur_status)
             {
-                $estimate->contact->status = \Config::get('models.contact.status.sent_estimate_req');
+                // FIX ME
+                if (!$this->searchHigherStatus($estimate, $new_status))
+                {
+                    if ($status == 'verbal_ok')
+                    {
+                        $estimate->contact->status = \Config::get('models.contact.status.verbal_ok');
+                    }
+                    else if ($status == 'sent_estimate_to_user')
+                    {
+                        $estimate->contact->status = \Config::get('models.contact.status.sent_estimate_req');
+                    }
+
+                    $estimate->contact->save();
+                }
+            }
+            else
+            {
+                $contact_status = \Config::get('models.contact.status.'.$estimate->contact->status);
+                
+                if ($status == 'sent_estimate_to_user' && $contact_status != 'sent_estimate_req' && $contact_status != 'verbal_ok' && $contact_status != 'contracted')
+                {
+                    $estimate->contact->status = \Config::get('models.contact.status.verbal_ok');
+                }
+                else if ($status == 'verbal_ok' && $contact_status != 'verbal_ok' && $contact_status != 'contracted')
+                {
+                    $estimate->contact->status = \Config::get('models.contact.status.verbal_ok');
+                }
+                else if ($status == 'contracted' && $contact_status != 'contracted')
+                {
+                    $estimate->contact->status = \Config::get('models.contact.status.contracted');
+                }
+                
                 $estimate->contact->save();
             }
 
@@ -515,5 +548,18 @@ class Controller_Admin_Estimates extends Controller_Admin
         }
 
         return $related_where;
+    }
+
+    private function searchHigherStatus(&$estimate, $new_status)
+    {
+        foreach ($estimate->contact->estimates as $e)
+        {
+            if ($new_status < $e->status)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
