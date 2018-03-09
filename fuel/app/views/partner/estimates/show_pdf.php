@@ -1,3 +1,7 @@
+<?php
+use JpPrefecture\JpPrefecture;
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -9,13 +13,15 @@
 
     html { font-size: 14px; width: 1080px; }
 
-    td.none { background-image: -webkit-linear-gradient(68deg, transparent 49%, #d9d9d9 49%, #d9d9d9 50%, transparent 50%, transparent); background-repeat: no-repeat; background-size: 100% 100%; }
+    td.none { margin: 0 !important; padding: 0 !important; }
+
+    td.none .none-wrap { display: flex; justify-content: center; align-items: center; }
+    
+    td.none .none-wrap > div { height: 1px; width: 100%; margin: 0 -5px; background-color: #d9d9d9; transform: rotate(24deg); }
 
     td.circle { padding: 0; }
-    
-    
 
-    td.circle img { text-align: center; width: 15px; height: 15px; display: block; margin-left: auto; margin-right: auto; }
+    td.circle img { text-align: center; width: 15px; height: 15px; display: block; margin: 0; padding: 0;}
 
     img { vertical-align: middle; border: 0; }
 
@@ -29,11 +35,13 @@
 
     .table.table--child-gas { width: 100%; border: 0;}
 
-    .table.table--child-gas tr + tr { border-top: 1px solid #d9d9d9; }
+    .table.table--child-gas th, .table.table--child-gas td { border: 0; }
 
-    .table.table--child-gas th, .table.table--child-gas td { }
+    .table.table--child-gas th { width: 70%; font-size: 10px; }
 
-    .table.table--child-gas th { width: 75%; font-size: 10px; border-right: 1px solid #d9d9d9; }
+    .table.table--child-gas .bb { border-bottom: 1px solid #d9d9d9; }
+
+    .table.table--child-gas .br { border-right: 1px solid #d9d9d9; }
 
     .table__td-item::after { content: "\000A"; display: block; white-space: pre-wrap; }
 
@@ -80,7 +88,7 @@
         <th>住所</th>
         <td colspan="3">
           <div class="table__td-item">〒 <?= $estimate->contact->zip_code ?></div>
-          <?= $estimate->contact->prefecture_code ?><?= $estimate->contact->address ?><?= $estimate->contact->address2 ?>
+          <?= $estimate->contact->prefecture_code ? JpPrefecture::findByCode($estimate->contact->prefecture_code)->nameKanji : ''; ?><?= $estimate->contact->address ?><?= $estimate->contact->address2 ?>
         </td>
         <th style="font-size: 10px;">メールアドレス</th>
         <td colspan="3"><?= $estimate->contact->email ?></td>
@@ -89,10 +97,10 @@
         <th>開設先住所</th>
         <td colspan="3">
           <div class="table__td-item">〒 <?= $estimate->contact->new_zip_code ?></div>
-          <?= $estimate->contact->new_prefecture_code ?><?= $estimate->contact->new_address ?><?= $estimate->contact->new_address2 ?>
+          <?= $estimate->contact->new_prefecture_code ? JpPrefecture::findByCode($estimate->contact->new_prefecture_code)->nameKanji : ''; ?><?= $estimate->contact->new_address ?><?= $estimate->contact->new_address2 ?>
         </td>
         <th>引越し予定日</th>
-        <td colspan="3"><?= $estimate->contact->moving_scheduled_date ?></td>
+        <td colspan="3"><?= $estimate->contact->moving_scheduled_date ? Date::create_from_string($estimate->contact->moving_scheduled_date, 'admin_datepicker')->format('partner_pdf') : ''; ?></td>
       </tr>
       <!-- 物件情報 -->
       <tr>
@@ -101,12 +109,12 @@
       <tr>
         <th>開設先状況</th>
         <td>
-          <?= $estimate->contact->estimate_kind ?>
+          <?= $estimate->contact->estimate_kind == \Config::get('models.contact.estimate_kind.new_contract') ? '新規開設' : '現在住居'; ?>
         </td>
         <th>物件種別</th>
-        <td><?= $estimate->contact->house_kind ?></td>
+        <td><?= __('admin.contact.house_kind.'.\Config::get('views.contact.house_kind.'.$estimate->contact->house_kind)); ?></td>
         <th>所有区分</th>
-        <td><?= $estimate->contact->ownership_kind ?></td>
+        <td><?= __('admin.contact.ownership_kind.'.\Config::get('views.contact.ownership_kind.'.$estimate->contact->ownership_kind)); ?></td>
         <th>築年数</th>
         <td><?= $estimate->contact->house_age ?>年</td>
       </tr>
@@ -119,25 +127,41 @@
             </div>
           </td>
         <?php else: ?>
-          <td class="none"></td>
+          <td class="none">
+            <div class="none-wrap">
+              <div></div>
+            </div>
+          </td>
         <?php endif; ?>
         <th>部屋数</th>
         <?php if ($estimate->contact->apartment_owner): ?>
           <td><?= $estimate->contact->number_of_rooms ?></td>
         <?php else: ?>
-          <td class="none"></td>
+          <td class="none">
+            <div class="none-wrap">
+              <div></div>
+            </div>
+          </td>
         <?php endif; ?>
         <th>入居数</th>
         <?php if ($estimate->contact->apartment_owner): ?>
           <td><?= $estimate->contact->number_of_active_rooms ?></td>
         <?php else: ?>
-          <td class="none"></td>
+          <td class="none">
+            <div class="none-wrap">
+              <div></div>
+            </div>
+          </td>
         <?php endif; ?>
         <th>管理会社名</th>
         <?php if ($estimate->contact->apartment_owner): ?>
           <td><?= $estimate->contact->estate_management_company_name ?></td>
         <?php else: ?>
-          <td class="none"></td>
+          <td class="none">
+            <div class="none-wrap">
+              <div></div>
+            </div>
+          </td>
         <?php endif; ?>
       </tr>
       <!-- ガス情報 -->
@@ -161,23 +185,23 @@
         <td class="no-padding">
           <table class="table table--child-gas">
             <tr>
-              <th>ガスコンロ</th>
-              <td class="circle">
+              <th class="bb br">ガスコンロ</th>
+              <td class="circle bb">
                 <?php if ($estimate->contact->using_cooking_stove): ?>
                   <img src="assets/images/circle.png" class="table__logo__img">
                 <?php endif; ?>
               </td>
             </tr>
             <tr>
-              <th>ガス給湯器</th>
-              <td class="circle">
+              <th class="bb br">ガス給湯器</th>
+              <td class="circle bb">
                 <?php if ($estimate->contact->using_bath_heater_with_gas_hot_water_supply): ?>
                   <img src="assets/images/circle.png" class="table__logo__img">
                 <?php endif; ?>
               </td>
             </tr>
             <tr>
-              <th>その他</th>
+              <th class="br">その他</th>
               <td class="circle">
                 <?php if ($estimate->contact->using_other_gas_machine): ?>
                   <img src="assets/images/circle.png" class="table__logo__img">
@@ -205,7 +229,7 @@
         <th colspan="8">ご相談・ご要望</th>
       </tr>
       <tr>
-        <td colspan="8"><?= $estimate->contact->body ?></td>
+        <td colspan="8"><?= str_replace("\n", "<br>", $estimate->contact->body); ?></td>
       </tr>
       <!-- 進捗状況 -->
       <tr>
@@ -213,7 +237,7 @@
       </tr>
       <tr>
         <th>訪問予定日</th>
-        <td colspan="3"><?= $estimate->visit_scheduled_date ?></td>
+        <td colspan="3"><?= $estimate->visit_scheduled_date ? Date::create_from_string($estimate->visit_scheduled_date, 'admin_datepicker')->format('partner_pdf') : ''; ?></td>
         <th>ご担当者</th>
         <td colspan="3"></td>
       </tr>

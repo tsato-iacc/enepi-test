@@ -8,5 +8,6 @@ return [
     'admin_datepicker' => '%Y-%m-%d',
     'admin_call_history' => '%m/%d %H:%M',
     'mysql_json' => '%Y-%m-%dT%H:%M:%S.000+09:00',
+    'partner_pdf' => '%Y年%m月%d日',
   ]
 ];
