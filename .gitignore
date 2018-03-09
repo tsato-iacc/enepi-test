@@ -34,7 +34,6 @@ desktop.ini
 # dynamically generated files
 /fuel/app/logs/*/*/*
 /fuel/app/cache/*/*
-/fuel/app/config/crypt.php
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
