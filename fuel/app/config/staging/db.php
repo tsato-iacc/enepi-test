@@ -4,7 +4,5 @@
  */
 
 return array(
-    'default' => array(
-        'profiling' => true
-    ),
+    
 );
