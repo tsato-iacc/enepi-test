@@ -109,24 +109,6 @@
     }
   }
   
-  .terms {
-    width: 700px;
-    margin: 20px auto 0;
-    text-align: center;
-    line-height: 1.5;
-    font-size: 11px;
-    
-    a {
-      text-decoration: underline;
-    }
-
-    @media screen and (max-device-width: $device-max-width) {
-      width: 100%;
-      margin: 2vw auto 0;
-      font-size: 3vw;
-    }
-  }
-  
   @include input_wrap();
   @include input_wrap2();
   @include input_error();
