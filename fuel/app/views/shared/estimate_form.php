@@ -468,14 +468,6 @@ use JpPrefecture\JpPrefecture;
     <?= Form::close(); ?>
   </div>
 
-  <?php if (isset($from_kakaku)): ?>
-    <?php if ($from_kakaku): ?>
-      <div class="form-kakaku">
-        <p class="terms pc">プロパンガス料金見積もりサービスは、株式会社アイアンドシー・クルーズが運営するサービスです。<br>ご入力いただいた内容を株式会社カカクコムは保持せず、株式会社アイアンドシー・クルーズが取得し、<br>同社がプライバシーポリシーに基づき管理いたします。</p>
-        <p class="terms sp">プロパンガス料金見積もりサービスは、株式会社アイアンドシー・クルーズが運営するサービスです。ご入力いただいた内容を株式会社カカクコムは保持せず、株式会社アイアンドシー・クルーズが取得し、同社がプライバシーポリシーに基づき管理いたします。</p>
-      </div>
-    <?php endif; ?>
-  <?php endif; ?>
   <?php $agree_url = isset($from_kakaku) ? 'https://enepi.jp/agreement' : '/agreement'; ?>
   <div class="form-agreement invisible-slide">
     <p class="terms pc">当サービスをご利用頂くにあたり、 <a href="<?= $agree_url ?>" target="_blank">「enepi」利用規約</a> に同意したものとみなします。</p>
