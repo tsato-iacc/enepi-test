@@ -120,6 +120,12 @@ class Controller_Partner_Estimates extends Controller_Partner
 
         if (\Input::extension() == 'pdf')
         {
+
+            // $this->template = View::forge('partner/estimates/show_pdf', [
+            //     'estimate' => $estimate,
+            // ], false);
+            // return;
+
             $options = new Options();
             $options->set('defaultFont', 'jgothic');
             $dompdf = new Dompdf($options);

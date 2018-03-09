@@ -7,29 +7,33 @@
     
     body { font-family: jgothic; }
 
-    html { font-size: 100%; width: 1080px; }
+    html { font-size: 14px; width: 1080px; }
 
     td.none { background-image: -webkit-linear-gradient(68deg, transparent 49%, #d9d9d9 49%, #d9d9d9 50%, transparent 50%, transparent); background-repeat: no-repeat; background-size: 100% 100%; }
 
-    td.circle img { text-align: center; width: 20px; height: 20px; display: block; margin-left: auto; margin-right: auto; }
+    td.circle { padding: 0; }
+    
+    
+
+    td.circle img { text-align: center; width: 15px; height: 15px; display: block; margin-left: auto; margin-right: auto; }
 
     img { vertical-align: middle; border: 0; }
 
-    .table { width: 100%; border-spacing: 0; border-collapse: collapse; table-layout: fixed; text-align: center;}
+    .table { width: 100%; border-spacing: 0; border-collapse: collapse; table-layout: fixed; }
 
-    .table th, .table td { padding: 8px; border: 1px solid #d9d9d9; height: 20px; line-height: 1.2; }
+    .table th, .table td { padding: 4px 6px; border: 1px solid #d9d9d9; height: 20px; line-height: 1.2; }
 
-    .table th { font-weight: bold; background-color: #f2f2f2; font-size: 14px; }
+    .table th { font-weight: bold; background-color: #f2f2f2; font-size: 12px; text-align: center; }
 
     .table td { background-color: white; }
 
-    .table.table--child-gas { width: 100%; }
+    .table.table--child-gas { width: 100%; border: 0;}
 
     .table.table--child-gas tr + tr { border-top: 1px solid #d9d9d9; }
 
-    .table.table--child-gas th, .table.table--child-gas td { border: none; }
+    .table.table--child-gas th, .table.table--child-gas td { }
 
-    .table.table--child-gas th { width: 88px; font-size: 12px; border-right: 1px solid #d9d9d9; }
+    .table.table--child-gas th { width: 75%; font-size: 10px; border-right: 1px solid #d9d9d9; }
 
     .table__td-item::after { content: "\000A"; display: block; white-space: pre-wrap; }
 
@@ -48,13 +52,13 @@
   <table class="table">
     <thead>
       <tr>
-        <th rowspan="2" colspan="3" class="table__title">プロパンガス切替希望 現場調査票</th>
+        <th rowspan="2" colspan="3" class="table__title">プロパンガス切替希望<br>現場調査票</th>
         <th colspan="2" rowspan="2" class="table__logo">
-          
+          <img src="assets/images/logo-v2.png" class="table__logo__img">
         </th>
         <th colspan="3">問い合わせID</th>
       </tr>
-      <tr>
+      <tr style="text-align: center;">
         <td colspan="3"><?= $estimate->contact->id ?></td>
       </tr>
     </thead>
@@ -78,7 +82,7 @@
           <div class="table__td-item">〒 <?= $estimate->contact->zip_code ?></div>
           <?= $estimate->contact->prefecture_code ?><?= $estimate->contact->address ?><?= $estimate->contact->address2 ?>
         </td>
-        <th>メールアドレス</th>
+        <th style="font-size: 10px;">メールアドレス</th>
         <td colspan="3"><?= $estimate->contact->email ?></td>
       </tr>
       <tr>
@@ -109,7 +113,11 @@
       <tr>
         <th>集合住宅<br>オーナー</th>
         <?php if ($estimate->contact->apartment_owner): ?>
-          <td class="circle"></td>
+          <td class="circle">
+            <div class="circle-wrap">
+              <img src="assets/images/circle.png" class="table__logo__img">
+            </div>
+          </td>
         <?php else: ?>
           <td class="none"></td>
         <?php endif; ?>
@@ -137,7 +145,7 @@
         <th colspan="8">ガス情報</th>
       </tr>
       <tr>
-        <th>既存ガス会社名</th>
+        <th style="font-size: 10px;">既存ガス会社名</th>
         <td colspan="3"><?= $estimate->contact->gas_contracted_shop_name ?></td>
         <th>契約年数</th>
         <td colspan="3"><?= $estimate->contact->gas_used_years ?>年</td>
@@ -154,15 +162,27 @@
           <table class="table table--child-gas">
             <tr>
               <th>ガスコンロ</th>
-              <td class="circle"></td>
+              <td class="circle">
+                <?php if ($estimate->contact->using_cooking_stove): ?>
+                  <img src="assets/images/circle.png" class="table__logo__img">
+                <?php endif; ?>
+              </td>
             </tr>
             <tr>
               <th>ガス給湯器</th>
-              <td class="circle"></td>
+              <td class="circle">
+                <?php if ($estimate->contact->using_bath_heater_with_gas_hot_water_supply): ?>
+                  <img src="assets/images/circle.png" class="table__logo__img">
+                <?php endif; ?>
+              </td>
             </tr>
             <tr>
               <th>その他</th>
-              <td class="circle"></td>
+              <td class="circle">
+                <?php if ($estimate->contact->using_other_gas_machine): ?>
+                  <img src="assets/images/circle.png" class="table__logo__img">
+                <?php endif; ?>
+              </td>
             </tr>
           </table>
         </td>
@@ -176,7 +196,7 @@
         <td></td>
         <th>急ぎ</th>
         <td></td>
-        <th>電力セット希望</th>
+        <th style="font-size: 10px;">電力セット希望</th>
         <td></td>
         <th colspan="2"></th>
       </tr>
