@@ -269,6 +269,8 @@ use JpPrefecture\JpPrefecture;
           <?php if (!$contact->isCancelled() && !$contact->isContracted()): ?>
             <div><a href="#" class="btn-cancel btn btn-danger btn-sm px-1 py-0 w-100" role="button" data-contact-id="<?= $contact->id; ?>" data-contact-name="<?= $contact->name; ?>" data-contact-pref="<?= JpPrefecture::findByCode($contact->getPrefectureCode())->nameKanji; ?>" data-contact-tel="<?= $contact->tel; ?>"><i class="fa fa-fire" aria-hidden="true"></i> キャンセル</a></div>
           <?php endif; ?>
+		<div><a href="http://ca.iacc.tokyo/api/ca/v2/ca_p.php?sid=<?= $contact->id ?>&dom=<?= $_SERVER['SERVER_NAME'] ?>" 
+				target="_blank" class="btn btn-info btn-sm px-1 py-0 w-100" style="background-color: #71c546; border-color: #71c546;">刈り取りくん</a></div>
         </td>
       </tr>
     <?php endforeach; ?>
