@@ -89,20 +89,24 @@ class Controller_Admin_Csv extends Controller_Admin
         $this->updateEstimateConditions($conditions);
         $estimates = \Model_Estimate::find('all', $conditions);
 
+        $histories = [];
         $ids = \Arr::pluck($estimates, 'id');
 
-        $histories = \Model_Estimate_History::find('all',[
-            'where' => [
-                ['estimate_id', 'IN', $ids],
-            ],
-            'related' => [
-                'admin_user',
-                'partner_company',
-            ],
-            'order_by' => [
-                'id' => 'desc',
-            ],
-        ]);
+        if ($ids)
+        {
+            $histories = \Model_Estimate_History::find('all',[
+                'where' => [
+                    ['estimate_id', 'IN', $ids],
+                ],
+                'related' => [
+                    'admin_user',
+                    'partner_company',
+                ],
+                'order_by' => [
+                    'id' => 'desc',
+                ],
+            ]);
+        }
 
         $name = \Str::random('alpha', 16).'.csv';
         $this->createEstimateHistoryCsv($histories, $name);
