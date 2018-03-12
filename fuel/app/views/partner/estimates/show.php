@@ -26,7 +26,7 @@ use JpPrefecture\JpPrefecture;
   </tr>
 </table>
 
-<!-- <a class="btn btn-secondary mb-4" href="<?= \Uri::create('partner/estimates/:id.pdf', ['id' => $estimate->id]); ?>" role="button">現地調査表(pdf)出力</a> -->
+<a class="btn btn-secondary mb-4" href="<?= \Uri::create('partner/estimates/:id.pdf', ['id' => $estimate->id]); ?>" role="button">現地調査表(pdf)出力</a>
 
 <h2>見積もり情報</h2>
 <table class="table table-sm table-hover mt-4 th-left small-row">
