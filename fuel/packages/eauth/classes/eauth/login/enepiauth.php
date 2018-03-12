@@ -81,7 +81,7 @@ abstract class Eauth_Login_Enepiauth extends \Eauth_Login_Driver
 		$login_id  = \Session::get($this->get_session_login_id());
 
 		// only worth checking if there's both a email and login-hash
-		if ( ! empty($email) and ! empty($login_hash))
+		if ( ! empty($email) and ! empty($login_hash) and ! empty($login_id))
 		{
 			if (is_null($this->user) or ($this->user['email'] != $email and $this->user != static::$guest_login))
 			{
