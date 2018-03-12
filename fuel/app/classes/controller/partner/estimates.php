@@ -145,8 +145,6 @@ class Controller_Partner_Estimates extends Controller_Partner
 
         $timeline = $histories + $comments;
 
-        // $this->checkPrivacy($estimate);
-
         $this->template->title = 'Estimate - id: '.$id;
         $this->template->content = View::forge('partner/estimates/show', [
             'estimate' => $estimate,

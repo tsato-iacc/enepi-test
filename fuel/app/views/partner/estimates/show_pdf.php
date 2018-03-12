@@ -27,7 +27,7 @@ use JpPrefecture\JpPrefecture;
 
     .table { width: 100%; border-spacing: 0; border-collapse: collapse; table-layout: fixed; }
 
-    .table th, .table td { padding: 4px 6px; border: 1px solid #d9d9d9; height: 20px; line-height: 1.2; }
+    .table th, .table td { padding: 4px 6px; border: 1px solid #d9d9d9; height: 20px; line-height: 1.2; word-break:break-all; word-wrap:break-word; }
 
     .table th { font-weight: bold; background-color: #f2f2f2; font-size: 12px; text-align: center; }
 
@@ -217,11 +217,11 @@ use JpPrefecture\JpPrefecture;
       </tr>
       <tr>
         <th>初回連絡<br>希望時間</th>
-        <td></td>
+        <td><?= __('admin.contact.preferred_contact_time_between.'.$estimate->contact->preferred_contact_time_between); ?></td>
         <th>急ぎ</th>
-        <td></td>
+        <td><?= $estimate->contact->priority_degree == \Config::get('models.contact.priority_degree.regular') ? '通常' : '至急'; ?></td>
         <th style="font-size: 10px;">電力セット希望</th>
-        <td></td>
+        <td><?= __('admin.contact.desired_option.'.$estimate->contact->desired_option); ?></td>
         <th colspan="2"></th>
       </tr>
       <!-- ご相談・ご要望 -->
