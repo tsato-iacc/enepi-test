@@ -484,10 +484,10 @@ class Controller_Admin_Estimates extends Controller_Admin
         }
 
         // Where email equal
-        if ($email_equal = \Input::get('email_equal'))
+        if ($contact_email_equal = \Input::get('contact_email_equal'))
         {
             $related_where = true;
-            $conditions['related']['contact']['where'][] = ['email', $email_equal];
+            $conditions['related']['contact']['where'][] = ['email', $contact_email_equal];
         }
 
         // Where status equal
