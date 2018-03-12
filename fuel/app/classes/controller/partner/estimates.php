@@ -136,8 +136,13 @@ class Controller_Partner_Estimates extends Controller_Partner
             $dompdf->render();
 
             // Output the generated PDF to Browser
-            $dompdf->stream();
-            exit;
+            $output_name = explode('-', $estimate->uuid);
+            $output_name = reset($output_name);
+
+            $name = \Str::random('alpha', 16).'.pdf';
+            \File::update(APPPATH.'/tmp/', $name, $dompdf->output());
+
+            return \File::download(APPPATH."/tmp/{$name}", "現場調査票_{$output_name}.pdf", null, null, true);
         }
 
         $histories = $estimate->get('histories', ['order_by' => ['id' => 'desc']]);
