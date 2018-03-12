@@ -180,7 +180,7 @@ use JpPrefecture\JpPrefecture;
         <th>使用量</th>
         <td><?= $estimate->contact->gas_used_amount ?>m3</td>
         <th>請求金額</th>
-        <td><?= $estimate->contact->gas_latest_billing_amount ?>円</td>
+        <td><?= number_format($estimate->contact->gas_latest_billing_amount); ?>円</td>
         <th>ガス機器</th>
         <td class="no-padding">
           <table class="table table--child-gas">

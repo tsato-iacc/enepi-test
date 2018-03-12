@@ -8,7 +8,7 @@ enepi運営事務局でございます。<br>
 <br>
 下記URLでSMSで届いた認証コードを入力の上、お見積もり内容をご確認いただきますようお願い申し上げます。<br>
 <br>
-【ご提案内容URL：<a href="<?= \Uri::create("lpgas/contacts/{$estimate->contact->id}?token={$estimate->contact->token}"); ?>"><?= \Uri::create("lpgas/contacts/{$estimate->contact->id}?token={$estimate->contact->token}"); ?></a><br>】<br>
+【ご提案内容URL：<a href="<?= \Uri::create("lpgas/contacts/{$estimate->contact->id}?token={$estimate->contact->token}"); ?>"><?= \Uri::create("lpgas/contacts/{$estimate->contact->id}?token={$estimate->contact->token}"); ?></a>】<br>
 <br>
 ■ご提案企業<br>
 <?= $estimate->company->getCompanyName(); ?><br>

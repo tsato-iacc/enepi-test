@@ -118,6 +118,8 @@ class Controller_Partner_Estimates extends Controller_Partner
             $estimate->save();
         }
 
+        $this->checkPrivacy($estimate);
+
         if (\Input::extension() == 'pdf')
         {
 
@@ -149,7 +151,7 @@ class Controller_Partner_Estimates extends Controller_Partner
 
         $timeline = $histories + $comments;
 
-        $this->checkPrivacy($estimate);
+        // $this->checkPrivacy($estimate);
 
         $this->template->title = 'Estimate - id: '.$id;
         $this->template->content = View::forge('partner/estimates/show', [
