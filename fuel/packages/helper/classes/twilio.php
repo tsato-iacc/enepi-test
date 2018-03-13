@@ -22,7 +22,7 @@ class Twilio
         if (self::isNumberValid($to))
         {
             $result = $client->messages->create($to, [
-                    'from' => \Config::get('enepi.twilio.from'),
+                    'from' => \Config::get('enepi.twilio.sms_from'),
                     'body' => $msg,
                 ]
             );
@@ -58,7 +58,7 @@ class Twilio
                     $client = self::getClient();
                     
                     $response = $client->messages->create($to, [
-                            'from' => \Config::get('enepi.twilio.from'),
+                            'from' => \Config::get('enepi.twilio.sms_from'),
                             'body' => $body
                         ]
                     );
@@ -91,7 +91,7 @@ class Twilio
             'lpgas_contact_id' => $contact->id,
             'cannonical_to' => $to,
             'to' => $contact->tel,
-            'from' => \Config::get('enepi.twilio.from'),
+            'from' => \Config::get('enepi.twilio.sms_from'),
             'body' => $body,
             'result' => $result,
             'sid' => $sid,
@@ -123,7 +123,7 @@ class Twilio
                 {
                     $client = self::getClient();
 
-                    $response = $client->calls->create($to, \Config::get('enepi.twilio.from'), [
+                    $response = $client->calls->create($to, \Config::get('enepi.twilio.tel_from'), [
                         'url' => \Config::get('enepi.twilio.say_pin_url')
                     ]);
 
@@ -155,7 +155,7 @@ class Twilio
             'lpgas_contact_id' => $contact->id,
             'cannonical_to' => $to,
             'to' => $contact->tel,
-            'from' => \Config::get('enepi.twilio.from'),
+            'from' => \Config::get('enepi.twilio.tel_from'),
             'body' => $body,
             'result' => $result,
             'sid' => $sid,

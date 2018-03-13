@@ -46,7 +46,6 @@ class Controller_Twilio extends Controller
         foreach (str_split($pin) as $digit)
         {
             $response->say($digit, $options);
-            // \Config::get('enepi.twilio.number_pronunciation')
         }
     }
 }
