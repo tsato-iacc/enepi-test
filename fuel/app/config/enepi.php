@@ -47,6 +47,15 @@ return [
     ],
 
     /**
+     * Twilio Settings
+     */
+    'twilio' => [
+      'sid' => getenv('TWILLIO_ACCOUNT_SID'),
+      'token' => getenv('TWILLIO_AUTH_TOKEN'),
+      'from' => getenv('TWILLIO_SMS_FROM'),
+    ],
+
+    /**
      * Categories
      */
     'category' => [

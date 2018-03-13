@@ -23,7 +23,7 @@
   'Helper\\CancelReasons'                     => __DIR__.'/classes/cancel_reasons.php',
   'Helper\\Notifier'                          => __DIR__.'/classes/notifier.php',
   'Helper\\S3'                                => __DIR__.'/classes/s3.php',
-  'Helper\\Mail'                              => __DIR__.'/classes/mail.php',
+  'Helper\\Twilio'                            => __DIR__.'/classes/twilio.php',
 
   /**
    * Email classes.

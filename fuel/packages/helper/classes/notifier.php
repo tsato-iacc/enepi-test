@@ -163,7 +163,7 @@ class Notifier
         {
             try
             {
-                Mail::sms_send($contact->tel, "認証コード：{$contact->pin}\nこのコードをenepi本人確認画面で入力してください。");
+                \Helper\Twilio::sms($contact->tel, "認証コード：{$contact->pin}\nこのコードをenepi本人確認画面で入力してください。");
             }
             catch (RestException $e)
             {

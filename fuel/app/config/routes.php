@@ -40,17 +40,20 @@ return array(
     'categories/(:any)(:everything)(:everything)(:everything)/articles'  => 'front/categories/articles/$1/$2/$3/$4',
     'categories/(:any)(:everything)(:everything)(:everything)'           => 'front/categories/index/$1/$2/$3/$4',
 
-    'local_contents'                    => 'front/localContents',
-    'local_contents/(:num)'             => 'front/localContents/prefecture/$1',
-    'local_contents/city_show/(:num)'   => 'front/localContents/city/$1',
+    'local_contents'                                       => 'front/localContents',
+    'local_contents/(:num)'                                => 'front/localContents/prefecture/$1',
+    'local_contents/city_show/(:num)'                      => 'front/localContents/city/$1',
 
-    'lp/(:any)'                         => 'front/lp/index/$1',
-    's/lp/(:any)'                       => 'front/lp/slp/$1',
+    'lp/(:any)'                                            => 'front/lp/index/$1',
+    's/lp/(:any)'                                          => 'front/lp/slp/$1',
 
     // API
-    'api/security_key'                      => 'front/api/v1/security/key',
+    'api/security_key'                                     => 'front/api/v1/security/key',
     
-
+    // Twilio API
+    'twilio/tel_message'                                   => 'front/api/v1/twilio/say',
+    'twilio/forward'                                       => 'front/api/v1/twilio/forward',
+    
     /**
      * Admin
      */
@@ -121,7 +124,6 @@ return array(
     'admin/reviews'                                        => [['GET', new Route('admin/reviews/index')], ['POST', new Route('admin/reviews/store')]],
     'admin/reviews/(:num)/edit'                            => [['GET', new Route('admin/reviews/edit/$1')]],
     'admin/reviews/(:num)'                                 => [['POST', new Route('admin/reviews/update/$1')], ['DELETE', new Route('admin/reviews/delete/$1')]],
-
 
     /**
      * Partner

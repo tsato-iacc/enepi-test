@@ -45,4 +45,9 @@ class Controller_Front_Api_v1_Twillio extends Controller_Rest
 
         $this->response($response);
     }
+
+    public function post_say_pin()
+    {
+        # code...
+    }
 }

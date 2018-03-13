@@ -7,7 +7,7 @@ class Controller_Front_Test extends Controller_Front
     {
 
     	$to = "09073264349";
-    	Mail::talk_send($to, "テストメッセージ\n日本語文字化けしていませんか？");
+    	\Helper\Twilio::say_pin($to, "テストメッセージ\n日本語文字化けしていませんか？");
 
 
 
@@ -21,7 +21,7 @@ class Controller_Front_Test extends Controller_Front
     	if($cmd == "twilio"){
 
     		$to = Input::post('to');
-    		Mail::sms_send($to, "テストメッセージ\n日本語文字化けしていませんか？");
+    		\Helper\Twilio::sms($to, "テストメッセージ\n日本語文字化けしていませんか？");
 
     	}else if($cmd == "mail"){
 
@@ -35,7 +35,7 @@ class Controller_Front_Test extends Controller_Front
     	}else if($cmd == "talk"){
 
     		$to = Input::post('to');
-    		Mail::sms_send($to, "テストメッセージ\n日本語文字化けしていませんか？");
+    		\Helper\Twilio::sms($to, "テストメッセージ\n日本語文字化けしていませんか？");
 
     	}
 
