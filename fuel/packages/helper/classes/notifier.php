@@ -145,30 +145,4 @@ class Notifier
         $email->html_body(\View::forge('notifier/admin/pre_present', ['estimate' => $estimate]));
         $email->send();
     }
-
-    /**
-     * SMS
-     */
-    public static function notifyCustomerPin(&$contact)
-    {
-        if (\Fuel::$env == \Fuel::DEVELOPMENT)
-        {
-            $email = \Email::forge();
-            $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
-            $email->subject('SMS');
-            $email->html_body("TO:{$contact->tel} 認証コード: {$contact->pin}\nこのコードをenepi本人確認画面で入力してください。");
-            $email->send();
-        }
-        else
-        {
-            try
-            {
-                Mail::sms_send($contact->tel, "認証コード：{$contact->pin}\nこのコードをenepi本人確認画面で入力してください。");
-            }
-            catch (RestException $e)
-            {
-                \Log::error($e);
-            }
-        }
-    }
 }

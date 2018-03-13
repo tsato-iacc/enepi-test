@@ -136,7 +136,7 @@
                             <a href="javascript:void(0)" class="btn btn-secondary send-sms-btn" data-contact-id="<?= $contact->id; ?>" data-token="<?= $contact->token; ?>">再度SMSを送る</a>
                           </div>
                           <div class="col-md-4">
-                            <a <?= MyView::link_to('javascript:void(0)', ['class' => 'btn btn-secondary', 'data-ajax' => '1', 'data-href' => '/lpgas_contacts/'.$contact->id.'/resend_pin?tel=1&amp;token='.$contact->token]); ?> >音声確認する</a>
+                            <a href="javascript:void(0)" class="btn btn-secondary call-btn" data-contact-id="<?= $contact->id; ?>" data-token="<?= $contact->token; ?>">音声確認する</a>
                           </div>
                           <div class="col-md-4">
                             <a href="<?= \Uri::create('lpgas_contacts/new_form', [], ['contact_id' => $contact->id, 'token' => $contact->token, 'pr' => $contact->tracking ? $contact->tracking->name : '']); ?>" class="btn btn-secondary">再入力はこちら</a>
@@ -253,12 +253,11 @@
     <script>
       $(function() {
         $('.send-sms-btn').on('click', function() {
-          console.log('push');
           var contact_id = $(this).attr('data-contact-id');
           var token = $(this).attr('data-token');
 
           $.ajax({
-            url: '/front/api/v1/twillio/sms',
+            url: '/front/api/v1/twilio/sms_pin',
             type: 'POST',
             data: {
               // csrf_token_key: "<?= \Security::fetch_token();?>",
@@ -282,3 +281,36 @@
       });
     </script>
     <!-- SEND SMS END -->
+
+    <!-- CALL START -->
+    <script>
+      $(function() {
+        $('.call-btn').on('click', function() {
+          var contact_id = $(this).attr('data-contact-id');
+          var token = $(this).attr('data-token');
+
+          $.ajax({
+            url: '/front/api/v1/twilio/voice_pin',
+            type: 'POST',
+            data: {
+              // csrf_token_key: "<?= \Security::fetch_token();?>",
+              contact_id: contact_id,
+              token: token
+            },
+            success: function (data) {
+              if (data.result == 'success') {
+                alert('発信します。暫くお待ちください。');
+              }
+              else if (data.errors) {
+                alert("エラーが発生しました。\nもう一度試してみてください");
+                console.log(data.errors);
+              }
+            },
+            error: function() {
+              alert('An error has occurred!');
+            }
+          });
+        });
+      });
+    </script>
+    <!-- CALL END -->

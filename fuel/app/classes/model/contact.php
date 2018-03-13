@@ -386,7 +386,7 @@ class Model_Contact extends \Orm\Model
                 }
 
                 if ($has_estimates)
-                    \Helper\Notifier::notifyCustomerPin($this);
+                    \Helper\Twilio::notifyCustomerPin($this);
             }
         }
         else
