@@ -118,12 +118,13 @@ class Controller_Partner_Estimates extends Controller_Partner
             $estimate->save();
         }
 
+        $this->checkPrivacy($estimate);
+
         if (\Input::extension() == 'pdf')
         {
-            // $options = new Options();
-            // $options->set('defaultFont', 'type1');
-            // $dompdf = new Dompdf($options);
-            $dompdf = new Dompdf();
+            $options = new Options();
+            $options->set('defaultFont', 'jgothic');
+            $dompdf = new Dompdf($options);
 
             $html = View::forge('partner/estimates/show_pdf', [
                 'estimate' => $estimate,
@@ -135,15 +136,19 @@ class Controller_Partner_Estimates extends Controller_Partner
             $dompdf->render();
 
             // Output the generated PDF to Browser
-            $dompdf->stream();exit;
+            $output_name = explode('-', $estimate->uuid);
+            $output_name = reset($output_name);
+
+            $name = \Str::random('alpha', 16).'.pdf';
+            \File::update(APPPATH.'/tmp/', $name, $dompdf->output());
+
+            return \File::download(APPPATH."/tmp/{$name}", "現場調査票_{$output_name}.pdf", null, null, true);
         }
 
         $histories = $estimate->get('histories', ['order_by' => ['id' => 'desc']]);
         $comments = $estimate->get('comments', ['where' => [['estimate_change_log_id', null]], 'order_by' => ['id' => 'desc']]);
 
         $timeline = $histories + $comments;
-
-        $this->checkPrivacy($estimate);
 
         $this->template->title = 'Estimate - id: '.$id;
         $this->template->content = View::forge('partner/estimates/show', [
@@ -357,7 +362,7 @@ class Controller_Partner_Estimates extends Controller_Partner
 
         // Where contact created to
         if ($created_to = \Input::get('created_to'))
-            $conditions['where'][] = ['created_at', '>=', \Helper\TimezoneConverter::convertFromStringToUTC($created_to)];
+            $conditions['where'][] = ['created_at', '<=', \Helper\TimezoneConverter::convertFromStringToUTC($created_to, 'Y-m-d H:i:s', 'Y-m-d', true)];
 
         if ($preferred_time = \Input::get('preferred_time'))
             $conditions['related']['contact']['where'][] = ['preferred_contact_time_between', $preferred_time];

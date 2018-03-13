@@ -89,20 +89,24 @@ class Controller_Admin_Csv extends Controller_Admin
         $this->updateEstimateConditions($conditions);
         $estimates = \Model_Estimate::find('all', $conditions);
 
+        $histories = [];
         $ids = \Arr::pluck($estimates, 'id');
 
-        $histories = \Model_Estimate_History::find('all',[
-            'where' => [
-                ['estimate_id', 'IN', $ids],
-            ],
-            'related' => [
-                'admin_user',
-                'partner_company',
-            ],
-            'order_by' => [
-                'id' => 'desc',
-            ],
-        ]);
+        if ($ids)
+        {
+            $histories = \Model_Estimate_History::find('all',[
+                'where' => [
+                    ['estimate_id', 'IN', $ids],
+                ],
+                'related' => [
+                    'admin_user',
+                    'partner_company',
+                ],
+                'order_by' => [
+                    'id' => 'desc',
+                ],
+            ]);
+        }
 
         $name = \Str::random('alpha', 16).'.csv';
         $this->createEstimateHistoryCsv($histories, $name);
@@ -397,8 +401,8 @@ class Controller_Admin_Csv extends Controller_Admin
             $conditions['related']['contact']['where'][] = ['tel', $contact_tel_equal];
 
         // Where email equal
-        if ($email_equal = \Input::get('email_equal'))
-            $conditions['related']['contact']['where'][] = ['email', $email_equal];
+        if ($contact_email_equal = \Input::get('contact_email_equal'))
+            $conditions['related']['contact']['where'][] = ['email', $contact_email_equal];
 
         // Where status equal
         if ($status = \Input::get('status'))

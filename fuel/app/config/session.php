@@ -1,6 +1,12 @@
 <?php
 
 return [
-  // session expiration time, <= 0 means 2 years! (optional, default = 2 hours)
-  'expiration_time' => 86400,
+  'driver' => 'redis',
+  'redis' => [
+    'cookie_name' => 'enepissid',
+    'database' => 'default',
+  ],
+  'expire_on_close' => false,
+  'expiration_time' => 86400 * 30,
+  'match_ua' => false,
 ];
