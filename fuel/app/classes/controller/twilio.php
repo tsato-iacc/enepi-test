@@ -45,11 +45,21 @@ class Controller_Twilio extends Controller
         return 'ok';
     }
 
+    /**
+     * Private methods
+     */
     private function sayDigit(&$response, &$options, $pin)
     {
         foreach (str_split($pin) as $digit)
         {
-            $response->say($digit, $options);
+            if ($word = \Config::get('enepi.twilio.digit_pronunciation.'.$digit))
+            {
+                $response->say($word, $options);
+            }
+            else
+            {
+                $response->say($digit, $options);
+            }
         }
     }
 }

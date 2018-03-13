@@ -299,7 +299,7 @@
             },
             success: function (data) {
               if (data.result == 'success') {
-                alert('接続中です。');
+                alert('発信します。暫くお待ちください。');
               }
               else if (data.errors) {
                 alert("エラーが発生しました。\nもう一度試してみてください");
