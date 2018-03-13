@@ -3,7 +3,7 @@
 /**
  * class SmsLog
  */
-class Model_SmsHistory extends \Orm\Model
+class Model_Twilio extends \Orm\Model
 {
     protected static $_table_name = 'sms_logs';
 
@@ -33,6 +33,8 @@ class Model_SmsHistory extends \Orm\Model
     ];
 
     protected static $_belongs_to = [
-        'contact',
+        'contact' => [
+            'key_from' => 'lpgas_contact_id',
+        ],
     ];
 }

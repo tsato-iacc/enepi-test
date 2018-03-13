@@ -276,8 +276,9 @@ class Model_Estimate extends \Orm\Model
                     $contact->status = \Config::get('models.contact.status.sent_estimate_req');
 
                     if ($contact->save())
-                        \Helper\Notifier::notifyCustomerPin($contact);
-
+                    {
+                        \Helper\Twilio::notifyCustomerPin($contact);
+                    }
                 }
 
                 return true;

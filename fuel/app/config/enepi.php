@@ -47,6 +47,21 @@ return [
     ],
 
     /**
+     * Twilio Settings
+     */
+    'twilio' => [
+        'sid' => getenv('TWILLIO_ACCOUNT_SID'),
+        'token' => getenv('TWILLIO_AUTH_TOKEN'),
+        'sms_from' => getenv('TWILLIO_SMS_FROM'),
+        'tel_from' => getenv('TWILLIO_TEL_FROM'),
+        'say_pin_url' => \Uri::create('twilio/say_pin.xml'),
+        'options' => [
+            'voice' => 'woman',
+            'language' => 'ja-jp'
+        ],
+    ],
+
+    /**
      * Categories
      */
     'category' => [
