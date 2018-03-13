@@ -9,5 +9,6 @@ return [
     'admin_call_history' => '%m/%d %H:%M',
     'mysql_json' => '%Y-%m-%dT%H:%M:%S.000+09:00',
     'partner_pdf' => '%Y年%m月%d日',
+    'front_presentation' => '%Y/%m/%d %H:%M',
   ]
 ];

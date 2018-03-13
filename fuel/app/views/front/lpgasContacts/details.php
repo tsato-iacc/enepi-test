@@ -133,7 +133,7 @@
         <h3 class="panel-title">
           <?= $estimate->company->getCompanyName() ?>
         </h3>
-        <p class="invite_date">紹介日時:<?= date('Y/m/d H:i', strtotime(MyView::null_check($estimate->created_at))) ?></p>
+        <p class="invite_date">紹介日時:<?= \Helper\TimezoneConverter::convertFromString($estimate->created_at, 'front_presentation'); ?></p>
         </dl>
       </div>
       <div class="inner">
