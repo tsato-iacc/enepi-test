@@ -16,8 +16,9 @@ class Controller_Twilio extends Controller
     public function action_say_pin()
     {
         if (\Input::extension() != 'xml') throw new \HttpNotFoundException;
-        // if (!$sid = \Input::get('CallSid'))
-        //     return;
+
+        if (!$sid = \Input::post('CallSid'))
+            return;
 
         $pin = '3468';
         $response = new Twiml();

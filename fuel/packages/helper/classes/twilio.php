@@ -114,7 +114,7 @@ class Twilio
                 $email = \Email::forge();
                 $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
                 $email->subject('Voice call');
-                $email->html_body("TO:{$contact->tel} {$body}");
+                $email->html_body("TO:{$contact->tel} Make a call");
                 $email->send();
             }
             else
