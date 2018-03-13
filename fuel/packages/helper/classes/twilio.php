@@ -10,8 +10,8 @@
 
 namespace Helper;
 
-use Twilio\Twiml;
 use Twilio\Rest\Client;
+use Twilio\Exceptions\RestException;
 
 class Twilio
 {
@@ -21,9 +21,9 @@ class Twilio
 
         if (self::isNumberValid($to))
         {
-            $client->messages->create($to, [
+            $result = $client->messages->create($to, [
                     'from' => \Config::get('enepi.twilio.from'),
-                    'body' => $msg
+                    'body' => $msg,
                 ]
             );
         }
@@ -37,7 +37,9 @@ class Twilio
     public static function notifyCustomerPin(&$contact)
     {
         $to = $contact->tel;
-        $body = "認証コード：{$contact->pin}\nこのコードをenepi本人確認画面で入力してください。";;
+        $body = "認証コード：{$contact->pin}\nこのコードをenepi本人確認画面で入力してください。";
+        $result = 1;
+        $sid = null;
 
         if (self::isNumberValid($to))
         {
@@ -55,15 +57,25 @@ class Twilio
                 {
                     $client = self::getClient();
                     
-                    $client->messages->create($to, [
+                    $response = $client->messages->create($to, [
                             'from' => \Config::get('enepi.twilio.from'),
                             'body' => $body
                         ]
                     );
+
+                    if ($response->status == 'queued' && $response->sid)
+                    {
+                        $sid = $response->sid;
+                    }
+                    else
+                    {
+                        throw new RestException("Failed to send sms to {$to}", 1, 1);
+                    }
                 }
                 catch (RestException $e)
                 {
                     $body = $e->getMessage();
+                    $result = 0;
                     \Log::error($e);
                 }
             }
@@ -72,39 +84,89 @@ class Twilio
         else
         {
             $body = 'Invalid phone number';
+            $result = 0;
         }
 
         $record = new \Model_Twilio([
-          'lpgas_contact_id' => $contact->id,
-          'cannonical_to' => $to,
-          'to' => $contact->tel,
-          'from' => \Config::get('enepi.twilio.from'),
-          'body' => $body,
-          'result' => $body,
+            'lpgas_contact_id' => $contact->id,
+            'cannonical_to' => $to,
+            'to' => $contact->tel,
+            'from' => \Config::get('enepi.twilio.from'),
+            'body' => $body,
+            'result' => $result,
+            'sid' => $sid,
         ]);
+
+        $record->save();
   }
 
-    public static function say_pin($to)
-    {
-        $to = "08057814850";
+    public static function notifyCustomerPinByVoice(&$contact)
+    {   
+        $to = $contact->tel;
+        $body = '';
+        $result = 1;
+        $sid = null;
 
-        $client = self::getClient();
         if (self::isNumberValid($to))
         {
-            $call = $client->calls->create($to, $from,['url' => 'http://demo.twilio.com/docs/voice.xml']);
+            if (\Fuel::$env == \Fuel::DEVELOPMENT)
+            {
+                $email = \Email::forge();
+                $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
+                $email->subject('Voice call');
+                $email->html_body("TO:{$contact->tel} {$body}");
+                $email->send();
+            }
+            else
+            {
+                try
+                {
+                    $client = self::getClient();
 
+                    $response = $client->calls->create($to, \Config::get('enepi.twilio.from'), [
+                        'url' => \Config::get('enepi.twilio.say_pin_url')
+                    ]);
+
+                    if ($response->status == 'queued' && $response->sid)
+                    {
+                        $sid = $response->sid;
+                    }
+                    else
+                    {
+                        throw new RestException("Failed to call to {$to}", 1, 1);
+                    }
+                }
+                catch (RestException $e)
+                {
+                    $body = $e->getMessage();
+                    $result = 0;
+                    \Log::error($e);
+                }
+            }
+        }
+        // Invalid phone number
+        else
+        {
+            $body = 'Invalid phone number';
+            $result = 0;
         }
 
-        
-        echo "Call status: " . $call->status . "<br />";
-        echo "URI resource: " . $call->uri . "<br />";
+        $record = new \Model_Twilio([
+            'lpgas_contact_id' => $contact->id,
+            'cannonical_to' => $to,
+            'to' => $contact->tel,
+            'from' => \Config::get('enepi.twilio.from'),
+            'body' => $body,
+            'result' => $result,
+            'sid' => $sid,
+        ]);
 
-        var_dump($call);
-
-        //print $sid;
-
+        $record->save();
     }
 
+    /**
+     * Private methods
+     */
     private static function getClient()
     {
         return new Client(\Config::get('enepi.twilio.sid'), \Config::get('enepi.twilio.token'));
@@ -121,5 +183,7 @@ class Twilio
             \Log::warning('Invalid phone number');
             return false;
         }
+
+        return true;
     }
 }

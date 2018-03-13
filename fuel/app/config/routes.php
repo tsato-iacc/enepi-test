@@ -50,10 +50,6 @@ return array(
     // API
     'api/security_key'                                     => 'front/api/v1/security/key',
     
-    // Twilio API
-    'twilio/tel_message'                                   => 'front/api/v1/twilio/say_pin',
-    'twilio/forward'                                       => 'front/api/v1/twilio/forward',
-    
     /**
      * Admin
      */

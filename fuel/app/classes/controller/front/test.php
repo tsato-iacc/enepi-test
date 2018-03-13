@@ -6,8 +6,8 @@ class Controller_Front_Test extends Controller_Front
     public function action_test()
     {
 
-    	$to = "09073264349";
-    	\Helper\Twilio::say_pin($to, "テストメッセージ\n日本語文字化けしていませんか？");
+    	// $to = "09073264349";
+    	// \Helper\Twilio::say_pin($to, "テストメッセージ\n日本語文字化けしていませんか？");
 
 
 

@@ -50,9 +50,22 @@ return [
      * Twilio Settings
      */
     'twilio' => [
-      'sid' => getenv('TWILLIO_ACCOUNT_SID'),
-      'token' => getenv('TWILLIO_AUTH_TOKEN'),
-      'from' => getenv('TWILLIO_SMS_FROM'),
+        'sid' => getenv('TWILLIO_ACCOUNT_SID'),
+        'token' => getenv('TWILLIO_AUTH_TOKEN'),
+        'from' => getenv('TWILLIO_SMS_FROM'),
+        'say_pin_url' => \Uri::create('twilio/say_pin.xml'),
+        'number_pronunciation' => [
+            '0' => 'ゼロ',
+            '1' => 'イチ',
+            '2' => 'ニ',
+            '3' => 'サン',
+            '4' => 'ヨン',
+            '5' => 'ゴ',
+            '6' => 'ロク',
+            '7' => 'ナナ',
+            '8' => 'ハチ',
+            '9' => 'キュウ'
+        ],
     ],
 
     /**
