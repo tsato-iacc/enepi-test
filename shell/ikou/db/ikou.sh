@@ -7,6 +7,9 @@ mysqldump -u root -p'mi!8e$270e' -h 127.0.0.1 -P 3308 enepi_production > dump.pr
 
 ls -l dump.prod
 
+echo "本番だからダメ!!!"
+exit
+
 echo "upload OK?  ** prod"
 read x
 
