@@ -15,6 +15,15 @@ namespace Helper;
 class Mail
 {
 
+	/*
+	public static function mail_send($from, $to, $subject, $body)
+	{
+
+
+	}
+	*/
+
+
 	public static function mail_send($from, $to, $subject, $body)
 	{
 
@@ -55,9 +64,52 @@ class Mail
 	}
 
 
+	public static function chat_send($to, $msg = "", $room = "41330532")
+	{
+
+
+		$data = array(
+				"room" => $room,
+				"msg" => $msg
+		);
+		$data = http_build_query($data, "", "&");
+
+		$header = array(
+				"Content-Type: application/x-www-form-urlencoded",
+				"Content-Length: ".strlen($data)
+		);
+
+		$context = array(
+				"http" => array(
+						"method"  => "POST",
+						"header"  => implode("\r\n", $header),
+						"content" => $data
+				)
+		);
+
+		$url = "http://ca.iacc.tokyo/api/chat/chat.php";
+		print file_get_contents($url, false, stream_context_create($context));
+
+	}
 
 	public static function sms_send($to, $msg = "")
 	{
+/*
+		$e = getenv("FUEL_ENV");
+		if($e == "development" || $e == "staging"){
+
+			$room = "41330532";
+
+			if($e == "staging"){
+				$room = "63912289";
+			}
+
+			$msg = "${e}\n${to}宛て SMS\n---------\n${msg}";
+
+			self::chat_send($to, $msg, $room);
+			return;
+		}
+*/
 
 		$client = new \Twilio\Rest\Client(
 							getenv("TWILLIO_ACCOUNT_SID"),

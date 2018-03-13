@@ -6,16 +6,17 @@ class Controller_Front_Test extends Controller_Front
     public function action_test()
     {
 
-    	$to = "09073264349";
-    	Mail::talk_send($to, "テストメッセージ\n日本語文字化けしていませんか？");
-
-
 
     	$meta = [
     			['name' => 'description', 'content' => 'OOooOOppp'],
     			['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
     			['name' => 'puka', 'content' => 'suka'],
     	];
+
+    	//$to = "09073264349";
+    	//Mail::talk_send($to, "テストメッセージ\n日本語文字化けしていませんか？");
+
+
 
     	$cmd = Input::post('cmd');
     	if($cmd == "twilio"){
