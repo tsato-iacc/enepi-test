@@ -230,6 +230,7 @@ class Controller_Admin_Csv extends Controller_Admin
                 $estimate->contacted ? '◯' : '×',
                 $estimate->visited ? '◯' : '×',
                 $estimate->power_of_attorney_acquired ? '◯' : '×',
+                \Uri::create('admin/estimates/:id', ['id' => $estimate->id]),
             ];
 
             \File::append(APPPATH.DIRECTORY_SEPARATOR.'/tmp/', $name, mb_convert_encoding($format->to_csv([$line])."\n", 'SJIS'));
