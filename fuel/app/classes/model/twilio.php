@@ -33,6 +33,8 @@ class Model_Twilio extends \Orm\Model
     ];
 
     protected static $_belongs_to = [
-        'contact',
+        'contact' => [
+            'key_from' => 'lpgas_contact_id',
+        ],
     ];
 }

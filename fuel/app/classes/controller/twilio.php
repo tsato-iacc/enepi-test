@@ -13,16 +13,19 @@ class Controller_Twilio extends Controller
         return $response;
     }
 
-    public function action_say_pin()
+    public function post_say_pin()
     {
         if (\Input::extension() != 'xml') throw new \HttpNotFoundException;
 
         if (!$sid = \Input::post('CallSid'))
             return;
 
-        $pin = '3468';
+        if (!$twilio = \Model_Twilio::find('first', ['where' => [['sid', $sid]]]))
+            return;
+
         $response = new Twiml();
-        $options = ['voice' => 'woman', 'language' => 'ja-jp'];
+        $pin      = $twilio->contact->pin;
+        $options  = \Config::get('enepi.twilio.options');
 
         $response->say('', $options);
         $response->say('ご登録ありがとうございます。', $options);
