@@ -62,6 +62,9 @@ use JpPrefecture\JpPrefecture;
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
 
+  <script src="https://ca.iacc.tokyo/js/ca.js"></script>
+  <script>capv();</script>
+
   <?= Asset::js('front.min.js'); ?>
 </body>
 </html>
