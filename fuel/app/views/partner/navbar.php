@@ -1,7 +1,7 @@
 <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-  <a class="navbar-brand" href="#">
-    <?= Asset::img('admin/fire.png', ['height' => '30', 'class' => 'd-inline-block align-top']); ?>&nbsp;&nbsp;enepi パートナー様管理画面
-  </a>
+  <div class="navbar-brand" href="#">
+    <?= Asset::img('admin/fire.png', ['height' => '30', 'class' => 'd-inline-block align-top']); ?>&nbsp;&nbsp;enepi <?= $auth_user->company_name; ?>様 管理画面
+  </div>
   <div class="collapse navbar-collapse">
     <ul class="navbar-nav mr-auto"></ul>
     <span class="navbar-text">(ID: <?= $auth_user->id; ?>) <?= $auth_user->email; ?></span>
