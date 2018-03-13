@@ -246,7 +246,7 @@
                       <span class="label label_matching_done">連絡希望チェック済み</span>
                     <? } ?>
                   </div>
-                  <p class="invite_date">紹介日時:<?= date('Y/m/d H:i', strtotime(MyView::null_check($e->created_at))) ?></p>
+                  <p class="invite_date">紹介日時: <?= \Helper\TimezoneConverter::convertFromString($e->created_at, 'front_presentation'); ?></p>
                 </div>
 
                 <div class="inner">
@@ -421,7 +421,7 @@
 
                   <dl class="invite_date">
                     <dt>紹介日時:</dt>
-                    <dd><?= date('Y/m/d H:i', strtotime(MyView::null_check($e->created_at))) ?></dd>
+                    <dd><?= \Helper\TimezoneConverter::convertFromString($e->created_at, 'front_presentation'); ?></dd>
                   </dl>
                 </div>
 
