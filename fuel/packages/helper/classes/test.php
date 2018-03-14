@@ -12,7 +12,7 @@ namespace Helper;
 
 
 
-class Mail
+class Test
 {
 
 	/*

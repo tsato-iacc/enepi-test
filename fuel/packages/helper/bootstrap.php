@@ -28,5 +28,10 @@
   /**
    * Email classes.
    */
-  'Helper\\Email_Driver_Ses'                 => __DIR__.'/classes/email/driver/ses.php',
+  'Helper\\Email_Driver_Ses'                  => __DIR__.'/classes/email/driver/ses.php',
+
+  /**
+   * Test classes.
+   */
+  'Helper\\Test'                              => __DIR__.'/classes/test.php',
 ));
