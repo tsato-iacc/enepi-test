@@ -13,6 +13,10 @@ class Controller_Twilio extends Controller
         return $response;
     }
 
+    /**
+     * Create xml when Twilio send request to here
+     * Twilio request contain CallSid so we can find witch request we send to Twilio
+     */
     public function post_say_pin()
     {
         if (\Input::extension() != 'xml') throw new \HttpNotFoundException;
