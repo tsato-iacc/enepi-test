@@ -35,7 +35,7 @@
                   <?php endif; ?>
                   <?php if ($estimated_bill != 0): ?>
                     <th>■月々のお支払い金額(推算)</th>
-                    <td><?= $estimated_bill ?>円(税込)</td>
+                    <td><?= number_format($estimated_bill); ?>円(税込)</td>
                   <?php endif; ?>
                 </tr>
               </table>
@@ -103,7 +103,7 @@
           <?php endif; ?>
           
           <!-- SIMULATION ESTIMATE FORM START -->
-          <?= render('shared/simulation_estimate_form', ['zip' => $zip, 'household' => $household, 'month' => $month, 'household_average_rate' => $household_average_rate, 'bill' => $bill, 'estimated_bill' => $estimated_bill]); ?>
+          <?= render('front/simulations/_form_estimate', ['zip' => $zip, 'household' => $household, 'month' => $month, 'household_average_rate' => $household_average_rate, 'bill' => $bill, 'estimated_bill' => $estimated_bill]); ?>
           <!-- SIMULATION ESTIMATE FORM END -->
           
           <div class="simulation-result-title" style="margin-top: 3em;">

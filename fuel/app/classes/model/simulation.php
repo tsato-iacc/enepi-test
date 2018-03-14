@@ -1,6 +1,6 @@
 <?php
 
-class Model_SimpleSimulation extends \Orm\Model
+class Model_Simulation extends \Orm\Model
 {
     protected static $_table_name = 'lpgas_simple_simulations';
 
@@ -11,19 +11,14 @@ class Model_SimpleSimulation extends \Orm\Model
         'household',
         'amount_billed',
         'month',
-        // 'created_at',
-        // 'updated_at',
+        'created_at',
     ];
 
     protected static $_observers = [
-        // 'Orm\\Observer_CreatedAt' => [
-        //     'events' => ['before_insert'],
-        //     'mysql_timestamp' => true,
-        // ],
-        // 'Orm\\Observer_UpdatedAt' => [
-        //     'events' => ['before_update'],
-        //     'mysql_timestamp' => true,
-        // ],
+        'Orm\\Observer_CreatedAt' => [
+            'events' => ['before_insert'],
+            'mysql_timestamp' => true,
+        ],
         'Orm\\Observer_Typing'
     ];
 

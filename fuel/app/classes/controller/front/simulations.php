@@ -22,7 +22,7 @@ use Helper\Simulation;
  * @package  app
  * @extends  Controller_Front
  */
-class Controller_Front_SimpleSimulation extends Controller_Front
+class Controller_Front_Simulations extends Controller_Front
 {
     /**
      * Show simple simulation form
@@ -51,7 +51,7 @@ class Controller_Front_SimpleSimulation extends Controller_Front
 
         $this->template->title = '簡単入力！プロパンガス料金シミュレーション';
         $this->template->meta = $meta;
-        $this->template->content = View::forge('front/simpleSimulation/index', [
+        $this->template->content = View::forge('front/simulations/index', [
             'breadcrumb' => $breadcrumb,
             'month_selected' => $month_selected,
             'sidebar_selected_prefecture_code' => $sidebar_selected_prefecture_code,
@@ -66,7 +66,7 @@ class Controller_Front_SimpleSimulation extends Controller_Front
      */
     public function post_index()
     {
-        $val = \Model_SimpleSimulation::validate();
+        $val = \Model_Simulation::validate();
 
         if (!$val->run())
             return Response::redirect('simple_simulations/new');
@@ -90,12 +90,12 @@ class Controller_Front_SimpleSimulation extends Controller_Front
 
         if ($bill)
         {
-            $simulation = new Model_SimpleSimulation([
+            $simulation = new Model_Simulation([
                 'prefecture_code' => $val->validated('prefecture_code'),
                 'city_code'       => $val->validated('city_code'),
                 'household'       => $val->validated('household'),
                 'amount_billed'   => $val->validated('bill'),
-                'month'           => $val->validated('month'),
+                'month'           => date_parse($val->validated('month'))['month'],
             ]);
 
             if (!$simulation->save())
@@ -115,7 +115,7 @@ class Controller_Front_SimpleSimulation extends Controller_Front
 
         $this->template->title = 'プロパンガス料金シミュレーション 結果';
         $this->template->meta = $meta;
-        $this->template->content = View::forge('front/simpleSimulation/show', [
+        $this->template->content = View::forge('front/simulations/show', [
             'breadcrumb'                    => $breadcrumb,
             'zip'                           => $zip,
             'household'                     => \Config::get('enepi.household.key_string_numeric.'.$household),
@@ -127,7 +127,7 @@ class Controller_Front_SimpleSimulation extends Controller_Front
             'basic_rate'                    => number_format($simulationHelper->getBasicRate()),
             'commodity_charge'              => number_format($simulationHelper->getCommodityCharge()),
             'city_average_commodity_charge' => number_format($simulationHelper->getCityAverageCommodityCharge()),
-            'estimated_bill'                => number_format($simulationHelper->getEstimatedBill()),
+            'estimated_bill'                => $simulationHelper->getEstimatedBill(),
             'average_reduction_rate'        => number_format($simulationHelper->getAverageReductionRate()),
             'nationwide_reduction'          => number_format($simulationHelper->getNationwideReduction()),
             'monthly_average_price'         => $simulationHelper->getMonthlyAveragePrice(),

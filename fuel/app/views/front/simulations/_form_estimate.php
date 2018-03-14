@@ -97,7 +97,7 @@
         <div class="gas-detail-input-wrap">
           <div class="input-wrap left-column month-left-column">
             <div class="label label-left">使用月</div>
-            <div class="field-month"><?= \Config::get('enepi.simulation.month.key_string.'.$month) ?>月</div>
+            <div class="field-month"><?= \Config::get('enepi.simulation.month.key_string.'.$month) ?></div>
           </div>
 
           <div class="input-wrap error-wrap">
