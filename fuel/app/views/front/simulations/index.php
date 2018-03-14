@@ -24,24 +24,12 @@ use JpPrefecture\JpPrefecture;
 						<div class="form-group" style="width: 70%; margin: 40px auto 20px auto ;">
 							<div class="form-inline">
 								<div class="simulation-address">
-
-									<? if($sidebar_selected_prefecture_code){ ?>
-										<label style="font-weight: bold;">都道府県</label>
-										<?= Form::select('prefecture_code', $sidebar_selected_prefecture_code, ['' => '選択してください'] + JpPrefecture::allKanjiAndCode(), ['class' => 'address-selector-prefecture']); ?>
-										<label style="font-weight: bold;">市区町村</label>
-										<select name="city_code" id="city_list" class="address-selector" disabled="disabled">
-											<option value="" class="provisional_option">選択してください</option>
-										</select>
-
-									<? }else{ ?>
-										<label style="font-weight: bold;">都道府県</label>
-										<?= Form::select('prefecture_code', '', ['' => '選択してください'] + JpPrefecture::allKanjiAndCode(), ['class' => 'address-selector-prefecture']); ?>
-										<label style="font-weight: bold;">市区町村</label>
-										<select name="city_code" id="city_list" class="address-selector" disabled="disabled">
-											<option value="" class="provisional_option">選択してください</option>
-										</select>
-									<? } ?>
-
+									<label style="font-weight: bold;">都道府県</label>
+									<?= Form::select('prefecture_code', $prefecture_code, ['' => '選択してください'] + JpPrefecture::allKanjiAndCode(), ['class' => 'address-selector-prefecture']); ?>
+									<label style="font-weight: bold;">市区町村</label>
+									<select name="city_code" id="city_list" class="address-selector" disabled="disabled">
+										<option value="" class="provisional_option">選択してください</option>
+									</select>
 								</div>
 							</div>
 						</div>

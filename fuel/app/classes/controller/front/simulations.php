@@ -41,20 +41,14 @@ class Controller_Front_Simulations extends Controller_Front
             ['url' => \Uri::create('simple_simulations/new'), 'name' => '料金シミュレーション'],
         ];
 
-        // FIX ME
-        $month_selected = date('n') - 1;
-
-        $sidebar_selected_prefecture_code = null;
-        if(\Input::get('prefecture_code')){
-            $sidebar_selected_prefecture_code = \Input::get('prefecture_code');
-        }
+        $month_selected = strtolower(date('F', mktime(0, 0, 0, date('n') - 1, 10)));
 
         $this->template->title = '簡単入力！プロパンガス料金シミュレーション';
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/simulations/index', [
             'breadcrumb' => $breadcrumb,
             'month_selected' => $month_selected,
-            'sidebar_selected_prefecture_code' => $sidebar_selected_prefecture_code,
+            'prefecture_code' => \Input::get('prefecture_code', null),
         ]);
     }
 
@@ -87,6 +81,15 @@ class Controller_Front_Simulations extends Controller_Front
                 'id' => 'asc'
             ],
         ]);
+
+        if (!$zip)
+        {
+            $zip = new \Model_ZipCode([
+                'zip_code' => '0000000',
+                'prefecture_code' => $region->prefecture_code,
+                'city_name' => $region->city_name,
+            ]);
+        }
 
         if ($bill)
         {
