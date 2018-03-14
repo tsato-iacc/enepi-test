@@ -22,7 +22,7 @@
                 </tr>
                 <tr class="usage-status-content">
                   <th>■ガス使用量</th>
-                  <td><?= number_format($household_average_rate, 1) ?>㎥</td>
+                  <td><?= $household_average_rate; ?>㎥</td>
                 </tr>
                 <tr class="usage-status-content">
                   <th>■世帯人数</th>

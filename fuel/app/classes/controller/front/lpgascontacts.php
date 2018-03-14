@@ -144,7 +144,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
             if (!$contact->gas_used_amount && $contact->house_hold)
                 $this->calculateGasUsage($contact);
 
-            if (\Input::post('simple_simulation') == true)
+            if ($contact->house_hold)
                 $contact->body = "「世帯人数：{$contact->house_hold}　シミュレーションにより使用量：{$contact->gas_used_amount}m3で推定入力」";
 
             \DB::start_transaction();
@@ -773,8 +773,9 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         if ($contact->gas_meter_checked_month)
         {
-            $prefecture = \Model_LocalContentPrefecture::find($city->getPrefectureCode());
-            $contact->gas_used_amount = round($prefecture[$contact->gas_meter_checked_month] / $prefecture->annual_average * $prefecture[$house_hold], 1);
+            $month_str = strtolower(date('F', mktime(0, 0, 0, $contact->gas_meter_checked_month, 10)));
+            $prefecture = \Model_LocalContentPrefecture::find($city['prefecture_code']);
+            $contact->gas_used_amount = round($prefecture[$month_str] / $prefecture->annual_average * $prefecture[$house_hold], 1);
         }
         else
         {
