@@ -25,6 +25,13 @@ class Tracking
 
     public function detect()
     {
+        if (\Uri::segment(1) == 'lpgas_contacts' && in_array(\Uri::segment(2), ['new', 'new_form']))
+        {
+            self::unsetTracking();
+
+            return;
+        }
+        
         $tracking_name = \Input::get('pr', '');
 
         // IF NAME DOESN'T EXIST TRY TO DETECT KAKAKU AND ENECHANGE
@@ -46,30 +53,28 @@ class Tracking
         {
             $this->pr_tracking_id = $tracking->id;
             $this->pr_tracking_name = $tracking->name;
-        }
 
-        \Session::set('front.pr_tracking_id', $this->pr_tracking_id);
-        \Session::set('front.pr_tracking_name', $this->pr_tracking_name);
-        \Session::set('front.from_kakaku', $this->from_kakaku);
-        \Session::set('front.from_enechange', $this->from_enechange);
+            \Session::set('front.pr_tracking_id', $this->pr_tracking_id);
+            \Session::set('front.pr_tracking_name', $this->pr_tracking_name);
+            \Session::set('front.from_kakaku', $this->from_kakaku);
+            \Session::set('front.from_enechange', $this->from_enechange);
+        }
+        else
+        {
+            self::unsetTracking();
+        }
     }
 
     public function isKakaku()
     {
         $host = parse_url(\Uri::base(), PHP_URL_HOST);
 
-        if ($this->media == 'kakaku' || in_array('kakaku', explode('.', $host)))
-            return true;
-
-        return false;
+        return ($this->media == 'kakaku' || in_array('kakaku', explode('.', $host)));
     }
 
     public function isEnechange()
     {
-        if ($this->media == 'enechange')
-            return true;
-
-        return false;
+        return ($this->media == 'enechange');
     }
 
     public static function unsetTracking()

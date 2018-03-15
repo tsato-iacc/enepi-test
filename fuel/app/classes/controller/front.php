@@ -112,7 +112,7 @@ class Controller_Front extends Controller_Template
 
     private function prTrackingDetect()
     {
-        if (\Session::get('front.pr_tracking_id', false) === false)
+        if (Input::method() == 'GET')
         {
             $tracking = new Tracking($this->param('media'));
             $tracking->detect();
@@ -122,10 +122,10 @@ class Controller_Front extends Controller_Template
             $this->estimate_post_url = "{$media}/lpgas/contacts";
 
         // Set for usage in Controller
-        $this->pr_tracking_id = \Session::get('front.pr_tracking_id');
-        $this->pr_tracking_name = \Session::get('front.pr_tracking_name');
-        $this->from_kakaku    = \Session::get('front.from_kakaku');
-        $this->from_enechange = \Session::get('front.from_enechange');
+        $this->pr_tracking_id = \Session::get('front.pr_tracking_id', null);
+        $this->pr_tracking_name = \Session::get('front.pr_tracking_name', null);
+        $this->from_kakaku    = \Session::get('front.from_kakaku', false);
+        $this->from_enechange = \Session::get('front.from_enechange', false);
 
         // Set for usage in View
         \View::set_global('pr_tracking_name', $this->pr_tracking_name, false);
