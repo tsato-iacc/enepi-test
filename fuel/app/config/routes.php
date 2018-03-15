@@ -143,4 +143,11 @@ return array(
     'admin/csv/contacts'                                   => [['GET', new Route('admin/csv/contacts')]],
     'admin/csv/contacts/(:num)/estimates'                  => [['GET', new Route('admin/csv/contacts_estimates/$1')]],
     'admin/csv/calling_histories'                          => [['GET', new Route('admin/csv/calling_histories')]],
+
+    /**
+     * Twilio
+     *
+     * It's a wrong route, spell with one 'l'
+     */
+    'twillio/forward'                                      => 'twilio/forward',
 );

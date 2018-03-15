@@ -46,7 +46,21 @@ class Controller_Twilio extends Controller
 
     public function action_forward()
     {
-        return 'ok';
+        if (!$tel_income = \Input::get('Called'))
+            return;
+
+        if ($tel_income == \Config::get('enepi.twilio.forward.tel_income'))
+        {
+            $response = new Twiml();
+            $dial = $response->dial(['callerId' => \Config::get('enepi.twilio.forward.tel_from')]);
+            $dial->number(\Config::get('enepi.twilio.forward.tel_to'));
+
+            return $response;
+        }
+        else
+        {
+            return '<?xml version="1.0" encoding="UTF-8"?><Error>unsupported called number '. $tel_income .'</Error>';
+        }
     }
 
     /**
