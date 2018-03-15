@@ -759,12 +759,20 @@ class Controller_Front_LpgasContacts extends Controller_Front
         $zip_code = $contact->zip_code ? $contact->zip_code : $contact->new_zip_code;
         $zip = \Model_ZipCode::find('first', ['where' => [['zip_code', str_replace('-', '', $zip_code)]]]);
 
+        if (!$zip)
+        {
+            $contact->gas_used_amount = 0;
+            \Log::warning('Model_ZipCode not found');
+
+            return;
+        }
+
         $region = \Model_Region::find('first', ['where' => [['city_name', $zip->city_name]]]);
 
         if (!$region)
         {
             $contact->gas_used_amount = 0;
-            \Log::warning('Region not found');
+            \Log::warning('Model_Region not found');
 
             return;
         }
