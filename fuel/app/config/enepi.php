@@ -79,6 +79,13 @@ return [
     ],
 
     /**
+     * Slot
+     */
+    'slot' => [
+        'estimate_limit' => 20,
+    ],
+
+    /**
      * Categories
      */
     'category' => [

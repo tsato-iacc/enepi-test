@@ -1,6 +1,6 @@
 <?php
 
-class Model_AdminBatchEstimatePrice extends \Orm\Model
+class Model_Slot extends \Orm\Model
 {
     protected static $_table_name = 'batch_estimate_prices';
 
@@ -20,4 +20,14 @@ class Model_AdminBatchEstimatePrice extends \Orm\Model
         ],
         'Orm\\Observer_Typing'
     ];
+
+    public static function getSlots()
+    {
+        return \Model_Slot::find('all', [
+            'order_by' => [
+                'estimate_created_at' => 'desc'
+            ],
+            'limit' => \Config::get('enepi.slot.estimate_limit'),
+        ]);
+    }
 }

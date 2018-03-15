@@ -47,7 +47,10 @@ class Controller_Front_Lp extends Controller_Front
 
         elseif ($id == '004' || $id == '005')
         {
-            $this->template = \View::forge('front/lp/show_004');
+            $this->template = \View::forge('front/lp/show_004', [
+                'slots' => \Model_Slot::getSlots(),
+            ]);
+            
             $this->template->lp_005 = ($id == '005');
 
             return;

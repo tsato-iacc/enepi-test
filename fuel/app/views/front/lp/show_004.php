@@ -31,6 +31,8 @@
   <?php else: ?>
     <?= render('shared/estimate_form', ['contact' => new \Model_Contact(), 'month_selected' => 'january']); ?>
   <?php endif; ?>
+  
+  <?= render('shared/estimate_slot', ['slots' => $slots]); ?>
 
   <?= Asset::css('bootstrap_v4.min.css'); ?>
   <footer class="footer-new-form">
