@@ -526,7 +526,7 @@ class Controller_Admin_Estimates extends Controller_Admin
 
         // Where contact created from
         if ($created_from = \Input::get('created_from'))
-            $conditions['where'][] = ['created_at', '>=', \Helper\TimezoneConverter::convertFromStringToUTC($created_from)];;
+            $conditions['where'][] = ['created_at', '>=', \Helper\TimezoneConverter::convertFromStringToUTC($created_from)];
 
         // Where contact created to
         if ($created_to = \Input::get('created_to'))

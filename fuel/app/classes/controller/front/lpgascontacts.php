@@ -70,6 +70,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
             $this->template->content = View::forge('front/lpgasContacts/index', [
                 'contact' => $contact,
                 'month_selected' => $contact->gas_meter_checked_month ? \Config::get('enepi.simulation.month.key_numeric.'.$contact->gas_meter_checked_month) : '',
+                'slots' => \Model_Slot::getSlots(),
             ]);
         }
     }

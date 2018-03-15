@@ -38,6 +38,7 @@ class Controller_Front_Welcome extends Controller_Front
         $this->template->content = View::forge('front/welcome/index', [
             'contact' => new \Model_Contact(),
             'month_selected' => '',
+            'slots' => \Model_Slot::getSlots(),
         ]);
     }
 

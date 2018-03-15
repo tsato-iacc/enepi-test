@@ -1,25 +1,25 @@
 <?php if (isset($slots)): ?>
-  <? if smart_phone? ?>
+  <?php if ($is_mobile): ?>
   <div class="estimate-ticker">
-    <div class="ticker-wrap<?= ' wrap-fixed' if controller.controller_name == "welcome" && controller.action_name == "index" ?>">
+    <div class="ticker-wrap<?= \Request::active()->controller == 'Controller_Front_Welcome' && \Request::active()->action == 'index' ? ' wrap-fixed' : ''; ?>">
       <div class="ticker">
-        <? @slots.each { |slot| ?>
-          <div class="ticker__item"><span class="date"><?= slot.estimate_created_at.strftime("%m/%d") ?></span> <?= slot.subject ?>で年間 <span class="price"><?= number_to_currency slot.price ?></span> 安くなるご提案が出ました</div>
-        <? } ?>
+        <?php foreach ($slots as $slot): ?>
+          <div class="ticker__item"><span class="date"><?= \Helper\TimezoneConverter::convertFromString($slot->estimate_created_at, 'slot'); ?></span> <?= $slot->subject ?>で年間 <span class="price"><?= number_format($slot->price); ?></span> 安くなるご提案が出ました</div>
+        <?php endforeach; ?>
       </div>
     </div>
   </div>
-  <? else ?>
-    <div class="estimate-slot shake-slot<?= ' slot-target' if controller.controller_name == "welcome" && controller.action_name == "index" ?>">
+  <?php else: ?>
+    <div class="estimate-slot shake-slot<?= \Request::active()->controller == 'Controller_Front_Welcome' && \Request::active()->action == 'index' ? ' slot-target' : ''; ?>">
       <div class="slot-wrap">
         <div class="slot-container">
           <div class="swiper-wrapper">
-            <? @slots.each { |slot| ?>
-              <div class="swiper-slide"><div><span class="date"><?= slot.estimate_created_at.strftime("%m/%d") ?></span> <?= slot.subject ?>で<br>年間 <span class="price"><?= number_to_currency slot.price ?></span> 安くなる<br>ご提案が出ました</div></div>
-            <? } ?>
+            <?php foreach ($slots as $slot): ?>
+              <div class="swiper-slide"><div><span class="date"><?= \Helper\TimezoneConverter::convertFromString($slot->estimate_created_at, 'slot'); ?></span> <?= $slot->subject ?>で<br>年間 <span class="price"><?= number_format($slot->price); ?></span> 安くなる<br>ご提案が出ました</div></div>
+            <?php endforeach; ?>
           </div>
         </div>
       </div>
     </div>
-  <? } ?>
+  <?php endif; ?>
 <?php endif; ?>

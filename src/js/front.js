@@ -13,6 +13,7 @@
 
 //= front/autokana.js
 //= front/estimate_form.js
+//= front/estimate_slot.js
 //= front/simple_simulation_form.js
 //= front/simple_simulation_result.js
 //= front/simulation_estimate_form.js
