@@ -44,9 +44,9 @@ class Controller_Twilio extends Controller
         return $response;
     }
 
-    public function action_forward()
+    public function post_forward()
     {
-        if (!$tel_income = \Input::get('Called'))
+        if (!$tel_income = \Input::post('Called'))
             return;
 
         if ($tel_income == \Config::get('enepi.twilio.forward.tel_income'))
