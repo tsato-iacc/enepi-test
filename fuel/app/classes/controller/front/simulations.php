@@ -99,6 +99,7 @@ class Controller_Front_Simulations extends Controller_Front
                 'household'       => $val->validated('household'),
                 'amount_billed'   => $val->validated('bill'),
                 'month'           => date_parse($val->validated('month'))['month'],
+                'ip'              => \Input::ip(),
             ]);
 
             if (!$simulation->save())
