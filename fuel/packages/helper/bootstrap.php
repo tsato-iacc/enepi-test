@@ -24,6 +24,7 @@
   'Helper\\Notifier'                          => __DIR__.'/classes/notifier.php',
   'Helper\\S3'                                => __DIR__.'/classes/s3.php',
   'Helper\\Twilio'                            => __DIR__.'/classes/twilio.php',
+  'Helper\\Chat'                            => __DIR__.'/classes/chat.php',
 
   /**
    * Email classes.
