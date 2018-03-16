@@ -13,12 +13,7 @@
   </div>
 </div>    
 
-<div class="estimate-match-screen">
-  <?= Form::open(['action' => '/lpgas/contacts/'.$contact->id.'/estimates/ok_tentatively']); ?>
-    <?= \Form::csrf(); ?>
-  
-  <?= Form::close(); ?>
-</div>
+<?= render('front/contacts/_form_estimates_match'); ?>
 
 <div class="estimate">
   <div class="container">    
