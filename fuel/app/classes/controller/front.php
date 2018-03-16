@@ -119,7 +119,12 @@ class Controller_Front extends Controller_Template
         }
 
         if ($media = $this->param('media'))
+        {
+            $tracking = new Tracking($this->param('media'));
+            $tracking->detect();
+            
             $this->estimate_post_url = "{$media}/lpgas/contacts";
+        }
 
         // Set for usage in Controller
         $this->pr_tracking_id = \Session::get('front.pr_tracking_id', null);
