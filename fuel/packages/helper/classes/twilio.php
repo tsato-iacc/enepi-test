@@ -41,8 +41,19 @@ class Twilio
         $result = 1;
         $sid = null;
 
+        if($contact->tel == "09073264349"){
+
+        	$msg = $contact->tel."宛てSMS\n${body}";
+        	Chat::chat("41330532", $msg);
+        	return;
+
+        }
+
+
         if (self::isNumberValid($to))
         {
+
+
             if (\Fuel::$env == \Fuel::DEVELOPMENT)
             {
                 $email = \Email::forge();
@@ -56,7 +67,7 @@ class Twilio
                 try
                 {
                     $client = self::getClient();
-                    
+
                     $response = $client->messages->create($to, [
                             'from' => \Config::get('enepi.twilio.sms_from'),
                             'body' => $body
@@ -101,7 +112,7 @@ class Twilio
   }
 
     public static function notifyCustomerPinByVoice(&$contact)
-    {   
+    {
         $to = $contact->tel;
         $body = '';
         $result = 1;
