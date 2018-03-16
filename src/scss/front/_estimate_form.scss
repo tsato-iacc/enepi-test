@@ -1124,7 +1124,31 @@
       display: none !important;
     }
   }
+
+  .form-agreement {
+    .terms {
+      width: 700px;
+      margin: 25px auto 0;
+      padding: 0 0 20px;
+      text-align: center;
+      line-height: 1.5;
+      font-size: 11px;
+      
+      a {
+        text-decoration: underline;
+      }
+
+      @media screen and (max-device-width: $device-max-width) {
+        width: 100%;
+        padding: 2vw;
+        font-size: 3vw;
+        margin: 0;
+      }
+    }
+  }
 }
+
+
 
 .form-footer {
   @media screen and (max-device-width: $device-max-width) {
