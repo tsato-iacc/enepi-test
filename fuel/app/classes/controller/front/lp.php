@@ -29,6 +29,9 @@ class Controller_Front_Lp extends Controller_Front
      */
     public function action_index($id = null)
     {
+        $tracking = new Tracking($this->param('media'));
+        $tracking->detect();
+
         if ($id == "001")
         {
             $this->template = \View::forge('front/lp/show_001');
@@ -80,7 +83,9 @@ class Controller_Front_Lp extends Controller_Front
     	$ct		= $curl->response_info("content_type");
 
     	if($ct == "text/html"){
-
+            $tracking = new Tracking($this->param('media'));
+            $tracking->detect();
+            
     		$result = str_replace("\"images", "\"${o_uri}/images", $result);
     		$result = str_replace("\"css", "\"${o_uri}/css", $result);
     		$result = str_replace("\"js", "\"${o_uri}/js", $result);
