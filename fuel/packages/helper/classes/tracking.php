@@ -27,8 +27,6 @@ class Tracking
     {
         if (\Uri::segment(1) == 'lpgas_contacts' && in_array(\Uri::segment(2), ['new', 'new_form']))
         {
-            self::unsetTracking();
-
             return;
         }
         
