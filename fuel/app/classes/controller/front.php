@@ -112,12 +112,6 @@ class Controller_Front extends Controller_Template
 
     private function prTrackingDetect()
     {
-        if (Input::method() == 'GET')
-        {
-            $tracking = new Tracking($this->param('media'));
-            $tracking->detect();
-        }
-
         if ($media = $this->param('media'))
         {
             $tracking = new Tracking($this->param('media'));
