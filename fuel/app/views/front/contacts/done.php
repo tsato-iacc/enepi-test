@@ -53,4 +53,4 @@
   </div>
 </div>
 
-<?= render('front/lpgasContacts/done_tail', ['contact' => $contact], false); ?>
+<?= render('front/contacts/done_tail', ['contact' => $contact], false); ?>

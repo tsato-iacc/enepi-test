@@ -247,7 +247,7 @@
 
 
 
-    <?= render('front/lpgasContacts/sms_confirm_tail', ['contact' => $contact], false); ?>
+    <?= render('front/contacts/sms_confirm_tail', ['contact' => $contact], false); ?>
 
     <!-- SEND SMS START -->
     <script>

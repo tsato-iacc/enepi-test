@@ -15,16 +15,16 @@ return array(
     /**
      * Front
      */
-    'lpgas_contacts/new_form'                                 => [['GET', new Route('front/lpgasContacts/index')]],
-    'lpgas_contacts'                                          => [['POST', new Route('front/lpgasContacts/store')]],
-    'lpgas_contacts/new'                                      => 'front/lpgasContacts/old',
-    'lpgas_contacts/done'                                     => 'front/lpgasContacts/done',
-    'lpgas/contacts/(:num)'                                   => [['GET', new Route('front/lpgasContacts/sms_confirm/$1')]],
-    'lpgas/contacts/(:num)/estimates/(:any)'                  => [['GET', new Route('front/lpgasContacts/details/$1/$2')]],
-    'lpgas/contacts/(:num)/estimates/ok_tentatively'          => [['POST', new Route('front/lpgasContacts/introduce/$1')]],
-    ':media/lpgas/contacts/new'                               => [['GET', new Route('front/lpgasContacts/index')]],
-    ':media/lpgas/contacts'                                   => [['POST', new Route('front/lpgasContacts/store')]],
-    ':media/lpgas/contacts/done'                              => 'front/lpgasContacts/done',
+    'lpgas_contacts/new_form'                                 => [['GET', new Route('front/contacts/index')]],
+    'lpgas_contacts'                                          => [['POST', new Route('front/contacts/store')]],
+    'lpgas_contacts/new'                                      => 'front/contacts/old',
+    'lpgas_contacts/done'                                     => 'front/contacts/done',
+    'lpgas/contacts/(:num)'                                   => [['GET', new Route('front/contacts/sms_confirm/$1')]],
+    'lpgas/contacts/(:num)/estimates/(:any)'                  => [['GET', new Route('front/contacts/details/$1/$2')]],
+    'lpgas/contacts/(:num)/introduce'                         => [['POST', new Route('front/contacts/introduce/$1')]],
+    ':media/lpgas/contacts/new'                               => [['GET', new Route('front/contacts/index')]],
+    ':media/lpgas/contacts'                                   => [['POST', new Route('front/contacts/store')]],
+    ':media/lpgas/contacts/done'                              => 'front/contacts/done',
 
     'simple_simulations/new'                                  => 'front/simulations',
     'simple_simulations'                                      => 'front/simulations',

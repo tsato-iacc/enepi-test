@@ -25,7 +25,7 @@ use Cms\Exceptions\ClientException;
  * @package  app
  * @extends  Controller_Front
  */
-class Controller_Front_LpgasContacts extends Controller_Front
+class Controller_Front_Contacts extends Controller_Front
 {
     private $no_breadcrumb = true;
     private $no_drawer_menu = true;
@@ -42,7 +42,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
         {
             $this->template = \View::forge('front/template_old');
             $this->template->title = 'お見積もり情報入力';
-            $this->template->content = View::forge('front/lpgasContacts/old', [
+            $this->template->content = View::forge('front/contacts/old', [
                 'val' => \Model_Contact::validate('old_form'),
                 'contact' => new \Model_Contact(),
                 'apartment_form' => \Input::get('apartment_form') ? true : false,
@@ -67,7 +67,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
             $this->template = \View::forge('front/template');
             $this->template->title = 'プロパンガス(LPガス)料金を今より安く！無料比較サービス';
-            $this->template->content = View::forge('front/lpgasContacts/index', [
+            $this->template->content = View::forge('front/contacts/index', [
                 'contact' => $contact,
                 'month_selected' => $contact->gas_meter_checked_month ? \Config::get('enepi.simulation.month.key_numeric.'.$contact->gas_meter_checked_month) : '',
                 'slots' => \Model_Slot::getSlots(),
@@ -193,7 +193,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
         {
             $this->template = \View::forge('front/template_old');
 
-            $view = \View::forge('front/lpgasContacts/old', [
+            $view = \View::forge('front/contacts/old', [
                 'contact' => $contact,
                 'val' => $val,
                 'apartment_form' => \Input::post('apartment_form') ? true : false,
@@ -201,7 +201,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
         }
         else
         {
-            $view = \View::forge('front/lpgasContacts/index', [
+            $view = \View::forge('front/contacts/index', [
                 'contact' => $contact,
                 'val' => $val,
                 'month_selected' => '',
@@ -210,9 +210,9 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         $this->template->title = 'お見積もり情報入力';
         $this->template->meta = $meta;
-        $this->template->header = View::forge('front/lpgasContacts/lpgas_contacts_header');
+        $this->template->header = View::forge('front/contacts/lpgas_contacts_header');
         $this->template->content = $view;
-        $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
+        $this->template->footer = View::forge('front/contacts/lpgas_contacts_footer');
         $this->template->css_call = 'done';
     }
 
@@ -258,7 +258,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         $this->template = \View::forge('front/template_old');
         $this->template->title = 'お見積もり情報入力';
-        $this->template->content = View::forge('front/lpgasContacts/old', [
+        $this->template->content = View::forge('front/contacts/old', [
             'val' => \Model_Contact::validate('old_form'),
             'contact' => $contact,
             'apartment_form' => \Input::get('apartment_form') ? true : false,
@@ -293,8 +293,8 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         $this->template->title = 'エネピ -  お見積もりの問い合わせ完了';
         $this->template->meta = $meta;
-        $this->template->header = View::forge('front/lpgasContacts/done_header');
-        $this->template->content = View::forge('front/lpgasContacts/done', [
+        $this->template->header = View::forge('front/contacts/done_header');
+        $this->template->content = View::forge('front/contacts/done', [
             'contact' => $contact,
         ], false);
         $this->template->content->set_global('cv_point', \Config::get('models.tracking.cv_point.estimate'));
@@ -382,14 +382,14 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
             $this->template->title = 'エネピ';
             $this->template->meta = $meta;
-            $this->template->header = View::forge('front/lpgasContacts/lpgas_contacts_header');
-            $this->template->content = View::forge('front/lpgasContacts/sms_confirm', [
+            $this->template->header = View::forge('front/contacts/lpgas_contacts_header');
+            $this->template->content = View::forge('front/contacts/sms_confirm', [
                 'contact' => $contact,
                 'pin' => $pin,
                 're_cv_url' => $re_cv_url,
             ], false);
             $this->template->content->set_global('cv_point', \Config::get('models.tracking.cv_point.estimate'));
-            $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
+            $this->template->footer = View::forge('front/contacts/lpgas_contacts_footer');
             $this->template->css_call = 'presentation';
 
         }
@@ -478,8 +478,8 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
             $this->template->title = 'エネピ';
             $this->template->meta = $meta;
-            $this->template->header = View::forge('front/lpgasContacts/lpgas_contacts_header');
-            $this->template->content = View::forge('front/lpgasContacts/estimate_presentation', [
+            $this->template->header = View::forge('front/contacts/lpgas_contacts_header');
+            $this->template->content = View::forge('front/contacts/estimate_presentation', [
                 'contact' => $contact,
                 'prefecture_kanji' => $prefecture_kanji,
                 'prefecture_data' => $prefecture_data,
@@ -496,7 +496,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
             {
                 $this->template->content->set_global('cv_point', \Config::get('models.tracking.cv_point.verbal_ok'));
             }
-            $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
+            $this->template->footer = View::forge('front/contacts/lpgas_contacts_footer');
             $this->template->css_call = 'presentation';
         }
         else
@@ -673,8 +673,8 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         $this->template->title = 'エネピ';
         $this->template->meta = $meta;
-        $this->template->header = View::forge('front/lpgasContacts/lpgas_contacts_header');
-        $this->template->content = View::forge('front/lpgasContacts/details', [
+        $this->template->header = View::forge('front/contacts/lpgas_contacts_header');
+        $this->template->content = View::forge('front/contacts/details', [
             'contact' => $contact,
             'prefecture_kanji' => $prefecture_kanji,
             'company' => $company,
@@ -682,7 +682,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
             'feature_all' => $feature_all,
             'google_chart_json_data' => $google_chart_json_data,
         ]);
-        $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
+        $this->template->footer = View::forge('front/contacts/lpgas_contacts_footer');
         $this->template->css_call = 'details';
 
     }
@@ -807,11 +807,11 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         $this->template->title = 'プロパンガス料金シミュレーション 結果';
         $this->template->meta = $meta;
-        $this->template->header = View::forge('front/lpgasContacts/lpgas_contacts_header');
-        $this->template->content = View::forge('front/lpgasContacts/old', [
+        $this->template->header = View::forge('front/contacts/lpgas_contacts_header');
+        $this->template->content = View::forge('front/contacts/old', [
             'breadcrumb' => $breadcrumb,
         ]);
-        $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
+        $this->template->footer = View::forge('front/contacts/lpgas_contacts_footer');
         $this->template->css_call = 'done';
 
     }
