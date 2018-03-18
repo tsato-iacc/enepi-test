@@ -221,7 +221,7 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
             $set = $val->validated();
             unset($set['prices']);
             $price_rule->set($set);
-            
+
             \DB::start_transaction();
             try
             {
@@ -231,7 +231,7 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
                 }
 
                 $price_rule->prices = [];
-            
+
                 foreach ($val->validated('prices') as $price)
                 {
                     if (!$price['upper_limit'])
@@ -239,7 +239,7 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
 
                     $price_rule->prices[] = new \Model_PriceRule_Price($price);
                 }
-                
+
                 if ($price_rule->save())
                 {
                     \DB::commit_transaction();
@@ -254,9 +254,9 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
                 \DB::rollback_transaction();
             }
         }
-        
+
         Session::set_flash('error', "ID: {$id} FAIL");
-        
+
         return Response::redirect("admin/companies/{$id}/offices/{$geocode_id}/prices");
     }
 
@@ -293,7 +293,7 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
             \DB::rollback_transaction();
             Session::set_flash('error', "ID: {$id} FAIL");
         }
-        
+
         return Response::redirect("admin/companies/{$id}/offices/{$geocode_id}/prices");
     }
 
@@ -369,7 +369,7 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
 
         $geocode_ids = \Arr::pluck(\Model_Company_Geocode::find('all', ['where' => [['company_id', $company->id]]]), 'id');
         $overlap_zip_codes = \Arr::pluck(\Model_Company_GeocodeZipCode::find('all', ['where' => [['company_geocode_id', 'in', $geocode_ids], ['zip_code', 'in', $zip_code]]]), 'zip_code');
-        
+
         if (count($overlap_zip_codes) > 0)
         {
             foreach ($overlap_zip_codes as $key => $value)
@@ -377,7 +377,7 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
                 $k = array_search($value, $zip_code);
                 unset($zip_code[$k]);
             }
-            
+
             Session::set_flash('success', '重複した郵便番号の登録はスキップしました');
 
             if (count($zip_code) == 0)
@@ -390,8 +390,25 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
             return Response::redirect("admin/companies/{$id}/offices/{$office_id}/area");
         }
 
+        $err_msg = "";
         foreach ($zip_code as $code)
         {
+        	$zip = \Model_ZipCode::find('first', ['where' => [['zip_code', $code]]]);
+        	$msg = "";
+        	if(!$zip){
+        		$err_msg .= $code.'は存在しません<br>';
+        	}
+        }
+        if($err_msg){
+        	Session::set_flash('error', $err_msg);
+        	return Response::redirect("admin/companies/{$id}/offices/{$office_id}/area");
+        }
+
+
+        $n = 0;
+        foreach ($zip_code as $code)
+        {
+
             $zip = \Model_ZipCode::find('first', ['where' => [['zip_code', $code]]]);
             $record = new \Model_Company_GeocodeZipCode([
                 'company_geocode_id' => $geocode->id,
@@ -400,10 +417,12 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
             ]);
 
             $record->save();
+            $n++;
+
         }
 
         if (count($overlap_zip_codes) == 0)
-            Session::set_flash('success', "件保存しました");
+            Session::set_flash('success', "${n}件保存しました");
 
         return Response::redirect("admin/companies/{$id}/offices/{$office_id}/area");
     }
