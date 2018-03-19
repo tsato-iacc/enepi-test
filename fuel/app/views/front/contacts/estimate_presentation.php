@@ -1,19 +1,6 @@
-<?= render('shared/ptengine'); ?>
+<?= render('shared/ptengine'); ?> 
 
-<div class="estimate">
-  <div class="container">
-
-    <div class="container pc">
-      <?php if ($contact->status == \Config::get('models.contact.status.sent_estimate_req')): ?>
-        <?= \Asset::img('estimate_presentation/new_step_img_02.png'); ?>
-      <?php else: ?>
-        <?= \Asset::img('estimate_presentation/new_step_img_03.png'); ?>
-      <?php endif; ?>
-    </div>
-  </div>
-</div>    
-
-<?= render('front/contacts/_form_estimates_match'); ?>
+<?= render('front/contacts/_form_estimates_match', ['contact' => $contact]); ?>
 
 <div class="estimate">
   <div class="container">    
