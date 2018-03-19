@@ -3,7 +3,7 @@
 /**
  * class Lpgas::CompanyServiceFeature
  */
-class Model_Company_ServiceFeature extends \Orm\Model
+class Model_Company_Pickup extends \Orm\Model
 {
     protected static $_table_name = 'lpgas_company_service_features';
 

@@ -46,8 +46,33 @@ use JpPrefecture\JpPrefecture;
   </div>
 </div>
 
+<!-- PICKUP START -->
 <h4>ピックアップ ※ 3つまで登録可能</h4>
-<!-- FIX ME (Add js) -->
+<?php $pickup_count = $partner_company->is_new() ? 0 : count($partner_company->company->pickups); ?>
+<div id="company_pickups" data-position="<?= $pickup_count; ?>">
+  <?php if (!$partner_company->is_new()): ?>
+    <?php foreach(\Arr::reindex($partner_company->company->pickups) as $k => $pickup): ?>
+      <div class="pickup-wrap">
+        <div class="form-group">
+          <label class="form-control-label"><h6><i class="fa fa-asterisk" aria-hidden="true"></i> タイトル</h6></label>
+          <input type="text" name="pickups[<?= $k; ?>][title]" value="<?= $pickup->title; ?>" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label class="form-control-label"><h6><i class="fa fa-asterisk" aria-hidden="true"></i> 本文</h6></label>
+          <textarea name="pickups[<?= $k; ?>][body]" class="form-control" rows="2" required><?= $pickup->body; ?></textarea>
+        </div>
+        <div class="form-group">
+          <button type="button" class="btn btn-danger">削除</button>
+        </div>
+        <hr>
+      </div>
+    <?php endforeach; ?>
+  <?php endif; ?>
+</div>
+<div class="form-group">
+  <button type="button" class="btn btn-success" id="pickup_add_btn" style="<?= $pickup_count >= 3 ? 'display:none;' : ''; ?>"><i class="fa fa-plus" aria-hidden="true"></i> 追加</button>
+</div>
+<!-- PICKUP END -->
 
 <div class="form-group<?= $company_image_err ? ' has-danger' : ''?>">
   <label class="form-control-label" for="company_image"><h6>画像</h6></label>

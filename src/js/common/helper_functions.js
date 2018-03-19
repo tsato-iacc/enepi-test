@@ -168,6 +168,48 @@ function setUpUnitPrice() {
   }
 }
 
+function setUpPikcup() {
+  var company_pickups = $('#company_pickups');
+
+  if (company_pickups.length) {
+
+    var removePickup = function (el) {
+      var wrap = el.closest('.pickup-wrap');
+      wrap.hide('fast', function() {
+        wrap.remove();
+        if (company_pickups.children().length < 3) {
+          $('#pickup_add_btn').show();
+        }
+      });
+    }
+
+    company_pickups.find('.pickup-wrap .btn-danger').on('click', function() {
+      removePickup($(this));
+    });
+
+    $('#pickup_add_btn').on('click', function() {
+      var new_el = parseInt(company_pickups.attr('data-position'));
+      
+      var template = $('#template_pickup > div').clone().hide();
+
+      template.find('input[name=title]').attr('name', 'pickups[' + new_el + '][title]');
+      template.find('textarea[name=body]').attr('name', 'pickups[' + new_el + '][body]');
+
+      template.find('.btn-danger').on('click', function() {
+        removePickup($(this));
+      });
+
+      company_pickups.attr('data-position', new_el + 1);      
+      
+      template.appendTo(company_pickups).show('fast');
+      
+      if (company_pickups.children().length >= 3) {
+        $('#pickup_add_btn').hide();
+      }
+    });
+  }
+}
+
 /*
  * API Get cities list
  */

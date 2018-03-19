@@ -63,6 +63,13 @@ class Model_Partner_Company extends \Orm\Model
         $val->add_field('company.zip_code', 'zip_code', 'required');
         $val->add_field('company.prefecture_code', 'prefecture_code', 'required|numeric_between[1,47]');
         $val->add_field('company.address', 'address', 'required');
+
+        // Pickup validate
+        foreach (\Input::post('pickups', []) as $key => $v)
+        {
+            $val->add_field("pickups.{$key}.title", 'title', 'required|max_length[255]');
+            $val->add_field("pickups.{$key}.body", 'body', 'required|max_length[5000]');
+        }
         
         // FIX ME Add number validation for array
         $val->add('company_features', 'features');
