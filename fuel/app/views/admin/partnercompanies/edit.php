@@ -9,3 +9,7 @@
   <?= render('admin/partnercompanies/_form', ['val' => $val, 'partner_company' => $partner_company, 'company_image_err' => $company_image_err, 'company_logo_err' => $company_logo_err]); ?>
   <button type="submit" class="btn btn-primary">更新する</button>
 <?= Form::close(); ?>
+
+<!-- TEMPLATE PICKUP START -->
+<?= render('admin/partnercompanies/_template_pickup'); ?>
+<!-- TEMPLATE PICKUP END -->
