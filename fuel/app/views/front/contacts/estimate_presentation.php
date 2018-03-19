@@ -1,6 +1,6 @@
 <?= render('shared/ptengine'); ?> 
 
-<?= render('front/contacts/_form_estimates_match', ['contact' => $contact]); ?>
+<?= render('front/contacts/_form_estimates_match', ['contact' => $contact, 'estimates' => $estimates]); ?>
 
 <div class="estimate">
   <div class="container">    

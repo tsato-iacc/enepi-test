@@ -424,10 +424,21 @@ class Controller_Front_Contacts extends Controller_Front
                 throw new HttpNotFoundException();
             }
 
+            $estimates = $contact->get('estimates', [
+                'where' => [
+                    ['status', 'in', [
+                        \Config::get('models.estimate.status.sent_estimate_to_user'),
+                        \Config::get('models.estimate.status.verbal_ok'),
+                        \Config::get('models.estimate.status.contracted'),
+                    ]],
+                ],
+            ]);
+
             $this->template->title = 'あなたの条件にマッチしたガス会社';
 
             $this->template->content = View::forge('front/contacts/estimate_presentation', [
                 'contact' => $contact,
+                'estimates' => $estimates,
             ]);
 
             if($contact->status == \Config::get('models.contact.status.sent_estimate_req'))

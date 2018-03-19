@@ -10,7 +10,7 @@
   <div class="match-header">
     <div class="header-wrap">
       <div class="image"><?= \Asset::img('estimates_match_screen/ok.png'); ?></div>
-      <div class="title">あなたの条件にマッチしたガス会社が<?= count($contact->estimates); ?>社見つかりました！</div>
+      <div class="title">あなたの条件にマッチしたガス会社が<?= count($estimates); ?>社見つかりました！</div>
     </div>
     <p class="description">詳細が知りたいガス会社に <?= \Asset::img('estimates_match_screen/check.png'); ?> チェックを入れ、「詳細情報を希望する」ボタンを押してください。</p>
   </div>
@@ -37,14 +37,14 @@
         <div class="td td-7 decorator"><div class="none"></div></div>
         <div class="td td-8 decorator"><div class="none"></div></div>
       </div>
-      <?php foreach ($contact->estimates as $estimate): ?>
+      <?php foreach ($estimates as $estimate): ?>
         <div class="tr bb-gray">
           <div class="td td-1 company-wrap">
             <div class="check">
               <input type="checkbox" name="" value="1" id="estimate_<?= $estimate->id; ?>">
               <label for="estimate_<?= $estimate->id; ?>">
                 <div>
-                  <div><img src="https://stg.new.enepi.jp/assets/images/estimate_form/check-blue.png?1521182664" alt=""></div>
+                  <i class="fa fa-check" aria-hidden="true"></i>
                 </div>
               </label>
             </div>
@@ -55,10 +55,42 @@
               <div class="company-name"><?= $estimate->company->getCompanyName(); ?></div>
             </div>
           </div>
-          <div class="td td-2"></div>
-          <div class="td td-3"></div>
-          <div class="td td-4"></div>
-          <div class="td td-5"></div>
+          <div class="td td-2 column-centred">
+            <?php if ($estimate->basic_price): ?>
+              <div class="year-amount"><p><?= '????'; ?><span>円</span></p></div>
+              <div class="year-saving"><p><?= number_format($estimate->total_savings_in_year($contact)); ?><span>円節約!</span></p></div>
+            <?php else: ?>
+              <div class="year-unpublished">
+                <p>料金非公開<br>（お問い合わせください）</p>
+              </div>
+            <?php endif; ?>
+          </div>
+          <div class="td td-3">
+            <?php if ($estimate->basic_price): ?>
+              <div class="basic-price"><p><?= number_format($estimate->basic_price); ?>円</p></div>
+            <?php else: ?>
+              <div class="none"></div>
+            <?php endif; ?>
+          </div>
+          <div class="td td-4 column-centred">
+            <?php if ($estimate->prices): ?>
+              <?php foreach ($estimate->prices as $price): ?>
+                <div class="unit-price">
+                  <div><?= $price->getRangeLabel(); ?>:</div>
+                  <div><?= $price->unit_price; ?>円</div>
+                </div>
+              <?php endforeach; ?>
+            <?php else: ?>
+              <div class="none"></div>
+            <?php endif; ?>
+          </div>
+          <div class="td td-5">
+            <?php if ($estimate->fuel_adjustment_cost): ?>
+              <div class="basic-price"><p><?= number_format($estimate->fuel_adjustment_cost); ?>円</p></div>
+            <?php else: ?>
+              <div class="none"></div>
+            <?php endif; ?>
+          </div>
           <div class="td td-6"></div>
           <div class="td td-7"></div>
           <div class="td td-8"></div>

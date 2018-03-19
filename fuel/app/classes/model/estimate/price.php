@@ -38,6 +38,6 @@ class Model_Estimate_Price extends \Orm\Model
      */
     public function getRangeLabel()
     {
-        return $this->upper_limit? "{$this->under_limit} ~ {$this->upper_limit}m3" : "{$this->under_limit} ~ ";
+        return $this->upper_limit? "{$this->under_limit}~{$this->upper_limit}㎥" : "{$this->under_limit}㎥~ ";
     }
 }

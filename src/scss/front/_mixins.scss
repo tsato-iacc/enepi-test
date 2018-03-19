@@ -229,7 +229,6 @@
   label {
     display: flex;
     align-items: center;
-    font-size: 16px;
     
     > div {
       display: block;
@@ -243,9 +242,9 @@
       align-items: center;
       justify-content: center;
       
-      img {
-        width: 15px;
+      i {
         opacity: 0;
+        font-size: 14px;
       }
     }
   }
@@ -254,24 +253,21 @@
     display: none;
   }
   input[type=checkbox]:checked + label {
-    > div img {
+    > div i {
       opacity: 1;
     }
   }
 
   @media screen and (max-device-width: $device-max-width) {
     label {
-      font-weight: 700;
-      font-size: 3.8vw;
-
       > div {
         height: 6vw;
         width: 6vw;
         border-radius: 4px;
-        margin-right: 1.5vw;
         
-        img {
-          width: 4vw;
+        i {
+          font-size: 4vw;
+          // width: 4vw;
         }
       }
     }
