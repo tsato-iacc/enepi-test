@@ -127,7 +127,7 @@
     <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
     <?= Asset::js('bootstrap.min.js'); ?>
 
-    <? if($css_call == 'details' || $css_call == 'old'){ ?>
+    <? if($css_call == 'old'){ ?>
       <?= Asset::js('front.min.js'); ?>
     <? } ?>
 
