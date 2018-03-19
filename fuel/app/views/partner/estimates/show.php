@@ -86,7 +86,7 @@ use JpPrefecture\JpPrefecture;
     <th>住所(番地以降)</th>
     <td><?= $estimate->contact->getAddress2(); ?></td>
   </tr>
-  <?php if ($estimate->contact->estimate_kind == \Config::get('models.contact.house_kind.new_contract') || $estimate->contact->apartment_owner): ?>
+  <?php if ($estimate->contact->estimate_kind == \Config::get('models.contact.estimate_kind.new_contract') || $estimate->contact->apartment_owner): ?>
     <tr>
       <th>開設先の郵便番号</th>
       <td><?= $estimate->contact->new_zip_code ?></td>
