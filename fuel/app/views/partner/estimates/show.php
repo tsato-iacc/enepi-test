@@ -104,7 +104,7 @@ use JpPrefecture\JpPrefecture;
       <td><?= $estimate->contact->new_address2; ?></td>
     </tr>
   <?php endif; ?>
-  <?php if ($estimate->contact->estimate_kind == \Config::get('models.contact.house_kind.new_contract')): ?>
+  <?php if ($estimate->contact->estimate_kind == \Config::get('models.contact.estimate_kind.new_contract')): ?>
     <tr>
       <th>引越し予定日</th>
       <td><?= $estimate->contact->moving_scheduled_date; ?></td>
