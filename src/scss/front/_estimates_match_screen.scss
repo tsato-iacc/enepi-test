@@ -1,6 +1,6 @@
 $match-color-orange: #ffb500;
 $match-color-pink: #fff5f5;
-$match-color-table-border: #e5e5e5;
+$match-color-table-border: #ccc;
 $match-color-table-th: #fef8e5;
 
 .estimates-match-form {
@@ -87,6 +87,10 @@ $match-color-table-th: #fef8e5;
     }
     .bb-gray {
       border-bottom: 1px solid $match-color-table-border;
+
+      &:last-child {
+        border-bottom: 0;
+      }
     }
 
     .user-name {
@@ -164,6 +168,22 @@ $match-color-table-th: #fef8e5;
       font-size: 13px;
     }
 
+    .pickup {
+      flex-direction: column;
+      align-items: flex-start;
+
+      > div {
+        width: 100%;
+        padding: 0 8px;
+        font-size: 13px;
+        color: #444;
+      }
+
+      i {
+        font-size: 10px;
+      }
+    }
+
     .company-wrap {
       align-items: stretch;
       padding: 0;
@@ -223,5 +243,11 @@ $match-color-table-th: #fef8e5;
     .td-8 {
       width: 25%;
     }
+  }
+
+  .match-submit {
+    min-width: 1200px;
+    margin: 0 3%;
+    background-color: $match-color-pink;
   }
 }

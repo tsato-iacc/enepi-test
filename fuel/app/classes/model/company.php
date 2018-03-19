@@ -66,8 +66,9 @@ class Model_Company extends \Orm\Model
         'offices' => [
             'model_to' => 'Model_Company_Office',
         ],
-        'company_service_features' => [
-            'model_to' => 'Model_Company_ServiceFeature',
+        'pickups' => [
+            'model_to' => 'Model_Company_Pickup',
+            'cascade_delete' => true,
         ],
     ];
 

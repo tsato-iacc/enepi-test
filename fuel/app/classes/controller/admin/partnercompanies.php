@@ -121,6 +121,18 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
                     'lng' => 0,
                 ]);
 
+                // Add Pickups
+                if ($val->validated('pickups'))
+                {
+                    foreach ($val->validated('pickups') as $pickup)
+                    {
+                        $company->pickups[] = new \Model_Company_Pickup([
+                            'title' => $pickup['title'],
+                            'body' => $pickup['body'],
+                        ]);
+                    }
+                }
+
                 if (!$company->display_name)
                     $company->display_name = $partner_company->company_name;
 
@@ -280,6 +292,24 @@ class Controller_Admin_PartnerCompanies extends Controller_Admin
                             ['id', 'IN', $val->validated('company_features')]
                         ]
                     ]);
+                }
+                
+                // Refresh pickups
+                foreach ($company->pickups as $pickup)
+                {
+                    $pickup->delete();
+                    $company->pickups = [];
+                }
+
+                if ($val->validated('pickups'))
+                {
+                    foreach ($val->validated('pickups') as $pickup)
+                    {
+                        $company->pickups[] = new \Model_Company_Pickup([
+                            'title' => $pickup['title'],
+                            'body' => $pickup['body'],
+                        ]);
+                    }
                 }
 
                 if (!$company->display_name)

@@ -17,3 +17,4 @@
 //= admin/estimates.js
 //= admin/companies.js
 //= admin/contacts.js
+//= admin/partner_companies.js

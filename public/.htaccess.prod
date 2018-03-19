@@ -17,6 +17,10 @@
   RewriteRule ^(.*)?$ https://%{HTTP_HOST}/$1 [R=301,L]
 
 
+  RewriteCond %{http_host} ^p.enepi.jp
+  RewriteRule ^(.*) https://enepi.jp/$1 [R=301,L]
+
+
 
      SetOutputFilter DEFLATE
 

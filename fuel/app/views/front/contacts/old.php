@@ -419,7 +419,7 @@ use JpPrefecture\JpPrefecture;
           <tr>
             <th><i class="fa fa-pencil" aria-hidden="true"></i><label class="required" for="lpgas_contact_zip_code">郵便番号は？</label></th>
             <td>
-              〒 <input type="text" name="lpgas_contact[zip_code]" id="lpgas_contact_zip_code" value="<?= $val->input('lpgas_contact.zip_code', '') ?>">
+              〒 <input type="text" name="lpgas_contact[zip_code]" id="lpgas_contact_zip_code" value="<?= $val->input('lpgas_contact.zip_code', '') ?>" onKeyUp="AjaxZip3.zip2addr(this,'','lpgas_contact[prefecture_code]','lpgas_contact[address]');">
               <span class="example">(例: 1500022)</span>
               <?php if ($val->error('lpgas_contact.zip_code')): ?>
               <div>

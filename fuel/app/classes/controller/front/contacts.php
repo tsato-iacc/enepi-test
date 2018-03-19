@@ -56,7 +56,7 @@ class Controller_Front_Contacts extends Controller_Front
             if ($contact_id && $token)
             {
                 $contact = \Model_Contact::find($contact_id);
-                
+
                 if (!$contact || $contact->token != $token)
                     throw new HttpNotFoundException();
             }
@@ -98,7 +98,7 @@ class Controller_Front_Contacts extends Controller_Front
         if ($contact_id && $token)
         {
             $original = \Model_Contact::find($contact_id);
-            
+
             if ($original && $original->token == $token)
             {
                 $contact->original_contact_id = $original->id;
@@ -512,7 +512,7 @@ class Controller_Front_Contacts extends Controller_Front
         }
 
 
-        
+
         if(is_array($estimate->savings_by_month($contact)))
         {
             $data = [
@@ -587,7 +587,7 @@ class Controller_Front_Contacts extends Controller_Front
                         Session::set_flash('notice', $n->company->display_name.'に依頼済みです');
                     }
 
-                } 
+                }
             }
             elseif($contact->status == \Config::get('models.contact.status.verbal_ok'))
             {
@@ -643,6 +643,7 @@ class Controller_Front_Contacts extends Controller_Front
     public function post_introduce($contact_id)
     {
 
+
         $contact = \Model_Contact::find($contact_id);
 
         if (!$contact)
@@ -664,8 +665,8 @@ class Controller_Front_Contacts extends Controller_Front
         $this->template = \View::forge('front/template_contact');
 
 
-
         $select_estimate = \Input::post('estimate_ids', []);
+
 
         if(is_array($select_estimate))
         {

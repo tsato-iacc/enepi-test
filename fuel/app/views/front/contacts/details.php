@@ -415,7 +415,7 @@
                   <h4 class="panel-title estimates_subttl">ピックアップ</h4>
                 </div>
                 <div class="panel-body pickup-list">
-                  <? foreach($estimate->company->company_service_features as $feat){ ?>
+                  <? foreach($estimate->company->pickups as $feat){ ?>
                     <div class="pickup">
                       <h4 class="pickup-title"><?= $feat->title ?></h4>
                       <p class="pickup-body">
@@ -460,7 +460,7 @@
                       <th>事業概要</th>
                       <td colspan="3"><?= $estimate->company->business_overview ?></td>
                     </tr>
-                    <? if(isset($estimate->company->company_service_features)){ ?>
+                    <? if(isset($estimate->company->pickups)){ ?>
                       <tr>
                         <th>サービスの特徴</th>
                         <td colspan="3">

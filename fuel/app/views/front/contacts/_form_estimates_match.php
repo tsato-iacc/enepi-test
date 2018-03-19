@@ -91,11 +91,32 @@
               <div class="none"></div>
             <?php endif; ?>
           </div>
-          <div class="td td-6"></div>
-          <div class="td td-7"></div>
-          <div class="td td-8"></div>
+          <?php $features = \Arr::pluck($estimate->company->features, 'name'); ?>
+          <div class="td td-6">
+            <?= in_array('違約金なし', $features) ? 'なし' : 'あり'; ?>
+          </div>
+          <div class="td td-7">
+            <?= in_array('セット割', $features) ? 'あり' : 'なし'; ?>
+          </div>
+          <div class="td td-8 pickup">
+            <?php foreach ($estimate->company->pickups as $pickup): ?>
+              <div>
+                <i class="fa fa-circle" aria-hidden="true"></i> <?= $pickup->title; ?>
+              </div>
+            <?php endforeach; ?>
+          </div>
         </div>
       <?php endforeach; ?>
+    </div>
+
+    <div class="match-submit">
+      <div class="match-header">
+        <div class="header-wrap">
+          <div class="image"><?= \Asset::img('estimates_match_screen/ok.png'); ?></div>
+          <div class="title">あなたの条件にマッチしたガス会社が<?= count($estimates); ?>社見つかりました！</div>
+        </div>
+        <p class="description">詳細が知りたいガス会社に <?= \Asset::img('estimates_match_screen/check.png'); ?> チェックを入れ、「詳細情報を希望する」ボタンを押してください。</p>
+      </div>
     </div>
   <?= Form::close(); ?>
 </div>

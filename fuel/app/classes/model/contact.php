@@ -401,7 +401,7 @@ class Model_Contact extends \Orm\Model
     {
         if ($this->_zip_code === null)
         {
-            if ($this->estimate_kind == \Config::get('models.contact.estimate_kind.new_contract'))
+            if ($this->apartment_owner || $this->estimate_kind == \Config::get('models.contact.estimate_kind.new_contract'))
             {
                 $this->_zip_code = $this->new_zip_code;
             }

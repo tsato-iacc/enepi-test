@@ -112,14 +112,13 @@ class Controller_Front extends Controller_Template
 
     private function prTrackingDetect()
     {
-        if (Input::method() == 'GET')
+        if ($media = $this->param('media'))
         {
             $tracking = new Tracking($this->param('media'));
             $tracking->detect();
-        }
-
-        if ($media = $this->param('media'))
+            
             $this->estimate_post_url = "{$media}/lpgas/contacts";
+        }
 
         // Set for usage in Controller
         $this->pr_tracking_id = \Session::get('front.pr_tracking_id', null);

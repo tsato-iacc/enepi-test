@@ -11,6 +11,7 @@ class Model_Simulation extends \Orm\Model
         'household',
         'amount_billed',
         'month',
+        'ip',
         'created_at',
     ];
 

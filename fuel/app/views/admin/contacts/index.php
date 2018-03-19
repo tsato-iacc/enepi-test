@@ -145,7 +145,6 @@ use JpPrefecture\JpPrefecture;
       <th>
         <div><i class="fa fa-hashtag" aria-hidden="true"></i> ID</div>
         <div>経由元</div>
-        <div>価格</div>
       </th>
       <th>
         <div><i class="fa fa-user-circle-o" aria-hidden="true"></i> お名前</div>
@@ -175,13 +174,6 @@ use JpPrefecture\JpPrefecture;
         <td>
           <div><i class="fa fa-hashtag" aria-hidden="true"></i> <?= $contact->id; ?></div>
           <div><?= $contact->tracking ? $contact->tracking->display_name : '無し'; ?></div>
-          <div>
-            <?php if ($contact->from_kakaku): ?>
-              <span class="badge badge-success">TRUE</span>
-            <?php else: ?>
-              <span class="badge badge-default">FALSE</span>
-            <?php endif; ?>
-          </div>
         </td>
         <td>
           <div><i class="fa fa-user-circle-o" aria-hidden="true"></i> <?= $contact->name; ?></div>
