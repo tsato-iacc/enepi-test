@@ -313,7 +313,7 @@
                       <div id="collapseOne-<?= $count ?>" class="panel-collapse collapse">
                         <div class="panel-body">
                           <ul class="recommend_point">
-                            <? foreach($e->company->company_service_features as $sf){ ?>
+                            <? foreach($e->company->pickups as $sf){ ?>
                               <li><?= MyView::image_tag("estimate_presentation/ico_checkpoint.png", ["class" => "ico_checkpoint"]); ?><?= $sf->title ?></li>
                             <? } ?>
                           </ul>
@@ -485,7 +485,7 @@
                        <div class="info_l" >
                          <h4 class="subttl">おすすめポイント</h4>
                          <ul class="recommend_point">
-                           <? foreach($e->company->company_service_features as $sf){ ?>
+                           <? foreach($e->company->pickups as $sf){ ?>
                              <li><?= MyView::image_tag("estimate_presentation/ico_checkpoint.png", ["class" => "ico_checkpoint"]); ?><?= $sf->title ?></li>
                            <? } ?>
                          </ul>
@@ -535,7 +535,7 @@
                         <div class="info_l" >
                           <h4 class="subttl">おすすめポイント</h4>
                           <ul class="recommend_point">
-                            <? foreach($e->company->company_service_features as $sf){ ?>
+                            <? foreach($e->company->pickups as $sf){ ?>
                             <li><?= MyView::image_tag("estimate_presentation/ico_checkpoint.png", ["class" => "ico_checkpoint"]); ?><?= $sf->title ?></li>
                             <? } ?>
                           </ul>
