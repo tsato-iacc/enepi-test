@@ -112,13 +112,13 @@ use JpPrefecture\JpPrefecture;
   <div class="col-2">
     <div class="form-group<?= $val->error('company.tel') ? ' has-danger' : ''?>">
       <label class="form-control-label" for="company_tel"><h6><i class="fa fa-asterisk" aria-hidden="true"></i> 電話番号</h6></label>
-      <input type="text" required name="company[tel]" value="<?= $val->input('company.tel', $partner_company->company ? $partner_company->company->tel : '') ?>" class="form-control" id="company_tel">
+      <input type="text" required name="company[tel]" value="<?= $val->input('company.tel', $partner_company->company ? str_replace('-', '', $partner_company->company->tel) : '') ?>" class="form-control" id="company_tel">
     </div>
   </div>
   <div class="col-2">
     <div class="form-group<?= $val->error('company.fax') ? ' has-danger' : ''?>">
       <label class="form-control-label" for="company_fax"><h6>FAX</h6></label>
-      <input type="text" name="company[fax]" value="<?= $val->input('company.fax', $partner_company->company ? $partner_company->company->fax : '') ?>" class="form-control" id="company_fax">
+      <input type="text" name="company[fax]" value="<?= $val->input('company.fax', $partner_company->company ? str_replace('-', '', $partner_company->company->fax) : '') ?>" class="form-control" id="company_fax">
     </div>
   </div>
   <div class="col-3">

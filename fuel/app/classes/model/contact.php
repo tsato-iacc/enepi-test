@@ -150,6 +150,7 @@ class Model_Contact extends \Orm\Model
     ];
 
     private $_unit_price = null;
+    private $_year_gas_usage = null;
     private $_reasons = [];
 
     private $_zip_code = null;
@@ -510,6 +511,35 @@ class Model_Contact extends \Orm\Model
         return $this->_unit_price;
     }
 
+    public function getYearGasUsage()
+    {
+        if ($this->_year_gas_usage === null)
+        {
+            $year_gas_usage = 0;
+
+            $pref_model = Simulation::getUsedAmount($this->getPrefectureCode());
+
+            if ($this->gas_meter_checked_month && isset($pref_model[$this->gas_meter_checked_month]))
+            {
+                $a = 1.0 / $pref_model[$this->gas_meter_checked_month];
+            }
+            else
+            {
+                $a = 1.0;
+            }
+
+            foreach(range(1, 12) as $month)
+            {
+                $used_amount = $this->gas_used_amount * $a * $pref_model[$month];
+                $year_gas_usage += round($this->basicPrice() + $this->unitPrice() * $used_amount, 0);
+            }
+
+            $this->_year_gas_usage = $year_gas_usage;
+        }
+
+        return $this->_year_gas_usage;
+    }
+
     public function cancel(&$auth_user, $reason)
     {
         // FIX ME isDeleted
@@ -594,16 +624,6 @@ class Model_Contact extends \Orm\Model
 
         return $machines;
     }
-
-    public function contactDesired($preferred_contact_time_between, $priority_degree, $desired_option)
-    {
-        $this->preferred_contact_time_between = $preferred_contact_time_between;
-        $this->priority_degree = $priority_degree;
-        $this->desired_option = $desired_option;
-
-        $this->save();
-    }
-
 
     public function conversion_tags_all($cv_point, $conversion_id)
     {

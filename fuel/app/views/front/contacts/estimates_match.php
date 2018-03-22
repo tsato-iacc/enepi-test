@@ -2,10 +2,9 @@
 
 <?= render('front/contacts/_form_estimates_match', ['contact' => $contact, 'estimates' => $estimates]); ?>
 
-<div class="estimate">
+<div class="estimate match-form-old">
   <div class="container">    
-    <!-- <p class="resource_info_txt">お客様専用に開示する情報も含まれますので、内容やURLの第三者への提供・転送は禁止とさせていただきます。</p> -->
-
+    
     <div class="container section">
 
       <div class="hidden_sp">
@@ -36,22 +35,22 @@
         </div>
       </div>
       <div class="hidden_pc">
-        <div class="container faq section_second">
+        <div class=" faq section_second">
           <h2 class="ttl-case-contents">お問い合わせ目的別ガイド</h2>
           <ul class="nav nav-tabs" style="margin-top: 0;" id="case-contents">
-            <li class="active">
-              <a href="#tab1" data-toggle="tab" onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_tab1', {'nonInteraction': 1});">今の家で切り替え予定の方</a>
+            <li class="nav-item">
+              <a href="#tab1" class="active" data-toggle="tab" onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_tab1', {'nonInteraction': 1});">今の家で切り替え予定の方</a>
             </li>
-            <li>
+            <li class="nav-item">
               <a href="#tab2" data-toggle="tab" onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_tab2', {'nonInteraction': 1});">新築物件へお引越しの方</a>
             </li>
-            <li>
+            <li class="nav-item">
               <a href="#tab3" data-toggle="tab" onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_tab3', {'nonInteraction': 1});">中古物件へお引越しの方</a>
             </li>
-            <li>
+            <li class="nav-item">
               <a href="#tab4" data-toggle="tab" onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_tab4', {'nonInteraction': 1});">店舗で切り替え予定の方</a>
             </li>
-            <li>
+            <li class="nav-item">
               <a href="#tab5" data-toggle="tab" onclick="ga('send', 'event', 'matching', 'click', 'howto_choose_tab5', {'nonInteraction': 1});">集合住宅のオーナー様</a>
             </li>
           </ul>

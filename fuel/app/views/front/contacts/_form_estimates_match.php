@@ -10,15 +10,23 @@
   <div class="match-header">
     <div class="header-wrap">
       <div class="image"><?= \Asset::img('estimates_match_screen/ok.png'); ?></div>
-      <div class="title">あなたの条件にマッチしたガス会社が<?= count($estimates); ?>社見つかりました！</div>
+      <div class="title">あなたの条件にマッチしたガス会社が<span class="title-red"><span><?= count($estimates); ?></span>社</span>見つかりました！</div>
     </div>
     <p class="description">詳細が知りたいガス会社に <?= \Asset::img('estimates_match_screen/check.png'); ?> チェックを入れ、「詳細情報を希望する」ボタンを押してください。</p>
   </div>
-  <?= Form::open(['action' => '']); ?>
+  <?= Form::open(['action' => "lpgas/contacts/{$contact->id}/introduce"]); ?>
     <?= \Form::csrf(); ?>
+    <input type="hidden" name="token" value="<?= $contact->token?>">
+    <input type="hidden" name="pin" value="<?= $contact->pin?>">
     <div class="match-table">
-      <div class="tr th bb-orange">
-        <div class="td td-1"></div>
+      <div class="tr th bb-orange th-th">
+        <div class="td td-1">
+          <div><?= \Asset::img('estimates_match_screen/memo.png'); ?></div>
+          <div>
+            <p>LP <?= $contact->name; ?>様専用</p>
+            <p>料金プラン</p>
+          </div>
+        </div>
         <div class="td td-2">12ヶ月合計額</div>
         <div class="td td-3">基本料金</div>
         <div class="td td-4">定量単価</div>
@@ -29,7 +37,7 @@
       </div>
       <div class="tr bb-gray">
         <div class="td td-1 user-name"><p>LP <?= $contact->name; ?>様<br>現在の推定料金</p></div>
-        <div class="td td-2 decorator user-amount"><p>23,000<span>円</span></p></div>
+        <div class="td td-2 decorator user-amount"><p><?= number_format($contact->getYearGasUsage()); ?><span>円</span></p></div>
         <div class="td td-3 decorator"><div class="none"></div></div>
         <div class="td td-4 decorator"><div class="none"></div></div>
         <div class="td td-5 decorator"><div class="none"></div></div>
@@ -38,30 +46,40 @@
         <div class="td td-8 decorator"><div class="none"></div></div>
       </div>
       <?php foreach ($estimates as $estimate): ?>
-        <div class="tr bb-gray">
+        <div class="tr relative bb-gray<?= $estimate->status != \Config::get('models.estimate.status.sent_estimate_to_user') ? ' introduced' : ''; ?>">
+          <div class="introduced-wrap">
+            <p class="description">詳細情報を依頼済み</p>
+          </div>
           <div class="td td-1 company-wrap">
             <div class="check">
-              <input type="checkbox" name="" value="1" id="estimate_<?= $estimate->id; ?>">
-              <label for="estimate_<?= $estimate->id; ?>">
-                <div>
-                  <i class="fa fa-check" aria-hidden="true"></i>
-                </div>
-              </label>
+              <?php if ($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_user')): ?>
+                <input type="checkbox" name="estimates[]" value="<?= $estimate->id; ?>" id="estimate_<?= $estimate->id; ?>">
+                <label for="estimate_<?= $estimate->id; ?>">
+                  <div>
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                  </div>
+                </label>
+              <?php endif; ?>
             </div>
             <div class="main">
               <div class="logo">
                 <?= S3::image_tag_s3(S3::makeImageUrl($estimate->company)); ?>
               </div>
               <div class="company-name"><?= $estimate->company->getCompanyName(); ?></div>
+              <div class="details">
+                <a href="<?= \Uri::create('/lpgas/contacts/:contact_id/estimates/:uuid'.'?'.http_build_query(['pin' => $contact->pin, 'token' => $contact->token]), ['contact_id' => $contact->id, 'uuid' => $estimate->uuid]); ?>" class="btn_detail">詳しく見る <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+              </div>
             </div>
           </div>
           <div class="td td-2 column-centred">
             <?php if ($estimate->basic_price): ?>
-              <div class="year-amount"><p><?= '????'; ?><span>円</span></p></div>
-              <div class="year-saving"><p><?= number_format($estimate->total_savings_in_year($contact)); ?><span>円節約!</span></p></div>
+              <?php $saving = $estimate->total_savings_in_year($contact); ?>
+              <div class="year-amount"><p><?= number_format(\Arr::sum($estimate->savings_by_month($contact), 'after_price')); ?><span>円</span></p></div>
+              <div class="<?= $saving > 0 ? ' year-saving' : ' no-year-saving'; ?>"><p><?= number_format(abs($saving)); ?><span><?= $saving > 0 ? '円節約!' : '円割高'; ?></span></p></div>
             <?php else: ?>
               <div class="year-unpublished">
-                <p>料金非公開<br>（お問い合わせください）</p>
+                <p>料金非公開</p>
+                <p>（お問い合わせください）</p>
               </div>
             <?php endif; ?>
           </div>
@@ -72,7 +90,7 @@
               <div class="none"></div>
             <?php endif; ?>
           </div>
-          <div class="td td-4 column-centred">
+          <div class="td td-4 column-centred-unit">
             <?php if ($estimate->prices): ?>
               <?php foreach ($estimate->prices as $price): ?>
                 <div class="unit-price">
@@ -113,10 +131,40 @@
       <div class="match-header">
         <div class="header-wrap">
           <div class="image"><?= \Asset::img('estimates_match_screen/ok.png'); ?></div>
-          <div class="title">あなたの条件にマッチしたガス会社が<?= count($estimates); ?>社見つかりました！</div>
+          <div class="title">あなたの条件にマッチしたガス会社が<span class="title-red"><span><?= count($estimates); ?></span>社</span>見つかりました！</div>
         </div>
         <p class="description">詳細が知りたいガス会社に <?= \Asset::img('estimates_match_screen/check.png'); ?> チェックを入れ、「詳細情報を希望する」ボタンを押してください。</p>
       </div>
+
+      <div class="match-select">
+        <div class="input-wrap">
+          <div><label for="preferred_time">希望連絡時間帯：</label></div>
+          <div>
+            <div class="select-wrap select-arrow">
+              <i class="fa fa-caret-down" aria-hidden="true"></i>
+              <?= Form::select('preferred_time', $contact->preferred_contact_time_between, __('admin.contact.preferred_contact_time_between'), ['id' => 'preferred_time']); ?>
+            </div>
+          </div>
+        </div>
+        <div class="input-wrap">
+          <div><label>緊急度：</label></div>
+          <div class="radio-wrap">
+            <label><input type="radio" name="priority_degree" value="0"<?= $contact->priority_degree == 0 ? ' checked' : ''; ?>> 通常</label>
+            <label><input type="radio" name="priority_degree" value="1"<?= $contact->priority_degree == 1 ? ' checked' : ''; ?>> 至急</label>
+          </div>
+        </div>
+        <div class="input-wrap">
+          <div>電気料金セットを希望する：</div>
+          <div class="radio-wrap">
+            <label><input type="radio" name="desired_option" value="1"<?= $contact->desired_option == 1 ? ' checked' : ''; ?>> する</label>
+            <label><input type="radio" name="desired_option" value="0"<?= $contact->desired_option == 0 ? ' checked' : ''; ?>> しない</label>
+          </div>
+        </div>
+      </div>
+      
+      <input type="submit" name="commit" value="チェックを入れた会社からの連絡を希望する" class="btn btn-primary" onclick="ga('send', 'event', 'matching', 'click', 'submit_btn', {'nonInteraction': 1});">
+
+      <p class="comment">※お客様専用に開示する情報も含まれますので、内容やURLの第三者への提供・転送は禁止とさせていただきます。</p>
     </div>
   <?= Form::close(); ?>
 </div>
