@@ -323,7 +323,7 @@ class Controller_Front_Contacts extends Controller_Front
         if ($pin && $pin != $contact->pin)
         {
             \Log::warning('Wrong pin');
-            return \Response::redirect("lpgas/contacts/{$contact->id}?".http_build_query(['token' => $token]));
+            return \Response::redirect("lpgas/contacts/{$contact->id}?".http_build_query(['conversion_id' => 'LPGAS-'.$contact->id, 'token' => $token]));
         }
 
         // WTF?
@@ -612,7 +612,7 @@ class Controller_Front_Contacts extends Controller_Front
         $contact = \Model_Contact::find($contact_id);
         $token = \Input::post('token');
         $pin = \Input::post('pin');
-        
+
         $preferred_time = \Input::post('preferred_time', null);
         $priority_degree = \Input::post('priority_degree', null);
         $desired_option = \Input::post('desired_option', null);
