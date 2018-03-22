@@ -612,6 +612,10 @@ class Controller_Front_Contacts extends Controller_Front
         $contact = \Model_Contact::find($contact_id);
         $token = \Input::post('token');
         $pin = \Input::post('pin');
+        
+        $preferred_time = \Input::post('preferred_time', null);
+        $priority_degree = \Input::post('priority_degree', null);
+        $desired_option = \Input::post('desired_option', null);
 
         if (!$contact || !$token || !$pin || $contact->token != $token || $contact->pin != $pin)
         {
@@ -636,22 +640,22 @@ class Controller_Front_Contacts extends Controller_Front
             }
         }
 
-        if ($preferred_time = \Input::post('preferred_time', null))
+        if ($preferred_time !== null)
         {
             $contact->preferred_contact_time_between = $preferred_time;
         }
 
-        if ($priority_degree = \Input::post('priority_degree', null))
+        if ($priority_degree !== null)
         {
             $contact->priority_degree = $priority_degree;
         }
 
-        if ($desired_option = \Input::post('desired_option', null))
+        if ($desired_option !== null)
         {
             $contact->desired_option = $desired_option;
         }
 
-        if ($preferred_time || $priority_degree || $desired_option)
+        if ($preferred_time !== null || $priority_degree !== null || $desired_option !== null)
         {
             $contact->save();
         }
