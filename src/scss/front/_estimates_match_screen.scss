@@ -435,6 +435,10 @@ $match-color-table-border: #ccc;
   }
 
   .match-table-sp {
+
+    p {
+      margin: 0;
+    }
     
     .table-tabs {
       display: flex;
@@ -464,18 +468,199 @@ $match-color-table-border: #ccc;
 
     .table-body {
       border: 1px solid $match-color-orange;
+
+      .slide-wrap-1, .slide-wrap-2, .slide-wrap-3 {
+        transition: opacity 0.3s;
+        opacity: 0;
+      }
+      
+      .active {
+        opacity: 1;
+      }
     }
 
     .tr {
       display: flex;
+
+      > div {
+        &:first-child {
+          border-right: 1px solid $match-color-table-border;
+        }
+      }
     }
 
     .th {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       background-color: $match-color-table-th;
+
+      p {
+        font-size: 4vw;
+        font-weight: 700;
+      }
     }
 
     .td {
       width: 50%;
+    }
+
+    .column-centred {
+      @include flex_centred();
+      flex-direction: column;
+      height: 100%;
+      justify-content: space-evenly;
+    }
+    
+    .company-wrap {
+      display: flex;
+      align-items: stretch;
+      padding: 0;
+
+      .check {
+        @include flex_centred();
+        @include checkbox_match();
+        
+        width: 16%;
+        background-color: $match-color-pink;
+      }
+
+      .main {
+        padding: 4% 4% 2%;
+        
+        width: 84%;
+
+        .logo {
+          font-size: 0;
+        }
+      }
+
+      .company-name {
+        padding-top: 5%;
+        line-height: 1.2em;
+        font-size: 3.5vw;
+        font-weight: 700;
+        text-align: center;
+        color: #1246a5;
+        text-decoration: underline;
+      }
+
+      .details {
+        margin: 10px 0 6px;
+        display: flex;
+        justify-content: center;
+
+        a {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 90%;
+          padding: 3%;
+          border: 1px solid #cecece;
+          border-radius: 7px;
+          background: linear-gradient(to bottom,#f7f7f7 0,#d2d2d2 100%);
+          color: #222;
+          text-align: center;
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 1px;
+          text-decoration: none;
+
+          i {
+            font-size: 16px;
+            margin-left: 5px;
+          }
+
+          &:focus, &:active, &:hover {
+            text-decoration: none;
+          }
+        }
+      }
+    }
+
+    .user-amount {
+      .slide-header {
+        padding: 1.5% 0;
+        text-align: center;
+        border-bottom: 1px solid $match-color-table-border;
+        color: #444;
+        font-size: 3.8vw;
+        font-weight: 700;
+      }
+
+      .slide-body {
+        padding: 5% 0;
+        text-align: center;
+        font-size: 5.5vw;
+        font-weight: 700;
+        color: #444;
+
+
+        span {
+          font-size: 70%;
+          font-weight: 100;
+        }
+      }
+    }
+
+    .year-amount {
+      font-size: 6vw;
+      font-weight: 700;
+
+      span {
+        font-size: 70%;
+        font-weight: 100;
+      }
+
+      p {
+        position: relative;
+
+        &:after {
+          border: 0;
+          border-bottom: 0.4em solid #fff432;
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          width: 100%;
+          z-index: -1;
+          margin-bottom: 0.2em;
+        }
+      }
+    }
+
+    .year-saving {
+      font-size: 6.5vw;
+      font-weight: 700;
+      color: #f82b2b;
+
+      span {
+        font-size: 60%;
+      }
+    }
+
+    .no-year-saving {
+      @extend .year-saving;
+      color: $match-color-blue;
+    }
+
+    .year-unpublished {
+      text-align: center;
+      font-weight: 700;
+      color: #555;
+
+       > p {
+        margin: 3% 0;
+        &:first-child {
+          font-size: 5vw;
+        }
+        &:last-child {
+          font-size: 3.5vw;
+        }
+       }
     }
 
     @media screen and (min-device-width: $device-min-width) {
@@ -581,6 +766,10 @@ $match-color-table-border: #ccc;
 
   .decorator {
     background-image: -webkit-linear-gradient(top, transparent, transparent 95%, $match-color-table-th 95%, $match-color-table-th 100%);
+
+    @media screen and (max-device-width: $device-max-width) {
+      // background-image: -webkit-linear-gradient(top, transparent, transparent 90%, $match-color-table-th 90%, $match-color-table-th 100%);
+    }
   }
 }
 

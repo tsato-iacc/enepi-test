@@ -94,7 +94,7 @@
             <?php if ($estimate->prices): ?>
               <?php foreach ($estimate->prices as $price): ?>
                 <div class="unit-price">
-                  <div><?= $price->getRangeLabel(); ?>:</div>
+                  <div><?= $price->getRangeLabel() ? $price->getRangeLabel().':' : ''; ?></div>
                   <div><?= $price->unit_price; ?>円</div>
                 </div>
               <?php endforeach; ?>
@@ -129,22 +129,67 @@
 
     <div class="match-table-sp">
       <div class="table-tabs">
-        <div class="active">合計額の比較</div>
-        <div>料金内訳</div>
-        <div>その他</div>
+        <div class="tab-1 active" data-slide="1">合計額の比較</div>
+        <div class="tab-2" data-slide="2">料金内訳</div>
+        <div class="tab-3" data-slide="3">その他</div>
       </div>
       <div class="table-body">
         <div class="tr bb-gray">
           <div class="td th">
-            <p>LP <?= $contact->name; ?>様専用</p>
-            <p>料金プラン</p>
+            <p>LP <?= $contact->name; ?>様<br>現在の推定料金</p>
           </div>
           <div class="td decorator">
-            <div class="slide-wrap-1 active"></div>
+            <div class="slide-wrap-1 active">
+              <div class="slide-content user-amount">
+                <div class="slide-header">12ヶ月合計額</div>
+                <div class="slide-body"><p><?= number_format($contact->getYearGasUsage()); ?><span>円</span></p></div>
+              </div>
+            </div>
             <div class="slide-wrap-2"></div>
             <div class="slide-wrap-3"></div>
           </div>
         </div>
+        <?php foreach ($estimates as $estimate): ?>
+          <div class="tr bb-gray<?= $estimate->status != \Config::get('models.estimate.status.sent_estimate_to_user') ? ' introduced' : ''; ?>">
+            <div class="td company-wrap">
+              <div class="check">
+                <?php if ($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_user')): ?>
+                  <input type="checkbox" name="estimates[]" value="<?= $estimate->id; ?>" id="estimate_sp_<?= $estimate->id; ?>">
+                  <label for="estimate_sp_<?= $estimate->id; ?>">
+                    <div>
+                      <i class="fa fa-check" aria-hidden="true"></i>
+                    </div>
+                  </label>
+                <?php endif; ?>
+              </div>
+              <div class="main">
+                <div class="logo">
+                  <?= S3::image_tag_s3(S3::makeImageUrl($estimate->company)); ?>
+                </div>
+                <div class="company-name"><?= $estimate->company->getCompanyName(); ?></div>
+                <div class="details">
+                  <a href="<?= \Uri::create('/lpgas/contacts/:contact_id/estimates/:uuid'.'?'.http_build_query(['pin' => $contact->pin, 'token' => $contact->token]), ['contact_id' => $contact->id, 'uuid' => $estimate->uuid]); ?>" class="btn_detail">詳しく見る <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                </div>
+              </div>
+            </div>
+            <div class="td">
+              <div class="slide-wrap-1 column-centred active">
+                <?php if ($estimate->basic_price): ?>
+                  <?php $saving = $estimate->total_savings_in_year($contact); ?>
+                  <div class="year-amount"><p><?= number_format(\Arr::sum($estimate->savings_by_month($contact), 'after_price')); ?><span>円</span></p></div>
+                  <div class="<?= $saving > 0 ? ' year-saving' : ' no-year-saving'; ?>"><p><?= number_format(abs($saving)); ?><span><?= $saving > 0 ? '円節約!' : '円割高'; ?></span></p></div>
+                <?php else: ?>
+                  <div class="year-unpublished">
+                    <p>料金非公開</p>
+                    <p>（お問い合わせください）</p>
+                  </div>
+                <?php endif; ?>
+              </div>
+              <div class="slide-wrap-2"></div>
+              <div class="slide-wrap-3"></div>
+            </div>
+          </div>
+        <?php endforeach; ?>
       </div>
       
     </div>
