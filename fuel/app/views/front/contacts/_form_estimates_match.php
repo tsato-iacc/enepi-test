@@ -29,7 +29,7 @@
         </div>
         <div class="td td-2">12ヶ月合計額</div>
         <div class="td td-3">基本料金</div>
-        <div class="td td-4">定量単価</div>
+        <div class="td td-4">従量料金</div>
         <div class="td td-5">燃料調整費</div>
         <div class="td td-6">違約金</div>
         <div class="td td-7">セット割</div>
@@ -38,8 +38,20 @@
       <div class="tr bb-gray">
         <div class="td td-1 user-name"><p>LP <?= $contact->name; ?>様<br>現在の推定料金</p></div>
         <div class="td td-2 decorator user-amount"><p><?= number_format($contact->getYearGasUsage()); ?><span>円</span></p></div>
-        <div class="td td-3 decorator"><div class="none"></div></div>
-        <div class="td td-4 decorator"><div class="none"></div></div>
+        <div class="td td-3 decorator basic-price">
+          <?php if ($contact->basicPrice()): ?>
+            <p><?= number_format($contact->basicPrice()); ?>円</p>
+          <?php else: ?>
+            <div class="none"></div>
+          <?php endif; ?>
+        </div>
+        <div class="td td-4 decorator basic-price">
+          <?php if ($contact->unitPrice()): ?>
+            <p><?= number_format($contact->unitPrice()); ?>円</p>
+          <?php else: ?>
+            <div class="none"></div>
+          <?php endif; ?>
+        </div>
         <div class="td td-5 decorator"><div class="none"></div></div>
         <div class="td td-6 decorator"><div class="none"></div></div>
         <div class="td td-7 decorator"><div class="none"></div></div>
@@ -63,11 +75,13 @@
             </div>
             <div class="main">
               <div class="logo">
-                <?= S3::image_tag_s3(S3::makeImageUrl($estimate->company)); ?>
+                <a href="<?= \Uri::create('/lpgas/contacts/:contact_id/estimates/:uuid'.'?'.http_build_query(['pin' => $contact->pin, 'token' => $contact->token]), ['contact_id' => $contact->id, 'uuid' => $estimate->uuid]); ?>">
+                  <?= S3::image_tag_s3(S3::makeImageUrl($estimate->company)); ?>
+                </a>
               </div>
               <div class="company-name"><?= $estimate->company->getCompanyName(); ?></div>
               <div class="details">
-                <a href="<?= \Uri::create('/lpgas/contacts/:contact_id/estimates/:uuid'.'?'.http_build_query(['pin' => $contact->pin, 'token' => $contact->token]), ['contact_id' => $contact->id, 'uuid' => $estimate->uuid]); ?>" class="btn_detail">詳しく見る <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                <a href="<?= \Uri::create('/lpgas/contacts/:contact_id/estimates/:uuid'.'?'.http_build_query(['pin' => $contact->pin, 'token' => $contact->token]), ['contact_id' => $contact->id, 'uuid' => $estimate->uuid]); ?>">詳しく見る <i class="fa fa-caret-right" aria-hidden="true"></i></a>
               </div>
             </div>
           </div>
@@ -83,21 +97,29 @@
               </div>
             <?php endif; ?>
           </div>
-          <div class="td td-3">
+          <div class="td td-3 column-centred">
             <?php if ($estimate->basic_price): ?>
               <div class="basic-price"><p><?= number_format($estimate->basic_price); ?>円</p></div>
+              <div class="<?= $contact->basicPrice() - $estimate->basic_price > 0 ? ' basic-saving' : ' no-basic-saving'; ?>"><p><?= number_format(abs($contact->basicPrice() - $estimate->basic_price)); ?><span><?= $contact->basicPrice() - $estimate->basic_price > 0 ? '円節約' : '円割高'; ?></span></p></div>
             <?php else: ?>
               <div class="none"></div>
             <?php endif; ?>
           </div>
-          <div class="td td-4 column-centred-unit">
+          <div class="td td-4<?= count($estimate->prices) == 1 ? ' column-centred' : ' column-centred-unit'; ?>">
             <?php if ($estimate->prices): ?>
-              <?php foreach ($estimate->prices as $price): ?>
-                <div class="unit-price">
-                  <div><?= $price->getRangeLabel() ? $price->getRangeLabel().':' : ''; ?></div>
-                  <div><?= $price->unit_price; ?>円</div>
-                </div>
-              <?php endforeach; ?>
+              <?php if (count($estimate->prices) == 1): ?>
+                <?php foreach ($estimate->prices as $price): ?>
+                  <div class="basic-price"><p><?= number_format($price->unit_price); ?>円</p></div>
+                  <div class="<?= $contact->unitPrice() - $price->unit_price > 0 ? ' basic-saving' : ' no-basic-saving'; ?>"><p><?= number_format(abs($contact->unitPrice() - $price->unit_price)); ?><span><?= $contact->unitPrice() - $price->unit_price > 0 ? '円節約' : '円割高'; ?></span></p></div>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <?php foreach ($estimate->prices as $price): ?>
+                  <div class="unit-price">
+                    <div><?= $price->getRangeLabel() ? $price->getRangeLabel().':' : ''; ?></div>
+                    <div><?= number_format($price->unit_price); ?>円</div>
+                  </div>
+                <?php endforeach; ?>
+              <?php endif; ?>
             <?php else: ?>
               <div class="none"></div>
             <?php endif; ?>
@@ -145,7 +167,12 @@
                 <div class="slide-body"><p><?= number_format($contact->getYearGasUsage()); ?><span>円</span></p></div>
               </div>
             </div>
-            <div class="slide-wrap-2"></div>
+            <div class="slide-wrap-2">
+              <div class="slide-content user-amount">
+                <div class="slide-header"><div class="none"></div></div>
+                <div class="slide-body"><div class="none"></div></div>
+              </div>
+            </div>
             <div class="slide-wrap-3"></div>
           </div>
         </div>

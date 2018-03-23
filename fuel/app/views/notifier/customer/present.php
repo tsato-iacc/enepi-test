@@ -21,7 +21,7 @@ enepi運営事務局でございます。<br>
   従量単価（m3）
   <ul>
     <?php foreach ($estimate->prices as $price): ?>
-      <li><b><?= $price->getRangeLabel() ? $price->getRangeLabel().':' : ''; ?></b> <?= number_format($price->unit_price); ?>円</li>
+      <li><b><?= $price->getRangeLabel() ?>:</b> <?= number_format($price->unit_price); ?>円</li>
     <?php endforeach; ?>
   </ul>
 <?php endif; ?>

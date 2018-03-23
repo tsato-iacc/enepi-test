@@ -150,6 +150,7 @@ class Model_Contact extends \Orm\Model
     ];
 
     private $_unit_price = null;
+    private $_basic_price = null;
     private $_year_gas_usage = null;
     private $_reasons = [];
 
@@ -490,7 +491,12 @@ class Model_Contact extends \Orm\Model
 
     public function basicPrice()
     {
-        return Simulation::getBasicPrice($this->getPrefectureCode());
+        if ($this->_basic_price === null)
+        {
+            $this->_basic_price = Simulation::getBasicPrice($this->getPrefectureCode());
+        }
+        
+        return $this->_basic_price;
     }
 
     public function unitPrice()

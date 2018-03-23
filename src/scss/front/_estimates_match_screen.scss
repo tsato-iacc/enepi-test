@@ -64,6 +64,11 @@ $match-color-table-border: #ccc;
       justify-content: center;
       align-items: center;
 
+      .block {
+        display: flex;
+        align-items: center;
+      }
+
       img {
         margin: 0 4px;
         width: 18px;
@@ -239,8 +244,22 @@ $match-color-table-border: #ccc;
       }
     }
 
+    .basic-saving {
+      @extend .year-saving;
+      font-size: 18px;
+
+      span {
+        font-size: 70%;
+      }
+    }
+
     .no-year-saving {
       @extend .year-saving;
+      color: $match-color-blue;
+    }
+
+    .no-basic-saving {
+      @extend .basic-saving;
       color: $match-color-blue;
     }
 
@@ -317,6 +336,7 @@ $match-color-table-border: #ccc;
         width: 84%;
 
         .logo {
+          border: 1px solid $match-color-table-border;
           font-size: 0;
         }
       }
@@ -327,6 +347,7 @@ $match-color-table-border: #ccc;
         font-size: 13px;
         font-weight: 700;
         color: #666;
+        text-align: center;
       }
 
       .details {
