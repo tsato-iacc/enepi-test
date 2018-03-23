@@ -10,6 +10,7 @@
   <?= render('front/ga'); ?>
   <?= Asset::css('front.min.css'); ?>
   <?= render('shared/google_tag_manager.php'); ?>
+  <?= render('shared/ptengine'); ?>
 </head>
 <body>
 
@@ -52,9 +53,17 @@
   </footer>
 
   <?= Asset::js('front.min.js'); ?>
-  <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
 
   <script src="https://ca.iacc.tokyo/js/ca.js"></script>
   <script>capv();</script>
+
+  <!-- kakaku & cacv tags START -->
+  <?= render('front/contacts/estimate_presentation_tail', ['contact' => $contact], false); ?>
+  <!-- kakaku & cacv tags END -->
+
+  <?= render('shared/yahoo_retargeting_ohj9t2sb5y'); ?>
+  <?= render('shared/google_remarketing_835778474'); ?>
+  <?= render('shared/facebook_pixel_code'); ?>
+
 </body>
 </html>

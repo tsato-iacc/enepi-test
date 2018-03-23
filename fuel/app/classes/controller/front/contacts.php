@@ -418,6 +418,7 @@ class Controller_Front_Contacts extends Controller_Front
             ]);
 
             $this->template->title = 'あなたの条件にマッチしたガス会社';
+            $this->template->contact = $contact;
 
             $this->template->content = View::forge('front/contacts/estimates_match', [
                 'contact' => $contact,
@@ -660,7 +661,7 @@ class Controller_Front_Contacts extends Controller_Front
             $contact->save();
         }
 
-        return \Response::redirect("lpgas/contacts/{$contact_id}?".http_build_query(['pin' => $pin, 'token' => $token]));
+        return \Response::redirect("lpgas/contacts/{$contact_id}?".http_build_query(['conversion_id' => 'LPGAS-'.$contact->id, 'pin' => $pin, 'token' => $token]));
     }
 
     private function calculateGasUsage(&$contact)
