@@ -10,15 +10,15 @@
   <div class="match-header">
     <div class="header-wrap">
       <div class="image"><?= \Asset::img('estimates_match_screen/ok.png'); ?></div>
-      <div class="title">あなたの条件にマッチしたガス会社が<span class="title-red"><span><?= count($estimates); ?></span>社</span>見つかりました！</div>
+      <div class="title"><span class="block">あなたの条件にマッチした</span><span class="block">ガス会社が<span class="title-red"><span><?= count($estimates); ?></span>社</span>見つかりました！</span></div>
     </div>
-    <p class="description">詳細が知りたいガス会社に <?= \Asset::img('estimates_match_screen/check.png'); ?> チェックを入れ、「詳細情報を希望する」ボタンを押してください。</p>
+    <p class="description"><span class="block">詳細が知りたいガス会社に <?= \Asset::img('estimates_match_screen/check.png'); ?> チェックを入れ、</span><span class="block">「詳細情報を希望する」ボタンを押してください。</span></p>
   </div>
   <?= Form::open(['action' => "lpgas/contacts/{$contact->id}/introduce"]); ?>
     <?= \Form::csrf(); ?>
     <input type="hidden" name="token" value="<?= $contact->token?>">
     <input type="hidden" name="pin" value="<?= $contact->pin?>">
-    <div class="match-table">
+    <div class="match-table-pc">
       <div class="tr th bb-orange th-th">
         <div class="td td-1">
           <div><?= \Asset::img('estimates_match_screen/memo.png'); ?></div>
@@ -125,6 +125,28 @@
           </div>
         </div>
       <?php endforeach; ?>
+    </div>
+
+    <div class="match-table-sp">
+      <div class="table-tabs">
+        <div class="active">合計額の比較</div>
+        <div>料金内訳</div>
+        <div>その他</div>
+      </div>
+      <div class="table-body">
+        <div class="tr bb-gray">
+          <div class="td th">
+            <p>LP <?= $contact->name; ?>様専用</p>
+            <p>料金プラン</p>
+          </div>
+          <div class="td decorator">
+            <div class="slide-wrap-1 active"></div>
+            <div class="slide-wrap-2"></div>
+            <div class="slide-wrap-3"></div>
+          </div>
+        </div>
+      </div>
+      
     </div>
 
     <div class="match-submit">

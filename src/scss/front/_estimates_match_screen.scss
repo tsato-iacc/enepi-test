@@ -10,10 +10,18 @@ $match-color-table-border: #ccc;
   -webkit-font-smoothing: antialiased;
   // -moz-osx-font-smoothing: grayscale;
 
+  @media screen and (max-device-width: $device-max-width) {
+    padding: 3%;
+  }
+
   .match-progress {
     padding: 20px 0;
     max-width: 800px;
     margin: auto;
+
+    @media screen and (max-device-width: $device-max-width) {
+      display: none;
+    }
   }
 
   .match-header {
@@ -39,6 +47,7 @@ $match-color-table-border: #ccc;
       font-weight: 700;
       margin-left: -1em;
     }
+
     .title-red {
       padding: 0 4px;
       color: red;
@@ -60,9 +69,55 @@ $match-color-table-border: #ccc;
         width: 18px;
       }
     }
+
+    @media screen and (max-device-width: $device-max-width) {
+      width: auto;
+      
+      .block {
+        display: block;
+        text-align: center;
+      }
+
+      .title {
+        width: 86%;
+        margin-left: -6%;
+        z-index: -1;
+        line-height: 1.4em;
+        font-size: 4.4vw;
+        padding: 1.2% 0 1.2% 3%;
+      }
+
+      .title-red {
+        padding: 0 2%;
+        
+        span {
+          font-size: 6vw;
+        }
+      }
+
+      .image {
+        width: 20%;
+      }
+
+      .description {
+        flex-direction: column;
+        line-height: 1.6em;
+
+        .block {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        img {
+          margin: 0 2%;
+          width: 6%;
+        }
+      }
+    }
   }
 
-  .match-table {
+  .match-table-pc {
     min-width: 1200px;
     margin: 0 3%;
 
@@ -123,17 +178,6 @@ $match-color-table-border: #ccc;
     .column-centred-unit {
       flex-direction: column;
       justify-content: center;
-    }
-
-    .bb-orange {
-      border-bottom: 3px solid $match-color-orange;
-    }
-    .bb-gray {
-      border-bottom: 1px solid $match-color-table-border;
-
-      &:last-child {
-        border-bottom: 0;
-      }
     }
 
     .user-name {
@@ -366,10 +410,6 @@ $match-color-table-border: #ccc;
       background-color: #666;
     }
 
-    .decorator {
-      background-image: -webkit-linear-gradient(top, transparent, transparent 95%, $match-color-table-th 95%, $match-color-table-th 100%);
-    }
-
     .td-1, .td-2 {
       width: 17%;
     }
@@ -387,6 +427,59 @@ $match-color-table-border: #ccc;
     }
     .td-8 {
       width: 25%;
+    }
+
+    @media screen and (max-device-width: $device-max-width) {
+      display: none;
+    }
+  }
+
+  .match-table-sp {
+    
+    .table-tabs {
+      display: flex;
+
+      > div {
+        width: 33.3333%;
+        padding: 1% 0;
+        background-color: $match-color-table-th;
+        text-align: center;
+        font-size: 4vw;
+        font-weight: 700;
+        border-top: 1px solid $match-color-table-border;
+        border-left: 1px solid $match-color-table-border;
+        border-right: 1px solid $match-color-table-border;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        
+        &.active {
+          background-color: $match-color-orange;
+          border-top: 1px solid $match-color-orange;
+          border-left: 1px solid $match-color-orange;
+          border-right: 1px solid $match-color-orange;
+          color: #fff;
+        }
+      }
+    }
+
+    .table-body {
+      border: 1px solid $match-color-orange;
+    }
+
+    .tr {
+      display: flex;
+    }
+
+    .th {
+      background-color: $match-color-table-th;
+    }
+
+    .td {
+      width: 50%;
+    }
+
+    @media screen and (min-device-width: $device-min-width) {
+      display: none;
     }
   }
 
@@ -468,6 +561,26 @@ $match-color-table-border: #ccc;
       font-size: 10px;
       margin: 0;
     }
+
+    @media screen and (max-device-width: $device-max-width) {
+      display: none;
+    }
+  }
+
+  .bb-orange {
+    border-bottom: 3px solid $match-color-orange;
+  }
+
+  .bb-gray {
+    border-bottom: 1px solid $match-color-table-border;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  .decorator {
+    background-image: -webkit-linear-gradient(top, transparent, transparent 95%, $match-color-table-th 95%, $match-color-table-th 100%);
   }
 }
 
