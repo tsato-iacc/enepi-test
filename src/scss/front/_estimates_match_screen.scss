@@ -14,6 +14,8 @@ $match-color-table-border: #ccc;
 
   @media screen and (max-device-width: $device-max-width) {
     padding: 3%;
+    border-top: 1px solid #ccc;
+    margin-bottom: 3%;
   }
 
   .match-progress {
@@ -565,6 +567,7 @@ $match-color-table-border: #ccc;
         width: 84%;
 
         .logo {
+          border: 1px solid $match-color-table-border;
           font-size: 0;
         }
       }
@@ -646,7 +649,7 @@ $match-color-table-border: #ccc;
 
         p {
           font-size: 4.5vw;
-          font-weight: 100;
+          font-weight: normal;
         }
 
         .total {
