@@ -217,13 +217,13 @@
                 </tbody>
               </table>
             </div>
-    
+
             <ul>
               <li>本シミュレーションは概算見積書になりますので、現地調査の結果で提示料金に変更がある場合も稀にございます。</li>
               <li>推定使用料については、平成18年度プロパンガス消費実態調査(財団法人日本エネルギー掲載研究所)のデータより試算しています。</li>
               <li>現在のガス会社様との間に、配管設備・ガス器具（給湯器等）の貸与契約があり、残存設備として同社が買取る必要がある場合には料金を変更させていただく場合がございます。</li>
             </ul>
-    
+
             <p>
               <?= Form::open(['action' => '/lpgas/contacts/'.$contact->id.'/estimates/ok_tentatively']); ?>
               <?= \Form::csrf(); ?>
@@ -231,23 +231,23 @@
                 <?if($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_user')){ ?>
                   <div class="text-center estimate_btn_area">
                     <div class="hidden_pc">
-                      <?= MyView::submit_tag('commit', 
+                      <?= MyView::submit_tag('commit',
                         [
-                          'value' => 'この会社からの連絡を希望する', 
-                          'class' => 'btn btn-primary', 
-                          'rel' => 'nofollow', 
-                          'data-method' => 'post', 
+                          'value' => 'この会社からの連絡を希望する',
+                          'class' => 'btn btn-primary',
+                          'rel' => 'nofollow',
+                          'data-method' => 'post',
                           'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn', {'nonInteraction': 1});"
                         ]); ?>
                     </div>
                     <div class="hidden_sp">
 
-                      <?= MyView::submit_tag('commit', 
+                      <?= MyView::submit_tag('commit',
                         [
                           'value' => 'この会社からの連絡を希望する',
-                          'class' => 'btn btn-primary', 
-                          'rel' => 'nofollow', 
-                          'data-method' => 'post', 
+                          'class' => 'btn btn-primary',
+                          'rel' => 'nofollow',
+                          'data-method' => 'post',
                           'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_sp', {'nonInteraction': 1});"
                         ]); ?>
                     </div>
@@ -255,7 +255,7 @@
                 <? } ?>
               <?= Form::close(); ?>
             </p>
-    
+
             <? if(!is_null($estimate->basic_price)){ ?>
             <h3><i><?= MyView::image_tag("estimate_presentation/ico_simulation.png", ["class" => "ico_simulation_plan"]); ?></i>料金プラン</h3>
             <table class="table table-bordered simulation_table">
@@ -268,7 +268,7 @@
                   <th class="monthly">月合計額(税込)</th>
                 </tr>
               </thead>
-    
+
               <tbody>
                 <tr>
                   <th class="currant_plan">現在の推定料金</th>
@@ -315,7 +315,7 @@
               </tbody>
             </table>
           <? } ?>
-    
+
                 <? if(!is_null($estimate->basic_price)){ ?>
                 <div class="row">
                   <div class="col-md-6">
@@ -339,7 +339,7 @@
                     </div>
                   </div>
                 </div>
-    
+
                 <div class="panel panel-default">
                   <div class="panel-heading">
                     <h4 class="panel-title estimates_subttl">その他備考欄</h4>
@@ -349,29 +349,29 @@
                   </div>
                 </div>
                 <? } ?>
-    
+
                 <?= Form::open(['action' => '/lpgas/contacts/'.$contact->id.'/estimates/ok_tentatively']); ?>
                 <?= \Form::csrf(); ?>
                   <input type='hidden' name='estimate_ids' value=<?= $estimate->uuid ?> />
                   <?if($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_user')){ ?>
                     <div class="text-center estimate_btn_area">
                       <div class="hidden_pc">
-                      <?= MyView::submit_tag('commit', 
+                      <?= MyView::submit_tag('commit',
                         [
-                          'value' => 'この会社からの連絡を希望する', 
-                            'class' => 'btn btn-primary', 
-                            'rel' => 'nofollow', 
-                            'data-method' => 'post', 
+                          'value' => 'この会社からの連絡を希望する',
+                            'class' => 'btn btn-primary',
+                            'rel' => 'nofollow',
+                            'data-method' => 'post',
                             'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_sp', {'nonInteraction': 1});"
                         ]); ?>
                       </div>
                       <div class="hidden_sp">
-                      <?= MyView::submit_tag('commit', 
+                      <?= MyView::submit_tag('commit',
                         [
-                          'value' => 'この会社からの連絡を希望する', 
-                            'class' => 'btn btn-primary', 
-                            'rel' => 'nofollow', 
-                            'data-method' => 'post', 
+                          'value' => 'この会社からの連絡を希望する',
+                            'class' => 'btn btn-primary',
+                            'rel' => 'nofollow',
+                            'data-method' => 'post',
                             'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_sp', {'nonInteraction': 1});"
                         ]); ?>
                       </div>
@@ -383,23 +383,23 @@
                 <h2 class="text-center">エネピ紹介会社は、適正な価格でのガス供給を約束します</h2>
                 <h3>世の中には料金を不当に上げる悪質な業者がいます</h3>
                 <p>プロパンガスの原料は石油で輸入価格が大きく上がるとガス会社は大きく打撃を受けるので、それを保護するために「原油価格に基づく料金の値上げ」が法律で認められております。しかしその制度を口実として、「輸入価格とは関わりない不当な値上げ」をする・「輸入価格が上下した際、下がった場合はそのまま高止まり」をする悪質な業者があり、「プロパンガスは高い」「徐々に値上げする」というイメージがついてしまっています。</p>
-    
+
                 <h3>エネピは「料金の不当な値上げをしない」会社のみ紹介します</h3>
                 <p>上記の理由により、ご自身でガス会社を探した場合、値上げのリスクがあるまま使い続けることになります。また今の会社に交渉したとしても、その後数年でまた元の料金に戻る「再値上げ」のケースが非常に多く報告されています。そこで、エネピでは「不当な値上げなし」の会社の特価プランをご紹介いたします。</p>
-    
+
                 <h3>万が一の時も安心！エネピから不当な値上げを是正するよう交渉いたします</h3>
                 <p>エネピでは原則料金を適正な価格で供給することが前提として、万が一輸入価格の変動とは関わりない不当な値上げが起きた場合、ご連絡いただければ調査させていただきます。それが不当な値上げであると判断した場合、料金を適正な価格で供給するよう交渉させていただきます。</p>
               </div>
             </div>
-    
+
               <div class="hidden_pc">
                 <div class="price_increasing_info_box">エネピ紹介会社は、適正な価格でのガス供給を約束します</h2>
                   <h3>世の中には料金を不当に上げる悪質な業者がいます</h3>
                   <p>プロパンガスの原料は石油で輸入価格が大きく上がるとガス会社は大きく打撃を受けるので、それを保護するために「原油価格に基づく料金の値上げ」が法律で認められております。しかしその制度を口実として、「輸入価格とは関わりない不当な値上げ」をする・「輸入価格が上下した際、下がった場合はそのまま高止まり」をする悪質な業者があり、「プロパンガスは高い」「徐々に値上げする」というイメージがついてしまっています。</p>
-    
+
                   <h3>エネピは「料金の不当な値上げをしない」会社のみ紹介します</h3>
                   <p>上記の理由により、ご自身でガス会社を探した場合、値上げのリスクがあるまま使い続けることになります。また今の会社に交渉したとしても、その後数年でまた元の料金に戻る「再値上げ」のケースが非常に多く報告されています。そこで、エネピでは「不当な値上げなし」の会社の特価プランをご紹介いたします。</p>
-    
+
                   <h3>万が一の時も安心！エネピから不当な値上げを是正するよう交渉いたします</h3>
                   <p>エネピでは原則料金を適正な価格で供給することが前提として、万が一輸入価格の変動とは関わりない不当な値上げが起きた場合、ご連絡いただければ調査させていただきます。それが不当な値上げであると判断した場合、料金を適正な価格で供給するよう交渉させていただきます。</p>
                 </div>
@@ -408,7 +408,7 @@
               <h3>
                 <i><?= MyView::image_tag("estimate_presentation/ico_company.png", ["class" => "ico_company_info"]); ?></i>会社について
               </h3>
-              <p><?= $estimate->company->company_overview ?></p>
+              <p><?= MyView::htbr($estimate->company->company_overview) ?></p>
 
               <div class="panel panel-default">
                 <div class="panel-heading">
@@ -419,7 +419,7 @@
                     <div class="pickup">
                       <h4 class="pickup-title"><?= $feat->title ?></h4>
                       <p class="pickup-body">
-                        <?= $feat->body ?>
+                        <?= MyView::htbr($feat->body) ?>
                       </p>
                     </div>
                   <? } ?>
@@ -458,13 +458,13 @@
                     </tr>
                     <tr>
                       <th>事業概要</th>
-                      <td colspan="3"><?= $estimate->company->business_overview ?></td>
+                      <td colspan="3"><?= MyView::htbr($estimate->company->business_overview) ?></td>
                     </tr>
                     <? if(isset($estimate->company->pickups)){ ?>
                       <tr>
                         <th>サービスの特徴</th>
                         <td colspan="3">
-                          <?= $estimate->company->service_features ?>
+                          <?= MyView::htbr($estimate->company->service_features) ?>
                         </td>
                       </tr>
                     <? } ?>
@@ -477,22 +477,22 @@
                 <?if($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_user')){ ?>
                   <div class="text-center estimate_btn_area">
                     <div class="hidden_pc">
-                      <?= MyView::submit_tag('commit', 
+                      <?= MyView::submit_tag('commit',
                         [
-                          'value' => 'この会社からの連絡を希望する', 
-                          'class' => 'btn btn-primary', 
-                          'rel' => 'nofollow', 
-                          'data-method' => 'post', 
+                          'value' => 'この会社からの連絡を希望する',
+                          'class' => 'btn btn-primary',
+                          'rel' => 'nofollow',
+                          'data-method' => 'post',
                           'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_bottom', {'nonInteraction': 1});"
                         ]); ?>
                     </div>
                     <div class="hidden_sp">
-                      <?= MyView::submit_tag('commit', 
+                      <?= MyView::submit_tag('commit',
                         [
-                          'value' => 'この会社からの連絡を希望する', 
-                          'class' => 'btn btn-primary', 
-                          'rel' => 'nofollow', 
-                          'data-method' => 'post', 
+                          'value' => 'この会社からの連絡を希望する',
+                          'class' => 'btn btn-primary',
+                          'rel' => 'nofollow',
+                          'data-method' => 'post',
                           'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_bottom_sp', {'nonInteraction': 1});"
                         ]); ?>
                     </div>
@@ -513,22 +513,22 @@
             <input type='hidden' name='estimate_ids' value=<?= $estimate->uuid ?> />
             <?if($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_user')){ ?>
               <div class="hidden_pc">
-                <?= MyView::submit_tag('commit', 
+                <?= MyView::submit_tag('commit',
                   [
-                    'value' => 'この会社からの連絡を希望する', 
-                    'class' => 'btn btn-primary', 
-                    'rel' => 'nofollow', 
-                    'data-method' => 'post', 
+                    'value' => 'この会社からの連絡を希望する',
+                    'class' => 'btn btn-primary',
+                    'rel' => 'nofollow',
+                    'data-method' => 'post',
                     'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_foot', {'nonInteraction': 1});"
                   ]); ?>
               </div>
               <div class="hidden_sp">
-                <?= MyView::submit_tag('commit', 
+                <?= MyView::submit_tag('commit',
                   [
-                    'value' => 'この会社からの連絡を希望する', 
-                    'class' => 'btn btn-primary', 
-                    'rel' => 'nofollow', 
-                    'data-method' => 'post', 
+                    'value' => 'この会社からの連絡を希望する',
+                    'class' => 'btn btn-primary',
+                    'rel' => 'nofollow',
+                    'data-method' => 'post',
                     'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_foot_sp', {'nonInteraction': 1});"
                   ]); ?>
               </div>
