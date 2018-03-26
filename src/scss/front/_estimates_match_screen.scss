@@ -79,11 +79,6 @@ $match-color-table-border: #ccc;
 
     @media screen and (max-device-width: $device-max-width) {
       width: auto;
-      
-      .block {
-        display: block;
-        text-align: center;
-      }
 
       .title {
         width: 86%;
@@ -877,7 +872,7 @@ $match-color-table-border: #ccc;
       width: 70%;
     }
 
-    input[type=submit] {
+    .match-submit-btn {
       display: block;
       margin: 20px auto;
       padding: 0.8em 1.6em;
@@ -913,7 +908,7 @@ $match-color-table-border: #ccc;
 
       .match-select {
         width: 94%;
-        padding: 2% 5%;
+        padding: 2% 0;
       }
 
       .select-wrap {
@@ -922,23 +917,43 @@ $match-color-table-border: #ccc;
 
       .input-wrap {
         justify-content: center;
-        margin: 0.5em 0;
+        margin: 0.8em 0;
 
         > div {
           width: auto;
 
           &:first-child {
-            // padding-right: 5px;
-            // font-size: 15px;
-            // text-align: right;
-            // font-weight: 700;
-            // color: #555;
+            padding-right: 0;
+            font-size: 3.8vw;
           }
+        }
+
+        .select-size {
+          width: 50%;
+          margin-left: 0.5em;
         }
       }
 
-      input[type=submit] {
-        width: 100%;
+      .match-submit-btn {
+        width: 94%;
+        margin: 6% auto;
+        font-size: 5.5vw;
+        padding: 3% 0;
+        line-height: 1.3em;
+      }
+
+      .radio-wrap {
+        display: flex;
+
+        label {
+          display: flex;
+          font-size: 3.8vw;
+          margin-right: 0.3em;
+        }
+      }
+
+      .comment {
+        font-size: 2.7vw;
       }
     }
   }
@@ -966,6 +981,13 @@ $match-color-table-border: #ccc;
 
     @media screen and (max-device-width: $device-max-width) {
       // background-image: -webkit-linear-gradient(top, transparent, transparent 90%, $match-color-table-th 90%, $match-color-table-th 100%);
+    }
+  }
+
+  .block {
+    @media screen and (max-device-width: $device-max-width) {
+      display: block;
+      text-align: center;
     }
   }
 

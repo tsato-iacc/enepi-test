@@ -308,4 +308,11 @@
       margin-top: -8px;
     }
   }
+
+  @media screen and (max-device-width: $device-max-width) {
+    select {
+      padding: 0.3em 0.6em;
+      font-size: 5vw;
+    }
+  }
 }

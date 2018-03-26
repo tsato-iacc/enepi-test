@@ -159,7 +159,8 @@
       <div class="table-body">
         <div class="tr bb-gray">
           <div class="td th">
-            <p><?= $contact->name; ?>様<br>現在の推定料金</p>
+            <p class="slide-th-1-2"><?= $contact->name; ?>様<br>現在の推定料金</p>
+            <p class="slide-th-3" style="display:none;">ガス会社別<br>その他情報</p>
           </div>
           <div class="td td-relative decorator">
             <div class="slide-wrap-1 active">
@@ -310,7 +311,7 @@
       <div class="match-select">
         <div class="input-wrap">
           <div><label for="preferred_time">希望連絡時間帯：</label></div>
-          <div>
+          <div class="select-size">
             <div class="select-wrap select-arrow">
               <i class="fa fa-caret-down" aria-hidden="true"></i>
               <?= Form::select('preferred_time', $contact->preferred_contact_time_between, __('admin.contact.preferred_contact_time_between'), ['id' => 'preferred_time']); ?>
@@ -333,9 +334,9 @@
         </div>
       </div>
       
-      <input type="submit" name="commit" value="チェックを入れた会社からの連絡を希望する" class="btn btn-primary" onclick="ga('send', 'event', 'matching', 'click', 'submit_btn', {'nonInteraction': 1});">
+      <button class="match-submit-btn" type="submit" onclick="ga('send', 'event', 'matching', 'click', 'submit_btn', {'nonInteraction': 1});"><span class="block">チェックを入れた会社の</span><span class="block">詳細を希望する</span></button>
 
-      <p class="comment">※お客様専用に開示する情報も含まれますので、内容やURLの第三者への提供・転送は禁止とさせていただきます。</p>
+      <p class="comment"><span class="block">※お客様専用に開示する情報も含まれますので、</span><span class="block">内容やURLの第三者への提供・転送は禁止とさせていただきます。</span></p>
     </div>
   <?= Form::close(); ?>
   </div>
