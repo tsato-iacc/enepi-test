@@ -14,6 +14,7 @@
     </div>
     <p class="description"><span class="block">詳細が知りたいガス会社に <?= \Asset::img('estimates_match_screen/check.png'); ?> チェックを入れ、</span><span class="block">「詳細情報を希望する」ボタンを押してください。</span></p>
   </div>
+  <div class="overflow-sp">
   <?= Form::open(['action' => "lpgas/contacts/{$contact->id}/introduce"]); ?>
     <?= \Form::csrf(); ?>
     <input type="hidden" name="token" value="<?= $contact->token?>">
@@ -23,7 +24,7 @@
         <div class="td td-1">
           <div><?= \Asset::img('estimates_match_screen/memo.png'); ?></div>
           <div>
-            <p>LP <?= $contact->name; ?>様専用</p>
+            <p><?= $contact->name; ?>様専用</p>
             <p>料金プラン</p>
           </div>
         </div>
@@ -36,7 +37,7 @@
         <div class="td td-8">おすすめポイント</div>
       </div>
       <div class="tr bb-gray">
-        <div class="td td-1 user-name"><p>LP <?= $contact->name; ?>様<br>現在の推定料金</p></div>
+        <div class="td td-1 user-name"><p><?= $contact->name; ?>様<br>現在の推定料金</p></div>
         <div class="td td-2 decorator user-amount"><p><?= number_format($contact->getYearGasUsage()); ?><span>円</span></p></div>
         <div class="td td-3 decorator basic-price">
           <?php if ($contact->basicPrice()): ?>
@@ -158,22 +159,48 @@
       <div class="table-body">
         <div class="tr bb-gray">
           <div class="td th">
-            <p>LP <?= $contact->name; ?>様<br>現在の推定料金</p>
+            <p><?= $contact->name; ?>様<br>現在の推定料金</p>
           </div>
-          <div class="td decorator">
+          <div class="td td-relative decorator">
             <div class="slide-wrap-1 active">
               <div class="slide-content user-amount">
-                <div class="slide-header">12ヶ月合計額</div>
-                <div class="slide-body"><p><?= number_format($contact->getYearGasUsage()); ?><span>円</span></p></div>
+                <div class="slide-header flex-centred">12ヶ月合計額</div>
+                <div class="slide-body flex-centred"><p class="total"><?= number_format($contact->getYearGasUsage()); ?><span>円</span></p></div>
               </div>
             </div>
             <div class="slide-wrap-2">
               <div class="slide-content user-amount">
-                <div class="slide-header"><div class="none"></div></div>
-                <div class="slide-body"><div class="none"></div></div>
+                <div class="slide-header double">
+                  <div>基本料金</div>
+                  <div>従量料金</div>
+                </div>
+                <div class="slide-body double">
+                  <div>
+                    <?php if ($contact->basicPrice()): ?>
+                      <p><?= number_format($contact->basicPrice()); ?>円</p>
+                    <?php else: ?>
+                      <div class="none"></div>
+                    <?php endif; ?>
+                  </div>
+                  <div>
+                    <?php if ($contact->unitPrice()): ?>
+                      <p><?= number_format($contact->unitPrice()); ?>円</p>
+                    <?php else: ?>
+                      <div class="none"></div>
+                    <?php endif; ?>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="slide-wrap-3"></div>
+            <div class="slide-wrap-3">
+              <div class="slide-content user-amount">
+                <div class="slide-header double">
+                  <div>違約金</div>
+                  <div>セット割</div>
+                </div>
+                <div class="slide-body flex-centred"><p class="point">おすすめポイント</p></div>
+              </div>
+            </div>
           </div>
         </div>
         <?php foreach ($estimates as $estimate): ?>
@@ -191,7 +218,9 @@
               </div>
               <div class="main">
                 <div class="logo">
-                  <?= S3::image_tag_s3(S3::makeImageUrl($estimate->company)); ?>
+                  <a href="<?= \Uri::create('/lpgas/contacts/:contact_id/estimates/:uuid'.'?'.http_build_query(['pin' => $contact->pin, 'token' => $contact->token]), ['contact_id' => $contact->id, 'uuid' => $estimate->uuid]); ?>">
+                    <?= S3::image_tag_s3(S3::makeImageUrl($estimate->company)); ?>
+                  </a>
                 </div>
                 <div class="company-name"><?= $estimate->company->getCompanyName(); ?></div>
                 <div class="details">
@@ -199,7 +228,7 @@
                 </div>
               </div>
             </div>
-            <div class="td">
+            <div class="td td-relative">
               <div class="slide-wrap-1 column-centred active">
                 <?php if ($estimate->basic_price): ?>
                   <?php $saving = $estimate->total_savings_in_year($contact); ?>
@@ -212,8 +241,56 @@
                   </div>
                 <?php endif; ?>
               </div>
-              <div class="slide-wrap-2"></div>
-              <div class="slide-wrap-3"></div>
+              <div class="slide-wrap-2 double">
+                <div class="column-centred">
+                  <?php if ($estimate->basic_price): ?>
+                    <div class="basic-price"><p><?= number_format($estimate->basic_price); ?>円</p></div>
+                    <div class="<?= $contact->basicPrice() - $estimate->basic_price > 0 ? ' basic-saving' : ' no-basic-saving'; ?>"><p><?= number_format(abs($contact->basicPrice() - $estimate->basic_price)); ?><span><?= $contact->basicPrice() - $estimate->basic_price > 0 ? '円節約' : '円割高'; ?></span></p></div>
+                  <?php else: ?>
+                    <div class="none"></div>
+                  <?php endif; ?>
+                </div>
+                <div class="column-centred">
+                  <?php if ($estimate->prices): ?>
+                    <?php if (count($estimate->prices) == 1): ?>
+                      <?php foreach ($estimate->prices as $price): ?>
+                        <div class="basic-price"><p><?= number_format($price->unit_price); ?>円</p></div>
+                        <div class="<?= $contact->unitPrice() - $price->unit_price > 0 ? ' basic-saving' : ' no-basic-saving'; ?>"><p><?= number_format(abs($contact->unitPrice() - $price->unit_price)); ?><span><?= $contact->unitPrice() - $price->unit_price > 0 ? '円節約' : '円割高'; ?></span></p></div>
+                      <?php endforeach; ?>
+                    <?php else: ?>
+                      <?php foreach ($estimate->prices as $price): ?>
+                        <div class="unit-price">
+                          <div><?= $price->getRangeLabel() ? $price->getRangeLabel().':' : ''; ?></div>
+                          <div><?= number_format($price->unit_price); ?>円</div>
+                        </div>
+                      <?php endforeach; ?>
+                    <?php endif; ?>
+                  <?php else: ?>
+                    <div class="none"></div>
+                  <?php endif; ?>
+                </div>
+              </div>
+              <div class="slide-wrap-3">
+                <div class="pickup-header">
+                  <?php $features = \Arr::pluck($estimate->company->features, 'name'); ?>
+                  <?php if (in_array('違約金なし', $features)): ?>
+                    <div class="pickup-no">違約金なし</div>
+                  <?php else: ?>
+                    <div class="pickup-yes">違約金あり</div>
+                  <?php endif; ?>
+                  <?php if (in_array('セット割', $features)): ?>
+                    <div class="pickup-yes">セット割あり</div>
+                  <?php else: ?>
+                    <div class="pickup-no">セット割なし</div>
+                  <?php endif; ?>
+                </div>
+                <div class="pickup-body">
+                  <?php foreach ($estimate->company->pickups as $pickup): ?>
+                    <p><?= Str::truncate($pickup->title, 30); ?></p>
+                    <?php break; ?>
+                  <?php endforeach; ?>
+                </div>
+              </div>
             </div>
           </div>
         <?php endforeach; ?>
@@ -261,4 +338,5 @@
       <p class="comment">※お客様専用に開示する情報も含まれますので、内容やURLの第三者への提供・転送は禁止とさせていただきます。</p>
     </div>
   <?= Form::close(); ?>
+  </div>
 </div>
