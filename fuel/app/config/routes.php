@@ -46,6 +46,7 @@ return array(
     /**
      * LP
      */
+	'lp/005/(:any)'                                        => 'front/lp/index005/$1',
     'lp/(:any)'                                            => 'front/lp/index/$1',
     's/lp/(:any)'                                          => 'front/lp/slp/$1',
   	's/(:any)'                       	                     => 'front/lp/slp/$1',
