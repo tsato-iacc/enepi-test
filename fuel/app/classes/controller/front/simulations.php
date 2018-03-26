@@ -129,7 +129,7 @@ class Controller_Front_Simulations extends Controller_Front
             'prefecture_name'               => $simulationHelper->getPrefectureName(),
             'household_average_rate'        => number_format($simulationHelper->getHouseholdAverageRate(), 1),
             'basic_rate'                    => number_format($simulationHelper->getBasicRate()),
-            'commodity_charge'              => number_format($simulationHelper->getCommodityCharge()),
+            'commodity_charge'              => $simulationHelper->getCommodityCharge(),
             'city_average_commodity_charge' => number_format($simulationHelper->getCityAverageCommodityCharge()),
             'estimated_bill'                => $simulationHelper->getEstimatedBill(),
             'average_reduction_rate'        => number_format($simulationHelper->getAverageReductionRate()),

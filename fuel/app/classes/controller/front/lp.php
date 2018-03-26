@@ -48,12 +48,17 @@ class Controller_Front_Lp extends Controller_Front
             return;
         }
 
+        elseif ($id == '005')
+        {
+        	throw new HttpNotFoundException;
+        }
+
         elseif ($id == '004' || $id == '005')
         {
             $this->template = \View::forge('front/lp/show_004', [
                 'slots' => \Model_Slot::getSlots(),
             ]);
-            
+
             $this->template->lp_005 = ($id == '005');
 
             return;
@@ -68,6 +73,25 @@ class Controller_Front_Lp extends Controller_Front
         }
 
         throw new HttpNotFoundException;
+    }
+
+
+    public function action_index005($id = null)
+    {
+
+    	if($id == "lite"){
+
+    		$this->template = \View::forge('front/lp/show_004', [
+    				'slots' => \Model_Slot::getSlots(),
+    		]);
+
+    		$this->template->lp_005 = true;
+    		return;
+    	}
+
+
+    	throw new HttpNotFoundException;
+
     }
 
     public function action_slp($id = null)
@@ -85,7 +109,7 @@ class Controller_Front_Lp extends Controller_Front
     	if($ct == "text/html"){
             $tracking = new Tracking($this->param('media'));
             $tracking->detect();
-            
+
     		$result = str_replace("\"images", "\"${o_uri}/images", $result);
     		$result = str_replace("\"css", "\"${o_uri}/css", $result);
     		$result = str_replace("\"js", "\"${o_uri}/js", $result);

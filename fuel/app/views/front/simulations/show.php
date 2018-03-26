@@ -64,7 +64,7 @@
                       <th>基本料金</th>
                       <td><?= $basic_rate ?>円</td>
                       <th>従量単価</th>
-                      <td style="font-size: 215%; color: red;"><?= $commodity_charge ?><span class="small">円/㎥</span></td>
+                      <td style="font-size: 215%; color: red;"><?= number_format($commodity_charge); ?><span class="small">円/㎥</span></td>
                     </tr>
                   </table>
                 </div>
@@ -81,7 +81,7 @@
                   </tr>
                   <tr class="usage-status-content">
                     <th>従量単価</th>
-                    <td><?= $commodity_charge ?>円/㎥</td>
+                    <td><?= number_format($commodity_charge); ?>円/㎥</td>
                   </tr>
                 </table>
               <?php endif; ?>
