@@ -79,6 +79,9 @@ class Controller_Front_Lp extends Controller_Front
     public function action_index005($id = null)
     {
 
+    	$tracking = new Tracking($this->param('media'));
+    	$tracking->detect();
+
     	if($id == "lite"){
 
     		$this->template = \View::forge('front/lp/show_004', [
