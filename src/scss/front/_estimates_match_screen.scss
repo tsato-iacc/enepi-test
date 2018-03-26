@@ -711,7 +711,9 @@ $match-color-table-border: #ccc;
           text-align: right;
         }
         &:last-child {
-          // padding-left: 5px;
+          display: flex;
+          justify-content: center;
+          align-items: center
         }
       }
     }
