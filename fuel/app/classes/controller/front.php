@@ -117,7 +117,7 @@ class Controller_Front extends Controller_Template
             $this->estimate_post_url = "{$media}/lpgas/contacts";
         }
 
-        if (\Input::method() == 'GET' && \Request::active()->controller != 'Controller_Front_LpgasContacts')
+        if (\Input::method() == 'GET' && \Request::active()->controller != 'Controller_Front_Contacts')
         {
             $tracking = new Tracking($this->param('media'));
             $tracking->detect();
