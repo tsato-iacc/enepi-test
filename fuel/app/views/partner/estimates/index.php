@@ -3,6 +3,7 @@ use JpPrefecture\JpPrefecture;
 ?>
 
 <?= \Form::open(['method' => 'GET', 'class' => 'mb-4']); ?>
+  <input type="hidden" name="u" value="<?= $auth_user->id; ?>">
   <div class="form-group row mb-0">
     <div class="col-3">
       <div class="form-group<?= $val->error('status') ? ' has-danger' : ''?>">
