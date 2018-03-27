@@ -168,7 +168,7 @@ class Controller_Partner_Estimates extends Controller_Partner
         $estimate = \Model_Estimate::find('first', [
             'where' => [
                 ['uuid', $uuid],
-                ['company_id', '=', $this->auth_user->id],
+                ['company_id', '=', $this->auth_user->company->id],
             ],
         ]);
 
@@ -195,7 +195,7 @@ class Controller_Partner_Estimates extends Controller_Partner
                 ],
             ],
             'where' => [
-                ['company_id', '=', $this->auth_user->id],
+                ['company_id', '=', $this->auth_user->company->id],
             ],
         ]);
 
