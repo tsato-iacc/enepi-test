@@ -13,6 +13,14 @@ class Controller_Partner extends Controller_Base
             if (Eauth::check('partner'))
             {
                 $user_id = Eauth::instance('partner')->get('id');
+                
+                if (\Input::method() == 'GET' && (!\Input::get('u') || \Input::get('u') != $user_id))
+                {
+                    $redirect = \Uri::main().'?'.http_build_query(['u' => $user_id]);
+
+                    return \Response::redirect($redirect);
+                }
+
                 $this->auth_user = \Model_Partner_Company::find($user_id);
                 \View::set_global('auth_user', $this->auth_user, false);
             }
