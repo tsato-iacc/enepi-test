@@ -61,7 +61,7 @@
       <?php foreach ($estimates as $estimate): ?>
         <div class="tr relative bb-gray<?= $estimate->status != \Config::get('models.estimate.status.sent_estimate_to_user') ? ' introduced' : ''; ?>">
           <div class="introduced-wrap">
-            <p class="description">詳細情報を依頼済み</p>
+            <p class="description">連絡をお待ちください</p>
           </div>
           <div class="td td-1 company-wrap">
             <div class="check">
@@ -336,6 +336,7 @@
       
       <button class="match-submit-btn" type="submit" onclick="ga('send', 'event', 'matching', 'click', 'submit_btn', {'nonInteraction': 1});"><span class="block">チェックを入れた会社の</span><span class="block">詳細を希望する</span></button>
 
+      <p class="comment"><span class="block">※詳細情報を希望すると、</span><span class="block">ガス会社からプランについてご連絡が入ります。</span></p>
       <p class="comment"><span class="block">※お客様専用に開示する情報も含まれますので、</span><span class="block">内容やURLの第三者への提供・転送は禁止とさせていただきます。</span></p>
     </div>
   <?= Form::close(); ?>

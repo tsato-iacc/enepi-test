@@ -235,7 +235,7 @@
                     <div class="hidden_pc">
                       <?= MyView::submit_tag('commit', 
                         [
-                          'value' => 'この会社からの連絡を希望する', 
+                          'value' => 'この会社からの詳細を希望する', 
                           'class' => 'btn btn-primary', 
                           'rel' => 'nofollow', 
                           'data-method' => 'post', 
@@ -246,7 +246,7 @@
 
                       <?= MyView::submit_tag('commit', 
                         [
-                          'value' => 'この会社からの連絡を希望する',
+                          'value' => 'この会社からの詳細を希望する',
                           'class' => 'btn btn-primary', 
                           'rel' => 'nofollow', 
                           'data-method' => 'post', 
@@ -362,7 +362,7 @@
                       <div class="hidden_pc">
                       <?= MyView::submit_tag('commit', 
                         [
-                          'value' => 'この会社からの連絡を希望する', 
+                          'value' => 'この会社からの詳細を希望する', 
                             'class' => 'btn btn-primary', 
                             'rel' => 'nofollow', 
                             'data-method' => 'post', 
@@ -372,7 +372,7 @@
                       <div class="hidden_sp">
                       <?= MyView::submit_tag('commit', 
                         [
-                          'value' => 'この会社からの連絡を希望する', 
+                          'value' => 'この会社からの詳細を希望する', 
                             'class' => 'btn btn-primary', 
                             'rel' => 'nofollow', 
                             'data-method' => 'post', 
@@ -485,7 +485,7 @@
                     <div class="hidden_pc">
                       <?= MyView::submit_tag('commit', 
                         [
-                          'value' => 'この会社からの連絡を希望する', 
+                          'value' => 'この会社からの詳細を希望する', 
                           'class' => 'btn btn-primary', 
                           'rel' => 'nofollow', 
                           'data-method' => 'post', 
@@ -495,7 +495,7 @@
                     <div class="hidden_sp">
                       <?= MyView::submit_tag('commit', 
                         [
-                          'value' => 'この会社からの連絡を希望する', 
+                          'value' => 'この会社からの詳細を希望する', 
                           'class' => 'btn btn-primary', 
                           'rel' => 'nofollow', 
                           'data-method' => 'post', 
@@ -523,7 +523,7 @@
               <div class="hidden_pc">
                 <?= MyView::submit_tag('commit', 
                   [
-                    'value' => 'この会社からの連絡を希望する', 
+                    'value' => 'この会社からの詳細を希望する', 
                     'class' => 'btn btn-primary', 
                     'rel' => 'nofollow', 
                     'data-method' => 'post', 
@@ -533,7 +533,7 @@
               <div class="hidden_sp">
                 <?= MyView::submit_tag('commit', 
                   [
-                    'value' => 'この会社からの連絡を希望する', 
+                    'value' => 'この会社からの詳細を希望する', 
                     'class' => 'btn btn-primary', 
                     'rel' => 'nofollow', 
                     'data-method' => 'post', 
