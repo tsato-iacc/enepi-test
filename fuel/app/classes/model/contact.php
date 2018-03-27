@@ -516,25 +516,23 @@ class Model_Contact extends \Orm\Model
         if ($this->isCancelled() || $this->isContracted())
             return;
 
+        $this->status_reason = \Helper\CancelReasons::getValueByName($reason);
+        
         if ($this->estimates)
         {
-            $status_reason = \Helper\CancelReasons::getValueByName($reason);
-            
             $this->status = \Config::get('models.contact.status.cancelled');
-            $this->status_reason = $status_reason;
 
             foreach ($this->estimates as $estimate)
             {
                 $estimate->cancel($auth_user);
             }
-
-            $this->save();
         }
         else
         {
             $this->status = \Config::get('models.contact.status.cancelled_before_estimate_req');
-            $this->save();
         }
+
+        $this->save();
     }
 
     public function getEstimateProgress()
