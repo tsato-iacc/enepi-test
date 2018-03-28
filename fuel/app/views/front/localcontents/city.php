@@ -167,10 +167,10 @@
           </div>
           <!-- CITY LIST END -->
 
-          <?php if (isset($announcement_companies)): ?>
-            <h3 class="title-price-info"><?= $prefecture_itself->name; ?><?= $city_itself->city_name; ?> 周辺のプロパンガス会社</h3>
+          <?php if ($announcement_companies): ?>
+            <h3 class="title-price-info"><?= $prefecture_name_itself; ?><?= $city_name_itself; ?> 周辺のプロパンガス会社</h3>
             <!-- ANNOUNCEMENT COMPANIES START -->
-            <?= render('shared/announcement_companies'); ?>
+            <?= render('front/localcontents/_announcement_companies', ['announcement_companies' => $announcement_companies]); ?>
             <!-- ANNOUNCEMENT COMPANIES END -->
           <?php endif; ?>
 
