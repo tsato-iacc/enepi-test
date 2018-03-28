@@ -154,6 +154,9 @@ class Controller_Front_LpgasContacts extends Controller_Front
                 $contact->save();
                 \DB::commit_transaction();
 
+                $notice_param = \Crypt::encode(\Format::forge(['id' => $contact->id, 'token' => $contact->token, 'pin' => $contact->pin])->to_json());
+                \Cookie::set('notice_param', $notice_param, 60 * 60 * 24 * 90);
+
                 $query = [
                     'conversion_id' => "LPGAS-{$contact->id}",
                 ];
