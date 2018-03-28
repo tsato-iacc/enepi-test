@@ -167,9 +167,16 @@
           </div>
           <!-- CITY LIST END -->
 
+          <?php if (isset($announcement_companies)): ?>
+            <h3 class="title-price-info"><?= $prefecture_itself->name; ?><?= $city_itself->city_name; ?> 周辺のプロパンガス会社</h3>
+            <!-- ANNOUNCEMENT COMPANIES START -->
+            <?= render('shared/announcement_companies'); ?>
+            <!-- ANNOUNCEMENT COMPANIES END -->
+          <?php endif; ?>
+
           <div class="average-rate-box" style="margin-bottom: 10px;">
             <div class="average-rate-box-title">
-               <h3>全国のプロパンガス(LPガス)平均価格</h3>
+              <h3>全国のプロパンガス(LPガス)平均価格</h3>
             </div>
             <div class="average-rate-box-content">
               <div class="average-rate-box-basic">
