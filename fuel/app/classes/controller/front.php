@@ -115,9 +115,15 @@ class Controller_Front extends Controller_Template
         if ($media = $this->param('media'))
         {
             $this->estimate_post_url = "{$media}/lpgas/contacts";
+
+            if (\Input::method() == 'GET')
+            {
+                $tracking = new Tracking($this->param('media'));
+                $tracking->detect();
+            }
         }
 
-        if (\Input::method() == 'GET' && \Request::active()->controller != 'Controller_Front_Contacts')
+        if (\Input::method() == 'GET' && \Request::active()->controller != 'Controller_Front_LpgasContacts' && \Request::active()->controller != 'Controller_Front_Lp')
         {
             $tracking = new Tracking($this->param('media'));
             $tracking->detect();

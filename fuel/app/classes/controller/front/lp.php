@@ -109,16 +109,18 @@ class Controller_Front_Lp extends Controller_Front
     	$result = $curl->execute();
     	$ct		= $curl->response_info("content_type");
 
-    	if($ct == "text/html"){
-            $tracking = new Tracking($this->param('media'));
-            $tracking->detect();
+    	if($ct == "text/html")
+        {
+            if (\Input::get('pr'))
+            {
+                $tracking = new Tracking($this->param('media'));
+                $tracking->detect();
+            }
 
     		$result = str_replace("\"images", "\"${o_uri}/images", $result);
     		$result = str_replace("\"css", "\"${o_uri}/css", $result);
     		$result = str_replace("\"js", "\"${o_uri}/js", $result);
     		$result = str_replace("</head>", "</head>\n"."<script type=\"text/javascript\" src=\"/assets/js/lp.js\"></script>\n", $result);
-
-
     	}
 
     	$this->template = \Response::forge($result, 200, array('Content-Type' => $ct));
