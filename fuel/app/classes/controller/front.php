@@ -181,10 +181,10 @@ class Controller_Front extends Controller_Template
                 if ($contact->is_seen == \Config::get('models.contact.is_seen.seen'))
                 {
                     $notice['economy'] = $max_saving;
+                    // Set to three hours
+                    \Cache::set('front.notice_param.'.$notice['id'], $notice, 3600 * 3);
                 }
 
-                // Set to one hour
-                \Cache::set('front.notice_param.'.$notice['id'], $notice, 3600);
             }
         }
         

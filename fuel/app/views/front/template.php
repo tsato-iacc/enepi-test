@@ -68,7 +68,7 @@
     <?= render('front/footer'); ?>
   <?php endif; ?>
 
-  <?php if ($match_screen_notice): ?>
+  <?php if (isset($match_screen_notice)): ?>
     <!-- MATCH SCREEN NOTICE START -->
     <?= render('shared/match_screen_notice'); ?>
     <!-- MATCH SCREEN NOTICE END -->

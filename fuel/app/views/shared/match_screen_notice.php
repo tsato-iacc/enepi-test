@@ -15,7 +15,7 @@
       </a>
     </div>
     <div class="contract-footer">
-      <%= link_to '→チェック', lpgas_contact_url($match_screen_notice['id'], token: $match_screen_notice['token'], pin: $match_screen_notice['pin']) %>
+      <a href="<?= \Uri::create('lpgas/contacts/:id', ['id' => $match_screen_notice['id']]).'?'.http_build_query(['conversion_id' => "LPGAS-{$match_screen_notice['id']}", 'token' => $match_screen_notice['token'], 'pin' => $match_screen_notice['pin']]); ?>"><i class="fa fa-arrow-right" aria-hidden="true"></i> チェック</a>
     </div>
   <?php else: ?>
     <div class="contract-body">
