@@ -29,6 +29,9 @@ class Tracking
         {
             return;
         }
+
+        if (\Request::active()->controller == 'Controller_Front_Welcome' && in_array(\Request::active()->action, ['403', '404', '500']))
+            return;
         
         $tracking_name = \Input::get('pr', '');
 

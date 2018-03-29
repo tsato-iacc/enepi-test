@@ -123,7 +123,7 @@ class Controller_Front extends Controller_Template
             }
         }
 
-        if (\Input::method() == 'GET' && \Request::active()->controller != 'Controller_Front_LpgasContacts')
+        if (\Input::method() == 'GET' && \Request::active()->controller != 'Controller_Front_LpgasContacts' && \Request::active()->controller != 'Controller_Front_Lp')
         {
             $tracking = new Tracking($this->param('media'));
             $tracking->detect();
