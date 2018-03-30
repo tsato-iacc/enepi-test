@@ -192,8 +192,8 @@ class Controller_Front extends Controller_Template
                 }
 
             }
+            
+            \View::set_global('match_screen_notice', $notice, false);
         }
-        
-        \View::set_global('match_screen_notice', $notice, false);
     }
 }
