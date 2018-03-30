@@ -41,8 +41,8 @@ class Simulation
         $month                        = $val->validated('month');
         $bill                         = $val->validated('bill');
 
-				$city                         = \Model_LocalContentCity::find($val->validated('city_code'));
-				$this->prefecture             = \Model_LocalContentPrefecture::find($city->prefecture_code);
+				$city                         = \Model_Localcontent_City::find($val->validated('city_code'));
+				$this->prefecture             = \Model_Localcontent_Prefecture::find($city->prefecture_code);
 				$this->region                 = \Model_Region::find($city->city_code);
 				$this->prefecture_name        = JpPrefecture::findByCode($city->prefecture_code)->nameKanji;
 				
@@ -73,7 +73,7 @@ class Simulation
             $this->monthly_average_price[]   = (int) $city->commodity_charge == 0 ? $this->basic_rate + $this->prefecture->commodity_charge_criterion * $monthly_estimated_usage : $this->basic_rate + $city->commodity_charge * $monthly_estimated_usage;
         }
 
-        $pref = \Arr::filter_recursive(\Arr::pluck(\Model_LocalContentPrefecture::find('all'), 'average_reduction_rate'), function($item){ return $item !== '0'; });
+        $pref = \Arr::filter_recursive(\Arr::pluck(\Model_Localcontent_Prefecture::find('all'), 'average_reduction_rate'), function($item){ return $item !== '0'; });
         $this->nationwide_reduction = array_sum($pref) / count($pref);
 
         $usage_sum = array_sum($sum);

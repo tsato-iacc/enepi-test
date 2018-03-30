@@ -456,7 +456,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
 
 
-            $prefecture_data = \Model_LocalContentPrefecture::find($contact->getPrefectureCode());
+            $prefecture_data = \Model_Localcontent_Prefecture::find($contact->getPrefectureCode());
             if (!$prefecture_data)
             {
                 \Log::warning("prefecture_code {$contact->getPrefectureCode()} not found");
@@ -779,12 +779,12 @@ class Controller_Front_LpgasContacts extends Controller_Front
             return;
         }
 
-        $city = \Model_LocalContentCity::find('first', ['where' => [['city_code', $region->id]]]);
+        $city = \Model_Localcontent_City::find('first', ['where' => [['city_code', $region->id]]]);
 
         if ($contact->gas_meter_checked_month)
         {
             $month_str = strtolower(date('F', mktime(0, 0, 0, $contact->gas_meter_checked_month, 10)));
-            $prefecture = \Model_LocalContentPrefecture::find($city['prefecture_code']);
+            $prefecture = \Model_Localcontent_Prefecture::find($city['prefecture_code']);
             $contact->gas_used_amount = round($prefecture[$month_str] / $prefecture->annual_average * $prefecture[$house_hold], 1);
         }
         else

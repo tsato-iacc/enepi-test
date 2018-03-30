@@ -1,6 +1,6 @@
 <?php
 
-class Model_LocalContentCity extends \Orm\Model
+class Model_Localcontent_City extends \Orm\Model
 {
     protected static $_table_name = 'lpgas_local_content_cities';
 
