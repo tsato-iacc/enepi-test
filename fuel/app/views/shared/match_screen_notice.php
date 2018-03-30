@@ -8,7 +8,7 @@
     <div class="contract-body">
       <a href="<?= \Uri::create('lpgas/contacts/:id', ['id' => $match_screen_notice['id']]).'?'.http_build_query(['conversion_id' => "LPGAS-{$match_screen_notice['id']}", 'token' => $match_screen_notice['token'], 'pin' => $match_screen_notice['pin']]); ?>">
         <?php if ($match_screen_notice['economy'] > 0): ?>
-          <p>年間最大 <span class="price"><?= number_format($match_screen_notice['economy']); ?></span> 節約のご提案が出ています。</p>
+          <p>年間最大 <span class="price"><?= number_format($match_screen_notice['economy']); ?></span> 円節約のご提案が出ています。</p>
         <?php else: ?>
           <p>あなたへのご提案内容を確認出来ます。</p>
         <?php endif; ?>
