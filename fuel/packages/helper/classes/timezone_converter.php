@@ -36,4 +36,12 @@ class TimezoneConverter
 
         return '';
     }
+
+    public static function areUTCDatesEqual($a, $b, $pattern = 'mysql_date_time')
+    {
+        if (!$a || !$b)
+            return null;
+
+        return \Date::create_from_string($a, $pattern) == \Date::create_from_string($b, $pattern);
+    }
 }

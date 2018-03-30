@@ -1,4 +1,4 @@
-if ($('#simulation_register_form').length) {  
+if ($('#simulation_register_form').length) { 
   /*
    * ANONYMOUS FUNCTIONS START
    */
