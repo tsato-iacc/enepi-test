@@ -273,7 +273,7 @@ class Controller_Front_Contacts extends Controller_Front
      */
     public function get_done()
     {
-        $this->template = \View::forge('front/template_contact');
+        $this->template = \View::forge('front/template_match_screen');
 
         $contact_id = str_replace('LPGAS-', '', \Input::get('conversion_id'));
 
@@ -287,18 +287,15 @@ class Controller_Front_Contacts extends Controller_Front
 
         // var_dump($contact->tracking->conversion_tag);exit;
 
-        Tracking::unsetTracking();
 
-        $meta = [];
-
+        $this->template->contact = $contact;
         $this->template->title = 'エネピ -  お見積もりの問い合わせ完了';
-        $this->template->meta = $meta;
-        $this->template->header = View::forge('front/contacts/done_header');
+        
         $this->template->content = View::forge('front/contacts/done', [
             'contact' => $contact,
-        ], false);
+        ]);
+
         $this->template->content->set_global('cv_point', \Config::get('models.tracking.cv_point.estimate'));
-        $this->template->css_call = 'done';
     }
 
     /**
@@ -703,6 +700,7 @@ class Controller_Front_Contacts extends Controller_Front
         }
     }
 
+    // WTF? Does it use?
     public function post_index()
     {
 
@@ -737,6 +735,7 @@ class Controller_Front_Contacts extends Controller_Front
         return $prefecture_kanji;
     }
 
+    // WTF? OMG! Rails comming here!
     private function lpgas_contact_path($re_cv_params, $contact){
 
         $lpgas_contact_path = '';
