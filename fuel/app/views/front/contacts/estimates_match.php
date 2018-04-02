@@ -226,5 +226,3 @@
 <div class="highlighted section_second steps">
   <?= render("shared/estimate_flow") ?>
 </div>
-
-<?= render('shared/chamo'); ?>

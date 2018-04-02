@@ -20,6 +20,7 @@
 //= front/estimates_match_screen.js
 //= front/accordion.js
 //= front/welcome.js
+//= front/contact_done.js
 
 /**
  * Old scripts

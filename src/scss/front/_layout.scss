@@ -13,6 +13,7 @@ html, body {
 img {
   max-height: 100%;
   max-width: 100%;
+  width: 100%;
 }
 
 /**
@@ -93,6 +94,24 @@ footer.pr-media {
   @media screen and (max-device-width: $device-max-width) {
     margin-top: 0;
     padding: 0;
+  }
+}
+
+footer.contact-footer {
+  padding: 20px 0;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+
+  > div {
+    width: 150px;
+    font-size: 0;
+  }
+
+  p {
+    margin: 1em 0 0 0!important;
+    font-size: 15px !important;
+    font-family: "Helvetica Nue", "メイリオ", "ヒラギノ角ゴ", "Hiragino Kaku Gothic ProN W3", "ＭＳ Ｐゴシック", sans-serif;
   }
 }
 
@@ -188,4 +207,11 @@ footer.pr-media {
       margin: 0;
     }
   }
+}
+
+/**
+ * Hide tracking image tag width=1px
+ */
+img[width="1"][height="1"] {
+  display: none;
 }

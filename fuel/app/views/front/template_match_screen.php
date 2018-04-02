@@ -16,48 +16,46 @@
 
   <?= render('shared/google_tag_manager_noscript.php'); ?>
 
-  <?php if (\Uri::segment(1) == 'kakaku'): ?>
-    <header class="pr-media" style="border:none;">
-      <div class="logo-center">
-        <?= Asset::img('kakaku/logo.png', ['alt' => \Config::get('enepi.service.name')]); ?>
-      </div>
-    </header>
-  <?php else: ?>
-    <header>
-      <div class="container-wrap">
-        <div class="logo-wrap pos-left">
-          <div class="logo">
-            <div><a href="<?= \Uri::base(); ?>"><?= Asset::img('layout/logo.png'); ?></a></div>
-          </div>
+  <header>
+    <div class="container-wrap">
+      <div class="logo-wrap pos-left">
+        <div class="logo">
+          <div><a href="<?= \Uri::base(); ?>"><?= Asset::img('layout/logo.png'); ?></a></div>
         </div>
-        <div class="logo-wrap pos-right">
-          <div class="enepi-tel">
-            <?php if ($is_mobile): ?>
-              <div>
-                <a href="tel:<?= \Config::get('enepi.service.tel'); ?>">
-                  <?= Asset::img('layout/enepi_tel.png', ['alt' => 'enepi']); ?>
+      </div>
+      <div class="logo-wrap pos-right">
+        <div class="enepi-tel">
+          <?php if ($is_mobile): ?>
+            <div>
+              <?php if (\Uri::segment(1) == 'kakaku'): ?>
+                <a href="tel:<?= \Config::get('enepi.service.tel_kakaku'); ?>">
+                  <?= Asset::img('done/tel_kakaku.png', ['alt' => \Config::get('enepi.service.name')]); ?>
                 </a>
-              </div>
-            <?php else: ?>
-              <div><?= Asset::img('layout/enepi_tel.png', ['alt' => 'enepi']); ?></div>
-            <?php endif; ?>
-          </div>
+              <?php else: ?>
+                <a href="tel:<?= \Config::get('enepi.service.tel'); ?>">
+                  <?= Asset::img('done/tel.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+                </a>
+              <?php endif; ?>
+            </div>
+          <?php else: ?>
+            <div>
+              <?php if (\Uri::segment(1) == 'kakaku'): ?>
+                <?= Asset::img('done/tel_kakaku.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+              <?php else: ?>
+                <?= Asset::img('done/tel.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+              <?php endif; ?>
+            </div>
+          <?php endif; ?>
         </div>
       </div>
-    </header>
-  <?php endif; ?>
+    </div>
+  </header>
 
   <?= $content; ?>
 
-  <footer>
-    <div class="footer">
-      <div class="container">
-        <div class="clearfix">
-          <div class="footer-logo text-center"></div>
-        </div>
-        <div class="footer-copyright text-center">© 2016 enepi</div>
-      </div>
-    </div>
+  <footer class="contact-footer">
+    <div><a href="<?= \Uri::base(); ?>"><?= Asset::img('layout/logo.png'); ?></a></div>
+    <p>&copy; 2016 enepi</p>
   </footer>
 
   <?= Asset::js('front.min.js'); ?>

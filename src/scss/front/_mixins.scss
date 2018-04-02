@@ -316,3 +316,45 @@
     }
   }
 }
+
+@mixin input-done() {
+  select {
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #2264b4;
+    box-sizing: border-box;
+    appearance: none;
+    padding: 5px 8px;
+    font-size: 17px;
+    // font-weight: 700;
+    border-radius: 4px;
+    line-height: 1.4;
+    color: #555;
+    
+    &:focus {
+      outline: none;
+      border: 1px solid #a7d8f1;
+      background-color: #ebf8ff;
+    }
+  }
+  
+  .select-arrow {
+    position: relative;
+
+    i {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      margin-top: -14px;
+      font-size: 2.2em;
+      color: #2264b4;
+    }
+  }
+
+  @media screen and (max-device-width: $device-max-width) {
+    select {
+      padding: 0.3em 0.6em;
+      font-size: 5vw;
+    }
+  }
+}

@@ -227,8 +227,8 @@
             <p>
               <?= Form::open(['action' => "lpgas/contacts/{$contact->id}/introduce"]); ?>
               <?= \Form::csrf(); ?>
-                <input type="hidden" name="token" value="<?= $contact->token?>">
-                <input type="hidden" name="pin" value="<?= $contact->pin?>">
+                <input type="hidden" name="token" value="<?= $contact->token; ?>">
+                <input type="hidden" name="pin" value="<?= $contact->pin; ?>">
                 <input type='hidden' name='estimates[]' value="<?= $estimate->id; ?>">
                 <?if($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_user')){ ?>
                   <div class="text-center estimate_btn_area">
@@ -354,8 +354,8 @@
     
                 <?= Form::open(['action' => "lpgas/contacts/{$contact->id}/introduce"]); ?>
                 <?= \Form::csrf(); ?>
-                  <input type="hidden" name="token" value="<?= $contact->token?>">
-                  <input type="hidden" name="pin" value="<?= $contact->pin?>">
+                  <input type="hidden" name="token" value="<?= $contact->token; ?>">
+                  <input type="hidden" name="pin" value="<?= $contact->pin; ?>">
                   <input type='hidden' name='estimates[]' value="<?= $estimate->id; ?>">
                   <?if($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_user')){ ?>
                     <div class="text-center estimate_btn_area">
@@ -477,8 +477,8 @@
               </div>
               <?= Form::open(['action' => "lpgas/contacts/{$contact->id}/introduce"]); ?>
               <?= \Form::csrf(); ?>
-                <input type="hidden" name="token" value="<?= $contact->token?>">
-                <input type="hidden" name="pin" value="<?= $contact->pin?>">
+                <input type="hidden" name="token" value="<?= $contact->token; ?>">
+                <input type="hidden" name="pin" value="<?= $contact->pin; ?>">
                 <input type='hidden' name='estimates[]' value="<?= $estimate->id; ?>">
                 <?if($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_user')){ ?>
                   <div class="text-center estimate_btn_area">
@@ -516,8 +516,8 @@
         <div class="text-center" style="width: 80%; margin: auto;">
           <?= Form::open(['action' => "lpgas/contacts/{$contact->id}/introduce"]); ?>
           <?= \Form::csrf(); ?>
-            <input type="hidden" name="token" value="<?= $contact->token?>">
-            <input type="hidden" name="pin" value="<?= $contact->pin?>">
+            <input type="hidden" name="token" value="<?= $contact->token; ?>">
+            <input type="hidden" name="pin" value="<?= $contact->pin; ?>">
             <input type='hidden' name='estimates[]' value="<?= $estimate->id; ?>">
             <?if($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_user')){ ?>
               <div class="hidden_pc">
