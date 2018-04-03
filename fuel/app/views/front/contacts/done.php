@@ -1,10 +1,10 @@
 <div class="contact-done">
   <div class="done-header">
     <div>
-      <h1>ご登録ありがとうございました。</h1>
+      <h1><span class="full">ご登録</span><span>ありがとうございました。</span></h1>
     </div>
     <div>
-      <p>担当者(下記番号)より折り返しご連絡致しますので、今しばらくお待ち頂けますようお願い申し上げます。</p>
+      <p><span class="block">担当者(下記番号)より折り返しご連絡致しますので、</span><span class="block">今しばらくお待ち頂けますようお願い申し上げます。</span></p>
       <p class="comment">※いきなりガス業者から電話がかかってくることはございません。</p>
     </div>
     <div class="tel-wrap">
@@ -22,33 +22,40 @@
         <div class="title">
           <div><div class="free-mark"><span>無料</span></div></div>
           <div class="title-body">
-            <h2>ご相談窓口 あなたのお悩みすべて無料サポート!</h2>
+            <h2><span>ご相談窓口</span><span> あなたのお悩みすべて無料サポート!</span></h2>
             <p>いつでもご連絡ください！私たち専門アドバイザーが、お客様のお悩みを解決致します。</p>
           </div>
         </div>
+        <div class="subtitle-sp">
+          <p>いつでもご連絡ください！<br>私たち専門アドバイザーが、お客様のお悩みを解決致します。</p>
+          <div class="image"><?= \Asset::img('done/staff_sp.png', ['alt' => '私たちがご対応します！']); ?></div>
+        </div>
         <div class="form-steps">
           <div>
-            <div class="image"><?= \Asset::img('done/check.png'); ?></div><p>第三者的な立場で、お客様の内容に合わせたお近くの<span>優良業者を無料でご紹介</span>します！</p>
+            <div class="image"><?= \Asset::img('done/check.png'); ?></div><p><span class="block">第三者的な立場で、お客様の内容に合わせた</span><span class="block">お近くの<span class="decor">優良業者を無料でご紹介</span>します!</span></p>
           </div>
           <div>
-            <div class="image"><?= \Asset::img('done/check.png'); ?></div><p>ご紹介する業者は、エネピの<span>厳正な審査をクリアした認定業者</span>のみ！</p>
+            <div class="image"><?= \Asset::img('done/check.png'); ?></div><p><span class="block">ご紹介する業者は、エネピの</span><span class="block"><span class="decor">厳正な審査をクリアした認定業者</span>のみ!</span></p>
           </div>
           <div>
-            <div class="image"><?= \Asset::img('done/check.png'); ?></div><p>業者に直接言いにくい、<span>お断り連絡を代行します！</span>お気軽にご相談ください！</p>
+            <div class="image"><?= \Asset::img('done/check.png'); ?></div><p><span class="block">業者に直接言いにくい、<span class="decor">お断り連絡を</span></span><span class="block"><span class="decor">代行します！</span>お気軽にご相談ください!</span></p>
           </div>
         </div>
         <div class="form-wrap">
           <?= Form::open(); ?>
             <input type="hidden" name="conversion_id" value="<?= \Input::get('conversion_id'); ?>">
-            <div class="form-title">
-              <p>エネピでは一人ひとりにしっかり対応するため、1日にご利用いただける人数を制限しております。</p>
-              <p>ご対応人数が限られておりますので、<span>下記の質問項目に入力いただけるとご案内がスムーズ</span>になります。</p>
-            </div>
 
-            <div class="form-header">
-              <div class="header-wrap">
-                <div class="image"><?= \Asset::img('done/ok.png'); ?></div>
-                <div class="title"><span class="block">●時●分現在、</span><span class="block">エネピ相談窓口をご利用可能です！</span></div>
+            <div class="order-wrap">
+              <div class="form-title">
+                <p>エネピでは一人ひとりにしっかり対応するため、1日にご利用いただける人数を制限しております。</p>
+                <p><span class="block">ご対応人数が限られておりますので、<span class="decor">下記の質問項目に入力</span></span><span class="block"><span class="decor">いただけるとご案内がスムーズ</span>になります。</span></p>
+              </div>
+
+              <div class="form-header">
+                <div class="header-wrap">
+                  <div class="image"><?= \Asset::img('done/ok.png'); ?></div>
+                  <div class="header-title"><span class="block"><?= Date::forge(null, 'Asia/Tokyo')->format('%H時%M分'); ?>現在、</span><span class="block">エネピ相談窓口をご利用可能です！</span></div>
+                </div>
               </div>
             </div>
 
@@ -112,7 +119,7 @@
     <div>
       <div>
         <p>エネピはあなたにぴったりの優良業者を完全無料でお探しします!</p>
-        <p>このまま専門アドバイザーからの連絡をお待ちいただくか、右記の連絡先まで直接ご連絡ください。</p>
+        <p>このまま専門アドバイザーからの連絡をお待ちいただくか、<span class="follow-right">右記</span><span class="follow-bottom">下記</span>の連絡先まで直接ご連絡ください。</p>
       </div>
       <div>
         <?php if (\Uri::segment(1) == 'kakaku'): ?>
@@ -128,10 +135,11 @@
     <div class="title">
       <div><div class="free-mark"><span>完全</span><span>無料</span></div></div>
       <div class="title-body">
-        <h2><span class="h2-wrap"><span class="big-double">3</span><span class="big">ステップ</span><span class="small">で</span>厳選業者を<span class="big">簡単比較！</span></span></h2>
+        <h2><span class="h2-wrap"><span class="block"><span class="big-double">3</span><span class="big">ステップ</span><span class="small">で</span></span><span class="block">厳選業者を<span class="big">簡単比較!</span></span></span></h2>
         <p>たったの３STEPで、厳選された料金プランをすぐに比較できます</p>
       </div>
     </div>
+    <p class="subtitle">たったの３STEPで、厳選された料金プランをすぐに比較できます</p>
 
     <div class="steps-wrap">
       <div>
@@ -144,14 +152,14 @@
       <div>
         <div class="step-title">
           <div><?= Asset::img('done/step_2.png', ['alt' => 'step 2']); ?></div>
-          <p>専門アドバイザーに<br>ご要望や不明点をご相談</p>
+          <p class="pr-6">専門アドバイザーに<br>ご要望や不明点をご相談</p>
         </div>
         <div class="step-image"><?= Asset::img('done/step_2_img.png', ['alt' => '専門アドバイザーにご要望や不明点をご相談']); ?></div>
       </div>
       <div>
         <div class="step-title">
           <div><?= Asset::img('done/step_3.png', ['alt' => 'step 3']); ?></div>
-          <p>あなたに適切な優良業者を<br>ご紹介します！</p>
+          <p class="pr-6">あなたに適切な優良業者を<br>ご紹介します！</p>
         </div>
         <div class="step-image"><?= Asset::img('done/step_3_img.png', ['alt' => 'あなたに適切な優良業者をご紹介します！']); ?></div>
       </div>
@@ -176,7 +184,7 @@
     <div>
       <div>
         <p>エネピはあなたにぴったりの優良業者を完全無料でお探しします!</p>
-        <p>このまま専門アドバイザーからの連絡をお待ちいただくか、右記の連絡先まで直接ご連絡ください。</p>
+        <p>このまま専門アドバイザーからの連絡をお待ちいただくか、<span class="follow-right">右記</span><span class="follow-bottom">下記</span>の連絡先まで直接ご連絡ください。</p>
       </div>
       <div>
         <?php if (\Uri::segment(1) == 'kakaku'): ?>

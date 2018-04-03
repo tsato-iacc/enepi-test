@@ -351,7 +351,7 @@
     }
   }
 
-  @media screen and (max-device-width: $device-max-width) {
+  @media screen and (max-device-width: 999px) {
     select {
       padding: 0.3em 0.6em;
       font-size: 5vw;

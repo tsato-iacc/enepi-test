@@ -113,6 +113,21 @@ footer.contact-footer {
     font-size: 15px !important;
     font-family: "Helvetica Nue", "メイリオ", "ヒラギノ角ゴ", "Hiragino Kaku Gothic ProN W3", "ＭＳ Ｐゴシック", sans-serif;
   }
+
+  @media screen and (max-device-width: $device-max-width) {
+    padding: 2% 0;
+
+    > div {
+      width: 25%;
+      max-width: 150px;
+      margin: auto;
+    }
+
+    p {
+      margin: 0.5em 0 0 0!important;
+      font-size: 3.5vw !important;
+    }
+  }
 }
 
 /**
