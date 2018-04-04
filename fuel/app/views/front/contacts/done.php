@@ -83,7 +83,7 @@
                 <div class="select-arrow">
                   <i class="fa fa-caret-down" aria-hidden="true"></i>
                   <select name="q_1" id="q_1">
-                    <option value="不明">以下選択してください</option>
+                    <option value="不明">不明</option>
                     <option value="集合住宅・賃貸入居者">集合住宅・賃貸入居者</option>
                     <option value="集合住宅・オーナー">集合住宅・オーナー</option>
                     <option value="一戸建・賃貸入居者">一戸建・賃貸入居者</option>
@@ -100,7 +100,7 @@
                 <div class="select-arrow">
                   <i class="fa fa-caret-down" aria-hidden="true"></i>
                   <select name="q_2" id="q_2">
-                    <option value="不明">以下選択してください</option>
+                    <option value="不明">不明</option>
                     <option value="プロパンガス（敷地のガスボンベから供給される）">プロパンガス（敷地のガスボンベから供給される）</option>
                     <option value="都市ガス（地下の配管から供給される）">都市ガス（地下の配管から供給される）</option>
                   </select>
@@ -113,7 +113,7 @@
                 <div class="select-arrow">
                   <i class="fa fa-caret-down" aria-hidden="true"></i>
                   <select name="q_3" id="q_3">
-                    <option value="不明">以下選択してください</option>
+                    <option value="不明">不明</option>
                     <option value="築年数1年以内">築年数1年以内</option>
                     <option value="築年数1~10年">築年数1~10年</option>
                     <option value="築年数10~15年">築年数10~15年</option>

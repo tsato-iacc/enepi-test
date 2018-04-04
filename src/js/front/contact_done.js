@@ -27,7 +27,7 @@ if ($('.contact-done').length) {
       },
       success: function (data) {
         if (data.result == 'success') {
-          alert('ご対応ありがとうございました。');
+          alert("ご回答ありがとうございます。\n担当者より折り返しご連絡致しますので、今しばらくお待ち頂けますようお願い申し上げます。");
         }
         else if (data.errors) {
           alert("エラーが発生しました。\nもう一度試してみてください");
