@@ -8,10 +8,26 @@
       <p class="comment">※いきなりガス業者から電話がかかってくることはございません。</p>
     </div>
     <div class="tel-wrap">
-      <?php if (\Uri::segment(1) == 'kakaku'): ?>
-        <?= Asset::img('done/tel_kakaku.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+      <?php if ($is_mobile): ?>
+        <div>
+          <?php if (\Uri::segment(1) == 'kakaku'): ?>
+            <a href="tel:<?= \Config::get('enepi.service.tel_kakaku'); ?>">
+              <?= Asset::img('done/tel_kakaku.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+            </a>
+          <?php else: ?>
+            <a href="tel:<?= \Config::get('enepi.service.tel'); ?>">
+              <?= Asset::img('done/tel.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+            </a>
+          <?php endif; ?>
+        </div>
       <?php else: ?>
-        <?= Asset::img('done/tel.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+        <div>
+          <?php if (\Uri::segment(1) == 'kakaku'): ?>
+            <?= Asset::img('done/tel_kakaku.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+          <?php else: ?>
+            <?= Asset::img('done/tel.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+          <?php endif; ?>
+        </div>
       <?php endif; ?>
     </div>
   </div>
@@ -122,10 +138,26 @@
         <p>このまま専門アドバイザーからの連絡をお待ちいただくか、<span class="follow-right">右記</span><span class="follow-bottom">下記</span>の連絡先まで直接ご連絡ください。</p>
       </div>
       <div>
-        <?php if (\Uri::segment(1) == 'kakaku'): ?>
-          <?= Asset::img('done/tel_kakaku.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+        <?php if ($is_mobile): ?>
+          <div>
+            <?php if (\Uri::segment(1) == 'kakaku'): ?>
+              <a href="tel:<?= \Config::get('enepi.service.tel_kakaku'); ?>">
+                <?= Asset::img('done/tel_kakaku.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+              </a>
+            <?php else: ?>
+              <a href="tel:<?= \Config::get('enepi.service.tel'); ?>">
+                <?= Asset::img('done/tel.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+              </a>
+            <?php endif; ?>
+          </div>
         <?php else: ?>
-          <?= Asset::img('done/tel.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+          <div>
+            <?php if (\Uri::segment(1) == 'kakaku'): ?>
+              <?= Asset::img('done/tel_kakaku.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+            <?php else: ?>
+              <?= Asset::img('done/tel.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+            <?php endif; ?>
+          </div>
         <?php endif; ?>
       </div>
     </div>
@@ -187,10 +219,26 @@
         <p>このまま専門アドバイザーからの連絡をお待ちいただくか、<span class="follow-right">右記</span><span class="follow-bottom">下記</span>の連絡先まで直接ご連絡ください。</p>
       </div>
       <div>
-        <?php if (\Uri::segment(1) == 'kakaku'): ?>
-          <?= Asset::img('done/tel_kakaku.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+        <?php if ($is_mobile): ?>
+          <div>
+            <?php if (\Uri::segment(1) == 'kakaku'): ?>
+              <a href="tel:<?= \Config::get('enepi.service.tel_kakaku'); ?>">
+                <?= Asset::img('done/tel_kakaku.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+              </a>
+            <?php else: ?>
+              <a href="tel:<?= \Config::get('enepi.service.tel'); ?>">
+                <?= Asset::img('done/tel.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+              </a>
+            <?php endif; ?>
+          </div>
         <?php else: ?>
-          <?= Asset::img('done/tel.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+          <div>
+            <?php if (\Uri::segment(1) == 'kakaku'): ?>
+              <?= Asset::img('done/tel_kakaku.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+            <?php else: ?>
+              <?= Asset::img('done/tel.png', ['alt' => \Config::get('enepi.service.name')]); ?>
+            <?php endif; ?>
+          </div>
         <?php endif; ?>
       </div>
     </div>
