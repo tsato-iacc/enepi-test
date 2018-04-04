@@ -24,7 +24,7 @@ use JpPrefecture\JpPrefecture;
  * @package  app
  * @extends  Controller_Front
  */
-class Controller_Front_LocalContents extends Controller_Front
+class Controller_Front_Localcontents extends Controller_Front
 {
     /**
      * Show local content's index page
@@ -71,7 +71,7 @@ class Controller_Front_LocalContents extends Controller_Front
 
         $this->template->title = '全国のプロパンガス(LPガス)の平均利用額はココでチェック!';
         $this->template->meta = $meta;
-        $this->template->content = View::forge('front/localContents/index', [
+        $this->template->content = View::forge('front/localcontents/index', [
             'breadcrumb' => $breadcrumb,
             'popular' => $popular,
             'result' => $result,
@@ -110,7 +110,7 @@ class Controller_Front_LocalContents extends Controller_Front
             throw new HttpNotFoundException();
         }
 
-        $prefecture_data = \Model_LocalContentPrefecture::find('first', [
+        $prefecture_data = \Model_Localcontent_Prefecture::find('first', [
           'where' => [
             ['prefecture_code', $code],
           ]
@@ -150,7 +150,7 @@ class Controller_Front_LocalContents extends Controller_Front
 
         $this->template->title = '【'.$prefecture_kanji[key($prefecture_kanji)].'】'.'プロパンガス(LPガス)料金の適正価格と相場！';
         $this->template->meta = $meta;
-        $this->template->content = View::forge('front/localContents/prefecture', [
+        $this->template->content = View::forge('front/localcontents/prefecture', [
             'breadcrumb' => $breadcrumb,
             'result' => $result,
             'prefecture_data' => $prefecture_data,
@@ -196,7 +196,7 @@ class Controller_Front_LocalContents extends Controller_Front
         }
 
 
-        $city_data = \Model_LocalContentCity::find('first', [
+        $city_data = \Model_Localcontent_City::find('first', [
             'where' => [
                 ['id', $code],
             ]
@@ -206,6 +206,9 @@ class Controller_Front_LocalContents extends Controller_Front
         $prefecture_kanji = $this->prefecture_kanji($prefecture_KanjiAndCode, $city_data['prefecture_code']);
         $prefecture_name = $prefecture_kanji[key($prefecture_kanji)];
         $city_name = $city_data->region->city_name;
+        
+        $prefecture_name_itself = $prefecture_name;
+        $city_name_itself = $city_name;
 
         if($city_data->prefecture_code != 13)
         {
@@ -223,7 +226,7 @@ class Controller_Front_LocalContents extends Controller_Front
         }
 
 
-        $prefecture_data = \Model_LocalContentPrefecture::find('first', [
+        $prefecture_data = \Model_Localcontent_Prefecture::find('first', [
             'where' => [
                 ['prefecture_code', $city_data->prefecture_code],
             ]
@@ -273,7 +276,7 @@ class Controller_Front_LocalContents extends Controller_Front
 
         $this->template->title = '【'.$prefecture_name.$city_name.'】'.'プロパンガス(LPガス)料金の適正価格と相場！';
         $this->template->meta = $meta;
-        $this->template->content = View::forge('front/localContents/city', [
+        $this->template->content = View::forge('front/localcontents/city', [
             'breadcrumb' => $breadcrumb,
             'reviews' => $reviews,
             'code' => $code,
@@ -289,7 +292,10 @@ class Controller_Front_LocalContents extends Controller_Front
             'prefecture_prev' => $around_articles['prefecture_prev'],
             'prefecture_next' => $around_articles['prefecture_next'],
             'region_count' => $region_count,
-            'category' => 'city'
+            'category' => 'city',
+            'announcement_companies' => \Model_Localcontent_Company::find('all', ['where' => [['city_code', $code]]]),
+            'prefecture_name_itself' => $prefecture_name_itself,
+            'city_name_itself' => $city_name_itself,
         ]);
     }
 
@@ -317,7 +323,7 @@ class Controller_Front_LocalContents extends Controller_Front
     private function prefecture_average(){
         $average_basic_rate = 0;
         $average_commodity_charge_criterion = 0;
-        $prefecture_average = \Model_LocalContentPrefecture::find('all', []);
+        $prefecture_average = \Model_Localcontent_Prefecture::find('all', []);
 
         foreach($prefecture_average as $pa){
             $average_basic_rate += intval($pa['basic_rate']);

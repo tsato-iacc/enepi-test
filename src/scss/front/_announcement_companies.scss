@@ -1,0 +1,118 @@
+$device-max-width: 500px;
+$device-min-width: 501px;
+
+.city-announcement-companies {
+  margin: 40px 0;
+  font-family: "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,Osaka,"ＭＳ Ｐゴシック","MS PGothic",sans-serif;
+  line-height: 1.42857143;
+  color: #222;
+
+  .announcement-table {
+    border: 1px solid #444;
+  }
+
+  .announcement-tr {
+    display: flex;
+    text-align: center;
+    align-items: stretch;
+
+    &:first-child {
+      border-bottom: 2px solid #444;
+      background-color: transparent!important;
+    }
+
+    &:nth-child(odd) {
+      background-color: #f3f3f3;
+    }
+  }
+
+  .announcement-th {
+    padding: 4px 0 2px;
+
+    &.a-name, &.a-address {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    &.a-type, &.a-date {
+      font-size: 12.5px;
+      text-align: center;
+    }
+  }
+
+  .announcement-td {
+    &.a-address {
+      display: flex;
+
+      > div {
+        padding: 0;
+
+        &:first-child {
+          width: 32%;
+        }
+        &:last-child {
+          width: 68%;
+          padding-right: 4px;
+          text-align: left;
+        }
+      }
+    }
+    &.a-two, &.a-three {
+
+      > div {
+        border-right: 1px solid #adadad;
+
+        &:last-child {
+          border-right: none;
+        }
+      }
+    }
+  }
+
+  .a-td-cell {
+    padding: 0 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 32px;
+    font-size: 11px;
+  }
+
+  .a-name {
+    width: 26%;
+  }
+
+  .a-address {
+    width: 34%;
+  }
+
+  .a-type {
+    width: 12%;
+  }
+
+  .a-date {
+    width: 30%;
+  }
+
+  .a-name, .a-address, .a-type {
+    border-right: 1px solid #adadad;
+  }
+
+  .a-two {
+    display: flex;
+
+    > div {
+      width: 50%;
+    }
+  }
+
+  .a-three {
+    @extend .a-two;
+
+    > div {
+      width: 33.3333%;
+    }
+  }
+}

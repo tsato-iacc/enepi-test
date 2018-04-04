@@ -1,6 +1,6 @@
 <?php
 
-class Model_LocalContentPrefecture extends \Orm\Model
+class Model_Localcontent_Prefecture extends \Orm\Model
 {
     protected static $_table_name = 'lpgas_local_content_prefectures';
 
@@ -47,7 +47,7 @@ class Model_LocalContentPrefecture extends \Orm\Model
 
     protected static $_has_many = [
         'local_content_cities' => [
-            'model_to' => 'Model_LocalContentCity',
+            'model_to' => 'Model_Localcontent_City',
         ],
     ];
 }
