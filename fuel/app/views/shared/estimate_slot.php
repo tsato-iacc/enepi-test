@@ -1,4 +1,4 @@
-<?php if (isset($slots)): ?>
+<?php if (isset($slots) && $slots): ?>
   <?php if ($is_mobile): ?>
   <div class="estimate-ticker">
     <div class="ticker-wrap<?= \Request::active()->controller == 'Controller_Front_Welcome' && \Request::active()->action == 'index' ? ' wrap-fixed' : ''; ?>">

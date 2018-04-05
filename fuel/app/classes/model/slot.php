@@ -23,6 +23,9 @@ class Model_Slot extends \Orm\Model
 
     public static function getSlots()
     {
+        if (\Cookie::get('notice_param'))
+            return null;
+
         return \Model_Slot::find('all', [
             'order_by' => [
                 'estimate_created_at' => 'desc'

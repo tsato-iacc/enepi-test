@@ -1,31 +1,35 @@
-<div class="match-screen-notice">
-  <div class="contract-header">
-    <span class="modal-close-btn">×</span>
-    <span class="modal-open-header">あなたへのお知らせ</span>
+<?php if ($is_mobile): ?>
+  <div class="match-screen-notice-sp">
+    <div class="notice-wrap shake-rotate">
+      <?php if (isset($match_screen_notice['economy']) && $match_screen_notice['economy'] > 0): ?>
+        <span class="count"><?= $match_screen_notice['count']; ?></span>
+      <?php endif; ?>
+      <a href="<?= $match_screen_notice['url']; ?>">
+        <?= \Asset::img('layout/notice_balloon_sp.png'); ?>
+      </a>
+    </div>
   </div>
-  
-  <?php if (isset($match_screen_notice['economy'])): ?>
+<?php else: ?>
+  <div class="match-screen-notice-pc">
+    <div class="contract-header">
+      <span class="modal-open-header">あなたへのお知らせ</span>
+      <span class="modal-close-btn">×</span>
+      <span class="modal-balloon"><?= \Asset::img('layout/notice_balloon.png'); ?></span>
+    </div>
+    
     <div class="contract-body">
-      <a href="<?= \Uri::create('lpgas/contacts/:id', ['id' => $match_screen_notice['id']]).'?'.http_build_query(['conversion_id' => "LPGAS-{$match_screen_notice['id']}", 'token' => $match_screen_notice['token'], 'pin' => $match_screen_notice['pin']]); ?>">
-        <?php if ($match_screen_notice['economy'] > 0): ?>
-          <p>年間最大 <span class="price"><?= number_format($match_screen_notice['economy']); ?></span> 円節約のご提案が出ています。</p>
+      <a href="<?= $match_screen_notice['url']; ?>">
+        <?php if (isset($match_screen_notice['economy']) && $match_screen_notice['economy'] > 0): ?>
+          <p>年間最大 <span class="price"><?= number_format($match_screen_notice['economy']); ?></span> 円</p>
+          <p>節約のご提案があります</p>
         <?php else: ?>
-          <p>あなたへのご提案内容を確認出来ます。</p>
+          <p>あなたへのご提案内容を</p>
+          <p>確認出来ます</p>
         <?php endif; ?>
       </a>
     </div>
     <div class="contract-footer">
-      <a href="<?= \Uri::create('lpgas/contacts/:id', ['id' => $match_screen_notice['id']]).'?'.http_build_query(['conversion_id' => "LPGAS-{$match_screen_notice['id']}", 'token' => $match_screen_notice['token'], 'pin' => $match_screen_notice['pin']]); ?>"><i class="fa fa-arrow-right" aria-hidden="true"></i> チェック</a>
+      <a href="<?= $match_screen_notice['url']; ?>">今すぐチェック!!&nbsp;&nbsp;&nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></a>
     </div>
-  <?php else: ?>
-    <div class="contract-body">
-      <a href="<?= \Uri::create('lpgas/contacts/:id', ['id' => $match_screen_notice['id']]).'?'.http_build_query(['conversion_id' => "LPGAS-{$match_screen_notice['id']}", 'token' => $match_screen_notice['token']]); ?>">
-        <p>あなたへのご提案内容を確認出来ます。</p>
-      </a>
-    </div>
-    <div class="contract-footer">
-      <a href="<?= \Uri::create('lpgas/contacts/:id', ['id' => $match_screen_notice['id']]).'?'.http_build_query(['conversion_id' => "LPGAS-{$match_screen_notice['id']}", 'token' => $match_screen_notice['token']]); ?>"><i class="fa fa-arrow-right" aria-hidden="true"></i> チェック</a>
-    </div>
-  <?php endif; ?>
-
-</div>
+  </div>
+<?php endif; ?>

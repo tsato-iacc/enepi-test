@@ -34,6 +34,7 @@
     "swiper": "^4.0.3",
     "neat": "1.8.0",
     "bourbon": "4.2.7",
-    "js-cookie": "^2.2.0"
+    "js-cookie": "^2.2.0",
+    "csshake": "^1.5.2"
   }
 }
