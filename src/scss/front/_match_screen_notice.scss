@@ -1,7 +1,7 @@
 $device-max-width: 500px;
 $device-min-width: 501px;
 
-.match-screen-notice {
+.match-screen-notice-pc {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
@@ -179,7 +179,7 @@ $device-min-width: 501px;
   }
 }
 
-.match-screen-notice.match-screen-notice-show {
+.match-screen-notice-pc.match-screen-notice-show {
   bottom: 0;
   box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.3);
 
@@ -199,5 +199,52 @@ $device-min-width: 501px;
   .modal-balloon {
     opacity: 0;
     visibility: hidden;
+  }
+}
+
+.match-screen-notice-sp {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 30%;
+  font-size: 0;
+  z-index: 10;
+  opacity: 1;
+  transition: opacity 0.2s linear;
+
+  a:hover, a:focus {
+    outline: none;
+  }
+
+  .notice-wrap {
+    position: relative;
+  }
+
+  .count {
+    width: 6vw;
+    height: 6vw;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+    top: 2vw;
+    right: 4vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 3vw;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  .notice-wrap:hover {
+    animation-play-state: paused;
+  }
+
+  &.notice-invisible {
+    opacity: 0;
   }
 }
