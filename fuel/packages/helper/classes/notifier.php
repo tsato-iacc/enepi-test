@@ -145,4 +145,16 @@ class Notifier
         $email->html_body(\View::forge('notifier/admin/pre_present', ['estimate' => $estimate]));
         $email->send();
     }
+
+    /**
+     * Notify admin that customer sent done form
+     */
+    public static function notifyAdminDoneForm(&$contact, &$data)
+    {
+        $email = \Email::forge();
+        $email->to(\Config::get('enepi.service.email'), \Config::get('enepi.service.name'));
+        $email->subject('サンクスページでヒアリングフォームが入力されました');
+        $email->html_body(\View::forge('notifier/admin/done_form', ['contact' => $contact, 'data' => $data]));
+        $email->send();
+    }
 }

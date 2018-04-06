@@ -22,6 +22,7 @@
 //= front/accordion.js
 //= front/welcome.js
 //= front/match_screen_notice.js
+//= front/contact_done.js
 
 /**
  * Old scripts
