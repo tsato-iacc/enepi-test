@@ -37,17 +37,24 @@ if ($('.match-screen-notice-sp').length) {
   }, 3000);
 
   setInterval(shake, 5000);
+}
+
+if ($('.match-screen-notice-pc').length || $('.match-screen-notice-sp').length) {
+  var modal = $('.match-screen-notice-pc');
+  var notice = $('.match-screen-notice-sp');
 
   // Hide when achieve bottom
   $(window).scroll(function() {
      if(($(window).scrollTop() + $(window).height()) > ($(document).height() - 150)) {
         if (is_visible) {
           is_visible = false;
+          modal.addClass('notice-invisible');
           notice.addClass('notice-invisible');
         }
       } else {
         if (!is_visible) {
           is_visible = true;
+          modal.removeClass('notice-invisible');
           notice.removeClass('notice-invisible');
         }
       }

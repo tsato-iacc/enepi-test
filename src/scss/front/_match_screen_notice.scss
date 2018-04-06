@@ -15,9 +15,8 @@ $device-min-width: 501px;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.3);
-  transition: all 1s linear;
+  transition: bottom .5s ease, opacity 0.2s linear, visibility 0.2s linear;
   z-index: 10;
-  transform: translate(0, 0);
 
   @media screen and (min-device-width: $device-min-width) {
     display: flex;
@@ -30,7 +29,6 @@ $device-min-width: 501px;
   &:hover {
     box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.3);
     opacity: 0.7;
-    transition: opacity 0.2s linear;
   }
 
   > div {
@@ -140,11 +138,15 @@ $device-min-width: 501px;
       text-shadow: 0 2px 1px rgba(0,0,0,.3);
     }
   }
+
+  &.notice-invisible {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
 .match-screen-notice-pc.match-screen-notice-show {
-  transform: translate(0, -124px);
-  box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.3);
+  bottom: 0;
 
   .contract-header {
     opacity: 1;
@@ -179,7 +181,7 @@ $device-min-width: 501px;
   font-size: 0;
   z-index: 10;
   opacity: 1;
-  transition: opacity 0.2s linear;
+  transition: opacity 0.2s linear, visibility 0.2s linear;
 
   @media screen and (max-device-width: $device-max-width) {
     display: block;
@@ -219,5 +221,6 @@ $device-min-width: 501px;
 
   &.notice-invisible {
     opacity: 0;
+    visibility: hidden;
   }
 }
