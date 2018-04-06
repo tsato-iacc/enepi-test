@@ -171,10 +171,12 @@ class Controller_Front extends Controller_Template
             }
             catch (\CacheNotFoundException $e)
             {
+                // ORM get method cache the relation model
+                $contact_count = \Model_Contact::forge($contact->to_array());
                 $max_saving = 0;
                 $estimates = $contact->get('estimates', ['where' => [['basic_price', '>=', 0]]]);
 
-                $notice['count'] = count($estimates);
+                $notice['count'] = count($contact_count->get('estimates', ['where' => [['status', 'in', [2, 3]]]]));
 
                 foreach ($estimates as $estimate)
                 {
