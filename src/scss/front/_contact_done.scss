@@ -252,7 +252,7 @@ $done-color-light-blue: #9ebedd;
 
     .form-wrap {
       margin-right: 25px;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       padding: 20px 0;
       background-color: #fff;
 
@@ -323,11 +323,15 @@ $done-color-light-blue: #9ebedd;
       label {
         font-size: 15px;
         font-weight: 700;
+
+        span {
+          font-size: 10px;
+        }
       }
 
       .done-submit-btn {
         @include flex_centred();
-        margin: 25px auto 15px;
+        margin: 25px auto 20px;
         width: 40%;
         padding: 8px 0;
         border-radius: 4px;
@@ -362,6 +366,11 @@ $done-color-light-blue: #9ebedd;
         @media screen and (max-device-width: $device-max-width) {
 
         }
+      }
+
+      .notice {
+        padding-left: 50px;
+        font-size: 12px;
       }
     }
 
@@ -481,7 +490,7 @@ $done-color-light-blue: #9ebedd;
 
       .form-wrap {
         margin: 5% 2% 8%;
-        padding: 5% 0 8%;
+        padding: 5% 0 4%;
 
         .order-wrap {
           display: flex;
@@ -552,6 +561,11 @@ $done-color-light-blue: #9ebedd;
           max-width: 320px;
           padding: 2% 0;
           font-size: 5.2vw;
+        }
+
+        .notice {
+          padding: 4% 6% 0;
+          font-size: 3.3vw;
         }
       }
     }
