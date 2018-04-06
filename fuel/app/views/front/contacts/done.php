@@ -95,14 +95,14 @@
               </div>
               <div>
                 <div>
-                  <label for="q_2">Q. 現在ご使用ガスの種類は？</label>
+                  <label for="q_2">Q. 現在ご使用ガスの種類は？<span>※</span></label>
                 </div>
                 <div class="select-arrow">
                   <i class="fa fa-caret-down" aria-hidden="true"></i>
                   <select name="q_2" id="q_2">
                     <option value="不明">不明</option>
-                    <option value="プロパンガス（敷地のガスボンベから供給される）">プロパンガス（敷地のガスボンベから供給される）</option>
-                    <option value="都市ガス（地下の配管から供給される）">都市ガス（地下の配管から供給される）</option>
+                    <option value="プロパンガス（敷地のガスボンベから供給される）">プロパンガス</option>
+                    <option value="都市ガス（地下の配管から供給される）">都市ガス</option>
                   </select>
                 </div>
               </div>
@@ -124,6 +124,7 @@
             </div>
             
             <div class="done-submit-btn"><span>上記内容で送信する</span><i class="fa fa-caret-right" aria-hidden="true"></i></div>
+            <p class="notice">※ プロパンガス（敷地のガスボンベから供給される）、都市ガス（地下の配管から供給される）</p>
           <?= Form::close(); ?>
         </div>
       </div>
