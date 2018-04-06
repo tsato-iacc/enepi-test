@@ -27,8 +27,8 @@
           <div class="a-td-cell"><?= $ac->address; ?></div>
         </div>
         <div class="announcement-td a-type a-two">
-          <div class="a-td-cell"><?= $ac->announcement_type ? '' : '◯'; ?></div>
           <div class="a-td-cell"><?= $ac->announcement_type ? '◯' : ''; ?></div>
+          <div class="a-td-cell"><?= $ac->announcement_type ? '' : '◯'; ?></div>
         </div>
         <div class="announcement-td a-date a-three">
           <div class="a-td-cell"><?= \Helper\TimezoneConverter::areUTCDatesEqual($ac->announcement_date, '2017-06-30 15:00:00') ? '◯' : ''; ?></div>
