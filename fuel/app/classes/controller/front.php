@@ -145,6 +145,8 @@ class Controller_Front extends Controller_Template
 
     private function matchScreenNotice()
     {
+        // !!!!!TEMPORARY DISABLED!!!!!
+        return;
         // Show user contact's modal on all pages if user has an offer or needs to enter a pincode
         // lpgas/contacts/:id?token=xxxx&pin=xxxx
         $notice = [];
