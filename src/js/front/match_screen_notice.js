@@ -21,6 +21,9 @@ if ($('.match-screen-notice-pc').length) {
 }
 
 if ($('.match-screen-notice-sp').length) { 
+  var notice = $('.match-screen-notice-sp');
+  var is_visible = true;
+
   var shake = function() {
     $('.match-screen-notice-sp .shake-rotate').addClass('shake-constant');
     
@@ -29,10 +32,11 @@ if ($('.match-screen-notice-sp').length) {
     }, 300);
   }
 
-  setInterval(shake, 5000);
+  setTimeout(function(){
+    notice.removeClass('notice-invisible');
+  }, 3000);
 
-  var notice = $('.match-screen-notice-sp');
-  var is_visible = true;
+  setInterval(shake, 5000);
 
   // Hide when achieve bottom
   $(window).scroll(function() {

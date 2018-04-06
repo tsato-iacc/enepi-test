@@ -10,14 +10,18 @@ $device-min-width: 501px;
   bottom: -124px;
   width: 260px;
   height: 160px;
-  display: flex;
+  display: none;
   flex-direction: column;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
-  transition: bottom .5s ease;
-  box-shadow: 1px 1px 3px rgba(0,0,0,.3);
-  transition: box-shadow 0.2s linear;
+  box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.3);
+  transition: all 1s linear;
   z-index: 10;
+  transform: translate(0, 0);
+
+  @media screen and (min-device-width: $device-min-width) {
+    display: flex;
+  }
 
   a:hover, a:focus {
     outline: none;
@@ -25,6 +29,8 @@ $device-min-width: 501px;
 
   &:hover {
     box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.3);
+    opacity: 0.7;
+    transition: opacity 0.2s linear;
   }
 
   > div {
@@ -41,15 +47,6 @@ $device-min-width: 501px;
     border-top-right-radius: 8px;
     background-color: #3dbfe7;
     position: relative;
-
-    @media screen and (min-device-width: $device-min-width) {
-      opacity: 0.5;
-      transition: opacity 0.2s linear;
-
-      &:hover {
-        opacity: 1;
-      }
-    }
   }
 
   .modal-close-btn {
@@ -143,44 +140,10 @@ $device-min-width: 501px;
       text-shadow: 0 2px 1px rgba(0,0,0,.3);
     }
   }
-
-  @media screen and (max-device-width: $device-max-width) {
-    width: 92%;
-    right: 4%;
-    left: 4%;
-    bottom: -128px;
-
-    .contract-header {
-      height: 34px;
-    }
-
-    .modal-close-btn {
-      font-size: 8vw;
-    }
-
-    .contract-body {
-      a, p {
-        font-size: 4.5vw;
-      }
-
-      .price {
-        font-size: 6.5vw;
-      }
-    }
-    
-    .contract-footer {
-      a {
-        width: 100%;
-        padding: 8px 0;
-        font-size: 4vw;
-        text-align: center;
-      }
-    }
-  }
 }
 
 .match-screen-notice-pc.match-screen-notice-show {
-  bottom: 0;
+  transform: translate(0, -124px);
   box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.3);
 
   .contract-header {
@@ -200,9 +163,15 @@ $device-min-width: 501px;
     opacity: 0;
     visibility: hidden;
   }
+
+  &:hover {
+    box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.3);
+    opacity: 1;
+  }
 }
 
 .match-screen-notice-sp {
+  display: none;
   position: fixed;
   bottom: 0;
   right: 0;
@@ -211,6 +180,10 @@ $device-min-width: 501px;
   z-index: 10;
   opacity: 1;
   transition: opacity 0.2s linear;
+
+  @media screen and (max-device-width: $device-max-width) {
+    display: block;
+  }
 
   a:hover, a:focus {
     outline: none;
