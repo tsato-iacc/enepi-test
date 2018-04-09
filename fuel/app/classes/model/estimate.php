@@ -231,9 +231,6 @@ class Model_Estimate extends \Orm\Model
 
             if ($this->save())
             {
-                $this->contact->status = \Config::get('models.contact.status.verbal_ok');
-                $this->contact->save();
-
                 \Helper\Notifier::notifyCustomerIntroduce($this);
                 \Helper\Notifier::notifyCompanyIntroduce($this);
                 \Helper\Notifier::notifyAdminIntroduce($this);
