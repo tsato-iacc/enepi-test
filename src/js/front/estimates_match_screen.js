@@ -34,6 +34,8 @@ if ($('.estimates-match-form').length) {
     }
 
     sending_form = true;
+
+    $(this).html('<span class="block">送信中...</span>')
     form.submit();
   });
 }
