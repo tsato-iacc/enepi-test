@@ -807,3 +807,20 @@
 </div>
 
 <?= render('front/contacts/estimate_presentation_tail', ['contact' => $contact], false); ?>
+
+<script>
+  var sending_form = false;
+
+  $('form').submit(function (evt) {
+      if (sending_form === true) {
+        return false;
+      }
+
+      sending_form = true;
+      
+      $('input[type=submit]').val('送信中...');
+
+      return true;
+  });
+  
+</script>
