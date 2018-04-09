@@ -334,7 +334,7 @@
         </div>
       </div>
       
-      <button class="match-submit-btn" type="submit" onclick="ga('send', 'event', 'matching', 'click', 'submit_btn', {'nonInteraction': 1});"><span class="block">チェックを入れた会社の</span><span class="block">詳細を希望する</span></button>
+      <div class="match-submit-btn" onclick="ga('send', 'event', 'matching', 'click', 'submit_btn', {'nonInteraction': 1});"><span class="block">チェックを入れた会社の</span><span class="block">詳細を希望する</span></div>
 
       <p class="comment"><span class="block">※詳細情報を希望すると、</span><span class="block">ガス会社からプランについてご連絡が入ります。</span></p>
       <p class="comment"><span class="block">※お客様専用に開示する情報も含まれますので、</span><span class="block">内容やURLの第三者への提供・転送は禁止とさせていただきます。</span></p>

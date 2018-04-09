@@ -5,15 +5,22 @@ if ($('.contact-done').length) {
   var submut_btn = form.find('.done-submit-btn');
 
   submut_btn.on('click', function() {
+
+    if (sending_form === true) {
+      return;
+    }
+
+    sending_form = true;
+
     var q_1 = form.find('select[name=q_1]').val();
     var q_2 = form.find('select[name=q_2]').val();
     var q_3 = form.find('select[name=q_3]').val();
 
-    
     var conversion_id = form.find('input[name=conversion_id]').val();
     // var fuel_csrf_token = form.find('input[name=fuel_csrf_token]').val();
     
     submut_btn.find('span').text('送信中...');
+    cacv('ヒアリング', {ch:'63912289'});
 
     $.ajax({
       url: '/front/api/v1/contact/done_form',
@@ -34,10 +41,12 @@ if ($('.contact-done').length) {
           console.log(data.errors);
         }
         submut_btn.find('span').text('上記内容で送信する');
+        sending_form = false;
       },
       error: function() {
         alert('An error has occurred!');
         submut_btn.find('span').text('上記内容で送信する');
+        sending_form = false;
       }
     });
   });

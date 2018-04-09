@@ -408,8 +408,9 @@ class Controller_Front_Contacts extends Controller_Front
 
             $this->template = \View::forge('front/template_match_screen');
 
-            $estimates = $contact->get('estimates', [
+            $estimates = \Model_Estimate::find('all', [
                 'where' => [
+                    ['contact_id', $contact->id],
                     ['status', 'in', [
                         \Config::get('models.estimate.status.sent_estimate_to_user'),
                         \Config::get('models.estimate.status.verbal_ok'),
@@ -627,8 +628,9 @@ class Controller_Front_Contacts extends Controller_Front
 
         if ($estimates = \Input::post('estimates', []))
         {
-            $not_introduce = $contact->get('estimates', [
+            $not_introduce = \Model_Estimate::find('all', [
                 'where' => [
+                    ['contact_id', $contact_id],
                     ['status', \Config::get('models.estimate.status.sent_estimate_to_user')],
                 ]
             ]);

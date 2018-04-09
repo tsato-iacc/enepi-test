@@ -1,5 +1,9 @@
 if ($('.estimates-match-form').length) {
+  var sending_form = false;
   var table = $('.match-table-sp');
+
+  var form = $('.estimates-match-form form');
+  var submut_btn = form.find('.match-submit-btn');
 
   table.find('.table-tabs > div').on('click', function() {
     if ($(this).hasClass('active'))
@@ -22,5 +26,14 @@ if ($('.estimates-match-form').length) {
 
     table.find(slide).addClass('active');
     table.find(tab).addClass('active');
+  });
+
+  submut_btn.on('click', function() {
+    if (sending_form === true) {
+      return;
+    }
+
+    sending_form = true;
+    form.submit();
   });
 }
