@@ -626,11 +626,12 @@ class Controller_Front_Contacts extends Controller_Front
             throw new HttpNotFoundException();
         }
 
+        $updated = false;
+
         if ($estimates = \Input::post('estimates', []))
         {
-            $not_introduce = \Model_Estimate::find('all', [
+            $not_introduce = $contact->get('estimates', [
                 'where' => [
-                    ['contact_id', $contact_id],
                     ['status', \Config::get('models.estimate.status.sent_estimate_to_user')],
                 ]
             ]);
@@ -639,8 +640,17 @@ class Controller_Front_Contacts extends Controller_Front
             {
                 if (in_array($estimate->id, $estimates))
                 {
+                    $updated = true;
                     $estimate->introduce(null, null, $contact_id);
                 }
+            }
+        }
+
+        if ($updated)
+        {
+            if ($contact->status == \Config::get('models.contact.status.sent_estimate_req'))
+            {
+                $contact->status = \Config::get('models.contact.status.verbal_ok');
             }
         }
 
@@ -659,7 +669,7 @@ class Controller_Front_Contacts extends Controller_Front
             $contact->desired_option = $desired_option;
         }
 
-        if ($preferred_time !== null || $priority_degree !== null || $desired_option !== null)
+        if ($updated || $preferred_time !== null || $priority_degree !== null || $desired_option !== null)
         {
             $contact->save();
         }
