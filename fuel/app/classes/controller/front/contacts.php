@@ -630,8 +630,9 @@ class Controller_Front_Contacts extends Controller_Front
 
         if ($estimates = \Input::post('estimates', []))
         {
-            $not_introduce = $contact->get('estimates', [
+            $not_introduce = \Model_Estimate::find('all', [
                 'where' => [
+                    ['contact_id', $contact_id],
                     ['status', \Config::get('models.estimate.status.sent_estimate_to_user')],
                 ]
             ]);
