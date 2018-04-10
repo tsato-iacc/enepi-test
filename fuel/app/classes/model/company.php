@@ -158,6 +158,9 @@ class Model_Company extends \Orm\Model
         {
             foreach ($this->ng as $ng)
             {
+                if (!$ng->pattern)
+                    continue;
+                
                 if (mb_strpos($company_name, trim($ng->pattern)) !== false)
                 {
                     return true;                    
