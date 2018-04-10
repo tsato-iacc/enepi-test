@@ -19,7 +19,7 @@
     </tr>
   </thead>
   <tbody>
-    <?php foreach ($company->ng as $ng): ?>
+    <?php foreach ($ngs as $ng): ?>
       <tr>
         <td><?= $ng->id ?></td>
         <td><?= $ng->pattern ?></td>
@@ -28,3 +28,5 @@
     <?php endforeach; ?>
   </tbody>
 </table>
+
+<?= \Pagination::instance('ngs')->render(); ?>
