@@ -225,18 +225,20 @@
             </ul>
 
             <p>
-              <?= Form::open(['action' => '/lpgas/contacts/'.$contact->id.'/estimates/ok_tentatively']); ?>
+              <?= Form::open(['action' => "lpgas/contacts/{$contact->id}/introduce"]); ?>
               <?= \Form::csrf(); ?>
-                <input type='hidden' name='estimate_ids' value=<?= $estimate->uuid ?> />
+                <input type="hidden" name="token" value="<?= $contact->token; ?>">
+                <input type="hidden" name="pin" value="<?= $contact->pin; ?>">
+                <input type='hidden' name='estimates[]' value="<?= $estimate->id; ?>">
                 <?if($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_user')){ ?>
                   <div class="text-center estimate_btn_area">
                     <div class="hidden_pc">
                       <?= MyView::submit_tag('commit',
                         [
-                          'value' => 'この会社からの連絡を希望する',
-                          'class' => 'btn btn-primary',
-                          'rel' => 'nofollow',
-                          'data-method' => 'post',
+                          'value' => 'この会社からの詳細を希望する', 
+                          'class' => 'btn btn-primary', 
+                          'rel' => 'nofollow', 
+                          'data-method' => 'post', 
                           'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn', {'nonInteraction': 1});"
                         ]); ?>
                     </div>
@@ -244,10 +246,10 @@
 
                       <?= MyView::submit_tag('commit',
                         [
-                          'value' => 'この会社からの連絡を希望する',
-                          'class' => 'btn btn-primary',
-                          'rel' => 'nofollow',
-                          'data-method' => 'post',
+                          'value' => 'この会社からの詳細を希望する',
+                          'class' => 'btn btn-primary', 
+                          'rel' => 'nofollow', 
+                          'data-method' => 'post', 
                           'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_sp', {'nonInteraction': 1});"
                         ]); ?>
                     </div>
@@ -349,29 +351,31 @@
                   </div>
                 </div>
                 <? } ?>
-
-                <?= Form::open(['action' => '/lpgas/contacts/'.$contact->id.'/estimates/ok_tentatively']); ?>
+    
+                <?= Form::open(['action' => "lpgas/contacts/{$contact->id}/introduce"]); ?>
                 <?= \Form::csrf(); ?>
-                  <input type='hidden' name='estimate_ids' value=<?= $estimate->uuid ?> />
+                  <input type="hidden" name="token" value="<?= $contact->token; ?>">
+                  <input type="hidden" name="pin" value="<?= $contact->pin; ?>">
+                  <input type='hidden' name='estimates[]' value="<?= $estimate->id; ?>">
                   <?if($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_user')){ ?>
                     <div class="text-center estimate_btn_area">
                       <div class="hidden_pc">
                       <?= MyView::submit_tag('commit',
                         [
-                          'value' => 'この会社からの連絡を希望する',
-                            'class' => 'btn btn-primary',
-                            'rel' => 'nofollow',
-                            'data-method' => 'post',
+                          'value' => 'この会社からの詳細を希望する', 
+                            'class' => 'btn btn-primary', 
+                            'rel' => 'nofollow', 
+                            'data-method' => 'post', 
                             'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_sp', {'nonInteraction': 1});"
                         ]); ?>
                       </div>
                       <div class="hidden_sp">
                       <?= MyView::submit_tag('commit',
                         [
-                          'value' => 'この会社からの連絡を希望する',
-                            'class' => 'btn btn-primary',
-                            'rel' => 'nofollow',
-                            'data-method' => 'post',
+                          'value' => 'この会社からの詳細を希望する', 
+                            'class' => 'btn btn-primary', 
+                            'rel' => 'nofollow', 
+                            'data-method' => 'post', 
                             'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_sp', {'nonInteraction': 1});"
                         ]); ?>
                       </div>
@@ -471,28 +475,30 @@
                   </tbody>
                 </table>
               </div>
-              <?= Form::open(['action' => '/lpgas/contacts/'.$contact->id.'/estimates/ok_tentatively']); ?>
+              <?= Form::open(['action' => "lpgas/contacts/{$contact->id}/introduce"]); ?>
               <?= \Form::csrf(); ?>
-                <input type='hidden' name='estimate_ids' value=<?= $estimate->uuid ?> />
+                <input type="hidden" name="token" value="<?= $contact->token; ?>">
+                <input type="hidden" name="pin" value="<?= $contact->pin; ?>">
+                <input type='hidden' name='estimates[]' value="<?= $estimate->id; ?>">
                 <?if($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_user')){ ?>
                   <div class="text-center estimate_btn_area">
                     <div class="hidden_pc">
                       <?= MyView::submit_tag('commit',
                         [
-                          'value' => 'この会社からの連絡を希望する',
-                          'class' => 'btn btn-primary',
-                          'rel' => 'nofollow',
-                          'data-method' => 'post',
+                          'value' => 'この会社からの詳細を希望する', 
+                          'class' => 'btn btn-primary', 
+                          'rel' => 'nofollow', 
+                          'data-method' => 'post', 
                           'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_bottom', {'nonInteraction': 1});"
                         ]); ?>
                     </div>
                     <div class="hidden_sp">
                       <?= MyView::submit_tag('commit',
                         [
-                          'value' => 'この会社からの連絡を希望する',
-                          'class' => 'btn btn-primary',
-                          'rel' => 'nofollow',
-                          'data-method' => 'post',
+                          'value' => 'この会社からの詳細を希望する', 
+                          'class' => 'btn btn-primary', 
+                          'rel' => 'nofollow', 
+                          'data-method' => 'post', 
                           'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_bottom_sp', {'nonInteraction': 1});"
                         ]); ?>
                     </div>
@@ -508,27 +514,29 @@
         <?= render("shared/estimate_flow") ?>
 
         <div class="text-center" style="width: 80%; margin: auto;">
-          <?= Form::open(['action' => '/lpgas/contacts/'.$contact->id.'/estimates/ok_tentatively']); ?>
+          <?= Form::open(['action' => "lpgas/contacts/{$contact->id}/introduce"]); ?>
           <?= \Form::csrf(); ?>
-            <input type='hidden' name='estimate_ids' value=<?= $estimate->uuid ?> />
+            <input type="hidden" name="token" value="<?= $contact->token; ?>">
+            <input type="hidden" name="pin" value="<?= $contact->pin; ?>">
+            <input type='hidden' name='estimates[]' value="<?= $estimate->id; ?>">
             <?if($estimate->status == \Config::get('models.estimate.status.sent_estimate_to_user')){ ?>
               <div class="hidden_pc">
                 <?= MyView::submit_tag('commit',
                   [
-                    'value' => 'この会社からの連絡を希望する',
-                    'class' => 'btn btn-primary',
-                    'rel' => 'nofollow',
-                    'data-method' => 'post',
+                    'value' => 'この会社からの詳細を希望する', 
+                    'class' => 'btn btn-primary', 
+                    'rel' => 'nofollow', 
+                    'data-method' => 'post', 
                     'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_foot', {'nonInteraction': 1});"
                   ]); ?>
               </div>
               <div class="hidden_sp">
                 <?= MyView::submit_tag('commit',
                   [
-                    'value' => 'この会社からの連絡を希望する',
-                    'class' => 'btn btn-primary',
-                    'rel' => 'nofollow',
-                    'data-method' => 'post',
+                    'value' => 'この会社からの詳細を希望する', 
+                    'class' => 'btn btn-primary', 
+                    'rel' => 'nofollow', 
+                    'data-method' => 'post', 
                     'onclick' => "ga('send', 'event', 'matching_company_detail', 'click', 'submit_btn_foot_sp', {'nonInteraction': 1});"
                   ]); ?>
               </div>

@@ -68,6 +68,12 @@
     <?= render('front/footer'); ?>
   <?php endif; ?>
 
+  <?php if (isset($match_screen_notice)): ?>
+    <!-- MATCH SCREEN NOTICE START -->
+    <?= render('shared/match_screen_notice'); ?>
+    <!-- MATCH SCREEN NOTICE END -->
+  <?php endif; ?>
+
   <?= Asset::js('front.min.js'); ?>
   <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
 

@@ -92,9 +92,9 @@
                   </div>
                   <div>
                     <div class="text-center">
-                      <?= Form::open(['action' => \Uri::create('/lpgas/contacts/'.$contact->id), 'accept-charset' => 'UTF-8', 'method' => 'GET']); ?>
-                        <input name="utf8" value="&#x2713;" type="hidden" id="form_utf8" />
-                        <input type="hidden" name="token" value=<?= $contact->token; ?>>
+                      <?= Form::open(['action' => \Uri::create('/lpgas/contacts/'.$contact->id), 'method' => 'GET']); ?>
+                        <input type="hidden" name="conversion_id" value="<?= 'LPGAS-'.$contact->id; ?>">
+                        <input type="hidden" name="token" value="<?= $contact->token; ?>">
 
                         <div class="form-group" style="margin-top: 1.5em">
                           <label>認証コード(4桁)</label>
@@ -247,7 +247,7 @@
 
 
 
-    <?= render('front/lpgasContacts/sms_confirm_tail', ['contact' => $contact], false); ?>
+    <?= render('front/contacts/sms_confirm_tail', ['contact' => $contact], false); ?>
 
     <!-- SEND SMS START -->
     <script>

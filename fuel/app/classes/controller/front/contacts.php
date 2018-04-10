@@ -25,7 +25,7 @@ use Cms\Exceptions\ClientException;
  * @package  app
  * @extends  Controller_Front
  */
-class Controller_Front_LpgasContacts extends Controller_Front
+class Controller_Front_Contacts extends Controller_Front
 {
     private $no_breadcrumb = true;
     private $no_drawer_menu = true;
@@ -42,7 +42,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
         {
             $this->template = \View::forge('front/template_old');
             $this->template->title = 'お見積もり情報入力';
-            $this->template->content = View::forge('front/lpgasContacts/old', [
+            $this->template->content = View::forge('front/contacts/old', [
                 'val' => \Model_Contact::validate('old_form'),
                 'contact' => new \Model_Contact(),
                 'apartment_form' => \Input::get('apartment_form') ? true : false,
@@ -67,7 +67,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
             $this->template = \View::forge('front/template');
             $this->template->title = 'プロパンガス(LPガス)料金を今より安く！無料比較サービス';
-            $this->template->content = View::forge('front/lpgasContacts/index', [
+            $this->template->content = View::forge('front/contacts/index', [
                 'contact' => $contact,
                 'month_selected' => $contact->gas_meter_checked_month ? \Config::get('enepi.simulation.month.key_numeric.'.$contact->gas_meter_checked_month) : '',
                 'slots' => \Model_Slot::getSlots(),
@@ -154,6 +154,9 @@ class Controller_Front_LpgasContacts extends Controller_Front
                 $contact->save();
                 \DB::commit_transaction();
 
+                $notice_param = \Crypt::encode(\Format::forge(['id' => $contact->id, 'token' => $contact->token, 'pin' => $contact->pin])->to_json());
+                \Cookie::set('notice_param', $notice_param, 60 * 60 * 24 * 90);
+
                 $query = [
                     'conversion_id' => "LPGAS-{$contact->id}",
                 ];
@@ -193,7 +196,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
         {
             $this->template = \View::forge('front/template_old');
 
-            $view = \View::forge('front/lpgasContacts/old', [
+            $view = \View::forge('front/contacts/old', [
                 'contact' => $contact,
                 'val' => $val,
                 'apartment_form' => \Input::post('apartment_form') ? true : false,
@@ -201,7 +204,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
         }
         else
         {
-            $view = \View::forge('front/lpgasContacts/index', [
+            $view = \View::forge('front/contacts/index', [
                 'contact' => $contact,
                 'val' => $val,
                 'month_selected' => '',
@@ -210,9 +213,9 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         $this->template->title = 'お見積もり情報入力';
         $this->template->meta = $meta;
-        $this->template->header = View::forge('front/lpgasContacts/lpgas_contacts_header');
+        $this->template->header = View::forge('front/contacts/lpgas_contacts_header');
         $this->template->content = $view;
-        $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
+        $this->template->footer = View::forge('front/contacts/lpgas_contacts_footer');
         $this->template->css_call = 'done';
     }
 
@@ -258,7 +261,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         $this->template = \View::forge('front/template_old');
         $this->template->title = 'お見積もり情報入力';
-        $this->template->content = View::forge('front/lpgasContacts/old', [
+        $this->template->content = View::forge('front/contacts/old', [
             'val' => \Model_Contact::validate('old_form'),
             'contact' => $contact,
             'apartment_form' => \Input::get('apartment_form') ? true : false,
@@ -273,7 +276,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
      */
     public function get_done()
     {
-        $this->template = \View::forge('front/template_contact');
+        $this->template = \View::forge('front/template_match_screen');
 
         $contact_id = str_replace('LPGAS-', '', \Input::get('conversion_id'));
 
@@ -287,18 +290,15 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         // var_dump($contact->tracking->conversion_tag);exit;
 
-        Tracking::unsetTracking();
 
-        $meta = [];
-
+        $this->template->contact = $contact;
         $this->template->title = 'エネピ -  お見積もりの問い合わせ完了';
-        $this->template->meta = $meta;
-        $this->template->header = View::forge('front/lpgasContacts/done_header');
-        $this->template->content = View::forge('front/lpgasContacts/done', [
+        
+        $this->template->content = View::forge('front/contacts/done', [
             'contact' => $contact,
-        ], false);
+        ]);
+
         $this->template->content->set_global('cv_point', \Config::get('models.tracking.cv_point.estimate'));
-        $this->template->css_call = 'done';
     }
 
     /**
@@ -310,22 +310,26 @@ class Controller_Front_LpgasContacts extends Controller_Front
     public function get_sms_confirm($contact_id)
     {
         $contact = \Model_Contact::find($contact_id);
-        if (!$contact)
+        $token = \Input::get('token');
+        $pin = \Input::get('pin');
+
+        if (!$contact || !$token || $token != $contact->token)
         {
-            \Log::warning("conversion id {$contact_id} not found");
+            \Log::warning('Invalit input on front/get_sms_confirm');
             throw new HttpNotFoundException();
         }
 
-
-
-        $meta = [];
-
-
-
-        // SMS認証画面
-        if(\Input::get('token') == $contact->token && !\Input::get('pin'))
+        // SMS認証画面で入力した値が間違っていた場合SMS認証画面に戻る
+        if ($pin && $pin != $contact->pin)
         {
+            \Log::warning('Wrong pin');
+            return \Response::redirect("lpgas/contacts/{$contact->id}?".http_build_query(['conversion_id' => 'LPGAS-'.$contact->id, 'token' => $token]));
+        }
 
+        // WTF?
+        // SMS認証画面
+        if(!$pin)
+        {
             $this->template = \View::forge('front/template_contact');
 
 
@@ -370,7 +374,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
             else
             {
-                $re_cv_params_query = '';
+                $re_cv_params_query = '認証画面';
                 foreach($re_cv_params as $key => $value)
                 {
                     $re_cv_params_query = $re_cv_params_query.$key.'='.$value.'&';
@@ -381,22 +385,19 @@ class Controller_Front_LpgasContacts extends Controller_Front
             Tracking::unsetTracking();
 
             $this->template->title = 'エネピ';
-            $this->template->meta = $meta;
-            $this->template->header = View::forge('front/lpgasContacts/lpgas_contacts_header');
-            $this->template->content = View::forge('front/lpgasContacts/sms_confirm', [
+            $this->template->header = View::forge('front/contacts/lpgas_contacts_header');
+            $this->template->content = View::forge('front/contacts/sms_confirm', [
                 'contact' => $contact,
                 'pin' => $pin,
                 're_cv_url' => $re_cv_url,
             ], false);
             $this->template->content->set_global('cv_point', \Config::get('models.tracking.cv_point.estimate'));
-            $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
+            $this->template->footer = View::forge('front/contacts/lpgas_contacts_footer');
             $this->template->css_call = 'presentation';
-
         }
         // お客様マイページ
-        elseif(\Input::get('token') && \Input::get('token') == $contact->token && \Input::get('pin'))
+        else
         {
-
             // SMS認証画面で入力した値が間違っていた場合SMS認証画面に戻る
             if (\Input::get('pin') != $contact->pin)
             {
@@ -404,41 +405,27 @@ class Controller_Front_LpgasContacts extends Controller_Front
                     'conversion_id' => 'LPGAS-'.$contact->id,
                     'token' => $contact->token,
                 ];
-
                 return \Response::redirect("lpgas/contacts/{$contact->id}?".http_build_query($query));
             }
-
-
-
             $this->template = \View::forge('front/template_contact');
-
-
-
             $contact = \Model_Contact::find($contact_id);
-
             if (!$contact)
             {
                 \Log::warning("conversion id {$contact_id} not found");
                 throw new HttpNotFoundException();
             }
-
             // Don't update if logded in as Admin
             if (!Eauth::check('admin'))
             {
                 $contact->is_seen = \Config::get('models.contact.is_seen.seen');
                 $contact->save();
             }
-
-
             $est_count_sent_estimate_to_user = count(Model_Estimate::find('all', [
                 'where' => [
                     ['contact_id', $contact->id],
                     ['status', \Config::get('models.estimate.status.sent_estimate_to_user')],
                 ]
             ]));
-
-
-
             $est = Model_Estimate::find('all', [
                 'where' => [
                     ['contact_id', $contact->id],
@@ -451,35 +438,22 @@ class Controller_Front_LpgasContacts extends Controller_Front
                     ],
                 ]
             ]);
-
             $est_count = count($est);
-
-
-
             $prefecture_data = \Model_Localcontent_Prefecture::find($contact->getPrefectureCode());
             if (!$prefecture_data)
             {
                 \Log::warning("prefecture_code {$contact->getPrefectureCode()} not found");
                 throw new HttpNotFoundException();
             }
-
-
-
             $meta = [];
-
-
-
             $header_decision = 'other';
             $prefecture_KanjiAndCode   = JpPrefecture::allKanjiAndCode();
             $prefecture_kanji          = $this->prefecture_kanji(  $prefecture_KanjiAndCode,
                 $contact->getPrefectureCode());
-
-
-
             $this->template->title = 'エネピ';
             $this->template->meta = $meta;
-            $this->template->header = View::forge('front/lpgasContacts/lpgas_contacts_header');
-            $this->template->content = View::forge('front/lpgasContacts/estimate_presentation', [
+            $this->template->header = View::forge('front/contacts/lpgas_contacts_header');
+            $this->template->content = View::forge('front/contacts/estimate_presentation', [
                 'contact' => $contact,
                 'prefecture_kanji' => $prefecture_kanji,
                 'prefecture_data' => $prefecture_data,
@@ -496,32 +470,67 @@ class Controller_Front_LpgasContacts extends Controller_Front
             {
                 $this->template->content->set_global('cv_point', \Config::get('models.tracking.cv_point.verbal_ok'));
             }
-            $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
+            $this->template->footer = View::forge('front/contacts/lpgas_contacts_footer');
             $this->template->css_call = 'presentation';
-        }
-        else
-        {
-            \Log::warning("conversion_id {$contact->id} or token {$contact->token} is different");
-            throw new HttpNotFoundException();
+
+
+
+            // !!!!!!!! TEMPORARY DISABLED !!!!!!!!!
+            /*
+            // Don't update if logged in as Admin
+            if (!Eauth::check('admin'))
+            {
+                $contact->is_seen = \Config::get('models.contact.is_seen.seen');
+                $contact->save();
+            }
+
+            $this->template = \View::forge('front/template_match_screen');
+
+            $estimates = $contact->get('estimates', [
+                'where' => [
+                    ['status', 'in', [
+                        \Config::get('models.estimate.status.sent_estimate_to_user'),
+                        \Config::get('models.estimate.status.verbal_ok'),
+                        \Config::get('models.estimate.status.contracted'),
+                    ]],
+                ],
+            ]);
+
+            $this->template->title = 'あなたの条件にマッチしたガス会社';
+            $this->template->contact = $contact;
+
+            $this->template->content = View::forge('front/contacts/estimates_match', [
+                'contact' => $contact,
+                'estimates' => $estimates,
+            ]);
+
+            // WTF?
+            if($contact->status == \Config::get('models.contact.status.sent_estimate_req'))
+            {
+                $this->template->content->set_global('cv_point', \Config::get('models.tracking.cv_point.estimate'));
+            }
+            elseif($contact->status == \Config::get('models.contact.status.verbal_ok'))
+            {
+                $this->template->content->set_global('cv_point', \Config::get('models.tracking.cv_point.verbal_ok'));
+            }
+            */
         }
     }
 
+    // WTF?
     public function get_details($contact_id, $uuid)
     {
-
-        $this->template = \View::forge('front/template_contact');
-
-
-
         $contact = \Model_Contact::find($contact_id);
+        $token = \Input::get('token');
+        $pin = \Input::get('pin');
 
-        if (!$contact)
+        if (!$contact || !$token || !$pin || $contact->token != $token || $contact->pin != $pin)
         {
-            \Log::warning("conversion id {$contact_id} not found");
+            \Log::warning('Invalid params on front/get_details');
             throw new HttpNotFoundException();
         }
 
-
+        $this->template = \View::forge('front/template_contact');
 
         $estimate = \Model_Estimate::find('first',[
             'where' => [
@@ -535,12 +544,10 @@ class Controller_Front_LpgasContacts extends Controller_Front
             throw new HttpNotFoundException();
         }
 
-        if($estimate->isExpired())
+        if ($estimate->isExpired())
         {
             Session::set_flash('alert', 'この見積もりの有効期限は切れています');
         }
-
-
 
         $feature_all = \Model_Company_Feature::find('all');
 
@@ -661,20 +668,14 @@ class Controller_Front_LpgasContacts extends Controller_Front
             }
         }
 
-
-
-        $meta = [];
-
-
         $header_decision = 'other';
         $prefecture_KanjiAndCode = JpPrefecture::allKanjiAndCode();
         $prefecture_kanji = $this->prefecture_kanji($prefecture_KanjiAndCode, $contact->getPrefectureCode());
 
 
-        $this->template->title = 'エネピ';
-        $this->template->meta = $meta;
-        $this->template->header = View::forge('front/lpgasContacts/lpgas_contacts_header');
-        $this->template->content = View::forge('front/lpgasContacts/details', [
+        $this->template->title = 'あなたの条件にマッチしたガス会社の詳細ページ';
+        $this->template->header = View::forge('front/contacts/lpgas_contacts_header');
+        $this->template->content = View::forge('front/contacts/details', [
             'contact' => $contact,
             'prefecture_kanji' => $prefecture_kanji,
             'company' => $company,
@@ -682,77 +683,78 @@ class Controller_Front_LpgasContacts extends Controller_Front
             'feature_all' => $feature_all,
             'google_chart_json_data' => $google_chart_json_data,
         ]);
-        $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
+        $this->template->footer = View::forge('front/contacts/lpgas_contacts_footer');
         $this->template->css_call = 'details';
 
     }
 
-
-
     public function post_introduce($contact_id)
     {
-
-
         $contact = \Model_Contact::find($contact_id);
+        $token = \Input::post('token');
+        $pin = \Input::post('pin');
 
-        if (!$contact)
-        {
-            \Log::warning("conversion id {$contact_id} not found");
-            throw new HttpNotFoundException();
-        }
-
-
-
-        $meta = [
-            ['name' => 'description', 'content' => 'OOooOOppp'],
-            ['name' => 'keywords', 'content' => 'KKkkkKKkkk'],
-            ['name' => 'puka', 'content' => 'suka'],
-        ];
-
-
-
-        $this->template = \View::forge('front/template_contact');
-
-
-        $select_estimate = \Input::post('estimate_ids', []);
-
-
-        if(is_array($select_estimate))
-        {
-            foreach($select_estimate as $key => $value)
-            {
-                $e = Model_Estimate::find('first', ['where' => [['uuid', $value]]]);
-                $e->introduce(null, null, $contact_id);
-            }
-        }
-        else
-        {
-            $e = Model_Estimate::find('first', ['where' => [['uuid', $select_estimate]]]);
-            $e->introduce(null, null, $contact_id);
-        }
-
-
-
-        $preferred_contact_time_between = \Input::post('preferred_contact_time_between', null);
+        $preferred_time = \Input::post('preferred_time', null);
         $priority_degree = \Input::post('priority_degree', null);
         $desired_option = \Input::post('desired_option', null);
 
-        if(!is_null($preferred_contact_time_between) || !is_null($priority_degree) || !is_null($desired_option))
+        if (!$contact || !$token || !$pin || $contact->token != $token || $contact->pin != $pin)
         {
-            $contact->contactDesired($preferred_contact_time_between, $priority_degree, $desired_option);
+            \Log::warning('Invalid input on front/post_introduce');
+            throw new HttpNotFoundException();
         }
 
+        $updated = false;
 
-        $query = [
-            'conversion_id' => 'LPGAS-'.$contact->id,
-            'pin' => $contact->pin,
-            'token' => $contact->token,
-        ];
+        if ($estimates = \Input::post('estimates', []))
+        {
+            $not_introduce = \Model_Estimate::find('all', [
+                'where' => [
+                    ['contact_id', $contact_id],
+                    ['status', \Config::get('models.estimate.status.sent_estimate_to_user')],
+                ]
+            ]);
 
-        return \Response::redirect("lpgas/contacts/{$contact->id}?".http_build_query($query));
+            foreach ($not_introduce as $estimate)
+            {
+                if (in_array($estimate->id, $estimates))
+                {
+                    $updated = true;
+                    $estimate->introduce(null, null, $contact_id);
+                }
+            }
+        }
+
+        if ($updated)
+        {
+            if ($contact->status == \Config::get('models.contact.status.sent_estimate_req'))
+            {
+                $contact->status = \Config::get('models.contact.status.verbal_ok');
+            }
+        }
+
+        if ($preferred_time !== null)
+        {
+            $contact->preferred_contact_time_between = $preferred_time;
+        }
+
+        if ($priority_degree !== null)
+        {
+            $contact->priority_degree = $priority_degree;
+        }
+
+        if ($desired_option !== null)
+        {
+            $contact->desired_option = $desired_option;
+        }
+
+        if ($updated || $preferred_time !== null || $priority_degree !== null || $desired_option !== null)
+        {
+            $contact->save();
+        }
+
+        return \Response::redirect("lpgas/contacts/{$contact_id}?".http_build_query(['conversion_id' => 'LPGAS-'.$contact->id, 'pin' => $pin, 'token' => $token]));
     }
-
-
 
     private function calculateGasUsage(&$contact)
     {
@@ -793,7 +795,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
         }
     }
 
-
+    // WTF? Does it use?
     public function post_index()
     {
 
@@ -808,11 +810,11 @@ class Controller_Front_LpgasContacts extends Controller_Front
 
         $this->template->title = 'プロパンガス料金シミュレーション 結果';
         $this->template->meta = $meta;
-        $this->template->header = View::forge('front/lpgasContacts/lpgas_contacts_header');
-        $this->template->content = View::forge('front/lpgasContacts/old', [
+        $this->template->header = View::forge('front/contacts/lpgas_contacts_header');
+        $this->template->content = View::forge('front/contacts/old', [
             'breadcrumb' => $breadcrumb,
         ]);
-        $this->template->footer = View::forge('front/lpgasContacts/lpgas_contacts_footer');
+        $this->template->footer = View::forge('front/contacts/lpgas_contacts_footer');
         $this->template->css_call = 'done';
 
     }
@@ -828,6 +830,7 @@ class Controller_Front_LpgasContacts extends Controller_Front
         return $prefecture_kanji;
     }
 
+    // WTF? OMG! Rails comming here!
     private function lpgas_contact_path($re_cv_params, $contact){
 
         $lpgas_contact_path = '';
@@ -848,59 +851,22 @@ class Controller_Front_LpgasContacts extends Controller_Front
                         }
                     }
                     else
-                 {
+                    {
                         // @lpgas_contact = ::Lpgas::Contact.new
                         // @lpgas_contact.from_kakaku = from_kakaku?
                         // @lpgas_contact.from_enechange = from_enechange?
                     }
-                    // if params[:estimate_kind].present?
-                    //   begin
-                    //     @lpgas_contact.estimate_kind = params[:estimate_kind]
-                    //   rescue ArgumentError
-                    //     # クエリパラメータ estimate_kind に不正な値が入ってくることはあり(URLコピペミス等)、
-                    //     # かつ、重要なものでもないので無視
-                    //   end
-                    // end
-                    // if params[:zip_code].present?
-                    //   if @lpgas_contact.new_contract?
-                    //     @lpgas_contact.new_zip_code = params[:zip_code]
-                    //   else
-                    //     @lpgas_contact.zip_code = params[:zip_code]
-                    //   end
-                    // end
-                    // if params[:prefecture_code].present?
-                    //   if @lpgas_contact.new_contract?
-                    //     @lpgas_contact.new_prefecture_code = params[:prefecture_code]
-                    //   else
-                    //     @lpgas_contact.prefecture_code = params[:prefecture_code]
-                    //   end
-                    // end
-
-                    // if from_kakaku?
-                    //   @form_url = '/kakaku/lpgas/contacts'
-                    //   return render :kakaku
-                    // end
 
                     $lpgas_contact_path = 'new';
                 }
                 // ●/app/controllers/front/lpgas/contacts_controller.rbのdoneメソッド
                 elseif($segments == 'done')
                 {
-                    // # FOR OLD FORM
-                    // if params[:enepi_security_key].present?
-                    //   @contact = ::Lpgas::Contact.find(params[CONVERSION_PARAM].gsub(/^LPGAS-/, ""))
-                    //   unset_pr_tracking_parameter
-                    //   render 'done_old'
-                    // else
-                    //   @contact = ::Lpgas::Contact.find(params[CONVERSION_PARAM].gsub(/^LPGAS-/, ""))
-                    //   unset_pr_tracking_parameter
-                    // end
                     $lpgas_contact_path = 'done';
                 }
                 // ●/app/controllers/front/lpgas/contacts_controller.rbのindexメソッド
                 else
-              {
-                    // raise ActionController::RoutingError, "No route matches #{request.path.inspect}"
+                {
                   $lpgas_contact_path = 'index';
                 }
             }
@@ -908,137 +874,6 @@ class Controller_Front_LpgasContacts extends Controller_Front
         // ●/app/controllers/front/lpgas/contacts_controller.rbのcreateメソッド
         elseif(\Input::method() == 'POST')
         {
-            // # FOR OLD FORM
-            // if params[:enepi_security_key].present?
-            //   @lpgas_contact = ::Lpgas::Contact.new(param_lpgas_contact)
-            //   @lpgas_contact.from_kakaku = from_kakaku?
-            //   @lpgas_contact.from_enechange = from_enechange?
-            //   @lpgas_contact.apartment_owner = @apartment_form # 集合住宅向けのフォームから
-            //   @lpgas_contact.terminal = terminal_type_name
-            //   @lpgas_contact.pr_tracking_parameter_id = pr_tracking_parameter.try!(:id)
-
-            //   if params[:contact_id].present?
-            //     original = ::Lpgas::Contact.find(params[:contact_id])
-            //     if original.token == params[:token]
-            //       @lpgas_contact.original_contact_id = original.id
-            //     end
-            //   end
-            //   return render :nothing => true, :status => 400 unless @lpgas_contact.valid?
-            //   return render_preview if params[:previewed].blank? && from_kakaku?
-
-            //   ::Lpgas::Contact.transaction {
-            //     @lpgas_contact.save!
-            //     @lpgas_contact.try_auto_sending_estimates!
-            //   }
-
-            //   unless @lpgas_contact.sent_auto_estimate_req
-            //     reasons = @lpgas_contact.reasons_not_auto_sendable.join(",")
-            //     @lpgas_contact.update(reason_not_auto_sendable: reasons)
-            //   end
-
-            //   _params = {CONVERSION_PARAM => "LPGAS-#{@lpgas_contact.id}", enepi_security_key: 1}
-            //   if from_kakaku?
-            //     redirect_to done_kakaku_lpgas_contacts_path(_params)
-            //   elsif @lpgas_contact.sent_auto_estimate_req
-            //     redirect_to lpgas_contact_path(@lpgas_contact, _params.merge(token: @lpgas_contact.token))
-            //   else
-            //     redirect_to done_lpgas_contacts_path(_params)
-            //   end
-            // else
-            //   @lpgas_contact = ::Lpgas::Contact.new(param_lpgas_contact)
-            //   @lpgas_contact.from_kakaku = from_kakaku?
-            //   @lpgas_contact.from_enechange = from_enechange?
-            //   @lpgas_contact.apartment_owner = @apartment_form # 集合住宅向けのフォームから
-            //   @lpgas_contact.terminal = terminal_type_name
-            //   @lpgas_contact.pr_tracking_parameter_id = pr_tracking_parameter.try!(:id)
-
-            //   if params[:contact_id].present?
-            //     original = ::Lpgas::Contact.find(params[:contact_id])
-            //     if original.token == params[:token]
-            //       @lpgas_contact.original_contact_id = original.id
-            //     end
-            //   end
-
-            //   # Calculate gas usage by house hold
-            //   if @lpgas_contact.gas_used_amount.nil? && @lpgas_contact.house_hold.present?
-            //     zip = ""
-            //     fields = {
-            //       '2' => 'two_or_less_person_household',
-            //       '3' => 'three_person_household',
-            //       '4' => 'four_person_household',
-            //       '5' => 'five_person_household',
-            //       '6' => 'six_person_household',
-            //       '7' => 'seven_or_more_person_household'
-            //     }
-
-            //     if @lpgas_contact.zip_code.present?
-            //       zip = ZipCode.find_by(zip_code: @lpgas_contact.zip_code.gsub('-', ''))
-            //     else
-            //       zip = ZipCode.find_by(zip_code: @lpgas_contact.new_zip_code.gsub('-', ''))
-            //     end
-
-            //     city_code = Region.where(city_name: zip.city_name).first.id
-            //     city = LpgasLocalContentCity.find_by(city_code: city_code)
-            //     hh = fields[@lpgas_contact.house_hold.to_s]
-
-            //     if @lpgas_contact.gas_meter_checked_month.present?
-            //       month_num = {1 => "january", 2 => "february", 3 => "march", 4 => "april", 5 => "may", 6 => "june", 7 => "july", 8 => "august", 9 => "september", 10 => "october", 11 => "november", 12 => "december"}
-            //       month = month_num[@lpgas_contact.gas_meter_checked_month]
-            //       prefecture = LpgasLocalContentPrefecture.find(city.prefecture_code)
-            //       annual_average = prefecture.annual_average
-            //       household_average_rate = prefecture.send(month) / annual_average * prefecture.send(hh)
-            //     else
-            //       household_average_rate = city.send(hh)
-            //     end
-
-            //     @lpgas_contact.gas_used_amount = household_average_rate.round(1)
-            //   end
-
-            //   if params[:simple_simulation].present?
-            //     @lpgas_contact.body = "「世帯人数：#{@lpgas_contact.house_hold.to_s}　シミュレーションにより使用量：#{@lpgas_contact.gas_used_amount.to_s}m3で推定入力」"
-            //   end
-
-            //   if params[:new_form].present?
-            //     return redirect_to '/lp/004' unless @lpgas_contact.valid?
-            //   else
-            //     return render :new unless @lpgas_contact.valid?
-            //   end
-            //   return render_preview if params[:previewed].blank? && from_kakaku?
-
-            //   ::Lpgas::Contact.transaction {
-            //     @lpgas_contact.save!
-            //     @lpgas_contact.try_auto_sending_estimates!
-            //   }
-
-            //   Lpgas::ContactsMailer.notify_received_contact(@lpgas_contact).deliver_now
-            //   Lpgas::ContactsMailer.thanks(@lpgas_contact).deliver_now
-
-            //   if @lpgas_contact.sent_auto_estimate_req
-            //     TwillioClient.send_sms(contact: @lpgas_contact)
-            //   else
-            //     reasons = @lpgas_contact.reasons_not_auto_sendable.join(",")
-            //     ::Lpgas::Contact.find(@lpgas_contact.id).update(reason_not_auto_sendable: reasons)
-            //   end
-
-            //   _params = {CONVERSION_PARAM => "LPGAS-#{@lpgas_contact.id}"}
-            //   if @lpgas_contact.sent_auto_estimate_req
-            //     endpoint = "https://enepi.jp"
-            //     if Rails.env.staging?
-            //       endpoint = "https://stg.enepi.jp"
-            //     elsif Rails.env.development?
-            //       endpoint = "http://#{request.headers['HTTP_HOST']}"
-            //     end
-            //     redirect_to "#{endpoint}#{lpgas_contact_path(@lpgas_contact, _params.merge(token: @lpgas_contact.token))}"
-            //   else
-
-            //     if from_kakaku?
-            //       redirect_to done_kakaku_lpgas_contacts_path(_params)
-            //     else
-            //       redirect_to done_lpgas_contacts_path(_params)
-            //     end
-
-            //   end
-            // end
             $lpgas_contact_path = 'create';
         }
 

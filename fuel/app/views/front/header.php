@@ -25,11 +25,11 @@
         <?php if ($is_mobile): ?>
           <div>
             <a href="tel:<?= \Config::get('enepi.service.tel'); ?>">
-              <?= Asset::img('layout/enepi_tel.png', ['alt' => 'Enepi']); ?>
+              <?= Asset::img('layout/enepi_tel.png', ['alt' => 'enepi']); ?>
             </a>
           </div>
         <?php else: ?>
-          <div><?= Asset::img('layout/enepi_tel.png', ['alt' => 'Enepi']); ?></div>
+          <div><?= Asset::img('layout/enepi_tel.png', ['alt' => 'enepi']); ?></div>
         <?php endif; ?>
       </div>
     </div>

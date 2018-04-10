@@ -13,7 +13,6 @@
         <? } ?>
       <? } ?>
 
-      <script src="https://ca.iacc.tokyo/js/ca.js"></script>
       <script>
         cacv('見積もり完了(自動見積もり)', {ch:'63912289', link:'<?= $contact->id ?>', tel:'<?= $contact->tel ?>', name:'<?= $contact->name ?>', mail:'<?= $contact->email ?>', zip:'<?= $contact->zip_code ?>', address:'<?= $contact->address ?>'});
       </script>
@@ -35,9 +34,8 @@
         <? } ?>
       <? } ?>
 
-      <script src="https://ca.iacc.tokyo/js/ca.js"></script>
       <script>
-        cacv('送客完了！', {link:'<?= $contact->id ?>', tel:'<?= $contact->tel ?>', name:'<?= $contact->name ?>', mail:'<?= $contact->email ?>', zip:'<?= $contact->zip_code ?>', address:'<?= $contact->address ?>'});
+        cacv('送客完了！', {ch:'63912289', link:'<?= $contact->id ?>', tel:'<?= $contact->tel ?>', name:'<?= $contact->name ?>', mail:'<?= $contact->email ?>', zip:'<?= $contact->zip_code ?>', address:'<?= $contact->address ?>'});
       </script>
 
     <? } ?>
@@ -45,4 +43,3 @@
 
 
 <? } ?>
-<?= render("shared/contact_parts") ?>

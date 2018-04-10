@@ -25,7 +25,6 @@
   </script>
 <? } ?>
 
-<script src="https://ca.iacc.tokyo/js/ca.js"></script>
 <script>
   cacv('見積もり完了(手動送客)', {ch:'63912289', link:'<?= $contact->id ?>', tel:'<?= $contact->tel ?>', name:'<?= $contact->name ?>', mail:'<?= $contact->email ?>', zip:'<?= $contact->zip_code ?>', address:'<?= $contact->address ?>'});
 </script>

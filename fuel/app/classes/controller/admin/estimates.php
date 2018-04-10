@@ -259,6 +259,12 @@ class Controller_Admin_Estimates extends Controller_Admin
 
         if ($estimate->introduce($this->auth_user->id))
         {
+            if ($estimate->contact->status == \Config::get('models.contact.status.sent_estimate_req'))
+            {
+                $estimate->contact->status = \Config::get('models.contact.status.verbal_ok');
+                $estimate->contact->save();
+            }
+            
             $query = [
                 'token' => $estimate->contact->token,
                 'pin' => $estimate->contact->pin,

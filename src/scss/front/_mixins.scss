@@ -218,3 +218,145 @@
   }
 }
 
+@mixin flex_centred() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin absolute_100() {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+@mixin checkbox_match() {
+    
+  label {
+    display: flex;
+    align-items: center;
+    
+    > div {
+      display: block;
+      height: 17px;
+      width: 18px;
+      border: 2px solid #ffb500;
+      border-radius: 3px;
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      i {
+        opacity: 0;
+        font-size: 14px;
+      }
+    }
+  }
+    
+  input[type=checkbox] {
+    display: none;
+  }
+  input[type=checkbox]:checked + label {
+    > div i {
+      opacity: 1;
+    }
+  }
+
+  @media screen and (max-device-width: $device-max-width) {
+    label {
+      > div {
+        height: 5.2vw;
+        width: 5.2vw;
+        border-radius: 4px;
+        
+        i {
+          font-size: 4vw;
+        }
+      }
+    }
+  }
+}
+
+@mixin input-match() {
+  select {
+    width: 100%;
+    background-color: #f4f4f4;
+    border: 1px solid #dadada;
+    box-sizing: border-box;
+    appearance: none;
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 0;
+    line-height: 1.4;
+    
+    &:focus {
+      outline: none;
+      border: 1px solid #a7d8f1;
+      background-color: #ebf8ff;
+    }
+  }
+  
+  .select-arrow {
+    position: relative;
+
+    i {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      font-size: 16px;
+      margin-top: -8px;
+    }
+  }
+
+  @media screen and (max-device-width: $device-max-width) {
+    select {
+      padding: 0.3em 0.6em;
+      font-size: 5vw;
+      overflow: hidden;
+    }
+  }
+}
+
+@mixin input-done() {
+  select {
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #2264b4;
+    box-sizing: border-box;
+    appearance: none;
+    padding: 5px 8px;
+    font-size: 17px;
+    // font-weight: 700;
+    border-radius: 4px;
+    line-height: 1.4;
+    color: #555;
+    
+    &:focus {
+      outline: none;
+      border: 1px solid #a7d8f1;
+      background-color: #ebf8ff;
+    }
+  }
+  
+  .select-arrow {
+    position: relative;
+
+    i {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      margin-top: -14px;
+      font-size: 2.2em;
+      color: #2264b4;
+    }
+  }
+
+  @media screen and (max-device-width: 999px) {
+    select {
+      padding: 0.3em 0.6em;
+      font-size: 5vw;
+      overflow: hidden;
+    }
+  }
+}
