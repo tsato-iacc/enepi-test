@@ -893,9 +893,13 @@ $match-color-table-border: #ccc;
       font-family: inherit;
       font-size: 1.5rem;
       font-weight: 700;
-      -webkit-appearance: button;
+      text-align: center;
       cursor: pointer;
       outline: none;
+
+      &:hover {
+        opacity: 0.9;
+      }
     }
 
     .comment {
