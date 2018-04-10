@@ -26,8 +26,10 @@ return array(
     ':media/lpgas/contacts'                                   => [['POST', new Route('front/contacts/store')]],
     ':media/lpgas/contacts/done'                              => 'front/contacts/done',
 
+    // Simulation
     'simple_simulations/new'                                  => 'front/simulations',
     'simple_simulations'                                      => 'front/simulations',
+    'api/simulations'                                         => [['GET', new Route('front/api/v1/simulation')]],
     'articles'                                                => 'front/articles',
     'articles/(:num)'                                         => 'front/articles/show/$1',
     'electricity'                                             => 'front/electricity',
