@@ -335,6 +335,11 @@ class Controller_Admin_Csv extends Controller_Admin
 
         foreach ($histories as $history)
         {
+            if (!$history->diff_json)
+            {
+                continue;
+            }
+
             if (isset($history->diff_json->uuid))
                 continue;
 
