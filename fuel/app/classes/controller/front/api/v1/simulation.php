@@ -90,7 +90,8 @@ class Controller_Front_Api_v1_Simulation extends Controller_Rest
                     'household'       => $val->validated('household'),
                     'amount_billed'   => $val->validated('bill'),
                     'month'           => date_parse($val->validated('month'))['month'],
-                    'ip'              => \Input::ip(),
+                    'ip'              => \Input::real_ip(),
+                    'type'            => 'api',
                 ]);
 
                 if (!$simulation->save())

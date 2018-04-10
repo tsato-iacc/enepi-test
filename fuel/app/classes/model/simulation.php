@@ -12,6 +12,10 @@ class Model_Simulation extends \Orm\Model
         'amount_billed',
         'month',
         'ip',
+        'type' => [
+            'data_type' => 'enum',
+            'options' => ['form', 'api', 'iframe']
+        ],
         'created_at',
     ];
 
