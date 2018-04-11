@@ -77,7 +77,11 @@
             <div class="main">
               <div class="logo">
                 <a href="<?= \Uri::create('/lpgas/contacts/:contact_id/estimates/:uuid'.'?'.http_build_query(['pin' => $contact->pin, 'token' => $contact->token]), ['contact_id' => $contact->id, 'uuid' => $estimate->uuid]); ?>">
-                  <?= S3::image_tag_s3(S3::makeImageUrl($estimate->company)); ?>
+                  <?php if ($estimate->company->lpgas_company_image): ?>
+                    <?= S3::image_tag_s3(S3::makeImageUrl($estimate->company)); ?>
+                  <?php else: ?>
+                    <?= \Asset::img('estimates_match_screen/noimage.png'); ?>
+                  <?php endif; ?>
                 </a>
               </div>
               <div class="company-name"><?= $estimate->company->getCompanyName(); ?></div>
@@ -220,7 +224,11 @@
               <div class="main">
                 <div class="logo">
                   <a href="<?= \Uri::create('/lpgas/contacts/:contact_id/estimates/:uuid'.'?'.http_build_query(['pin' => $contact->pin, 'token' => $contact->token]), ['contact_id' => $contact->id, 'uuid' => $estimate->uuid]); ?>">
-                    <?= S3::image_tag_s3(S3::makeImageUrl($estimate->company)); ?>
+                    <?php if ($estimate->company->lpgas_company_image): ?>
+                      <?= S3::image_tag_s3(S3::makeImageUrl($estimate->company)); ?>
+                    <?php else: ?>
+                      <?= \Asset::img('estimates_match_screen/noimage.png'); ?>
+                    <?php endif; ?>
                   </a>
                 </div>
                 <div class="company-name"><?= $estimate->company->getCompanyName(); ?></div>
