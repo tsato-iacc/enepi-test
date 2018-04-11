@@ -343,6 +343,11 @@ $match-color-table-border: #ccc;
         .logo {
           border: 1px solid $match-color-table-border;
           font-size: 0;
+          text-align: center;
+
+          img {
+            max-height: 50px;
+          }
         }
       }
 
@@ -571,6 +576,11 @@ $match-color-table-border: #ccc;
         .logo {
           border: 1px solid $match-color-table-border;
           font-size: 0;
+          text-align: center;
+
+          img {
+            max-height: 12vw;
+          }
         }
       }
 
