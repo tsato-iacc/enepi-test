@@ -87,7 +87,18 @@ class Controller_Front_Contacts extends Controller_Front
         // IMPORTANT USE CSRF PROTECTION
         $contact = new \Model_Contact();
 
-        $contact->pr_tracking_parameter_id = $this->pr_tracking_id;
+        if (\Input::post('pr'))
+        {
+            if ($tracking = \Model_Tracking::find('first', ['where' => [['name', \Input::post('pr')]]]))
+            {
+                $contact->pr_tracking_parameter_id = $tracking->id;
+            }
+        }
+        else
+        {
+            $contact->pr_tracking_parameter_id = $this->pr_tracking_id;
+        }
+
         $contact->from_kakaku = $this->from_kakaku;
         $contact->from_enechange = $this->from_enechange;
         $contact->terminal = \Config::get('enepi.terminal_types.'.$this->terminal_type);
