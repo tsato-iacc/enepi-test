@@ -360,3 +360,49 @@
     }
   }
 }
+
+@mixin select-iframe-simulation() {
+  select, input[type=tel] {
+    width: 100%;
+    appearance: none;
+    background-color: #fff;
+    box-sizing: border-box;
+    border: 1px solid #28a4e0;
+    padding: 1.6vw 2vw;
+    font-size: 2.8vw;
+    border-radius: 4px;
+    line-height: 1.2em;
+    color: #444;
+    
+    &:focus {
+      outline: none;
+      border: 1px solid #a7d8f1;
+      background-color: #ebf8ff;
+    }
+
+    &:disabled {
+      background-color: #ececec;
+    }
+  }
+  
+  .select-arrow {
+    position: relative;
+
+    i {
+      position: absolute;
+      right: 1vw;
+      top: 50%;
+      margin-top: -1.8vw;
+      font-size: 4vw;
+      color: #28a4e0;
+    }
+  }
+
+  @media screen and (max-device-width: 999px) {
+    select {
+      padding: 0.3em 0.6em;
+      font-size: 5vw;
+      overflow: hidden;
+    }
+  }
+}

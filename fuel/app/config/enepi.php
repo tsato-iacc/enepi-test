@@ -125,6 +125,9 @@ return [
             'key_string' => [
                 'january' => '1月', 'february' => '2月', 'march' => '3月', 'april' => '4月', 'may' => '5月', 'june' => '6月', 'july' => '7月', 'august' => '8月', 'september' => '9月', 'october' => '10月', 'november' => '11月', 'december' => '12月'
             ],
+            'key_string_short' => [
+                'january' => '1', 'february' => '2', 'march' => '3', 'april' => '4', 'may' => '5', 'june' => '6', 'july' => '7', 'august' => '8', 'september' => '9', 'october' => '10', 'november' => '11', 'december' => '12'
+            ],
         ],
     ],
 

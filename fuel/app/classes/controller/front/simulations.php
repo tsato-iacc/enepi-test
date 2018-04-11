@@ -142,4 +142,21 @@ class Controller_Front_Simulations extends Controller_Front
             'google_chart_json_data'        => $simulationHelper->getGoogleChartJsonData(),
         ]);
     }
+
+    public function get_iframe()
+    {
+        $this->template = \View::forge('front/template_iframe');
+
+        $meta = [
+            ['name' => 'description', 'content' => 'プロパンガス料金シミュレーションは、使用量やガス料金などを入力するだけで切り替え後の料金イメージをラクラク算出できます！さらにガス代が高くてお悩みのお客様には今よりおトクになるガス会社をネット上で無料ご提案します。'],
+        ];
+
+        $month_selected = strtolower(date('F', mktime(0, 0, 0, date('n') - 1, 10)));
+
+        $this->template->title = '簡単入力！プロパンガス料金シミュレーション';
+        $this->template->meta = $meta;
+        $this->template->content = View::forge('front/simulations/iframe', [
+            'month_selected' => $month_selected,
+        ]);
+    }
 }

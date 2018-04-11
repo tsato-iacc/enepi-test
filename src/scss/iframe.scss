@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+/*
+* Third Party
+*/
+@import "../../bower_components/components-font-awesome/scss/font-awesome";
+// @import "../../bower_components/swiper/dist/css/swiper.css";
+
+/*
+* Custom
+*/
+
+/* Mixins and variables */
+@import "front/variables";
+@import "front/mixins";
+
+
+/* Custom styles */
+@import "iframe/layout";
+@import "iframe/simulation_form";

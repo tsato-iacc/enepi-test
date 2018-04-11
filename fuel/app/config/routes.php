@@ -30,6 +30,8 @@ return array(
     'simple_simulations/new'                                  => 'front/simulations',
     'simple_simulations'                                      => 'front/simulations',
     'api/simulations'                                         => [['GET', new Route('front/api/v1/simulation')]],
+    'simple_simulations/iframe'                               => 'front/simulations/iframe',
+
     'articles'                                                => 'front/articles',
     'articles/(:num)'                                         => 'front/articles/show/$1',
     'electricity'                                             => 'front/electricity',
