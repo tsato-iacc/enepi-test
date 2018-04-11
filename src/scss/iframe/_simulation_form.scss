@@ -103,7 +103,7 @@ $iframe-color-yellow: #fff432;
   }
 
   .form-body {
-    height: 42vw;
+    height: 40vw;
     background: url(/assets/images/iframe/simulation/bg.png);
     background-repeat: no-repeat;
     background-position: 98% 95%;
@@ -114,6 +114,12 @@ $iframe-color-yellow: #fff432;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+    }
+
+    .start-page, .result-page {
+      opacity: 1;
+      visibility: visible;
+      transition: visibility 0.3s linear, opacity 0.3s linear;
     }
 
     .start-tr {
@@ -186,6 +192,7 @@ $iframe-color-yellow: #fff432;
       box-shadow: 0px 3px #cac134;
 
       .image {
+        width: 10.5%;
         font-size: 0;
       }
 
@@ -201,5 +208,10 @@ $iframe-color-yellow: #fff432;
         font-size: 5vw;
       }
     }
+  }
+
+  .page-hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
   }
 }

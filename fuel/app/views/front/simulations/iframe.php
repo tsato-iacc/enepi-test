@@ -60,7 +60,7 @@
           <div class="iframe-simulation-btn" id="iframe_simulation_btn"><div class="image"><?= \Asset::img('iframe/simulation/calc.png'); ?></div><p>さっそく【無料】診断する!</p><i class="fa fa-angle-right" aria-hidden="true"></i></div>
         </div>
       </div>
-      <div class="result-page"></div>
+      <div class="result-page page-hidden"></div>
     </div>
   </div>
 </div>
