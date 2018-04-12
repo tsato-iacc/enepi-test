@@ -12,7 +12,11 @@
 <br>
 <?php if ($contact->sent_auto_estimate_req): ?>
   このSMSで届いたコードを、以下のページで入力してください。<br>
+  <?php if (\Fuel::$env == \Fuel::PRODUCTION): ?>
+  <a href="<?= \Uri::create("https://enepi.jp/lpgas/contacts/{$contact->id}?token={$contact->token}"); ?>"><?= \Uri::create("https://enepi.jp/lpgas/contacts/{$contact->id}?token={$contact->token}"); ?></a><br>
+  <?php else: ?>
   <a href="<?= \Uri::create("lpgas/contacts/{$contact->id}?token={$contact->token}"); ?>"><?= \Uri::create("lpgas/contacts/{$contact->id}?token={$contact->token}"); ?></a><br>
+  <?php endif; ?>
   ■次の画面に進めない方<br>
   ・SMSがどうしても届かない<br>
   ・認証コード入力やその他操作でエラーが発生する<br>
