@@ -53,7 +53,7 @@ class Model_PriceRule extends \Orm\Model
         {
             case 'store':
                 $val->add_field('basic_price', 'basic_price', 'required|valid_string[numeric]');
-                $val->add_field('fuel_adjustment_cost', 'fuel_adjustment_cost', 'required|valid_string[numeric]');
+                $val->add_field('fuel_adjustment_cost', 'fuel_adjustment_cost', 'required|match_pattern[/^-?\d*$/]');
 
                 $val->add_field('notes', 'notes', 'max_length[2000]');
                 $val->add_field('set_plan', 'set_plan', 'max_length[2000]');
