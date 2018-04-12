@@ -140,7 +140,7 @@
       <div class="info_estimates_area">
         <div class="info_l_estimates">
           <div class="thumb">
-            <?php if ($estimate->company->lpgas_company_image): ?>
+            <?php if ($estimate->company->lpgas_company_logo): ?>
               <?= S3::image_tag_s3(S3::makeImageUrl($estimate->company), ["class" => "media-object", "alt" => mb_substr($estimate->company->lpgas_company_logo, 0, mb_strpos($estimate->company->lpgas_company_logo, "."))]); ?>
             <?php else: ?>
               <?= \Asset::img('estimates_match_screen/noimage.png', ["class" => "media-object"]); ?>
