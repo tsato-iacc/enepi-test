@@ -20,7 +20,7 @@ if ($('.contact-done').length) {
     // var fuel_csrf_token = form.find('input[name=fuel_csrf_token]').val();
     
     submut_btn.find('span').text('送信中...');
-    cacv('ヒアリング', {ch:'63912289'});
+    caevent('ヒアリング', {ch:'63912289'});
 
     $.ajax({
       url: '/front/api/v1/contact/done_form',
