@@ -177,7 +177,14 @@ class Controller_Front_Contacts extends Controller_Front
                 {
                     $query['token'] = $contact->token;
 
-                    return \Response::redirect("lpgas/contacts/{$contact->id}?".http_build_query($query));
+                    if (\Fuel::$env == \Fuel::PRODUCTION)
+                    {
+                        return \Response::redirect("https://enepi.jp/lpgas/contacts/{$contact->id}?".http_build_query($query));
+                    }
+                    else
+                    {
+                        return \Response::redirect("lpgas/contacts/{$contact->id}?".http_build_query($query));
+                    }
                 }
                 else
                 {
@@ -187,7 +194,14 @@ class Controller_Front_Contacts extends Controller_Front
                     }
                     else
                     {
-                        return \Response::redirect('lpgas_contacts/done?'.http_build_query($query));
+                        if (\Fuel::$env == \Fuel::PRODUCTION)
+                        {
+                            return \Response::redirect('https://enepi.jp/lpgas_contacts/done?'.http_build_query($query));
+                        }
+                        else
+                        {
+                            return \Response::redirect('lpgas_contacts/done?'.http_build_query($query));
+                        }
                     }
                 }
             }
