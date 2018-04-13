@@ -60,6 +60,23 @@
   <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
   <?= Asset::js('front.min.js'); ?>
 
+  <!-- FORM DOUBLE SENDING BLOCK -->
+  <script>
+    var sending_form = false;
+
+    $('form').submit(function (evt) {
+        if (sending_form === true) {
+          return false;
+        }
+
+        sending_form = true;
+        
+        $('input[type=submit]').val('送信中...');
+
+        return true;
+    });
+  </script>
+
   <script src="https://ca.iacc.tokyo/js/ca.js"></script>
   <script>capv();</script>
 </body>
