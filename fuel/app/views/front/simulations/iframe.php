@@ -94,7 +94,7 @@
             <p>ご利用の場合</p>
           </div>
           <div>
-            <div><p class="year-economy simulation-counter" data-start="0" data-end="0" data-dec="0" data-skip="false">年間<span>0</span>円</p></div>
+            <div><p class="year-economy simulation-counter" data-start="0" data-end="0" data-dec="0" data-skip="false" id="year_economy">年間<span>0</span>円</p></div>
             <div><p class="year-title"><span>節約の提案実績あり!</span></p></div>
           </div>
         </div>
