@@ -3,6 +3,7 @@ $device-min-width: 501px;
 
 $iframe-color-blue: #28a4e0;
 $iframe-color-yellow: #fff432;
+$iframe-color-red: #f82b2b;
 
 .iframe-simulation-form {
   @include select-iframe-simulation();
@@ -107,16 +108,22 @@ $iframe-color-yellow: #fff432;
     background: url(/assets/images/iframe/simulation/bg.png);
     background-repeat: no-repeat;
     background-position: 98% 95%;
+    position: relative;
 
     .start-page {
       padding: 2% 4%;
       height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+    }
+
+    .result-page {
+      padding: 2%;
     }
 
     .start-page, .result-page {
+      @include absolute_100();
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       opacity: 1;
       visibility: visible;
       transition: visibility 0.3s linear, opacity 0.3s linear;
@@ -178,10 +185,232 @@ $iframe-color-yellow: #fff432;
       color: #fff;
     }
 
+    .result-wrap {
+      padding: 3% 2.5% 1%;
+      background-color: #fff;
+      border-radius: 5px;
+      position: relative;
+
+      &:after {
+        position: absolute;
+        content: '';
+        width: 0; 
+        height: 0; 
+        border-left: 2vw solid transparent;
+        border-right: 2vw solid transparent;
+        border-top: 2vw solid #fff;
+        bottom: -1.5vw;
+        left: 50%;
+        margin-left: -2vw;
+      }
+    }
+
+    .result-content {
+      display: flex;
+
+      > div {
+        &:first-child {
+          width: 25%;
+          padding-bottom: 1%;
+        }
+        &:last-child {
+          width: 75%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding-left: 3%;
+        }
+      }
+    }
+
+    .label {
+      font-size: 2.3vw;
+      color: $iframe-color-blue;
+    }
+
+    .underline {
+      border-bottom: 1px solid #75d2ff;
+    }
+
+    .gas-usage {
+      padding-right: 10%;
+      font-size: 2.7vw;
+      text-align: right;
+
+      span {
+        margin-right: 20%;
+        font-size: 140%;
+        color: $iframe-color-red;
+      }
+    }
+
+    .content-wrap {
+      display: flex;
+      align-items: flex-end;
+      padding-bottom: 2%;
+
+      p {
+        line-height: 1em;
+      }
+
+      .label {
+        width: 19%;
+      }
+      .price-title {
+        width: 18%;
+        font-size: 2.2vw;
+        font-weight: 700;
+        text-align: center;
+      }
+      .price {
+        width: 20%;
+        font-size: 2vw;
+        text-align: center;
+
+        span {
+          margin-right: 5%;
+          font-size: 160%;
+          color: $iframe-color-red;
+        }
+      }
+      .unit-price-title {
+        width: 18%;
+        font-size: 2.2vw;
+        font-weight: 700;
+        text-align: center;
+      }
+      .unit-price {
+        width: 25%;
+        text-align: right;
+        font-size: 2vw;
+
+        span {
+          margin-right: 5%;
+          font-size: 160%;
+          color: $iframe-color-red;
+        }
+      }
+    }
+
+    .comment {
+      padding-top: 1%;
+      font-size: 1.45vw;
+      text-align: center;
+    }
+
+    .economy-wrap {
+      display: flex;
+      margin-bottom: -1%;
+      overflow: hidden;
+
+      > div {
+        &:first-child {
+          width: 22%;
+          padding: 0.8% 0;
+          position: relative;
+          z-index: 1;
+          background-color: #fff;
+
+          p {
+            font-size: 2.2vw;
+            font-weight: 700;
+            line-height: 1.5em;
+            text-align: center;
+            color: $iframe-color-blue;
+            
+            span.decorator {
+              position: relative;
+              z-index: 1;
+
+              &:after {
+                border: 0;
+                border-bottom: 0.4em solid $iframe-color-yellow;
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                margin-bottom: -0.2em;
+                z-index: -1;
+              }
+            }
+          }
+
+          &:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -11%;
+            background-color: #fff;
+            height: 100%;
+            width: 38.628%;
+            -webkit-transform: rotate(44deg) skew(5deg,10deg);
+            transform: rotate(45deg) skew(6deg,10deg);
+            z-index: -1;
+          }
+        }
+        &:last-child {
+          width: 78%;
+          padding-bottom: 2%;
+          display: flex;
+          justify-content: flex-end;
+          align-items: flex-end;
+
+          > div {
+            &:first-child {
+              width: 55%;
+            }
+            &:last-child {
+              width: 45%;
+            }
+          }
+        }
+      }
+
+      .year-economy {
+        font-size: 3.1vw;
+        font-weight: 700;
+        line-height: 1em;
+        text-align: right;
+        color: #fff;
+
+        span {
+          font-size: 185%;
+          color: $iframe-color-yellow;
+        }
+      }
+
+      .year-title {
+        font-size: 3.4vw;
+        font-weight: 700;
+        text-align: right;
+        color: #fff;
+        text-shadow: 0.2vw 0.2vw 0 $iframe-color-blue;
+
+        span {
+          position: relative;
+          z-index: 1;
+
+          &:after {
+            border: 0;
+            border-bottom: 0.4em solid $iframe-color-yellow;
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            margin-bottom: -0.2em;
+            z-index: -1;
+          }
+        }
+      }
+    }
+
     .iframe-simulation-btn {
-      width: 55%;
       margin: 1% auto;
-      padding: 0.8%;
+      width: 58%;
       border-radius: 50px;
       background-color: $iframe-color-yellow;
       color: $iframe-color-blue;
@@ -192,12 +421,13 @@ $iframe-color-yellow: #fff432;
       box-shadow: 0px 3px #cac134;
 
       .image {
-        width: 10.5%;
+        width: 7vw;
         font-size: 0;
+        padding: 1.5%;
       }
 
       p {
-        font-size: 2.9vw;
+        font-size: 3vw;
         font-weight: 700;
         line-height: 1em;
       }
@@ -206,6 +436,19 @@ $iframe-color-yellow: #fff432;
         margin-right: 3%;
         margin-left: 1%;
         font-size: 5vw;
+      }
+    }
+
+    .iframe-resimulation-btn {
+      @extend .iframe-simulation-btn;
+      margin: 0 auto;
+      width: 46%;
+      background-color: #e9f7ff;
+      box-shadow: 0px 3px #2980aa;
+
+      i {
+        margin-right: 1%;
+        margin-left: 3%;
       }
     }
   }

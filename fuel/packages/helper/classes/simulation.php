@@ -52,14 +52,15 @@ class Simulation
 				$this->basic_rate             = (int) $city->basic_rate;
         $this->household_average_rate = $this->prefecture[$month] / $annual_average * $this->prefecture[$household];
 
+        $this->city_average_commodity_charge = (int) $city->commodity_charge == 0 ? (int) $this->prefecture->commodity_charge_criterion : (int) $city->commodity_charge;
+        
         if ($bill)
         {
-            $this->city_average_commodity_charge = (int) $city->commodity_charge == 0 ? (int) $this->prefecture->commodity_charge_criterion : (int) $city->commodity_charge;
-            $this->commodity_charge              = ((int) $bill / \Config::get('enepi.taxes.jp_acquisition_tax') - $this->basic_rate) / $this->household_average_rate;
+            $this->commodity_charge   = ((int) $bill / \Config::get('enepi.taxes.jp_acquisition_tax') - $this->basic_rate) / $this->household_average_rate;
         }
         else
         {
-            $this->commodity_charge = (int) $city->commodity_charge == 0 ? $this->prefecture->commodity_charge_criterion : $city->commodity_charge;
+            $this->commodity_charge = $this->city_average_commodity_charge;
             $this->estimated_bill   = ($this->basic_rate + $this->household_average_rate * $this->commodity_charge) * \Config::get('enepi.taxes.jp_acquisition_tax');
         }
 

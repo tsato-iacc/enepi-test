@@ -9,9 +9,10 @@ if ($('.iframe-simulation-form').length) {
   // API Get cities list
   var getCities = function (prefecture_code) {
     var city_code_select = $('select[name=city_code]');
+    
+    $('select[name=city_code]').prop('disabled', true);
 
     if (!prefecture_code) {
-      $('select[name=city_code]').prop('disabled', true);
       city_code_select.empty();
       city_code_select.append($('<option>').html("選択してください").val(''));
 
@@ -119,7 +120,7 @@ if ($('.iframe-simulation-form').length) {
 
       $('#iframe_simulation_btn p').text('送信中...');
       ga('send', 'event', 'simulation-iframe', 'btn-click', '', 0);
-      cacv('シミュレーション「外部」', {ch:'63912289'});
+      caevent('シミュレーション「外部」', {ch:'63912289'});
 
       $.ajax({
         url: '/front/api/v1/simulation',
@@ -133,11 +134,83 @@ if ($('.iframe-simulation-form').length) {
           bill: bill
         },
         success: function (data) {
-          var result = JSON.parse(data)
+          var result = JSON.parse(data);
+
+          // console.log(result);
+
+          var counterOptions = {
+            useEasing : true,
+            useGrouping : true,
+            separator : ',',
+            decimal : '.',
+          };
 
           if (result.status == 'success') {
             $('.start-page').addClass('page-hidden');
             $('.result-page').removeClass('page-hidden');
+
+            // Set prefecture name
+            $('#prefecture_name').text(result.prefecture_name);
+
+            // Set 推定使用量
+            var household_average_rate = $('#household_average_rate');
+            household_average_rate.attr('data-start', household_average_rate.attr('data-end'));
+            household_average_rate.attr('data-end', result.household_average_rate);
+
+            // Set 地域平均 基本料金
+            var city_average_basic_rate = $('#city_average_basic_rate');
+            city_average_basic_rate.attr('data-start', city_average_basic_rate.attr('data-end'));
+            city_average_basic_rate.attr('data-end', result.basic_rate);
+            
+            // Set 地域平均 従量単価
+            var city_average_commodity_charge = $('#city_average_commodity_charge');
+            city_average_commodity_charge.attr('data-start', city_average_commodity_charge.attr('data-end'));
+            city_average_commodity_charge.attr('data-end', result.city_average_commodity_charge);
+            
+            var basic_rate = $('#basic_rate');
+            var commodity_charge = $('#commodity_charge');
+
+            if (result.bill != '') {
+              // Set 現在の料金 基本料金
+              basic_rate.attr('data-start', basic_rate.attr('data-end'));
+              basic_rate.attr('data-end', result.basic_rate);
+              basic_rate.attr('data-skip', 'false');
+              
+              // Set 現在の料金 従量単価
+              commodity_charge.attr('data-start', commodity_charge.attr('data-end'));
+              commodity_charge.attr('data-end', result.commodity_charge);
+              commodity_charge.attr('data-skip', 'false');
+            } else {              
+              // Set 現在の料金 基本料金 to [-]
+              basic_rate.attr('data-start', 0);
+              basic_rate.attr('data-end', 0);
+              basic_rate.attr('data-skip', 'true');
+              basic_rate.find('span').text('-');
+              
+              // Set 現在の料金 従量単価 to [-]
+              commodity_charge.attr('data-start', 0);
+              commodity_charge.attr('data-end', 0);
+              commodity_charge.attr('data-skip', 'true');
+              commodity_charge.find('span').text('-');
+            }
+
+            var cId = 1;
+
+            // Run counting
+            $('.simulation-counter').each(function() {
+              var start = $(this).attr('data-start');
+              var end   = $(this).attr('data-end');
+              var dec   = $(this).attr('data-dec');
+              var skip  = $(this).attr('data-skip');
+
+              $(this).find('span').attr('id', 'cId-' + cId);
+
+              if (skip == 'false') {
+                new CountUp('cId-' + cId, start, end, dec, 1, counterOptions).start();
+              }
+
+              cId++;
+            });
 
             sending_form = false;
             $('#iframe_simulation_btn p').text('さっそく【無料】診断する!');
@@ -157,6 +230,11 @@ if ($('.iframe-simulation-form').length) {
       alert(error_msg[0]);
       return false;
     }
+  });
+
+  $('#iframe_resimulation_btn').on('click', function() {
+    $('.result-page').addClass('page-hidden');
+    $('.start-page').removeClass('page-hidden');
   });
 
   $('select[name=prefecture_code]').change(function() {
