@@ -24,7 +24,7 @@ $iframe-color-red: #f82b2b;
     overflow: hidden;
 
     > div {
-      &:first-child {
+      &.first {
         width: 28%;
         padding: 0.5% 0 1.2% 2%;
         position: relative;
@@ -42,7 +42,7 @@ $iframe-color-red: #f82b2b;
           z-index: -1;
         }
       }
-      &:last-child {
+      &.last {
         width: 72%;
         display: flex;
         align-items: center;
@@ -58,11 +58,11 @@ $iframe-color-red: #f82b2b;
       color: #fff;
       font-size: 2.5vw;
       font-weight: 700;
-      
-      .image {
-        width: 45%;
-        font-size: 0;
-      }
+    }
+    
+    .image {
+      width: 45%;
+      font-size: 0;
     }
 
     .logo-title {
@@ -71,6 +71,7 @@ $iframe-color-red: #f82b2b;
       line-height: 1em;
       color: $iframe-color-yellow;
     }
+
     .header-title {
       width: 100%;
       padding-right: 0.5%;
@@ -99,6 +100,75 @@ $iframe-color-red: #f82b2b;
 
       .small {
         font-size: 80%;
+      }
+    }
+
+    @media screen and (max-device-width: $device-max-width) {
+      padding: 1% 0;
+      flex-direction: column;
+      background-color: #fff;
+
+      .logo-sp {
+        &.first {
+          width: 100%;
+          padding-left: 0;
+          display: flex;
+          justify-content: center;
+          align-items: flex-end;
+
+          &:after {
+            content: none;
+          }
+        }
+      }
+
+      > div {
+        &.last {
+          width: 100%;
+        }
+      }
+
+      .image {
+        width: 32%;
+        padding-left: 6%;
+      }
+
+      .logo-title {
+        width: 68%;
+        font-size: 5.8vw;
+        font-weight: 100;
+        line-height: 1.4em;
+        color: #333;
+        padding-left: 2%;
+
+        .underline {
+          font-weight: 700;
+          color: $iframe-color-blue;
+          position: relative;
+          z-index: 1;
+
+          &:after {
+            border: 0;
+            border-bottom: 0.4em solid $iframe-color-yellow;
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            margin-bottom: -0.2em;
+            z-index: -1;
+          }
+        }
+
+        .small {
+          margin-right: 3%;
+          font-size: 80%;
+        }
+      }
+
+      .header-title {
+        font-size: 5.8vw;
       }
     }
   }
@@ -256,14 +326,23 @@ $iframe-color-red: #f82b2b;
       .label {
         width: 19%;
       }
+
+      .basic-wrap {
+        display: flex;
+        width: 38%;
+      }
+      .unit-wrap {
+        display: flex;
+        width: 43%;
+      }
       .price-title {
-        width: 18%;
+        width: 47%;
         font-size: 2.2vw;
         font-weight: 700;
         text-align: center;
       }
       .price {
-        width: 20%;
+        width: 53%;
         font-size: 2vw;
         text-align: center;
 
@@ -274,13 +353,13 @@ $iframe-color-red: #f82b2b;
         }
       }
       .unit-price-title {
-        width: 18%;
+        width: 40%;
         font-size: 2.2vw;
         font-weight: 700;
         text-align: center;
       }
       .unit-price {
-        width: 25%;
+        width: 60%;
         text-align: right;
         font-size: 2vw;
 
@@ -451,10 +530,167 @@ $iframe-color-red: #f82b2b;
         margin-left: 3%;
       }
     }
+
+    @media screen and (max-device-width: $device-max-width) {
+      height: 118vw;
+
+      .start-page {
+        padding: 2% 5%;
+      }
+
+      .start-tr {
+        flex-direction: column;
+
+        > div {
+          width: 100%;
+        }
+      }
+
+      .start-td {
+        margin-bottom: 3%;
+      }
+
+      label {
+        font-size: 4.5vw;
+      }
+
+      .month-wrap p {
+        font-size: 5vw;
+      }
+
+      .result-wrap {
+        padding: 4% 3% 1%;
+      }
+
+      .result-content {
+        flex-direction: column;
+
+        > div {
+          &:first-child {
+            width: 100%;
+            display: flex;
+            align-items: flex-end;
+            border-bottom: 2px solid $iframe-color-blue;
+
+            > p {
+              width: 50%;
+            }
+          }
+          &:last-child {
+            width: 100%;
+            padding-left: 0;
+          }
+        }
+      }
+
+      .label {
+        font-size: 4.5vw;
+      }
+
+      .underline {
+        border-bottom: 2px solid $iframe-color-blue;
+      }
+
+      .gas-usage {
+        padding: 0;
+        border-bottom: 0;
+        font-size: 5vw;
+        line-height: 1.4em;
+        text-align: left;
+
+        span {
+          font-weight: 700;
+        }
+      }
+
+      .content-wrap {
+        align-items: center;
+        padding-top: 3%;
+
+        .label {
+          width: 26%;
+          font-size: 4vw;
+        }
+
+        .basic-wrap {
+          width: 35%;
+          flex-direction: column;
+        }
+        .unit-wrap {
+          width: 39%;
+          flex-direction: column;
+        }
+
+        .price-title, .price, .unit-price-title, .unit-price {
+          width: 100%;
+        }
+
+        .price, .unit-price {
+          font-size: 3.8vw;
+          line-height: 1.5em;
+
+          span {
+            font-weight: 700;
+          }
+        }
+
+        .price {
+          text-align: left;
+        }
+
+        .price-title, .unit-price-title {
+          padding-bottom: 4%;
+          font-size: 3.8vw;
+          line-height: 1.5em;
+          text-align: left;
+        }
+      }
+
+      .iframe-simulation-btn {
+        margin: 5% 0 3%;
+        width: 100%;
+
+        .image {
+          width: 14vw;
+        }
+
+        p {
+          font-size: 6vw;
+        }
+
+        i {
+          margin-right: 4%;
+          margin-left: 5%;
+          font-size: 8.5vw;
+        }
+
+        .button-pc {
+          display: none;
+        }
+      }
+    }
   }
 
   .page-hidden {
     opacity: 0 !important;
     visibility: hidden !important;
+  }
+
+  @media screen and (max-device-width: $device-max-width) {
+    .logo-pc {
+      display: none;
+    }
+    .logo-sp {
+      display: block;
+    }
+  }
+
+  @media screen and (min-device-width: $device-min-width) {
+    .logo-pc {
+      display: block;
+    }
+    .logo-sp {
+      display: none;
+    }
   }
 }

@@ -2,11 +2,15 @@
 <div class="iframe-simulation-form">
   <div class="form-wrap">
     <div class="form-header">
-      <div>
-        <div class="logo"><div class="image"><?= \Asset::img('iframe/simulation/logo.png'); ?></div>で</div>
+      <div class="first logo-pc">
+        <div class="logo"><div class="image"><?= \Asset::img('iframe/simulation/logo_pc.png'); ?></div>で</div>
         <div class="logo-title">いくら安くなる⁉</div>
       </div>
-      <div><p class="header-title"><span class="underline">プロパンガス料金</span><span class="small">を</span><span class="underline">診断</span>してみよう!</p></div>
+      <div class="first logo-sp">
+        <div class="image"><?= \Asset::img('iframe/simulation/logo_sp.png'); ?></div>
+        <div class="logo-title"><span class="small">で</span>いくら<span class="underline">安くなる</span>？？</div>
+      </div>
+      <div class="last"><p class="header-title"><span class="underline">プロパンガス料金</span><span class="small">を</span><span class="underline">診断</span>してみよう!</p></div>
     </div>
     <div class="form-body">
       <div class="start-page">
@@ -57,7 +61,7 @@
           </div>
         </div>
         <div>
-          <div class="iframe-simulation-btn" id="iframe_simulation_btn"><div class="image"><?= \Asset::img('iframe/simulation/calc.png'); ?></div><p>さっそく【無料】診断する!</p><i class="fa fa-angle-right" aria-hidden="true"></i></div>
+          <div class="iframe-simulation-btn" id="iframe_simulation_btn"><div class="image"><?= \Asset::img('iframe/simulation/calc.png'); ?></div><p><span class="button-pc">さっそく</span>【無料】診断する!</p><i class="fa fa-angle-right" aria-hidden="true"></i></div>
         </div>
       </div>
       <div class="result-page page-hidden">
@@ -71,17 +75,25 @@
               <div>
                 <div class="content-wrap underline">
                   <p class="label">地域平均</p>
-                  <p class="price-title">基本料金</p>
-                  <p class="price simulation-counter" data-start="0" data-end="0" data-dec="0" data-skip="false" id="city_average_basic_rate"><span>0</span>円</p>
-                  <p class="unit-price-title">従量単価</p>
-                  <p class="unit-price simulation-counter" data-start="0" data-end="0" data-dec="0" data-skip="false" id="city_average_commodity_charge"><span>0</span>円/㎥</p>
+                  <div class="basic-wrap">
+                    <p class="price-title">基本料金</p>
+                    <p class="price simulation-counter" data-start="0" data-end="0" data-dec="0" data-skip="false" id="city_average_basic_rate"><span>0</span>円</p>
+                  </div>
+                  <div class="unit-wrap">
+                    <p class="unit-price-title">従量単価</p>
+                    <p class="unit-price simulation-counter" data-start="0" data-end="0" data-dec="0" data-skip="false" id="city_average_commodity_charge"><span>0</span>円/㎥</p>
+                  </div>
                 </div>
                 <div class="content-wrap underline">
                   <p class="label">現在の料金</p>
-                  <p class="price-title">基本料金</p>
-                  <p class="price simulation-counter" data-start="0" data-end="0" data-dec="0" data-skip="false" id="basic_rate"><span>0</span>円</p>
-                  <p class="unit-price-title">従量単価</p>
-                  <p class="unit-price simulation-counter" data-start="0" data-end="0" data-dec="0" data-skip="false" id="commodity_charge"><span>0</span>円/㎥</p>
+                  <div class="basic-wrap">
+                    <p class="price-title">基本料金</p>
+                    <p class="price simulation-counter" data-start="0" data-end="0" data-dec="0" data-skip="false" id="basic_rate"><span>0</span>円</p>
+                  </div>
+                  <div class="unit-wrap">
+                    <p class="unit-price-title">従量単価</p>
+                    <p class="unit-price simulation-counter" data-start="0" data-end="0" data-dec="0" data-skip="false" id="commodity_charge"><span>0</span>円/㎥</p>
+                  </div>
                 </div>
               </div>
             </div>
