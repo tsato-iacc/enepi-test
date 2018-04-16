@@ -384,6 +384,15 @@
       background-color: #dcdcdc;
     }
   }
+
+  input[type=tel] {
+    &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+      color: #cacaca;
+      text-align: center;
+    }
+    
+    text-align: center;
+  }
   
   .select-arrow {
     position: relative;

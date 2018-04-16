@@ -54,9 +54,9 @@
             <div class="bill-wrap">
               <div>
                 <label for="bill">だいたいのガス代／月</label>
-                <input type="tel" name="bill" id="bill">
+                <input type="tel" name="bill" id="bill" placeholder="12345">
               </div>
-              <p>㎥</p>
+              <p>円</p>
             </div>
           </div>
         </div>
