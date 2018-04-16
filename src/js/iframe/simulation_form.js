@@ -233,6 +233,8 @@ if ($('.iframe-simulation-form').length) {
           }
         },
         error: function() {
+          sending_form = false;
+          $('#iframe_simulation_btn p').html('<span class="button-pc">さっそく</span>【無料】診断する!');
           alert('An error has occurred!');
         }
       });

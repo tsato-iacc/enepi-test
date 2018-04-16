@@ -102,7 +102,7 @@ class Controller_Front_Api_v1_Simulation extends Controller_Rest
 
             $response = [
                 'status'                          => 'success',
-                'bill'                            => $bill,
+                'bill'                            => $bill > 0 ? $bill : '',
                 'prefecture_name'                 => $simulationHelper->getPrefectureName(),
                 'city_name'                       => $region->city_name,
                 'household'                       => \Config::get('enepi.household.key_string_numeric.'.$household),
