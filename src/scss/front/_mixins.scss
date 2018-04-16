@@ -390,10 +390,10 @@
 
     i {
       position: absolute;
-      right: 3vw;
+      right: 2vw;
       top: 50%;
-      margin-top: -2.5vw;
-      font-size: 6vw;
+      margin-top: -1.8vw;
+      font-size: 4vw;
       color: #28a4e0;
     }
   }
@@ -403,6 +403,14 @@
       padding: 0.6em 0.8em;
       font-size: 5vw;
       overflow: hidden;
+    }
+
+    .select-arrow {
+      i {
+        right: 3vw;
+        margin-top: -2.5vw;
+        font-size: 6vw;
+      }
     }
   }
 }
