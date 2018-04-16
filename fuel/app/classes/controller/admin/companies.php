@@ -130,12 +130,27 @@ class Controller_Admin_Companies extends Controller_Admin
      */
     public function action_ng_index($id)
     {
-        if (!$company = \Model_Company::find($id, ['related' => ['ng']]))
+        if (!$company = \Model_Company::find($id))
             throw new HttpNotFoundException;
+
+        $conditions = ['where' => [['company_id' => $id]]];
+        
+        $pager = \Pagination::forge('ngs', [
+            'name' => 'bootstrap4',
+            'total_items' => \Model_Company_Ng::count($conditions),
+            'per_page' => 500,
+            'uri_segment' => 'page',
+            'num_links' => 20,
+        ]);
+
+        $conditions['order_by'] = ['id' => 'desc'];
+        $conditions['limit'] = $pager->per_page;
+        $conditions['offset'] = $pager->offset;
 
         $this->template->title = 'NG企業';
         $this->template->content = View::forge('admin/companies/ng_index', [
             'company' => $company,
+            'ngs' => \Model_Company_Ng::find('all', $conditions),
             'val' => Validation::forge(),
         ]);
     }
@@ -160,8 +175,10 @@ class Controller_Admin_Companies extends Controller_Admin
 
             foreach ($ng as $val)
             {
-                if ($val)
-                    $company->ng[] = new \Model_Company_Ng(['pattern' => trim($val)]);
+                $new_val = trim($val);
+
+                if ($new_val)
+                    $company->ng[] = new \Model_Company_Ng(['pattern' => $new_val]);
             }
 
             if ($company->save())

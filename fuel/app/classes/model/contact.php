@@ -484,11 +484,6 @@ class Model_Contact extends \Orm\Model
         return $this->status == \Config::get('models.contact.status.contracted');
     }
 
-    public function sentEstimates()
-    {
-        return $this->get('estimates', ['where' => [['status', 'in', [2,3,4]]]]);
-    }
-
     public function basicPrice()
     {
         if ($this->_basic_price === null)

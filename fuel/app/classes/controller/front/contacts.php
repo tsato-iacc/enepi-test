@@ -87,7 +87,18 @@ class Controller_Front_Contacts extends Controller_Front
         // IMPORTANT USE CSRF PROTECTION
         $contact = new \Model_Contact();
 
-        $contact->pr_tracking_parameter_id = $this->pr_tracking_id;
+        if (\Input::post('pr'))
+        {
+            if ($tracking = \Model_Tracking::find('first', ['where' => [['name', \Input::post('pr')]]]))
+            {
+                $contact->pr_tracking_parameter_id = $tracking->id;
+            }
+        }
+        else
+        {
+            $contact->pr_tracking_parameter_id = $this->pr_tracking_id;
+        }
+
         $contact->from_kakaku = $this->from_kakaku;
         $contact->from_enechange = $this->from_enechange;
         $contact->terminal = \Config::get('enepi.terminal_types.'.$this->terminal_type);
@@ -155,6 +166,7 @@ class Controller_Front_Contacts extends Controller_Front
                 \DB::commit_transaction();
 
                 $notice_param = \Crypt::encode(\Format::forge(['id' => $contact->id, 'token' => $contact->token, 'pin' => $contact->pin])->to_json());
+                // Set cookie to 3 month
                 \Cookie::set('notice_param', $notice_param, 60 * 60 * 24 * 90);
 
                 $query = [
@@ -165,7 +177,14 @@ class Controller_Front_Contacts extends Controller_Front
                 {
                     $query['token'] = $contact->token;
 
-                    return \Response::redirect("lpgas/contacts/{$contact->id}?".http_build_query($query));
+                    if (\Fuel::$env == \Fuel::PRODUCTION)
+                    {
+                        return \Response::redirect("https://enepi.jp/lpgas/contacts/{$contact->id}?".http_build_query($query));
+                    }
+                    else
+                    {
+                        return \Response::redirect("lpgas/contacts/{$contact->id}?".http_build_query($query));
+                    }
                 }
                 else
                 {
@@ -175,7 +194,14 @@ class Controller_Front_Contacts extends Controller_Front
                     }
                     else
                     {
-                        return \Response::redirect('lpgas_contacts/done?'.http_build_query($query));
+                        if (\Fuel::$env == \Fuel::PRODUCTION)
+                        {
+                            return \Response::redirect('https://enepi.jp/lpgas_contacts/done?'.http_build_query($query));
+                        }
+                        else
+                        {
+                            return \Response::redirect('lpgas_contacts/done?'.http_build_query($query));
+                        }
                     }
                 }
             }
@@ -398,85 +424,6 @@ class Controller_Front_Contacts extends Controller_Front
         // お客様マイページ
         else
         {
-            // SMS認証画面で入力した値が間違っていた場合SMS認証画面に戻る
-            if (\Input::get('pin') != $contact->pin)
-            {
-                $query = [
-                    'conversion_id' => 'LPGAS-'.$contact->id,
-                    'token' => $contact->token,
-                ];
-                return \Response::redirect("lpgas/contacts/{$contact->id}?".http_build_query($query));
-            }
-            $this->template = \View::forge('front/template_contact');
-            $contact = \Model_Contact::find($contact_id);
-            if (!$contact)
-            {
-                \Log::warning("conversion id {$contact_id} not found");
-                throw new HttpNotFoundException();
-            }
-            // Don't update if logded in as Admin
-            if (!Eauth::check('admin'))
-            {
-                $contact->is_seen = \Config::get('models.contact.is_seen.seen');
-                $contact->save();
-            }
-            $est_count_sent_estimate_to_user = count(Model_Estimate::find('all', [
-                'where' => [
-                    ['contact_id', $contact->id],
-                    ['status', \Config::get('models.estimate.status.sent_estimate_to_user')],
-                ]
-            ]));
-            $est = Model_Estimate::find('all', [
-                'where' => [
-                    ['contact_id', $contact->id],
-                    ['status', 'in',
-                        [
-                            \Config::get('models.estimate.status.sent_estimate_to_user'),
-                            \Config::get('models.estimate.status.verbal_ok'),
-                            \Config::get('models.estimate.status.contracted'),
-                        ]
-                    ],
-                ]
-            ]);
-            $est_count = count($est);
-            $prefecture_data = \Model_Localcontent_Prefecture::find($contact->getPrefectureCode());
-            if (!$prefecture_data)
-            {
-                \Log::warning("prefecture_code {$contact->getPrefectureCode()} not found");
-                throw new HttpNotFoundException();
-            }
-            $meta = [];
-            $header_decision = 'other';
-            $prefecture_KanjiAndCode   = JpPrefecture::allKanjiAndCode();
-            $prefecture_kanji          = $this->prefecture_kanji(  $prefecture_KanjiAndCode,
-                $contact->getPrefectureCode());
-            $this->template->title = 'エネピ';
-            $this->template->meta = $meta;
-            $this->template->header = View::forge('front/contacts/lpgas_contacts_header');
-            $this->template->content = View::forge('front/contacts/estimate_presentation', [
-                'contact' => $contact,
-                'prefecture_kanji' => $prefecture_kanji,
-                'prefecture_data' => $prefecture_data,
-                'est' => $est,
-                'est_count' => $est_count,
-                'est_count_sent_estimate_to_user' => $est_count_sent_estimate_to_user,
-            ], false);
-            $this->template->content->set_global('contact', $contact);
-            if($contact->status == \Config::get('models.contact.status.sent_estimate_req'))
-            {
-                $this->template->content->set_global('cv_point', \Config::get('models.tracking.cv_point.estimate'));
-            }
-            elseif($contact->status == \Config::get('models.contact.status.verbal_ok'))
-            {
-                $this->template->content->set_global('cv_point', \Config::get('models.tracking.cv_point.verbal_ok'));
-            }
-            $this->template->footer = View::forge('front/contacts/lpgas_contacts_footer');
-            $this->template->css_call = 'presentation';
-
-
-
-            // !!!!!!!! TEMPORARY DISABLED !!!!!!!!!
-            /*
             // Don't update if logged in as Admin
             if (!Eauth::check('admin'))
             {
@@ -486,8 +433,9 @@ class Controller_Front_Contacts extends Controller_Front
 
             $this->template = \View::forge('front/template_match_screen');
 
-            $estimates = $contact->get('estimates', [
+            $estimates = \Model_Estimate::find('all', [
                 'where' => [
+                    ['contact_id', $contact->id],
                     ['status', 'in', [
                         \Config::get('models.estimate.status.sent_estimate_to_user'),
                         \Config::get('models.estimate.status.verbal_ok'),
@@ -513,7 +461,6 @@ class Controller_Front_Contacts extends Controller_Front
             {
                 $this->template->content->set_global('cv_point', \Config::get('models.tracking.cv_point.verbal_ok'));
             }
-            */
         }
     }
 

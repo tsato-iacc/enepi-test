@@ -145,8 +145,6 @@ class Controller_Front extends Controller_Template
 
     private function matchScreenNotice()
     {
-        // !!!!!TEMPORARY DISABLED!!!!!
-        return;
         // Show user contact's modal on all pages if user has an offer or needs to enter a pincode
         // lpgas/contacts/:id?token=xxxx&pin=xxxx
         $notice = [];
@@ -174,7 +172,21 @@ class Controller_Front extends Controller_Template
             catch (\CacheNotFoundException $e)
             {
                 $max_saving = 0;
-                $estimates = $contact->get('estimates', ['where' => [['basic_price', '>=', 0]]]);
+                $estimates = \Model_Estimate::find('all', [
+                    'where' => [
+                        ['contact_id', $contact->id],
+                        ['basic_price', '>=', 0],
+                    ]
+                ]);
+
+                $estimates_count = \Model_Estimate::find('all', [
+                    'where' => [
+                        ['contact_id', $contact->id],
+                        ['status', 'in', [2, 3]],
+                    ]
+                ]);
+
+                $notice['count'] = count($estimates_count);
 
                 foreach ($estimates as $estimate)
                 {
@@ -189,12 +201,17 @@ class Controller_Front extends Controller_Template
                 if ($contact->is_seen == \Config::get('models.contact.is_seen.seen'))
                 {
                     $notice['economy'] = $max_saving;
-                    // Set to three hours
-                    \Cache::set('front.notice_param.'.$notice['id'], $notice, 3600 * 3);
+                    $notice['url'] = \Uri::create('lpgas/contacts/:id', ['id' => $contact->id]).'?'.http_build_query(['conversion_id' => "LPGAS-{$contact->id}", 'token' => $contact->token, 'pin' => $contact->pin]);
+                    // Set cache to 30 minutes
+                    \Cache::set('front.notice_param.'.$notice['id'], $notice, 1800 * 1);
                 }
 
+                if (!isset($notice['economy']))
+                {
+                    $notice['url'] = \Uri::create('lpgas/contacts/:id', ['id' => $contact->id]).'?'.http_build_query(['conversion_id' => "LPGAS-{$contact->id}", 'token' => $contact->token]);
+                }
             }
-            
+        
             \View::set_global('match_screen_notice', $notice, false);
         }
     }

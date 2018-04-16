@@ -5,6 +5,10 @@
 対象物件の築年数は？：<?= $data['q_3']; ?><br>
 <br>
 問い合わせ編集ページ：
+<?php if (\Fuel::$env == \Fuel::PRODUCTION): ?>
+<a href="<?= \Uri::create('https://enepi.jp/admin/contacts/:id/edit', ['id' => $contact->id]); ?>"><?= \Uri::create('https://enepi.jp/admin/contacts/:id/edit', ['id' => $contact->id]); ?></a><br>
+<?php else: ?>
 <a href="<?= \Uri::create('admin/contacts/:id/edit', ['id' => $contact->id]); ?>"><?= \Uri::create('admin/contacts/:id/edit', ['id' => $contact->id]); ?></a><br>
+<?php endif; ?>
 <br>
 <?= render('notifier/footer'); ?>
