@@ -26,7 +26,7 @@
             <label for="city_list">市区町村</label>
             <div class="select-arrow">
               <i class="fa fa-angle-down" aria-hidden="true"></i>
-              <select name="city_code" id="city_list" class="form-control" disabled><option value="">選択してください</option></select>
+              <select name="city_code" id="city_list" class="form-control" disabled><option value="">都道府県を選択してください</option></select>
             </div>
           </div>
         </div>

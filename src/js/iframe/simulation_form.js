@@ -14,7 +14,7 @@ if ($('.iframe-simulation-form').length) {
 
     if (!prefecture_code) {
       city_code_select.empty();
-      city_code_select.append($('<option>').html("選択してください").val(''));
+      city_code_select.append($('<option>').html("都道府県を選択してください").val(''));
 
       return;
     }
