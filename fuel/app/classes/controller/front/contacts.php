@@ -113,6 +113,9 @@ class Controller_Front_Contacts extends Controller_Front
             if ($original && $original->token == $token)
             {
                 $contact->original_contact_id = $original->id;
+                $contact->pr_tracking_parameter_id = $original->pr_tracking_parameter_id;
+                $contact->from_kakaku = $original->from_kakaku;
+                $contact->from_enechange = $original->from_enechange;
             }
         }
 
