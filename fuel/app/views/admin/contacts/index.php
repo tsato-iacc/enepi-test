@@ -174,6 +174,9 @@ use JpPrefecture\JpPrefecture;
         <td>
           <div><i class="fa fa-hashtag" aria-hidden="true"></i> <?= $contact->id; ?></div>
           <div><?= $contact->tracking ? $contact->tracking->display_name : '無し'; ?></div>
+          <?php if ($contact->original_contact_id): ?>
+            <div class="text-warning"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> 再入力 ID:<?= $contact->original_contact_id; ?></div>
+          <?php endif; ?>
         </td>
         <td>
           <div><i class="fa fa-user-circle-o" aria-hidden="true"></i> <?= $contact->name; ?></div>
