@@ -131,7 +131,8 @@ if ($('.iframe-simulation-form').length) {
           city_code: city_code,
           household: household,
           month: month,
-          bill: bill
+          bill: bill,
+          iframe: 'iframe'
         },
         success: function (data) {
           var result = JSON.parse(data);

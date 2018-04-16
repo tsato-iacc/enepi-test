@@ -91,7 +91,7 @@ class Controller_Front_Api_v1_Simulation extends Controller_Rest
                     'amount_billed'   => $val->validated('bill'),
                     'month'           => date_parse($val->validated('month'))['month'],
                     'ip'              => \Input::real_ip(),
-                    'type'            => 'api',
+                    'type'            => \Input::get('iframe') ? 'iframe' : 'api',
                 ]);
 
                 if (!$simulation->save())
