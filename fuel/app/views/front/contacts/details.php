@@ -1,3 +1,4 @@
+<?php use JpPrefecture\JpPrefecture; ?>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <div class="estimate">
   <div class="container">
@@ -458,7 +459,7 @@
                     </tr>
                     <tr>
                       <th>所在地</th>
-                      <td colspan="5">〒 <?= $estimate->company->zip_code ?> <?= $prefecture_kanji[key($prefecture_kanji)] ?> <?= $estimate->company->address ?></td>
+                      <td colspan="5">〒 <?= $estimate->company->zip_code ?> <?= JpPrefecture::findByCode($estimate->company->prefecture_code)->nameKanji; ?> <?= $estimate->company->address ?></td>
                     </tr>
                     <tr>
                       <th>供給エリア</th>
