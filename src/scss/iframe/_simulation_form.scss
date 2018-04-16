@@ -1,0 +1,816 @@
+$device-max-width: 500px;
+$device-min-width: 501px;
+
+$iframe-color-blue: #28a4e0;
+$iframe-color-yellow: #fff432;
+$iframe-color-red: #f82b2b;
+
+.iframe-simulation-form {
+  @include select-iframe-simulation();
+  padding: 5px;
+  background-color: $iframe-color-blue;
+
+  p {
+    margin: 0;
+  }
+
+  .form-wrap {
+    border: 2px solid #fff;
+  }
+
+  .form-header {
+    display: flex;
+    border-bottom: 2px solid #fff;
+    overflow: hidden;
+
+    > div {
+      &.first {
+        width: 28%;
+        padding: 0.5% 0 1.2% 2%;
+        position: relative;
+        z-index: 1;
+
+        &:after {
+          content: '';
+          position: absolute;
+          top: 0;
+          right: -9%;
+          background-color: $iframe-color-blue;
+          height: 100%;
+          width: 29.628%;
+          transform: rotate(45deg) skew(5deg, 10deg);
+          z-index: -1;
+        }
+      }
+      &.last {
+        width: 72%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        background-color: #fff;
+      }
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      color: #fff;
+      font-size: 2.5vw;
+      font-weight: 700;
+    }
+    
+    .image {
+      width: 45%;
+      font-size: 0;
+    }
+
+    .logo-title {
+      font-size: 3.1vw;
+      font-weight: 700;
+      line-height: 1em;
+      color: $iframe-color-yellow;
+    }
+
+    .header-title {
+      width: 100%;
+      padding-right: 0.5%;
+      font-size: 4.1vw;
+      font-weight: 700;
+      text-align: right;
+      color: $iframe-color-blue;
+
+      .underline {
+        position: relative;
+        z-index: 1;
+
+        &:after {
+          border: 0;
+          border-bottom: 0.4em solid $iframe-color-yellow;
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          margin-bottom: -0.2em;
+          z-index: -1;
+        }
+      }
+
+      .small {
+        font-size: 80%;
+      }
+    }
+
+    @media screen and (max-device-width: $device-max-width) {
+      padding: 1% 0;
+      flex-direction: column;
+      background-color: #fff;
+
+      .logo-sp {
+        &.first {
+          width: 100%;
+          padding-left: 0;
+          display: flex;
+          justify-content: center;
+          align-items: flex-end;
+
+          &:after {
+            content: none;
+          }
+        }
+      }
+
+      > div {
+        &.last {
+          width: 100%;
+        }
+      }
+
+      .image {
+        width: 32%;
+        padding-left: 6%;
+      }
+
+      .logo-title {
+        width: 68%;
+        font-size: 5.8vw;
+        font-weight: 100;
+        line-height: 1.4em;
+        color: #333;
+        padding-left: 2%;
+
+        .underline {
+          font-weight: 700;
+          color: $iframe-color-blue;
+          position: relative;
+          z-index: 1;
+
+          &:after {
+            border: 0;
+            border-bottom: 0.4em solid $iframe-color-yellow;
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            margin-bottom: -0.2em;
+            z-index: -1;
+          }
+        }
+
+        .small {
+          margin-right: 3%;
+          font-size: 80%;
+        }
+      }
+
+      .header-title {
+        width: 100%;
+        font-size: 5.6vw;
+        text-align: center;
+      }
+    }
+  }
+
+  .form-body {
+    height: 40vw;
+    background: url(/assets/images/iframe/simulation/bg.png);
+    background-repeat: no-repeat;
+    background-position: 98% 95%;
+    position: relative;
+
+    .start-page {
+      padding: 2% 4%;
+      height: 100%;
+    }
+
+    .result-page {
+      padding: 2%;
+    }
+
+    .start-page, .result-page {
+      @include absolute_100();
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 1;
+      visibility: visible;
+      transition: visibility 0.3s linear, opacity 0.3s linear;
+    }
+
+    .start-tr {
+      display: flex;
+      justify-content: space-between;
+
+      > div {
+        width: 47%;
+      }
+    }
+
+    .td-flex {
+      display: flex;
+      justify-content: space-between;
+
+      > div {
+        &:first-child {
+          width: 55%;
+        }
+        &:last-child {
+          width: 35%;
+
+          > div {
+            width: 80%;
+          }
+        }
+      }
+    }
+
+    .month-wrap {
+      display: flex;
+      align-items: flex-end;
+
+      p {
+        width: 20%;
+        padding-left: 4%;
+        font-size: 3vw;
+        font-weight: 700;
+        color: #fff;
+        text-shadow: 0 1px 2px #1c688e;
+      }
+    }
+
+    .bill-wrap {
+      @extend .month-wrap;
+      
+      p {
+        width: 10%;
+        padding-left: 2%;
+      }
+    }
+
+    label {
+      font-size: 2.2vw;
+      font-weight: 700;
+      line-height: 2em;
+      color: #fff;
+      text-shadow: 0 1px 2px #1c688e;
+    }
+
+    .result-wrap {
+      padding: 3% 2.5% 1%;
+      background-color: #fff;
+      border-radius: 5px;
+      position: relative;
+
+      &:after {
+        position: absolute;
+        content: '';
+        width: 0; 
+        height: 0; 
+        border-left: 2vw solid transparent;
+        border-right: 2vw solid transparent;
+        border-top: 2vw solid #fff;
+        bottom: -1.5vw;
+        left: 50%;
+        margin-left: -2vw;
+      }
+    }
+
+    .result-content {
+      display: flex;
+
+      > div {
+        &:first-child {
+          width: 25%;
+          padding-bottom: 1%;
+        }
+        &:last-child {
+          width: 75%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding-left: 3%;
+        }
+      }
+    }
+
+    .label {
+      font-size: 2.3vw;
+      color: $iframe-color-blue;
+    }
+
+    .underline {
+      border-bottom: 1px solid #75d2ff;
+    }
+
+    .gas-usage {
+      padding-right: 10%;
+      font-size: 2.7vw;
+      text-align: right;
+
+      span {
+        margin-right: 20%;
+        font-size: 140%;
+        color: $iframe-color-red;
+      }
+    }
+
+    .content-wrap {
+      display: flex;
+      align-items: flex-end;
+      padding-bottom: 2%;
+
+      p {
+        line-height: 1em;
+      }
+
+      .label {
+        width: 19%;
+      }
+
+      .basic-wrap {
+        display: flex;
+        width: 38%;
+      }
+      .unit-wrap {
+        display: flex;
+        width: 43%;
+      }
+      .price-title {
+        width: 47%;
+        font-size: 2.2vw;
+        font-weight: 700;
+        text-align: center;
+      }
+      .price {
+        width: 53%;
+        font-size: 2vw;
+        text-align: center;
+
+        span {
+          margin-right: 5%;
+          font-size: 160%;
+          color: $iframe-color-red;
+        }
+      }
+      .unit-price-title {
+        width: 40%;
+        font-size: 2.2vw;
+        font-weight: 700;
+        text-align: center;
+      }
+      .unit-price {
+        width: 60%;
+        text-align: right;
+        font-size: 2vw;
+
+        span {
+          margin-right: 5%;
+          font-size: 160%;
+          color: $iframe-color-red;
+        }
+      }
+    }
+
+    .comment {
+      padding-top: 1%;
+      font-size: 1.45vw;
+      text-align: center;
+    }
+
+    .economy-wrap {
+      display: flex;
+      margin-bottom: -1%;
+      overflow: hidden;
+
+      > div {
+        &:first-child {
+          width: 22%;
+          padding: 0.8% 0;
+          position: relative;
+          z-index: 1;
+          background-color: #fff;
+
+          p {
+            font-size: 2.2vw;
+            font-weight: 700;
+            line-height: 1.5em;
+            text-align: center;
+            color: $iframe-color-blue;
+            
+            span.decorator {
+              position: relative;
+              z-index: 1;
+
+              &:after {
+                border: 0;
+                border-bottom: 0.4em solid $iframe-color-yellow;
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                margin-bottom: -0.2em;
+                z-index: -1;
+              }
+            }
+          }
+
+          &:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -11%;
+            background-color: #fff;
+            height: 100%;
+            width: 38.628%;
+            -webkit-transform: rotate(44deg) skew(5deg,10deg);
+            transform: rotate(45deg) skew(6deg,10deg);
+            z-index: -1;
+          }
+        }
+        &:last-child {
+          width: 78%;
+          padding-bottom: 2%;
+          display: flex;
+          justify-content: flex-end;
+          align-items: flex-end;
+
+          > div {
+            &:first-child {
+              width: 55%;
+            }
+            &:last-child {
+              width: 45%;
+            }
+          }
+        }
+      }
+
+      .year-economy {
+        font-size: 3.1vw;
+        font-weight: 700;
+        line-height: 1em;
+        text-align: right;
+        color: #fff;
+
+        span {
+          font-size: 185%;
+          color: $iframe-color-yellow;
+        }
+      }
+
+      .year-title {
+        font-size: 3.4vw;
+        font-weight: 700;
+        text-align: right;
+        color: #fff;
+        text-shadow: 0.2vw 0.2vw 0 $iframe-color-blue;
+
+        span {
+          position: relative;
+          z-index: 1;
+
+          &:after {
+            border: 0;
+            border-bottom: 0.4em solid $iframe-color-yellow;
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            margin-bottom: -0.2em;
+            z-index: -1;
+          }
+        }
+      }
+    }
+
+    .iframe-simulation-btn {
+      margin: 1% auto;
+      width: 58%;
+      border-radius: 50px;
+      background-color: $iframe-color-yellow;
+      color: $iframe-color-blue;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0px 3px #cac134;
+
+      .image {
+        width: 7vw;
+        font-size: 0;
+        padding: 1.5%;
+      }
+
+      p {
+        font-size: 3vw;
+        font-weight: 700;
+        line-height: 1em;
+      }
+
+      i {
+        margin-right: 3%;
+        margin-left: 1%;
+        font-size: 5vw;
+      }
+    }
+
+    .iframe-resimulation-btn {
+      @extend .iframe-simulation-btn;
+      margin: 0 auto;
+      width: 46%;
+      background-color: #e9f7ff;
+      box-shadow: 0px 3px #2980aa;
+
+      i {
+        margin-right: 1%;
+        margin-left: 3%;
+      }
+    }
+
+    @media screen and (max-device-width: $device-max-width) {
+      height: 125vw;
+      background: none;
+
+      .start-page {
+        padding: 2% 5%;
+      }
+
+      .start-tr {
+        flex-direction: column;
+
+        > div {
+          width: 100%;
+        }
+      }
+
+      .start-td {
+        margin-bottom: 3%;
+      }
+
+      label {
+        font-size: 4.5vw;
+      }
+
+      .month-wrap p {
+        font-size: 5vw;
+      }
+
+      .result-wrap {
+        padding: 4% 3% 2%;
+        background-color: #e9f7ff;
+
+        &:after {
+          bottom: -2.5vw;
+          border-left: 2vw solid transparent;
+          border-right: 2vw solid transparent;
+          border-top: 3vw solid #e9f7ff;
+        }
+      }
+
+      .result-content {
+        flex-direction: column;
+
+        > div {
+          &:first-child {
+            width: 100%;
+            display: flex;
+            align-items: flex-end;
+            border-bottom: 2px solid $iframe-color-blue;
+
+            > p {
+              width: 50%;
+            }
+          }
+          &:last-child {
+            width: 100%;
+            padding-left: 0;
+          }
+        }
+      }
+
+      .label {
+        font-size: 4.5vw;
+      }
+
+      .underline {
+        border-bottom: 2px solid $iframe-color-blue;
+      }
+
+      .gas-usage {
+        padding: 0;
+        border-bottom: 0;
+        font-size: 5vw;
+        line-height: 1.4em;
+        text-align: left;
+
+        span {
+          font-weight: 700;
+        }
+      }
+
+      .content-wrap {
+        align-items: center;
+        padding-top: 4%;
+
+        .label {
+          width: 26%;
+          font-size: 3.8vw;
+        }
+
+        .basic-wrap {
+          width: 35%;
+          flex-direction: column;
+        }
+        .unit-wrap {
+          width: 39%;
+          flex-direction: column;
+        }
+
+        .price-title, .price, .unit-price-title, .unit-price {
+          width: 100%;
+        }
+
+        .price, .unit-price {
+          font-size: 4vw;
+          line-height: 1.5em;
+
+          span {
+            font-weight: 700;
+          }
+        }
+
+        .price {
+          text-align: left;
+        }
+
+        .price-title, .unit-price-title {
+          padding-bottom: 5%;
+          font-size: 3.8vw;
+          line-height: 1.5em;
+          text-align: left;
+        }
+      }
+
+      .comment {
+        font-size: 2.5vw;
+        text-align: left;
+        
+        span {
+          display: block;
+        }
+      }
+
+      .economy-wrap {
+        padding: 0 2%;
+        flex-direction: column;
+
+        > div {
+          &:first-child {
+            width: 100%;
+            padding: 0;
+            border-bottom: 2px solid #fff;
+            display: flex;
+            justify-content: center;
+            background-color: $iframe-color-blue;
+
+            p {
+              font-size: 5.5vw;
+              color: #fff;
+
+              span.decorator {
+                &:after {
+                  content: none;
+                }
+              }
+            }
+            
+            &:before {
+              position: absolute;
+              content: '';
+              width: 0; 
+              height: 0; 
+              border-left: 2vw solid transparent;
+              border-right: 2vw solid transparent;
+              border-top: 3vw solid #fff;
+              bottom: -3.5vw;
+              left: 50%;
+              margin-left: -2vw;
+            }
+            &:after {
+              position: absolute;
+              content: '';
+              width: 0; 
+              height: 0; 
+              border-left: 1.8vw solid transparent;
+              border-right: 1.8vw solid transparent;
+              border-top: 2.8vw solid $iframe-color-blue;
+              top: unset;
+              right: unset;
+              bottom: -2.2vw;
+              left: 50%;
+              margin-left: -1.8vw;
+              background-color: transparent;
+              transform: none;
+              z-index: 0;
+            }
+          }
+          &:last-child {
+            width: 100%;
+            flex-direction: column;
+            padding: 5% 0 0;
+
+            > div {
+              &:first-child {
+                width: 100%;
+              }
+              &:last-child {
+                width: 100%;
+              }
+            }
+          }
+        }
+
+        .year-economy {
+          font-size: 6.5vw;
+          line-height: 1.4em;
+          text-align: center;
+
+          span {
+            margin: 0 3%;
+          }
+        }
+
+        .year-title {
+          font-size: 7vw;
+          text-align: center;
+          text-shadow: 0.5vw 0.5vw 0 $iframe-color-blue;
+        }
+      }
+
+      .iframe-simulation-btn {
+        margin: 5% 0 3%;
+        width: 100%;
+
+        .image {
+          width: 14vw;
+        }
+
+        p {
+          font-size: 6vw;
+        }
+
+        i {
+          margin-right: 4%;
+          margin-left: 5%;
+          font-size: 8.5vw;
+        }
+
+        .button-pc {
+          display: none;
+        }
+      }
+
+      .iframe-resimulation-btn {
+        margin: 0 3% 2%;
+        width: 94%;
+      }
+    }
+  }
+
+  .page-hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+
+  @media screen and (max-device-width: $device-max-width) {
+    padding: 1.2vw;
+
+    .form-wrap {
+      border: 0.8vw solid #fff;
+    }
+    
+    .logo-pc {
+      display: none;
+    }
+    .logo-sp {
+      display: block;
+    }
+  }
+
+  @media screen and (min-device-width: $device-min-width) {
+    .logo-pc {
+      display: block;
+    }
+    .logo-sp {
+      display: none;
+    }
+  }
+}

@@ -52,14 +52,15 @@ class Simulation
 				$this->basic_rate             = (int) $city->basic_rate;
         $this->household_average_rate = $this->prefecture[$month] / $annual_average * $this->prefecture[$household];
 
+        $this->city_average_commodity_charge = (int) $city->commodity_charge == 0 ? (int) $this->prefecture->commodity_charge_criterion : (int) $city->commodity_charge;
+        
         if ($bill)
         {
-            $this->city_average_commodity_charge = (int) $city->commodity_charge == 0 ? (int) $this->prefecture->commodity_charge_criterion : (int) $city->commodity_charge;
-            $this->commodity_charge              = ((int) $bill / \Config::get('enepi.taxes.jp_acquisition_tax') - $this->basic_rate) / $this->household_average_rate;
+            $this->commodity_charge   = ((int) $bill / \Config::get('enepi.taxes.jp_acquisition_tax') - $this->basic_rate) / $this->household_average_rate;
         }
         else
         {
-            $this->commodity_charge = (int) $city->commodity_charge == 0 ? $this->prefecture->commodity_charge_criterion : $city->commodity_charge;
+            $this->commodity_charge = $this->city_average_commodity_charge;
             $this->estimated_bill   = ($this->basic_rate + $this->household_average_rate * $this->commodity_charge) * \Config::get('enepi.taxes.jp_acquisition_tax');
         }
 
@@ -69,7 +70,7 @@ class Simulation
             $sum[]                 = $monthly_average_usage;
 
             $monthly_estimated_usage         = $this->household_average_rate / $annual_average * $monthly_average_usage;
-            $this->monthly_estimated_price[] = $monthly_estimated_usage * $this->commodity_charge + $this->basic_rate;
+            $this->monthly_estimated_price[] = round($monthly_estimated_usage * $this->commodity_charge + $this->basic_rate, 0);
             $this->monthly_average_price[]   = (int) $city->commodity_charge == 0 ? $this->basic_rate + $this->prefecture->commodity_charge_criterion * $monthly_estimated_usage : $this->basic_rate + $city->commodity_charge * $monthly_estimated_usage;
         }
 
@@ -180,7 +181,7 @@ class Simulation
 						$data['rows'][] = ['c' => [['v' => "{$k}月"], ['v' => round($this->monthly_average_price[$key], 0)], ['v' => round($this->new_enepi_reduction[$key], 0)]]];
 				}
 
-				return json_encode($data);
+				return json_encode($data, JSON_UNESCAPED_UNICODE);
 		}
 
     /**
