@@ -6,6 +6,7 @@
 //= ../../bower_components/tether/dist/js/tether.js
 //= ../../bower_components/bootstrap/dist/js/bootstrap.js
 //= ../../bower_components/js-cookie/src/js.cookie.js
+//= ../../bower_components/countUp.js/dist/countUp.js
 
 
 /*

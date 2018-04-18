@@ -147,7 +147,7 @@
       <div class="btn-wrap">
         <div class="simulation-page-button color-gray" id="contact_btn">
           <div class="simulation-page-button-itself">
-            <div class="free-img img-hide"><?= Asset::img('simulations/free-tooltip.png'); ?></div>
+            <div class="free-img img-hide"><?= Asset::img('simulation/calc.png'); ?></div>
             <p>どちらかを選んでください</p>
           </div>
         </div>

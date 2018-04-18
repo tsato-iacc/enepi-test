@@ -107,11 +107,6 @@ class Controller_Front_Simulations extends Controller_Front
                 return Response::redirect('simple_simulations/new');
         }
 
-        $meta = [
-            ['name' => 'viewport', 'content' => 'content="width=device-width, initial-scale=1"'],
-            ['name' => 'fb:app_id', 'content' => '590655641075329'],
-        ];
-
         $breadcrumb = [
             ['url' => \Uri::create('categories/lpgas'), 'name' => 'LPガス/プロパンガス'],
             ['url' => \Uri::create('simple_simulations/new'), 'name' => '料金シミュレーション'],
@@ -119,28 +114,13 @@ class Controller_Front_Simulations extends Controller_Front
         ];
 
         $this->template->title = 'プロパンガス料金シミュレーション 結果';
-        $this->template->meta = $meta;
         $this->template->content = View::forge('front/simulations/show', [
             'breadcrumb'                    => $breadcrumb,
             'zip'                           => $zip,
-            'household'                     => \Config::get('enepi.household.key_string_numeric.'.$household),
             'month'                         => $month,
             'bill'                          => $bill,
-            'city_name'                     => $region->city_name,
-            'prefecture_name'               => $simulationHelper->getPrefectureName(),
-            'household_average_rate'        => number_format($simulationHelper->getHouseholdAverageRate(), 1),
-            'basic_rate'                    => number_format($simulationHelper->getBasicRate()),
-            'commodity_charge'              => $simulationHelper->getCommodityCharge(),
-            'city_average_commodity_charge' => number_format($simulationHelper->getCityAverageCommodityCharge()),
-            'estimated_bill'                => $simulationHelper->getEstimatedBill(),
-            'average_reduction_rate'        => number_format($simulationHelper->getAverageReductionRate()),
-            'nationwide_reduction'          => number_format($simulationHelper->getNationwideReduction()),
-            'monthly_average_price'         => $simulationHelper->getMonthlyAveragePrice(),
-            'new_enepi_reduction'           => $simulationHelper->getNewEnepiReduction(),
-            'new_enepi_reduction_average'   => $simulationHelper->getNewEnepiReductionAverage(),
-            'monthly_average_price_average' => $simulationHelper->getMonthlyAveragePriceAverage(),
-            'google_chart_json_data'        => $simulationHelper->getGoogleChartJsonData(),
-        ]);
+            'simulation_helper'             => $simulationHelper,
+        ], false);
     }
 
     public function get_iframe()
