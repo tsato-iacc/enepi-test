@@ -91,34 +91,36 @@
   </div>
   <!-- GOOGLE CHART END -->
 
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th></th>
-          <?php foreach (\Config::get('enepi.simulation.month.key_string_short') as $k): ?>
-            <th class="th-blue"><?= $k; ?>月</td>
-          <?php endforeach; ?>
-          <th>平均</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="tr-wide">
-          <td class="th-blue">地域平均(円)</th>
-          <?php foreach ($simulation_helper->getMonthlyAveragePrice() as $m): ?>
-            <td><?= number_format(round($m, 0)); ?></td>
-          <?php endforeach; ?>
-          <td><?= number_format($simulation_helper->getMonthlyAveragePriceAverage()); ?></td>
-        </tr>
-        <tr class="tr-wide">
-          <td class="th-orange">エネピ平均削減額(円)</td>
-          <?php foreach ($simulation_helper->getNewEnepiReduction() as $r): ?>
-            <td class="td-orange"><?= number_format(round($r, 0)); ?></td>
-          <?php endforeach; ?>
-          <td class="td-orange"><?= number_format($simulation_helper->getNewEnepiReductionAverage()); ?></td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="super-wrap">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <?php foreach (\Config::get('enepi.simulation.month.key_string_short') as $k): ?>
+              <th class="th-blue"><?= $k; ?>月</td>
+            <?php endforeach; ?>
+            <th>平均</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="tr-wide">
+            <td class="th-blue">地域平均(円)</th>
+            <?php foreach ($simulation_helper->getMonthlyAveragePrice() as $m): ?>
+              <td><?= number_format(round($m, 0)); ?></td>
+            <?php endforeach; ?>
+            <td><?= number_format($simulation_helper->getMonthlyAveragePriceAverage()); ?></td>
+          </tr>
+          <tr class="tr-wide">
+            <td class="th-orange">エネピ平均削減額(円)</td>
+            <?php foreach ($simulation_helper->getNewEnepiReduction() as $r): ?>
+              <td class="td-orange"><?= number_format(round($r, 0)); ?></td>
+            <?php endforeach; ?>
+            <td class="td-orange"><?= number_format($simulation_helper->getNewEnepiReductionAverage()); ?></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <div class="comment">
@@ -148,22 +150,26 @@
 <?= render('front/simulations/_form_estimate', ['zip' => $zip, 'household' => $simulation_helper->getHousehold(), 'month' => $simulation_helper->getMonth(), 'household_average_rate' => $simulation_helper->getHouseholdAverageRate(), 'bill' => $simulation_helper->getBill(), 'estimated_bill' => $simulation_helper->getEstimatedBill()]); ?>
 <!-- SIMULATION ESTIMATE FORM END -->
 
-<section class="simple-simulation-more" style="display: none;">
+<section class="simple-simulation-more">
   <div class="more-wrap">
     <div class="bg-transform"></div>
     <div class="content">
       <div class="image"><?= \Asset::img('simulation/more.png'); ?></div>
       <p>上記の追加情報を入力すると、</p>
-      <p><span class="dot">あ</span><span class="dot">な</span><span class="dot">た</span><span class="dot">だ</span><span class="dot">け</span>のenepi加盟会社プラン一覧が見れる！</p>
+      <p>
+        <span class="block"><span class="underline"><span class="dot">あ</span><span class="dot">な</span><span class="dot">た</span><span class="dot">だ</span><span class="dot">け</span>の</span></span>
+        <span class="block">enepi加盟会社プラン一覧が見れる！</span>
+      </p>
     </div>
   </div>
 </section>
 
-<section class="simple-simulation-point" style="display: none;">
+<section class="simple-simulation-point">
   <div class="image-wrap">
     <div class="point-left"><?= \Asset::img('simulation/point_1.png'); ?></div>
     <div class="point-right"><?= \Asset::img('simulation/point_2.png'); ?></div>
+    <div class="point-right-sp"><?= \Asset::img('simulation/point_2_sp.png'); ?></div>
   </div>
 
-  <div class="call-banner"><?= \Asset::img('simulation/call_banner.png'); ?></div>
+  <div class="call-banner"></div>
 </section>

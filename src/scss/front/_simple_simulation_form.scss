@@ -136,7 +136,6 @@ $simulation-color-red: #f52e34;
 .simulation-register-form-header {
   @extend .simple-simulation-header;
   margin-top: 20px;
-  padding: 5vw 4vw 4vw;
   width: 600px;
 
   .header-title-3 {
@@ -152,6 +151,7 @@ $simulation-color-red: #f52e34;
   }
 
   @media screen and (max-device-width: $device-max-width) {
+    padding: 5vw 4vw 2vw;
     margin-top: 0;
     width: 100%;
 
@@ -876,6 +876,10 @@ $simulation-color-red: #f52e34;
   @media screen and (max-device-width: $device-max-width) {
     width: 100%;
 
+    .super-wrap {
+      margin: 0 2%;
+    }
+
     .table-wrap {
       width: 100%;
       overflow: scroll;
@@ -980,6 +984,60 @@ $simulation-color-red: #f52e34;
       background-color: $simulation-color-red;
     }
   }
+
+  @media screen and (max-device-width: $device-max-width) {
+    margin: 8% 0 4%;
+    background: url(/assets/images/simulation/more_bg.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto 100%;
+
+    .block {
+      display: block;
+    }
+
+    .underline {
+      position: relative;
+      z-index: 1;
+
+      &:after {
+        border: 0;
+        border-bottom: 0.4em solid #fff;
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        margin-bottom: -0.2em;
+        z-index: -1;
+      }
+    }
+
+    .more-wrap {
+      width: 100%;
+      margin: 0 auto;
+      padding: 1% 0;
+    }
+
+    .bg-transform {
+      display: none;
+    }
+
+    .image {
+      width: 50%;
+    }
+
+    p {
+      font-size: 5.5vw;
+    }
+
+    .dot {
+      &:after {
+        content: none;
+      }
+    }
+  }
 }
 
 .simple-simulation-point {
@@ -988,6 +1046,8 @@ $simulation-color-red: #f52e34;
     height: 481px;
     margin: auto;
     background: url(/assets/images/simulation/point_bg.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
     position: relative;
   }
 
@@ -1003,8 +1063,56 @@ $simulation-color-red: #f52e34;
     top: 130px;
   }
 
+  .point-right-sp {
+    display: none;
+  }
+
   .call-banner {
     width: 790px;
+    height: 126px;
     margin: 50px auto 80px;
+    background: url(/assets/images/simulation/call_banner.png);
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  @media screen and (max-device-width: $device-max-width) {
+    overflow: hidden;
+
+    .image-wrap {
+      width: 100%;
+      height: 174vw;
+      background: url(/assets/images/simulation/point_bg_sp.png);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 96%;
+    }
+
+    .point-right {
+      display: none;
+    }
+
+    .point-left {
+      width: 50vw;
+      left: 2vw;
+      top: 68vw;
+    }
+
+    .point-right-sp {
+      display: block;
+      position: absolute;
+      width: 50vw;
+      right: -4vw;
+      bottom: 8vw;
+    }
+
+    .call-banner {
+      width: 100%;
+      height: 51vw;
+      margin: 4% auto 8%;
+      background: url(/assets/images/simulation/call_banner_sp.png);
+      background-repeat: no-repeat;
+      background-position: center;
+    }
   }
 }

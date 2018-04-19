@@ -10,9 +10,7 @@ $simulation-color-light-blue: #ccecf9;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  @media screen and (max-device-width: $device-max-width) {
-    // clear: both;
-  }
+  
   
   @include input_wrap();
   @include input_wrap2();
@@ -21,11 +19,16 @@ $simulation-color-light-blue: #ccecf9;
   .form-wrap {
     margin: 0 auto;
     border-radius: 10px;
+    border: 2px solid $simulation-color-blue;
     
     @media screen and (min-device-width: $device-min-width) {
       padding: 10px 0 0;
       width: 850px;
-      border: 2px solid $simulation-color-blue;
+    }
+
+    @media screen and (max-device-width: $device-max-width) {
+      padding-top: 5%;
+      margin: 0 2%;
     }
   }
   
@@ -183,7 +186,7 @@ $simulation-color-light-blue: #ccecf9;
     }
 
     @media screen and (max-device-width: $device-max-width) {
-      margin: 5% 0 0;
+      margin: 5% 0 5%;
 
       a {
         font-size: 4vw;
@@ -210,6 +213,7 @@ $simulation-color-light-blue: #ccecf9;
 
     @media screen and (max-device-width: $device-max-width) {
       margin: 0;
+      padding: 0 2%;
 
       .input-wrap2 {
         margin: 4% 0;
@@ -252,6 +256,7 @@ $simulation-color-light-blue: #ccecf9;
 
     @media screen and (max-device-width: $device-max-width) {
       margin: 0;
+      padding: 0 2%;
 
       .gas-detail-input-wrap {
         padding: 0;
@@ -291,7 +296,7 @@ $simulation-color-light-blue: #ccecf9;
 
     @media screen and (max-device-width: $device-max-width) {
       margin: 0;
-      padding: 0;
+      padding: 0 2%;
       flex-direction: column;
 
       .input-wrap {
@@ -315,11 +320,12 @@ $simulation-color-light-blue: #ccecf9;
   }
 
   .btn-wrap {
+    background-color: $simulation-color-light-blue;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    
     @media screen and (min-device-width: $device-min-width) {
-      background-color: $simulation-color-light-blue;
       padding: 18px 0 22px;
-      border-bottom-left-radius: 8px;
-      border-bottom-right-radius: 8px;
     }
 
     @media screen and (max-device-width: $device-max-width) {
@@ -375,6 +381,42 @@ $simulation-color-light-blue: #ccecf9;
       i {
         margin-bottom: 1%;
         margin-left: 1%;
+      }
+    }
+
+    @media screen and (max-device-width: $device-max-width) {
+      width: 94%;
+      
+      .image {
+        width: 12.5vw;
+        font-size: 0;
+        padding: 1.2%;
+      }
+
+      p {
+        margin-left: -2%;
+        font-size: 4.5vw;
+      }
+
+      i {
+        margin-right: 3%;
+        margin-left: 0;
+        font-size: 7vw;
+      }
+
+      &.btn-disabled {
+        width: 90%;
+
+        p {
+          margin: 5% 0 5% 8%;
+          font-size: 5.5vw;
+        }
+
+        i {
+          margin-bottom: 1%;
+          margin-left: 1%;
+          font-size: 8vw;
+        }
       }
     }
   }
