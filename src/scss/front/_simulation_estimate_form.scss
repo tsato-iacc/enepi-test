@@ -1,66 +1,31 @@
-// ----
-// Sass (v3.4.21)
-// Compass (v1.0.3)
-// ----
+$device-max-width: 500px;
+$device-min-width: 501px;
+$simulation-color-blue: #28a4e0;
+$simulation-color-light-blue: #ccecf9;
 
 .simulation-register-form {
   font-family: "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,Osaka,"ＭＳ Ｐゴシック","MS PGothic",sans-serif;
   line-height: 1.42857143;
   color: #222;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
   @media screen and (max-device-width: $device-max-width) {
-    clear: both;
+    // clear: both;
   }
   
   @include input_wrap();
   @include input_wrap2();
   @include input_error();
-
-  h3 {
-    position: relative;
-    color: #222;
-
-    .info {
-      position: absolute;
-      top: 0;
-      right: 0;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      font-size: 12px;
-      color: #00a0e9;
-      cursor: pointer;
-
-      span {
-        margin-left: 5px;
-      }
-    }
-
-    @media screen and (min-device-width: $device-min-width) {
-      margin: 10px auto;
-      width: 640px;
-      font-size: 20px;
-    }
-
-    @media screen and (max-device-width: $device-max-width) {
-      font-size: 4vw;
-      margin-top: 10%;
-
-      .info {
-        top: -6vw;
-        right: 2vw;
-      }
-    }
-  }
   
   .form-wrap {
     margin: 0 auto;
-    border-radius: 4px;
+    border-radius: 10px;
     
     @media screen and (min-device-width: $device-min-width) {
       padding: 10px 0 0;
       width: 850px;
-      border: 1px solid #ccc;
+      border: 2px solid $simulation-color-blue;
     }
   }
   
@@ -73,6 +38,7 @@
       color: #ff6262;
       margin: 10px 0;
       font-size: 12px;
+      font-weight: 700;
       letter-spacing: 1px;
     }
 
@@ -204,9 +170,11 @@
 
   .other-kind-wrap {
     margin: 20px;
+    text-align: center;
 
     a {
       font-size: 14px;
+      font-weight: 700;
       color: #00a0e9;
 
       &:hover, &:visited, &:focus {
@@ -346,16 +314,12 @@
     @extend .contact-name-wrap;
   }
 
-  .simulation-page-button-itself {
-    
-  }
-
   .btn-wrap {
     @media screen and (min-device-width: $device-min-width) {
-      background-color: #efefef;
-      padding: 20px 0 25px;
-      border-bottom-left-radius: 4px;
-      border-bottom-right-radius: 4px;
+      background-color: $simulation-color-light-blue;
+      padding: 18px 0 22px;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
     }
 
     @media screen and (max-device-width: $device-max-width) {
@@ -363,21 +327,54 @@
     }
   }
 
-  .simulation-page-button {
-    height: auto;
+  .simple-simulation-estimate-btn {
+    margin: 1% auto 0;
+    width: 48%;
+    border-radius: 50px;
+    background-color: $simulation-color-yellow;
+    color: $simulation-color-blue;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     cursor: pointer;
+    box-shadow: 0px 3px #d0c639;
 
-    &.color-gray {
-      background-color: #9a9a9a;
+    .image {
+      width: 48px;
+      font-size: 0;
+      padding: 5px;
     }
 
     p {
-      font-size: 21px;
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1em;
     }
-    
-    @media screen and (max-device-width: $device-max-width) {
+
+    i {
+      margin-right: 5%;
+      margin-left: 3%;
+      font-size: 36px;
+      line-height: 1.2em;
+    }
+
+    &.btn-disabled {
+      width: 40%;
+      background-color: #f5f4f3;
+      box-shadow: 0px 3px #cfccc6;
+
+      .image {
+        display: none;
+      }
+
       p {
-        font-size: 5.5vw;
+        margin: 15px 0 15px 40px;
+      }
+
+      i {
+        margin-bottom: 1%;
+        margin-left: 1%;
       }
     }
   }

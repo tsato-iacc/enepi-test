@@ -1,5 +1,4 @@
 <div class="simulation-register-form" id="simulation_register_form">
-  <h3>↓↓このままガス会社の料金プランを見る↓↓<div class="info scroll"><i class="fa fa-info-circle" aria-hidden="true"></i><span>詳しくはこちら</span></div></h3>
 
   <div class="form-wrap">
     <?= \Form::open(['action' => \Uri::create('lpgas_contacts')]); ?>
@@ -11,7 +10,7 @@
       <input type="hidden" name="addr" value="<?= $zip->city_name ?>">
 
       <input type="hidden" name="lpgas_contact[house_kind]" value="detached">
-      <input type="hidden" name="lpgas_contact[house_hold]" value="<?= $household ?>">
+      <input type="hidden" name="lpgas_contact[house_hold]" value="<?= \Config::get('enepi.household.key_string_numeric.'.$household); ?>">
       <input type="hidden" name="lpgas_contact[gas_meter_checked_month]" value="<?= $month ?>">
       <input type="hidden" name="lpgas_contact[gas_used_amount]" value="<?= $household_average_rate ?>">
       <input type="hidden" name="lpgas_contact[gas_latest_billing_amount]" value="<?= $bill ? $bill : $estimated_bill ?>">
@@ -145,12 +144,7 @@
       <!-- CONTACT DETAIL END -->
 
       <div class="btn-wrap">
-        <div class="simulation-page-button color-gray" id="contact_btn">
-          <div class="simulation-page-button-itself">
-            <div class="free-img img-hide"><?= Asset::img('simulation/calc.png'); ?></div>
-            <p>どちらかを選んでください</p>
-          </div>
-        </div>
+        <div class="simple-simulation-estimate-btn btn-disabled" id="simple_simulation_estimate_btn"><div class="image"><?= \Asset::img('simulation/calc.png'); ?></div><p>どちらかを選んでください</p><i class="fa fa-angle-up" aria-hidden="true"></i></div>
       </div>
     <?= Form::close(); ?>
   </div>

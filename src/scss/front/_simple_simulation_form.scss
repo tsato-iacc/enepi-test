@@ -1,7 +1,7 @@
 $device-max-width: 500px;
 $device-min-width: 501px;
 
-$simulation-color-blue: #28a4e0;
+$simulation-color-blue: #00a0e9;
 $simulation-color-light-blue: #ccecf9;
 $simulation-color-yellow: #fef249;
 $simulation-color-red: #f52e34;
@@ -82,7 +82,8 @@ $simulation-color-red: #f52e34;
   }
 
   @media screen and (max-device-width: $device-max-width) {
-    margin: 5vw 2vw 4vw;
+    margin: 0;
+    padding: 5vw 2vw 4vw;
     width: 100%;
     align-items: flex-end;
 
@@ -96,7 +97,7 @@ $simulation-color-red: #f52e34;
       }
       &:last-child {
         width: 76%;
-        padding-left: 2%;
+        padding-left: 4%;
       }
     }
 
@@ -128,6 +129,47 @@ $simulation-color-red: #f52e34;
 
     .header-title-hidden {
       display: none;
+    }
+  }
+}
+
+.simulation-register-form-header {
+  @extend .simple-simulation-header;
+  margin-top: 20px;
+  padding: 5vw 4vw 4vw;
+  width: 600px;
+
+  .header-title-3 {
+    font-size: 22px;
+    color: #444;
+  }
+
+  .underline {
+    font-size: 25px;
+    line-height: 1em;
+    letter-spacing: 1px;
+    color: #28a4e0;
+  }
+
+  @media screen and (max-device-width: $device-max-width) {
+    margin-top: 0;
+    width: 100%;
+
+    .header-title-3 {
+      margin: 0;
+      font-size: 5vw;
+      line-height: 1.5em;
+
+      > span {
+        &:last-child {
+          text-align: right;
+          line-height: 1.8em;
+        }
+      }
+    }
+
+    .underline {
+      font-size: 6.2vw;
     }
   }
 }
@@ -578,7 +620,8 @@ $simulation-color-red: #f52e34;
   }
 
   @media screen and (max-device-width: $device-max-width) {
-    padding: 1.2vw;
+    margin-bottom: 4%;
+    padding: 1.2vw 0;
     width: 98%;
 
     .simple-simulation-wrap {
@@ -828,5 +871,140 @@ $simulation-color-red: #f52e34;
       font-size: 36px;
       line-height: 1.2em;
     }
+  }
+
+  @media screen and (max-device-width: $device-max-width) {
+    width: 100%;
+
+    .table-wrap {
+      width: 100%;
+      overflow: scroll;
+    }
+
+    .h3-wrap {
+      background-repeat: no-repeat;
+      background-position: top center;
+
+      .block {
+        display: block;
+      }
+    }
+
+    h3 {
+      width: 100%;
+      font-size: 6.4vw;
+      line-height: 1.3em;
+      padding-top: 8%;
+      background-color: transparent;
+    }
+
+    table {
+      width: 200vw;
+      font-size: 3vw;
+    }
+
+    .comment {
+      font-size: 2.6vw;
+      padding: 0 2%;
+
+      p {
+        margin: 2% 0 0;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 7%
+      }
+    }
+
+    .simple-resimulation-btn {
+      margin: 4% auto 0;
+    }
+  }
+}
+
+.simple-simulation-more {
+  margin: 40px 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: $simulation-color-blue;
+
+  .more-wrap {
+    width: 850px;
+    margin: 0 auto;
+    padding: 6px 0;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .bg-transform {
+    position: absolute;
+    left: 0;
+    bottom: -90px;
+    width: 850px;
+    height: 850px;
+    background-color: $simulation-color-yellow;
+    transform: rotate(45deg);
+    z-index: -1;
+  }
+
+  .image {
+    font-size: 0;
+    width: 200px;
+    margin: auto;
+  }
+
+  p {
+    margin: 0 0 5px;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.4em;
+    text-align: center;
+    color: $simulation-color-blue;
+  }
+
+  .dot {
+    position: relative;
+    font-size: 130%;
+
+    &:after {
+      position: absolute;
+      top: -7px;
+      left: 50%;
+      content: '';
+      width: 6px;
+      height: 6px;
+      margin-left: -3px;
+      border-radius: 50%;
+      background-color: $simulation-color-red;
+    }
+  }
+}
+
+.simple-simulation-point {
+  .image-wrap {
+    width: 796px;
+    height: 481px;
+    margin: auto;
+    background: url(/assets/images/simulation/point_bg.png);
+    position: relative;
+  }
+
+  .point-left {
+    position: absolute;
+    left: -60px;
+    top: 150px;
+  }
+
+  .point-right {
+    position: absolute;
+    right: -90px;
+    top: 130px;
+  }
+
+  .call-banner {
+    width: 790px;
+    margin: 50px auto 80px;
   }
 }
