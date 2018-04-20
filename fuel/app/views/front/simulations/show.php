@@ -166,10 +166,15 @@
 
 <section class="simple-simulation-point">
   <div class="image-wrap">
+    <div class="image point-bg"><?= \Asset::img('simulation/point_bg.png'); ?></div>
+    <div class="image point-bg-sp"><?= \Asset::img('simulation/point_bg_sp.png'); ?></div>
     <div class="point-left"><?= \Asset::img('simulation/point_1.png'); ?></div>
     <div class="point-right"><?= \Asset::img('simulation/point_2.png'); ?></div>
     <div class="point-right-sp"><?= \Asset::img('simulation/point_2_sp.png'); ?></div>
+    <p>※画像はイメージです</p>
   </div>
 
-  <div class="call-banner"></div>
+
+  <div class="call-banner"><?= \Asset::img('simulation/call_banner.png'); ?></div>
+  <div class="call-banner-sp"><?= \Asset::img('simulation/call_banner_sp.png'); ?></div>
 </section>
