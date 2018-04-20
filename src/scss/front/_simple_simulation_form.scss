@@ -654,6 +654,14 @@ $simulation-color-red: #f52e34;
 
       .input-data {
         margin: 0 0 3%;
+        font-size: 3.6vw;
+      }
+
+      .round {
+        margin-right: 4%;
+        padding: 1vw 2vw;
+        font-size: 3.2vw;
+        color: $simulation-color-blue;
       }
 
       .result-data {
@@ -674,6 +682,7 @@ $simulation-color-red: #f52e34;
 
     .label {
       padding-left: 0;
+      font-size: 3.6vw;
       text-align: center;
     }
 
@@ -1106,17 +1115,18 @@ $simulation-color-red: #f52e34;
     }
 
     .point-left {
-      width: 50vw;
+      width: 40vw;
       left: 2vw;
-      top: 68vw;
+      bottom: 40%;
+      top: auto;
     }
 
     .point-right-sp {
       display: block;
       position: absolute;
-      width: 50vw;
-      right: -4vw;
-      bottom: 8vw;
+      width: 42vw;
+      right: 1vw;
+      bottom: 6%;
     }
 
     .call-banner {
