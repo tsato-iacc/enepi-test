@@ -161,7 +161,7 @@ header {
         flex-basis: unset;
 
         .logo {
-          margin: 3% 0;
+          margin: 0;
           width: 100%;
         }
 
@@ -177,6 +177,7 @@ header {
       }
 
       .pos-left {
+        padding-top: 1%;
         width: 40%;
         order: 1;
       }
