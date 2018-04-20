@@ -163,12 +163,18 @@ header {
         .logo {
           margin: 0;
           width: 100%;
+
+          a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
         }
 
         > div > div {
           width: 100%;
           max-width: unset;
-          padding: 3% 10% 0;
+          padding: 0 12% 0;
         }
 
         .enepi-tel > div {
