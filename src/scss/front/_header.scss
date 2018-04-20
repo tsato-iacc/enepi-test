@@ -125,13 +125,14 @@ header {
 
   @media screen and (max-device-width: $device-max-width) {
     .container-wrap {
-      margin: 3% 0 0;
+      margin: 0;
       height: auto;
       flex-wrap: wrap;
 
       .navi-wrap {
         width: 100%;
-        margin-top: 2%;
+        height: auto;
+        margin-top: 0;
         border-top: 1px solid #eee;
         order: 3;
 
@@ -142,6 +143,10 @@ header {
           &:last-child {
             border-right: none;
           }
+        }
+
+        a {
+          padding: 4% 0;
         }
       }
 
@@ -156,6 +161,7 @@ header {
         flex-basis: unset;
 
         .logo {
+          margin: 3% 0;
           width: 100%;
         }
 

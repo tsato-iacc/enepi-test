@@ -176,5 +176,5 @@
 
 
   <div class="call-banner"><?= \Asset::img('simulation/call_banner.png'); ?></div>
-  <div class="call-banner-sp"><?= \Asset::img('simulation/call_banner_sp.png'); ?></div>
+  <div class="call-banner-sp"><a href="tel:<?= \Config::get('enepi.service.tel'); ?>"><?= \Asset::img('simulation/call_banner_sp.png'); ?></a></div>
 </section>
