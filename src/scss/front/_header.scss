@@ -134,10 +134,20 @@ header {
         margin-top: 2%;
         border-top: 1px solid #eee;
         order: 3;
+
+        > div {
+          &:first-child {
+            border-left: none;
+          }
+          &:last-child {
+            border-right: none;
+          }
+        }
       }
 
       .navi {
         width: 33.333333%;
+        font-size: 3.5vw;
       }
 
       .logo-wrap {
