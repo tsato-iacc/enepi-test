@@ -121,7 +121,7 @@ use JpPrefecture\JpPrefecture;
         <td class="align-middle">
           <div>
             <?php if (\Uri::segment(1) == 'partner'): ?>
-              <a href="<?= \Uri::create('partner/estimates/:id'.'?'.http_build_query(['u' => $auth_user->id]), ['id' => $estimate->id]); ?>" class="btn btn-secondary btn-sm px-1 mb-1 w-100" role="button"><i class="fa fa-address-card-o" aria-hidden="true"></i> 詳細</a>
+              <a href="<?= \Uri::create('partner/estimates/:uuid'.'?'.http_build_query(['u' => $auth_user->id]), ['uuid' => $estimate->uuid]); ?>" class="btn btn-secondary btn-sm px-1 mb-1 w-100" role="button"><i class="fa fa-address-card-o" aria-hidden="true"></i> 詳細</a>
             <?php else: ?>
               <a href="<?= \Uri::create('admin/estimates/:id', ['id' => $estimate->id]); ?>" class="btn btn-secondary btn-sm px-1 mb-1 w-100" role="button"><i class="fa fa-address-card-o" aria-hidden="true"></i> 詳細</a>
             <?php endif; ?>

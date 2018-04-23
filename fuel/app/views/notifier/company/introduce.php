@@ -15,7 +15,7 @@ enepi(エネピ)運営事務局でございます。<br>
 <br>
 <p>
   貴社専用管理画面ログインURL<br>
-  <a href="<?= \Uri::create('partner/estimates/:id', ['id' => $estimate->id]); ?>"><?= \Uri::create('partner/estimates/:id', ['id' => $estimate->id]); ?></a>
+  <a href="<?= \Uri::create('partner/estimates/:uuid', ['uuid' => $estimate->uuid]); ?>"><?= \Uri::create('partner/estimates/:uuid', ['uuid' => $estimate->uuid]); ?></a>
 </p>
 お手数おかけ致しますが、何卒宜しくお願い致します。<br>
 ご不明な点がございましたら、お気軽にお問い合わせくださいますようお願い申し上げます。<br>
