@@ -158,7 +158,7 @@
       <p>上記の追加情報を入力すると、</p>
       <p>
         <span class="block"><span class="underline"><span class="dot">あ</span><span class="dot">な</span><span class="dot">た</span><span class="dot">だ</span><span class="dot">け</span>の</span></span>
-        <span class="block">enepi加盟会社プラン一覧が見れる！</span>
+        <span class="block">enepi加盟会社プラン一覧が見られる！</span>
       </p>
     </div>
   </div>
