@@ -51,6 +51,15 @@ class Notifier
         $email->send();
     }
 
+    public static function notifyCustomerByTemplate(&$contact, &$template_subject, &$template_body)
+    {
+        $email = \Email::forge();
+        $email->to($contact->email, $contact->name);
+        $email->subject($template_subject.'／enepi運営事務局');
+        $email->html_body($template_body);
+        $email->send();
+    }
+
     public static function notifyCompanyEstimateCancel(&$estimate)
     {
         $by_user = $estimate->status_reason == \Helper\CancelReasons::getValueByName('status_reason_request_by_user');

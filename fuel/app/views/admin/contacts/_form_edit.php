@@ -28,6 +28,12 @@ use JpPrefecture\JpPrefecture;
       <input type="text" required name="email" value="<?= $val->input('email', $contact->email); ?>" class="form-control" id="email">
     </div>
   </div>
+  <div class="col-2">
+    <div class="form-group">
+      <label class="form-control-label" for="tel"><h6>　</h6></label>
+      <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#mail_template"><i class="fa fa-envelope-open-o" aria-hidden="true"></i> メール送信</button>
+    </div>
+  </div>
 </div>
 <div class="form-group row">
   <div class="col-2">
