@@ -1,9 +1,9 @@
 <?php
 
 /**
- * class PrTrackingParameter
+ * class Model_Customer_Template
  */
-class Model_Template extends \Orm\Model
+class Model_Customer_Template extends \Orm\Model
 {
     protected static $_table_name = 'customer_mail_templates';
 
@@ -36,7 +36,7 @@ class Model_Template extends \Orm\Model
 
     public static function getSelectOptions()
     {
-        return \Arr::pluck(\Model_Template::find('all'), 'name', 'id');        
+        return \Arr::pluck(\Model_Customer_Template::find('all'), 'name', 'id');        
     }
 
     public static function generateTemplate(&$body, &$contact)
@@ -49,8 +49,6 @@ class Model_Template extends \Orm\Model
         {
             foreach ($variables[1] as $variable)
             {
-                \Log::debug($variable);
-
                 switch ($variable)
                 {
                     case 'contact_name':

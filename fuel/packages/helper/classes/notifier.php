@@ -10,6 +10,8 @@
 
 namespace Helper;
 
+use Eauth;
+
 class Notifier
 {
     /**
@@ -57,7 +59,19 @@ class Notifier
         $email->to($contact->email, $contact->name);
         $email->subject($template_subject.'／enepi運営事務局');
         $email->html_body($template_body);
-        $email->send();
+
+        $status = $email->send();
+
+        $log = new \Model_Customer_Log([
+            'admin_id' => Eauth::instance('admin')->get('id'),
+            'contact_id' => $contact->id,
+            'email' => $contact->email,
+            'subject' => $template_subject,
+            'body' => $template_body,
+            'send_status' => $status,
+        ]);
+
+        $log->save();
     }
 
     public static function notifyCompanyEstimateCancel(&$estimate)

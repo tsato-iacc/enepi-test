@@ -339,7 +339,6 @@ function mailTemplate() {
         if (data.errors) {
           console.log(data.errors);
           modal.find('.template-body-wrap').addClass('error');
-          modal.find('.template-body-wrap').removeClass('success');
         }
         else if (data.result == 'success') {
 
@@ -353,10 +352,11 @@ function mailTemplate() {
         }
       },
       error: function() {
-        alert('An error has occurred!');
+        modal.find('.template-body-wrap').addClass('error');
         modal.find('.close-btn').prop('disabled', false);
         modal.find('.send-btn').prop('disabled', false);
         l.stop();
+        alert('An error has occurred!');
       }
     });
   });

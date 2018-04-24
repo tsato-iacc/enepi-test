@@ -93,7 +93,7 @@ class Controller_Admin_Api extends Controller_Rest
 
         $template_id = \Input::get('template_id');
 
-        $template = \Model_Template::find($template_id);
+        $template = \Model_Customer_Template::find($template_id);
 
         if ($template)
         {
@@ -124,8 +124,8 @@ class Controller_Admin_Api extends Controller_Rest
 
         if ($contact_id && $contact && $template_subject && $template_body)
         {
-            \Model_Template::generateTemplate($template_subject, $contact);
-            \Model_Template::generateTemplate($template_body, $contact);
+            \Model_Customer_Template::generateTemplate($template_subject, $contact);
+            \Model_Customer_Template::generateTemplate($template_body, $contact);
 
             $template_body = str_replace("\n", "\n<br>", $template_body);
             

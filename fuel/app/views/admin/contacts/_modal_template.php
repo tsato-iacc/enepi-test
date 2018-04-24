@@ -11,7 +11,7 @@
         <div class="template-wrap">
           <div class="form-group">
             <label for="recipient-name" class="form-control-label">テンプレート:</label>
-            <?= Form::select('template_name', '', ['' => '選択してください'] + \Model_Template::getSelectOptions(), ['class' => 'form-control', 'id' => 'template_name']); ?>
+            <?= Form::select('template_name', '', ['' => '選択してください'] + \Model_Customer_Template::getSelectOptions(), ['class' => 'form-control', 'id' => 'template_name']); ?>
           </div>
           <div class="form-group">
             <label for="template_subject" class="form-control-label">件名:</label>

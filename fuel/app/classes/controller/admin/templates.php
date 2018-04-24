@@ -31,7 +31,7 @@ class Controller_Admin_Templates extends Controller_Admin
     {
         $this->template->title = 'メールテンプレート一覧';
         $this->template->content = View::forge('admin/templates/index', [
-            'templates' => \Model_Template::find('all'),
+            'templates' => \Model_Customer_Template::find('all'),
         ]);
     }
 
@@ -45,8 +45,8 @@ class Controller_Admin_Templates extends Controller_Admin
     {
         $this->template->title = 'New template';
         $this->template->content = View::forge('admin/templates/create', [
-            'val' => \Model_Template::validate(),
-            'template' => new \Model_Template(),
+            'val' => \Model_Customer_Template::validate(),
+            'template' => new \Model_Customer_Template(),
         ]);
     }
 
@@ -58,9 +58,9 @@ class Controller_Admin_Templates extends Controller_Admin
      */
     public function post_store()
     {
-        $template = new \Model_Template();
+        $template = new \Model_Customer_Template();
 
-        $val = Model_Template::validate();
+        $val = Model_Customer_Template::validate();
 
         if ($val->run())
         {
@@ -102,12 +102,12 @@ class Controller_Admin_Templates extends Controller_Admin
      */
     public function get_edit($id)
     {
-        if (!$template = \Model_Template::find($id))
+        if (!$template = \Model_Customer_Template::find($id))
             throw new HttpNotFoundException;
 
         $this->template->title = 'Edit template';
         $this->template->content = View::forge('admin/templates/edit', [
-            'val' => \Model_Template::validate(),
+            'val' => \Model_Customer_Template::validate(),
             'template' => $template,
         ]);
     }
@@ -120,10 +120,10 @@ class Controller_Admin_Templates extends Controller_Admin
      */
     public function post_update($id)
     {
-        if (!$template = \Model_Template::find($id))
+        if (!$template = \Model_Customer_Template::find($id))
             throw new HttpNotFoundException;
 
-        $val = \Model_Template::validate();
+        $val = \Model_Customer_Template::validate();
 
         if ($val->run())
         {
@@ -166,7 +166,7 @@ class Controller_Admin_Templates extends Controller_Admin
     public function get_destroy($id)
     {
         // FIX ME (USE SOFT DELETE OR FLAG)
-        if ($template = \Model_Template::find($id))
+        if ($template = \Model_Customer_Template::find($id))
         {
             if ($template->delete())
                 Session::set_flash('success', 'テンプレートを削除しました');
