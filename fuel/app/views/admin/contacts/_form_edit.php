@@ -30,7 +30,7 @@ use JpPrefecture\JpPrefecture;
   </div>
   <div class="col-2">
     <div class="form-group">
-      <label class="form-control-label" for="tel"><h6>　</h6></label>
+      <label class="form-control-label" for="tel"><h6> 送信数: <?= count($contact->customer_logs); ?></h6></label>
       <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#mail_template"><i class="fa fa-envelope-open-o" aria-hidden="true"></i> メール送信</button>
     </div>
   </div>

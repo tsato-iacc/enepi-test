@@ -143,6 +143,9 @@ class Model_Contact extends \Orm\Model
         'calling_histories' => [
             'model_to' => 'Model_CallingHistory',
         ],
+        'customer_logs' => [
+            'model_to' => 'Model_Customer_Log',
+        ],
     ];
 
     protected static $_has_one = [
