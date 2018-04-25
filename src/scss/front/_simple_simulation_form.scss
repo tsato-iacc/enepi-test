@@ -1066,6 +1066,10 @@ $simulation-color-red: #f52e34;
 
   .image {
     font-size: 0;
+    opacity: 0.7;
+    border: 3px solid #42afe2;
+    border-radius: 10px;
+    overflow: hidden;
   }
 
   .image-wrap {
