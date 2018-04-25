@@ -176,6 +176,7 @@ class Controller_Front extends Controller_Template
                     'where' => [
                         ['contact_id', $contact->id],
                         ['basic_price', '>=', 0],
+                        ['status', 'in', [2, 3]],
                     ]
                 ]);
 
