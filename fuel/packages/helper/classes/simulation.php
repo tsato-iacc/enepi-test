@@ -188,7 +188,7 @@ class Simulation
         $data = [
             'cols' => [
                 ['id' => '','label' => '月','pattern' => '','type' => 'string'],
-                ['id' => '','label' => '地域平均','pattern' => '','type' => 'number'],
+                ['id' => '','label' => $this->getPrefectureName().'平均','pattern' => '','type' => 'number'],
                 ['id' => '','label' => 'エネピ平均削減額','pattern' => '','type' => 'number'],
             ],
             'rows' => [],

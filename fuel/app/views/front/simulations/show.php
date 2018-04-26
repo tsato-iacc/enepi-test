@@ -105,14 +105,14 @@
         </thead>
         <tbody>
           <tr class="tr-wide">
-            <td class="th-blue">地域平均(円)</th>
+            <td class="th-blue"><?= $simulation_helper->getPrefectureName(); ?>平均(税込)</th>
             <?php foreach ($simulation_helper->getMonthlyAveragePrice() as $m): ?>
               <td><?= number_format(round($m, 0)); ?></td>
             <?php endforeach; ?>
             <td><?= number_format($simulation_helper->getMonthlyAveragePriceAverage()); ?></td>
           </tr>
           <tr class="tr-wide">
-            <td class="th-orange">エネピ平均削減額(円)</td>
+            <td class="th-orange">エネピ平均削減額(税込)</td>
             <?php foreach ($simulation_helper->getNewEnepiReduction() as $r): ?>
               <td class="td-orange"><?= number_format(round($r, 0)); ?></td>
             <?php endforeach; ?>
