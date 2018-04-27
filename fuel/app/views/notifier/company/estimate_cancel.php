@@ -10,7 +10,7 @@ enepi(エネピ)運営事務局でございます。
 
 <?php if ($by_user): ?>
   <p>
-    ご紹介させていただきました【案件番号:<?= $estimate->uuid ?>】について、
+    ご紹介させていただきました【案件番号:<a href="<?= \Uri::create('partner/estimates/:uuid', ['uuid' => $estimate->uuid]); ?>"><?= $estimate->uuid ?></a>】について、
     今回のご登録についてキャンセルさせていただきました。
   </p>
   <p>
@@ -23,7 +23,7 @@ enepi(エネピ)運営事務局でございます。
   </p>
 <?php else: ?>
   <p>
-    ご要望いただきました【案件番号:<?= $estimate->uuid ?>】のキャンセルについて承りました。<br>
+    ご要望いただきました【案件番号:<a href="<?= \Uri::create('partner/estimates/:uuid', ['uuid' => $estimate->uuid]); ?>"><?= $estimate->uuid ?></a>】のキャンセルについて承りました。<br>
     引き続き他のユーザー様のご対応をよろしくお願い申し上げます。
   </p>
   <p>
@@ -32,7 +32,7 @@ enepi(エネピ)運営事務局でございます。
 <?php endif; ?>
 <p>
   貴社専用管理画面ログインURL<br>
-  <a href="<?= \Uri::create('partner/login'); ?>"><?= \Uri::create('partner/login'); ?></a>
+  <a href="<?= \Uri::create('partner/estimates/:uuid', ['uuid' => $estimate->uuid]); ?>"><?= \Uri::create('partner/estimates/:uuid', ['uuid' => $estimate->uuid]); ?></a>
 </p>
 <br>
 <?= render('notifier/footer'); ?>

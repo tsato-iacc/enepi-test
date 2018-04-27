@@ -134,7 +134,7 @@ return array(
      */
     'partner'                                              => [['GET', new Route('partner/redirect')]],
     'partner/estimates'                                    => [['GET', new Route('partner/estimates/index')]],
-    'partner/estimates/(:num)'                             => [['GET', new Route('partner/estimates/show/$1')]],
+    'partner/estimates/(:any)'                             => [['GET', new Route('partner/estimates/show/$1')]],
     'partner/estimates/(:num)/cancel'                      => [['POST', new Route('partner/estimates/cancel/$1')]],
     'partner/estimates/(:num)/progress'                    => [['POST', new Route('partner/estimates/progress/$1')]],
     // Old routing

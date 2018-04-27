@@ -184,7 +184,7 @@ class Controller_Admin_Estimates extends Controller_Admin
         
         if ($status_reason = \Input::post('status_reason'))
         {
-            if ($estimate->cancel($this->auth_userl, $status_reason))
+            if ($estimate->cancel($this->auth_user, $status_reason))
             {
                 Session::set_flash('success', "ID: {$id} ステータスをキャンセルに変更しました");
 
