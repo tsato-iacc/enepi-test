@@ -65,11 +65,11 @@
 
   <?php if (\Request::active()->action == 'sms_confirm'): ?>
     <!-- kakaku & cacv estimate_presentation_tail tags START -->
-    <?= render('front/contacts/estimate_presentation_tail', ['contact' => $contact]); ?>
+    <?= render('front/contacts/estimate_presentation_tail', ['contact' => $contact], false); ?>
     <!-- kakaku & cacv tags END -->
   <?php elseif (\Request::active()->action == 'done'): ?>
     <!-- kakaku & cacv done_tail tags START -->
-    <?= render('front/contacts/done_tail', ['contact' => $contact]); ?>
+    <?= render('front/contacts/done_tail', ['contact' => $contact], false); ?>
     <!-- kakaku & cacv tags END -->
   <?php endif; ?>
 
