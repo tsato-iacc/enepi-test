@@ -44,7 +44,7 @@
         </div>
         <div class="subtitle-sp">
           <p>いつでもご連絡ください！<br>私たち専門アドバイザーが、お客様のお悩みを解決致します。</p>
-          <div class="image"><?= \Asset::img('done/staff_sp.png', ['alt' => '私たちがご対応します！']); ?></div>
+          <div class="image"><?= \Asset::img('done/staff_sp.jpg', ['alt' => '私たちがご対応します！']); ?></div>
         </div>
         <div class="form-steps">
           <div>
@@ -128,7 +128,7 @@
           <?= Form::close(); ?>
         </div>
       </div>
-      <div class="done-side"><?= Asset::img('done/staff_pc.png', ['alt' => '私たちがご対応します！']); ?></div>
+      <div class="done-side"><?= Asset::img('done/staff_pc.jpg', ['alt' => '私たちがご対応します！']); ?></div>
     </div>
   </section>
 
@@ -180,21 +180,21 @@
           <div><?= Asset::img('done/step_1.png', ['alt' => 'step 1']); ?></div>
           <p>10秒でカンタン見積もり依頼♪</p>
         </div>
-        <div class="step-image"><?= Asset::img('done/step_1_img.png', ['alt' => '10秒でカンタン見積もり依頼♪']); ?></div>
+        <div class="step-image"><?= Asset::img('done/step_1_img.jpg', ['alt' => '10秒でカンタン見積もり依頼♪']); ?></div>
       </div>
       <div>
         <div class="step-title">
           <div><?= Asset::img('done/step_2.png', ['alt' => 'step 2']); ?></div>
           <p class="pr-6">専門アドバイザーに<br>ご要望や不明点をご相談</p>
         </div>
-        <div class="step-image"><?= Asset::img('done/step_2_img.png', ['alt' => '専門アドバイザーにご要望や不明点をご相談']); ?></div>
+        <div class="step-image"><?= Asset::img('done/step_2_img.jpg', ['alt' => '専門アドバイザーにご要望や不明点をご相談']); ?></div>
       </div>
       <div>
         <div class="step-title">
           <div><?= Asset::img('done/step_3.png', ['alt' => 'step 3']); ?></div>
           <p class="pr-6">あなたに適切な優良業者を<br>ご紹介します！</p>
         </div>
-        <div class="step-image"><?= Asset::img('done/step_3_img.png', ['alt' => 'あなたに適切な優良業者をご紹介します！']); ?></div>
+        <div class="step-image"><?= Asset::img('done/step_3_img.jpg', ['alt' => 'あなたに適切な優良業者をご紹介します！']); ?></div>
       </div>
     </div>
   </section>
@@ -204,10 +204,10 @@
     <p>実際にエネピをお使い頂いた利用者様の声をご紹介します</p>
 
     <div class="voices-wrap">
-      <div><?= Asset::img('done/voice_1.png', ['alt' => '利用者の声をご紹介']); ?></div>
-      <div><?= Asset::img('done/voice_2.png', ['alt' => '利用者の声をご紹介']); ?></div>
-      <div><?= Asset::img('done/voice_3.png', ['alt' => '利用者の声をご紹介']); ?></div>
-      <div><?= Asset::img('done/voice_4.png', ['alt' => '利用者の声をご紹介']); ?></div>
+      <div><?= Asset::img('done/voice_1.jpg', ['alt' => '利用者の声をご紹介']); ?></div>
+      <div><?= Asset::img('done/voice_2.jpg', ['alt' => '利用者の声をご紹介']); ?></div>
+      <div><?= Asset::img('done/voice_3.jpg', ['alt' => '利用者の声をご紹介']); ?></div>
+      <div><?= Asset::img('done/voice_4.jpg', ['alt' => '利用者の声をご紹介']); ?></div>
     </div>
 
     <p class="comment">※お客様の声はあくまでも個人の感想です。実際のサービスご利用にあたり、感じ方には個人差があります。</p>
