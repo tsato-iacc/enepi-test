@@ -128,7 +128,12 @@
           <?= Form::close(); ?>
         </div>
       </div>
-      <div class="done-side"><?= Asset::img('done/staff_pc.jpg', ['alt' => '私たちがご対応します！']); ?></div>
+      <div class="done-side">
+        <picture>
+          <source srcset="/assets/images/done/staff_pc.jpg" media="(min-width: 500px)">
+          <img src="" alt="私たちがご対応します！">
+        </picture>
+      </div>
     </div>
   </section>
 
