@@ -31,7 +31,6 @@ class Controller_Admin_Contacts extends Controller_Admin
     {
         $val = Validation::forge();
 
-        // UPGRADE ME, Use group by than where in
         $conditions = [
             'where' => [],
             'related' => [
