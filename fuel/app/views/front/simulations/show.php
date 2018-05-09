@@ -166,15 +166,36 @@
 
 <section class="simple-simulation-point">
   <div class="image-wrap">
-    <div class="image point-bg"><?= \Asset::img('simulation/point_bg.png'); ?></div>
-    <div class="image point-bg-sp"><?= \Asset::img('simulation/point_bg_sp.png'); ?></div>
+    <div class="image point-bg">
+      <picture>
+        <source srcset="/assets/images/simulation/point_bg.jpg" media="(min-width: 501px)">
+        <img src="" alt="私たちがご対応します！">
+      </picture>
+    </div>
+    <div class="image point-bg-sp">
+      <picture>
+        <source srcset="/assets/images/simulation/point_bg_sp.jpg" media="(max-width: 500px)">
+        <img src="" alt="私たちがご対応します！">
+      </picture>
+    </div>
     <div class="point-left"><?= \Asset::img('simulation/point_1.png'); ?></div>
     <div class="point-right"><?= \Asset::img('simulation/point_2.png'); ?></div>
     <div class="point-right-sp"><?= \Asset::img('simulation/point_2_sp.png'); ?></div>
     <p>※画像はイメージです</p>
   </div>
 
-
-  <div class="call-banner"><?= \Asset::img('simulation/call_banner.png'); ?></div>
-  <div class="call-banner-sp"><a href="tel:<?= \Config::get('enepi.service.tel'); ?>"><?= \Asset::img('simulation/call_banner_sp.png'); ?></a></div>
+  <div class="call-banner">
+    <picture>
+      <source srcset="/assets/images/simulation/call_banner.jpg" media="(min-width: 501px)">
+      <img src="" alt="私たちがご対応します！">
+    </picture>
+  </div>
+  <div class="call-banner-sp">
+    <a href="tel:<?= \Config::get('enepi.service.tel'); ?>">
+      <picture>
+        <source srcset="/assets/images/simulation/call_banner_sp.png" media="(max-width: 500px)">
+        <img src="" alt="私たちがご対応します！">
+      </picture>
+    </a>
+  </div>
 </section>
