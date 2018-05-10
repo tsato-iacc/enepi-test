@@ -7,6 +7,21 @@
       <div class="form-control-feedback"><?= e($val->error('pattern')) ?></div>
     <?php endif; ?>
   </div>
+  <div class="form-group">
+    <label class="form-control-label"><h6>タイプ</h6></label>
+    <div class="form-group">
+      <label class="custom-control custom-radio">
+        <?= Form::radio('list_type', 'black', true, ['class' => 'custom-control-input']); ?>
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">ブラック</span>
+      </label>
+      <label class="custom-control custom-radio">
+        <?= Form::radio('list_type', 'white', false, ['class' => 'custom-control-input']); ?>
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">ホワイト</span>
+      </label>
+    </div>
+  </div>
   <button type="submit" class="btn btn-primary">追加</button>
 <?= Form::close(); ?>
 
@@ -15,14 +30,16 @@
     <tr>
       <th>ID</th>
       <th>パターン</th>
+      <th>タイプ</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
     <?php foreach ($ngs as $ng): ?>
       <tr>
-        <td><?= $ng->id ?></td>
-        <td><?= $ng->pattern ?></td>
+        <td><?= $ng->id; ?></td>
+        <td><?= $ng->pattern; ?></td>
+        <td><?= $ng->list_type == 'white' ? 'ホワイト' : 'ブラック'; ?></td>
         <td><a href="<?= \Uri::create('admin/companies/:id/ng/:ng_id/delete', ['id' => $company->id, 'ng_id' => $ng->id]) ?>" onclick="return confirm('本当によろしいですか?')">削除</a></td>
       </tr>
     <?php endforeach; ?>

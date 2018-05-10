@@ -168,17 +168,21 @@ class Controller_Admin_Companies extends Controller_Admin
 
         $val = Validation::forge();
         $val->add_field('pattern', 'pattern', 'required');
+        $val->add_field('list_type', 'list_type', 'required|match_collection[black,white]');
 
         if ($val->run())
         {
             $ng = array_filter(explode("\n", trim($val->validated('pattern'))));
 
-            foreach ($ng as $val)
+            foreach ($ng as $v)
             {
-                $new_val = trim($val);
+                $new_val = trim($v);
 
                 if ($new_val)
-                    $company->ng[] = new \Model_Company_Ng(['pattern' => $new_val]);
+                    $company->ng[] = new \Model_Company_Ng([
+                        'pattern' => $new_val,
+                        'list_type' => $val->validated('list_type'),
+                    ]);
             }
 
             if ($company->save())
