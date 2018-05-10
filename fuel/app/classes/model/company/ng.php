@@ -8,7 +8,6 @@ class Model_Company_Ng extends \Orm\Model
         'id',
         'company_id',
         'pattern',
-        'list_type',
         'created_at',
         'updated_at',
     ];

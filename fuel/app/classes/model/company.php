@@ -33,6 +33,7 @@ class Model_Company extends \Orm\Model
             'default' => true,
         ],
         'established_date',
+        'list_type',
         'created_at',
         'updated_at',
     ];
@@ -156,15 +157,33 @@ class Model_Company extends \Orm\Model
     {
         if ($company_name)
         {
-            foreach ($this->ng as $ng)
+            if ($this->list_type == 'black')
             {
-                if (!$ng->pattern)
-                    continue;
-                
-                if (mb_strpos($company_name, trim($ng->pattern)) !== false)
+                foreach ($this->ng as $ng)
                 {
-                    return true;                    
+                    if (!$ng->pattern)
+                        continue;
+
+                    if (mb_strpos($company_name, trim($ng->pattern)) !== false)
+                    {
+                        return true;
+                    }
                 }
+            }
+            else
+            {
+                foreach ($this->ng as $ng)
+                {
+                    if (!$ng->pattern)
+                        continue;
+
+                    if (mb_strpos(trim($ng->pattern), $company_name) !== false)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
             }
         }
 

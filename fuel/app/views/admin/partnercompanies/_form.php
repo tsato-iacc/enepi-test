@@ -262,3 +262,18 @@ use JpPrefecture\JpPrefecture;
     </label>
   </div>
 </div>
+<div class="form-group">
+  <label class="form-control-label"><h6>マッチングロジックタイプ</h6></label>
+  <div class="form-group">
+    <label class="custom-control custom-radio">
+      <?= Form::radio('company[list_type]', 'black', $partner_company->company ? $partner_company->company->list_type == 'black' : true, ['class' => 'custom-control-input']); ?>
+      <span class="custom-control-indicator"></span>
+      <span class="custom-control-description">NG企業リスト</span>
+    </label>
+    <label class="custom-control custom-radio">
+      <?= Form::radio('company[list_type]', 'white', $partner_company->company && $partner_company->company->list_type == 'white', ['class' => 'custom-control-input']); ?>
+      <span class="custom-control-indicator"></span>
+      <span class="custom-control-description">OK企業リスト</span>
+    </label>
+  </div>
+</div>

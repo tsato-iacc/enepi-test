@@ -168,7 +168,6 @@ class Controller_Admin_Companies extends Controller_Admin
 
         $val = Validation::forge();
         $val->add_field('pattern', 'pattern', 'required');
-        $val->add_field('list_type', 'list_type', 'required|match_collection[black,white]');
 
         if ($val->run())
         {
@@ -179,10 +178,9 @@ class Controller_Admin_Companies extends Controller_Admin
                 $new_val = trim($v);
 
                 if ($new_val)
-                    $company->ng[] = new \Model_Company_Ng([
-                        'pattern' => $new_val,
-                        'list_type' => $val->validated('list_type'),
-                    ]);
+                {
+                    $company->ng[] = new \Model_Company_Ng(['pattern' => $new_val]);
+                }
             }
 
             if ($company->save())
@@ -194,9 +192,24 @@ class Controller_Admin_Companies extends Controller_Admin
 
         Session::set_flash('error', 'ngを追加できませんでした');
 
+        $conditions = ['where' => [['company_id' => $id]]];
+        
+        $pager = \Pagination::forge('ngs', [
+            'name' => 'bootstrap4',
+            'total_items' => \Model_Company_Ng::count($conditions),
+            'per_page' => 500,
+            'uri_segment' => 'page',
+            'num_links' => 20,
+        ]);
+
+        $conditions['order_by'] = ['id' => 'desc'];
+        $conditions['limit'] = $pager->per_page;
+        $conditions['offset'] = $pager->offset;
+
         $this->template->title = 'List of emails';
         $this->template->content = View::forge('admin/companies/ng_index', [
             'val' => $val,
+            'ngs' => \Model_Company_Ng::find('all', $conditions),
             'company' => $company,
         ]);
     }
