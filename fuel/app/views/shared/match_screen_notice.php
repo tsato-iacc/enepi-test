@@ -2,7 +2,7 @@
 <div class="match-screen-notice-sp notice-invisible">
   <div class="notice-wrap shake-rotate">
     <span class="count"><?= $match_screen_notice['count']; ?></span>
-    <a href="<?= $match_screen_notice['url']; ?>">
+    <a href="<?= $match_screen_notice['url']; ?>" onclick="caevent('右下サジェスト', {ch:'63912289'});">
       <?= \Asset::img('layout/notice_balloon_sp.png'); ?>
     </a>
   </div>
@@ -18,7 +18,7 @@
   </div>
   
   <div class="contract-body">
-    <a href="<?= $match_screen_notice['url']; ?>">
+    <a href="<?= $match_screen_notice['url']; ?>" onclick="caevent('右下サジェスト', {ch:'63912289'});">
       <?php if (isset($match_screen_notice['economy']) && $match_screen_notice['economy'] > 0): ?>
         <p>年間最大 <span class="price"><?= number_format($match_screen_notice['economy']); ?></span> 円</p>
         <p>節約のご提案があります</p>
@@ -29,7 +29,7 @@
     </a>
   </div>
   <div class="contract-footer">
-    <a href="<?= $match_screen_notice['url']; ?>">今すぐチェック!!&nbsp;&nbsp;&nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+    <a href="<?= $match_screen_notice['url']; ?>" onclick="caevent('右下サジェスト', {ch:'63912289'});">今すぐチェック!!&nbsp;&nbsp;&nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></a>
   </div>
 </div>
 <!-- NOTICE PC END -->

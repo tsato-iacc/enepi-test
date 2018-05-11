@@ -108,7 +108,7 @@ use JpPrefecture\JpPrefecture;
           <div class="d-flex justify-content-around align-items-center">
             <div><i class="fa fa-reply" aria-hidden="true"></i> <i class="fa <?= $call->contact->sent_auto_estimate_req ? 'fa-circle-o' : 'fa-times' ?>" aria-hidden="true"></i></div>
             <div><i class="fa fa-eye" aria-hidden="true"></i> <i class="fa <?= $call->contact->sent_auto_estimate_req ? 'fa-circle-o' : 'fa-times' ?>" aria-hidden="true"></i></div>
-            <div><i class="fa fa-tachometer" aria-hidden="true"></i> <?= count($call->contact->estimates); ?></div>
+            <div><i class="fa fa-tachometer" aria-hidden="true"></i> <?= $call->contact->getEstimatesCount(); ?></div>
           </div>
         </td>
         <td class="align-middle">

@@ -63,6 +63,15 @@ class Notifier
         $email->send();
     }
 
+    public static function notifyCompanyEstimateCancelByAdmin(&$estimate)
+    {
+        $email = \Email::forge();
+        $email->to($estimate->company->partner_company->getEmails());
+        $email->subject('当方にてキャンセル手続きをさせていただきました／enepi運営事務局');
+        $email->html_body(\View::forge('notifier/company/estimate_cancel_by_admin', ['estimate' => $estimate]));
+        $email->send();
+    }
+
     public static function notifyAdminEstimateCancel(&$estimate)
     {
         $reason_id = $estimate->status_reason;

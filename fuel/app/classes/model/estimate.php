@@ -201,7 +201,14 @@ class Model_Estimate extends \Orm\Model
 
                 if ($this->hasVerbal())
                 {
-                    \Helper\Notifier::notifyCompanyEstimateCancel($this);
+                    if ($auth_user instanceof \Model_AdminUser)
+                    {
+                        \Helper\Notifier::notifyCompanyEstimateCancelByAdmin($this);
+                    }
+                    else if ($auth_user instanceof \Model_Partner_Company)
+                    {
+                        \Helper\Notifier::notifyCompanyEstimateCancel($this);
+                    }
                 }
 
                 \Helper\Notifier::notifyAdminEstimateCancel($this);

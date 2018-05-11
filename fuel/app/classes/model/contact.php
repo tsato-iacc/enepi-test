@@ -600,12 +600,17 @@ class Model_Contact extends \Orm\Model
 
     public function getCallingHistories($limit = 20)
     {
-        if ($histories = Arr::sort($this->calling_histories, 'id', 'desc'))
+        if ($histories = Arr::sort(\Model_CallingHistory::find('all', ['where' => [['contact_id', $this->id]]]), 'id', 'desc'))
         {
             return array_slice($histories, 0, $limit);
         }
 
         return [];
+    }
+
+    public function getEstimatesCount()
+    {
+        return \Model_Estimate::count(['where' => [['contact_id', $this->id]]]);
     }
 
     public function getGasMachines()

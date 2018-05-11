@@ -87,9 +87,9 @@ class Controller_Partner_Estimates extends Controller_Partner
      * @access  public
      * @return  Response
      */
-    public function action_show($id)
+    public function action_show($uuid)
     {
-        $estimate = \Model_Estimate::find($id, [
+        $estimate = \Model_Estimate::find('first', [
             'related' => [
                 'contact',
                 'company',
@@ -105,7 +105,12 @@ class Controller_Partner_Estimates extends Controller_Partner
                 ],
             ],
             'where' => [
+                ['uuid', '=', $uuid],
                 ['company_id', '=', $this->auth_user->company->id],
+                'or' => [
+                    ['id', '=', $uuid],
+                    ['company_id', '=', $this->auth_user->company->id],
+                ],
             ],
         ]);
 
@@ -150,7 +155,7 @@ class Controller_Partner_Estimates extends Controller_Partner
 
         $timeline = $histories + $comments;
 
-        $this->template->title = 'Estimate - id: '.$id;
+        $this->template->title = 'Estimate - '.$uuid;
         $this->template->content = View::forge('partner/estimates/show', [
             'estimate' => $estimate,
             'timeline' => array_reverse(\Arr::sort($timeline, 'created_at', 'desc')),
