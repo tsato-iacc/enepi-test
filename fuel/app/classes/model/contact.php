@@ -608,6 +608,11 @@ class Model_Contact extends \Orm\Model
         return [];
     }
 
+    public function getEstimatesCount()
+    {
+        return \Model_Estimate::count(['where' => [['contact_id', $this->id]]]);
+    }
+
     public function getGasMachines()
     {
         $machines = [];
