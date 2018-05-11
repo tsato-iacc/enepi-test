@@ -79,7 +79,7 @@ use JpPrefecture\JpPrefecture;
               </div>
             </div>
           </td>
-          <td><a href="<?= \Uri::create('admin/partner_companies/:id/edit', ['id' => $estimate->company->id]); ?>"><?= $estimate->company->partner_company->company_name; ?></a></td>
+          <td><a href="<?= \Uri::create('admin/partner_companies/:id/edit', ['id' => $estimate->company->partner_company->id]); ?>"><?= $estimate->company->partner_company->company_name; ?></a></td>
           <td><?= JpPrefecture::findByCode($estimate->contact->getPrefectureCode())->nameKanji." ".$estimate->contact->getAddress(); ?></td>
           <td><?= $estimate->contracted_commission? number_format($estimate->contracted_commission).'円' : ''; ?></td>
           <td>
