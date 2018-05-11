@@ -177,7 +177,7 @@ class Model_Company extends \Orm\Model
                     if (!$ng->pattern)
                         continue;
 
-                    if (mb_strpos(trim($ng->pattern), $company_name) !== false)
+                    if (mb_strpos($company_name, trim($ng->pattern)) !== false)
                     {
                         return false;
                     }
