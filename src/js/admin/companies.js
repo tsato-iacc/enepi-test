@@ -25,5 +25,14 @@ if ($('.area-companies').length) {
 
       getCityZipCodes(prefecture_code, city_name);
     });
+
+    $('#select_all_zip').on('click', function() {
+      if ($(this).find('input[name=select_all_zip]').prop('checked')) {
+        console.log('aaaa');
+        $(this).closest('.table').find('input[name=zip_codes\\[\\]]').attr('checked', true);
+      } else {
+        $(this).closest('.table').find('input[name=zip_codes\\[\\]]').attr('checked', false);
+      }
+    });
   }
 }
