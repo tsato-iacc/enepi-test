@@ -42,6 +42,7 @@ return array(
 
     'categories/(:any)(:everything)(:everything)(:everything)/articles'  => 'front/categories/articles/$1/$2/$3/$4',
     'categories/(:any)(:everything)(:everything)(:everything)'           => 'front/categories/index/$1/$2/$3/$4',
+    'citygas'                                              => 'front/categories/citygas',
 
     'local_contents'                                       => 'front/localcontents',
     'local_contents/(:num)'                                => 'front/localcontents/prefecture/$1',
