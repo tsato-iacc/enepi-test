@@ -111,6 +111,8 @@ class Controller_Admin_Api extends Controller_Rest
     
             try
             {
+                $count = 0;
+
                 foreach ($zip_codes as $zip)
                 {
                     if (in_array($zip->zip_code, $exists_zips))
@@ -123,10 +125,11 @@ class Controller_Admin_Api extends Controller_Rest
                     ]);
 
                     $record->save();
+                    $count++;
                 }
 
                 \DB::commit_transaction();
-                $response['result'] = 'success';
+                $response['result'] = ['count' => $count, 'city_name' => $city_name];
             }
             catch (\Exception $e)
             {

@@ -7,6 +7,7 @@
   <li class="breadcrumb-item active">対応可能市区町村</li>
 </ol>
 
+<h3>市区町村登録</h3>
 <div class="collapse" id="select_collaps">
   <div class="row">
     <?php foreach(JpPrefecture::allKanjiAndCode() as $code => $name): ?>
@@ -39,7 +40,7 @@
     </div>
   </div>
   
-  <div class="form-group">
+  <div class="form-group mb-0">
     <textarea name="zip_code" class="form-control" id="zip_code" rows="10"></textarea>
     <p class="form-control-static">改行して複数の郵便番号を登録できます。</p>
   </div>
@@ -47,6 +48,7 @@
   <button type="submit" class="btn btn-primary">追加</button>
 <?= Form::close(); ?>
 
+<h3 class="mt-3">検索条件</h3>
 <?= \Form::open(['method' => 'GET']); ?>
   <div class="form-inline mt-3">
     <label class="form-control-label mr-sm-2" for="name"><h6>都道府県名、市区町村名、郵便番号：</h6></label>

@@ -472,6 +472,8 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
             }
         }
 
+        Session::set_flash('success', '削除しました');
+
         Response::redirect("admin/companies/{$id}/offices/{$office_id}/area");
     }
 }

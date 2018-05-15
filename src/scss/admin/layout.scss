@@ -127,6 +127,14 @@ table {
 }
 
 /**
+ * Bootstrap animate progress
+ */
+
+.progress .progress-bar {
+  transition: width 0.3s linear;
+}
+
+/**
  * Footer
  */
 .footer {
