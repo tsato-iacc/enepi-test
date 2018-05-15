@@ -6,6 +6,9 @@
 //= ../../bower_components/bootstrap/dist/js/bootstrap.js
 //= ../../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js
 //= ../../bower_components/bootstrap-datepicker/js/locales/bootstrap-datepicker.ja.js
+//= ../../bower_components/ladda/js/spin.js
+//= ../../bower_components/ladda/js/ladda.js
+//= ../../bower_components/clipboard/dist/clipboard.js
 
 /*
  * Custom scripts

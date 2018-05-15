@@ -7,11 +7,21 @@
   <li class="breadcrumb-item active">対応可能市区町村</li>
 </ol>
 
+<div class="collapse" id="select_collaps">
+  <div class="row">
+    <?php foreach(JpPrefecture::allKanjiAndCode() as $code => $name): ?>
+      <div class="col-2">
+        <button type="button" class="area-modal-btn btn btn-sm btn-secondary preview-btn ladda-button w-100 mb-2" data-style="zoom-in" data-code="<?= $code; ?>"><?= $name; ?></button>
+      </div>
+    <?php endforeach; ?>
+  </div>
+  <hr>
+</div>
+
 <?= \Form::open(); ?>
   <?= \Form::csrf(); ?>
-  <p>改行して複数の郵便番号を登録できます。</p>
   <div class="form-group row">
-    <div class="col-3">
+    <div class="col-6">
       <div class="form-inline">
         <div class="form-group">
           <label class="mr-sm-2" for="cv_point">市区町村からも選べます。</label>
@@ -24,10 +34,14 @@
         </div>
       </div>
     </div>
+    <div class="col-2 offset-4">
+      <button class="btn btn-primary w-100" type="button" data-toggle="collapse" data-target="#select_collaps" aria-expanded="false" aria-controls="selectCollaps">まとめて追加</button>
+    </div>
   </div>
   
   <div class="form-group">
     <textarea name="zip_code" class="form-control" id="zip_code" rows="10"></textarea>
+    <p class="form-control-static">改行して複数の郵便番号を登録できます。</p>
   </div>
 
   <button type="submit" class="btn btn-primary">追加</button>
@@ -85,3 +99,8 @@
 <?= Form::close(); ?>
 
 <?= \Pagination::instance('zip_codes')->render(); ?>
+
+<!-- MODAL AREA START -->
+<?= render('admin/companyoffices/_modal_area', ['office_id' => $office_id]); ?>
+<!-- MODAL AREA END -->
+

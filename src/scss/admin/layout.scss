@@ -139,3 +139,12 @@ table {
     text-align: center;
   }
 }
+
+/**
+ * Ladda button data-loading
+ */
+.btn.ladda-button[data-loading] {
+  background-color: #999;
+  border-color: #ccc !important;
+}
+
