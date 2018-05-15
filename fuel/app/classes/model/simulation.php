@@ -6,6 +6,8 @@ class Model_Simulation extends \Orm\Model
 
     protected static $_properties = [
         'id',
+        'uuid',
+        'pr_tracking_id',
         'prefecture_code',
         'city_code',
         'household',

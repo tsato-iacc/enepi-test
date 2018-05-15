@@ -13,6 +13,7 @@ class Model_Contact extends \Orm\Model
 
     protected static $_properties = [
         'id',
+        'uuid',
         'name',
         'furigana',
         'zip_code',
