@@ -86,7 +86,7 @@ class Controller_Front_Api_v1_Simulation extends Controller_Rest
             {
                 $simulation = new Model_Simulation([
                     'uuid'            => $this->uuid,
-                    'pr_tracking_id'  => \Input::get('pr', null),
+                    'tr'              => \Input::get('tr', null),
                     'prefecture_code' => $val->validated('prefecture_code'),
                     'city_code'       => $val->validated('city_code'),
                     'household'       => $val->validated('household'),

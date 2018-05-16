@@ -16,13 +16,12 @@ class Add_session_to_lpgas_simple_simulations
         'default' => null,
         'after' => 'id',
       ],
-      'pr_tracking_id' => [
-        'constraint' => 11,
-        'type' => 'int',
-        'unsigned' => true,
+      'tr' => [
+        'type' => 'varchar',
+        'constraint' => 64,
         'null' => true,
         'default' => null,
-        'after' => 'uuid',
+        'after' => 'type',
       ],
     ]);
 
@@ -41,7 +40,7 @@ class Add_session_to_lpgas_simple_simulations
   {
     \DBUtil::drop_fields('lpgas_simple_simulations', [
       'uuid',
-      'pr_tracking_id',
+      'tr',
     ]);
 
     \DBUtil::drop_fields('lpgas_contacts', [

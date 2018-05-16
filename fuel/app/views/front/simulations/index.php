@@ -21,6 +21,7 @@ use JpPrefecture\JpPrefecture;
 				<div class="simulation-form-box">
 					<?= \Form::open(['id' => 'simple_simulation', 'action' => \Uri::create('simple_simulations')]); ?>
     			<?= \Form::csrf(); ?>
+    				<input type="hidden" name="tr" value="<?= \Input::get('tr'); ?>">
 						<div class="form-group" style="width: 70%; margin: 40px auto 20px auto ;">
 							<div class="form-inline">
 								<div class="simulation-address">
