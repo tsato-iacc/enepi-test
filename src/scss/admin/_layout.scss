@@ -127,6 +127,13 @@ table {
 }
 
 /**
+ * Bootstrap animate progress
+ */
+.progress .progress-bar {
+  transition: width 0.3s linear;
+}
+
+/**
  * Footer
  */
 .footer {
@@ -141,6 +148,7 @@ table {
 }
 
 /**
+ *
  * Hidden elements
  */
 .smooth-hide {
@@ -158,4 +166,11 @@ table {
 
 .ladda-button:hover, .ladda-button[data-loading], .ladda-button[disabled] {
     border-color: rgba(0,0,0,.07);
+}
+/**
+ * Ladda button data-loading
+ */
+.btn.ladda-button[data-loading] {
+  background-color: #999;
+  border-color: #ccc !important;
 }

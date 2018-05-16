@@ -1,6 +1,7 @@
 <ol class="breadcrumb">
-  <li class="breadcrumb-item"><a href="#">会社一覧</a></li>
-  <li class="breadcrumb-item"><a href="#">営業拠点一覧</a></li>
+  <li class="breadcrumb-item"><a href="<?= \Uri::create('admin/companies/'); ?>">会社一覧</a></li>
+  <li class="breadcrumb-item"><a href="<?= \Uri::create('admin/partner_companies/:id/edit', ['id' => $company->partner_company->id]); ?>"><?= $company->getCompanyName(); ?></a></li>
+  <li class="breadcrumb-item"><a href="<?= \Uri::create('admin/companies/:id/offices', ['id' => $company->id]); ?>">営業拠点一覧</a></li>
   <li class="breadcrumb-item active">料金テーブル</li>
 </ol>
 

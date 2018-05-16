@@ -166,4 +166,57 @@ class Controller_Admin_Api extends Controller_Rest
 
         $this->response($response);
     }
+    
+    public function post_city_zip_codes()
+    {
+        $response = [];
+        $result = [];
+        $errors = [];
+        $office_id = \Input::post('office_id');
+        $geocode = \Model_Company_Geocode::find($office_id);
+        $prefecture_code = \Input::post('prefecture_code');
+        $city_name = \Input::post('city_name');
+        $zip_codes = \Model_ZipCode::find('all', [
+            'where' => [
+                ['prefecture_code', $prefecture_code],
+                ['city_name', $city_name],
+            ]
+        ]);
+        if ($geocode && $zip_codes)
+        {
+            $exists_zips = \Arr::pluck(\DB::select_array(['zip_code'])->where('company_geocode_id', $office_id)->from('lpgas_company_geocode_zip_codes')->execute(), 'zip_code');
+            \DB::start_transaction();
+    
+            try
+            {
+                $count = 0;
+                foreach ($zip_codes as $zip)
+                {
+                    if (in_array($zip->zip_code, $exists_zips))
+                        continue;
+                    $record = new \Model_Company_GeocodeZipCode([
+                        'company_geocode_id' => $geocode->id,
+                        'zip_code' => $zip->zip_code,
+                        'notes' => $zip->getAddress(),
+                    ]);
+                    $record->save();
+                    $count++;
+                }
+                \DB::commit_transaction();
+                $response['result'] = ['count' => $count, 'city_name' => $city_name];
+            }
+            catch (\Exception $e)
+            {
+                \DB::rollback_transaction();
+                $errors[] = 'Saving error';
+                $response['errors'] = $errors;
+            }
+        }
+        else
+        {
+            $errors[] = 'Invalid input';
+            $response['errors'] = $errors;
+        }
+        $this->response($response);
+    }
 }

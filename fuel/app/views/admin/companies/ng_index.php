@@ -1,3 +1,9 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="<?= \Uri::create('admin/companies/'); ?>">会社一覧</a></li>
+  <li class="breadcrumb-item"><a href="<?= \Uri::create('admin/partner_companies/:id/edit', ['id' => $company->partner_company->id]); ?>"><?= $company->getCompanyName(); ?></a></li>
+  <li class="breadcrumb-item active">NG企業</li>
+</ol>
+
 <?= \Form::open(); ?>
   <?= \Form::csrf(); ?>
   <div class="form-group<?= $val->error('pattern') ? ' has-danger' : ''?>">
