@@ -36,6 +36,7 @@
     "bourbon": "4.2.7",
     "js-cookie": "^2.2.0",
     "csshake": "^1.5.2",
-    "countUp.js": "countup#^1.9.3"
+    "countUp.js": "countup#^1.9.3",
+    "clipboard": "^2.0.0"
   }
 }

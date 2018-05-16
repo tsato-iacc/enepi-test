@@ -12,4 +12,5 @@ if ($('.area-contacts').length) {
   
   introduceEstimate();
   deleteContact();
+  mailTemplate();
 }
