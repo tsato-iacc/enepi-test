@@ -127,6 +127,13 @@ table {
 }
 
 /**
+ * Bootstrap animate progress
+ */
+.progress .progress-bar {
+  transition: width 0.3s linear;
+}
+
+/**
  * Footer
  */
 .footer {
@@ -138,4 +145,32 @@ table {
     font-size: 12px;
     text-align: center;
   }
+}
+
+/**
+ *
+ * Hidden elements
+ */
+.smooth-hide {
+  visibility: hidden;
+  opacity: 0;
+}
+
+/**
+ * Reset bootstrap defaults for Ladda buttons
+ */
+.ladda-button[data-loading], .ladda-button[data-loading]:hover, .ladda-button[disabled], .ladda-button[disabled]:hover {
+  cursor: default;
+  background-color: #999;
+}
+
+.ladda-button:hover, .ladda-button[data-loading], .ladda-button[disabled] {
+    border-color: rgba(0,0,0,.07);
+}
+/**
+ * Ladda button data-loading
+ */
+.btn.ladda-button[data-loading] {
+  background-color: #999;
+  border-color: #ccc !important;
 }

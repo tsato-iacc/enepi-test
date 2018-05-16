@@ -79,7 +79,7 @@ use JpPrefecture\JpPrefecture;
               </div>
             </div>
           </td>
-          <td><a href="<?= \Uri::create('admin/partner_companies/:id/edit', ['id' => $estimate->company->partner_company->id]); ?>"><?= $estimate->company->partner_company->company_name; ?></a></td>
+          <td><a href="<?= \Uri::create('admin/partner_companies/:id/edit', ['id' => $estimate->company->partner_company->id]); ?>"><?= $estimate->company->getCompanyName(); ?><?= $estimate->company->partner_company->company_name != $estimate->company->getCompanyName() ? '('.$estimate->company->partner_company->company_name.')' : ''; ?></a></td>
           <td><?= JpPrefecture::findByCode($estimate->contact->getPrefectureCode())->nameKanji." ".$estimate->contact->getAddress(); ?></td>
           <td><?= $estimate->contracted_commission? number_format($estimate->contracted_commission).'円' : ''; ?></td>
           <td>
@@ -150,7 +150,7 @@ use JpPrefecture\JpPrefecture;
                 <label class="custom-control custom-checkbox mb-0">
                   <?= Form::checkbox("estimates[$key][company_id]", $estimate->company->id, $val->input("estimates.{$key}.company_id", false), ['class' => 'custom-control-input']); ?>
                   <span class="custom-control-indicator"></span>
-                  <span class="custom-control-description"><?= $estimate->company->partner_company->company_name; ?></span>
+                  <span class="custom-control-description"><?= $estimate->company->getCompanyName(); ?><?= $estimate->company->partner_company->company_name != $estimate->company->getCompanyName() ? '('.$estimate->company->partner_company->company_name.')' : ''; ?></span>
                 </label>
               </div>
             </td>

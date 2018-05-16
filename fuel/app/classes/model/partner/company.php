@@ -89,6 +89,7 @@ class Model_Partner_Company extends \Orm\Model
         $val->add_field('company.business_overview', 'business_overview', 'max_length[5000]');
         $val->add_field('company.service_features', 'service_features', 'max_length[5000]');
         $val->add_field('company.estimate_req_sendable', 'estimate_req_sendable', 'required|match_collection[0,1]');
+        $val->add_field('company.list_type', 'list_type', 'required|match_collection[black,white]');
         
         return $val;
     }

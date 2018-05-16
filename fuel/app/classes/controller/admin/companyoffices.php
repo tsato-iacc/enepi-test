@@ -311,11 +311,27 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
         if (!$company || !$geocode)
             throw new HttpNotFoundException;
 
-        $conditions = [
-            'where' => [
-                ['company_geocode_id', $geocode->id]
-            ]
-        ];
+        if ($search = \Input::get('search'))
+        {
+            $conditions = [
+                'where' => [
+                    ['company_geocode_id' => $geocode->id],
+                    ['zip_code', str_replace('-', '', $search)],
+                    'or' => [
+                        ['company_geocode_id' => $geocode->id],
+                        ['notes', 'LIKE', "%{$search}%"],
+                    ]
+                ]
+            ];
+        }
+        else
+        {
+            $conditions = [
+                'where' => [
+                    ['company_geocode_id', $geocode->id]
+                ]
+            ];
+        }
 
         $total_items = \Model_Company_GeocodeZipCode::count($conditions);
 
@@ -335,6 +351,7 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
         $this->template->content = View::forge('admin/companyoffices/area_index', [
             'id' => $id,
             'office_id' => $office_id,
+            'company' => $company,
             'zip_codes' => \Model_Company_GeocodeZipCode::find('all', $conditions),
         ]);
     }
@@ -433,16 +450,29 @@ class Controller_Admin_CompanyOffices extends Controller_Admin
      * @access  public
      * @return  Response
      */
-    public function action_area_destroy($id, $office_id, $zip)
+    public function action_area_destroy($id, $office_id, $zip = null)
     {
         $company = \Model_Company::find($id);
         $geocode = \Model_Company_Geocode::find($office_id);
-        $zip = \Model_Company_GeocodeZipCode::find($zip);
 
-        if (!$company || !$geocode || !$zip)
+        if (!$company || !$geocode)
             throw new HttpNotFoundException;
 
-        $zip->delete();
+        if (\Input::method() == 'GET')
+        {
+            $zip = \Model_Company_GeocodeZipCode::find($zip) and $zip->delete();
+        }
+        else
+        {
+            if (\Input::post('zip_codes'))
+            {
+                $query = \DB::delete('lpgas_company_geocode_zip_codes');
+                $query->where('id', 'IN', \Input::post('zip_codes'));
+                $query->execute();
+            }
+        }
+
+        Session::set_flash('success', '削除しました');
 
         Response::redirect("admin/companies/{$id}/offices/{$office_id}/area");
     }

@@ -2,6 +2,7 @@
   <li class="list-group-item list-group-item-heading"><i class="fa fa-sitemap"></i>サイト管理</li>
   <a href="<?= \Uri::create('admin/users') ?>" class="list-group-item list-group-item-action<?= \Uri::segment(2) == 'users' ? ' active' : ''; ?>"><i class="fa fa-user-secret"></i>管理者一覧</a>
   <a href="<?= \Uri::create('admin/tracking') ?>" class="list-group-item list-group-item-action<?= \Request::active()->controller == 'Controller_Admin_Tracking' && in_array(\Request::active()->action, ['index', 'edit']) ? ' active' : ''; ?>"><i class="fa fa-code"></i>経由元一覧</a>
+  <a href="<?= \Uri::create('admin/templates') ?>" class="list-group-item list-group-item-action<?= \Uri::segment(2) == 'templates' ? ' active' : ''; ?>"><i class="fa fa-envelope-o"></i>カスタマーメール</a>
 </div>
 
 <div class="list-group sidebar">

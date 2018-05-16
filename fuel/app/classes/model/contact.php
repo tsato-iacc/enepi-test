@@ -13,6 +13,7 @@ class Model_Contact extends \Orm\Model
 
     protected static $_properties = [
         'id',
+        'uuid',
         'name',
         'furigana',
         'zip_code',
@@ -142,6 +143,9 @@ class Model_Contact extends \Orm\Model
         'callings',
         'calling_histories' => [
             'model_to' => 'Model_CallingHistory',
+        ],
+        'customer_logs' => [
+            'model_to' => 'Model_Customer_Log',
         ],
     ];
 
