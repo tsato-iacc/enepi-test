@@ -6,6 +6,7 @@ class Controller_Front extends Controller_Template
 {
     public $template = 'front/template';
 
+    protected $uuid           = null;
     protected $terminal_type  = 'unknown';
     protected $is_mobile      = false;
 
@@ -21,6 +22,7 @@ class Controller_Front extends Controller_Template
     {
         parent::before();
 
+        $this->setUUID();
         $this->mobileDetect();
         $this->prTrackingDetect();
         $this->matchScreenNotice();
@@ -213,6 +215,17 @@ class Controller_Front extends Controller_Template
             }
         
             \View::set_global('match_screen_notice', $notice, false);
+        }
+    }
+
+    private function setUUID()
+    {
+        // set uuid cookie
+        $this->uuid = \Cookie::get('enepiuuid', null);
+
+        if (!$this->uuid)
+        {
+            \Cookie::set('enepiuuid', \Str::random('uuid'), 60 * 60 * 24 * 365 * 10);
         }
     }
 }
