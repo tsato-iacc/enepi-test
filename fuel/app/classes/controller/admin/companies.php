@@ -173,12 +173,14 @@ class Controller_Admin_Companies extends Controller_Admin
         {
             $ng = array_filter(explode("\n", trim($val->validated('pattern'))));
 
-            foreach ($ng as $val)
+            foreach ($ng as $v)
             {
-                $new_val = trim($val);
+                $new_val = trim($v);
 
                 if ($new_val)
+                {
                     $company->ng[] = new \Model_Company_Ng(['pattern' => $new_val]);
+                }
             }
 
             if ($company->save())
@@ -190,9 +192,24 @@ class Controller_Admin_Companies extends Controller_Admin
 
         Session::set_flash('error', 'ngを追加できませんでした');
 
+        $conditions = ['where' => [['company_id' => $id]]];
+        
+        $pager = \Pagination::forge('ngs', [
+            'name' => 'bootstrap4',
+            'total_items' => \Model_Company_Ng::count($conditions),
+            'per_page' => 500,
+            'uri_segment' => 'page',
+            'num_links' => 20,
+        ]);
+
+        $conditions['order_by'] = ['id' => 'desc'];
+        $conditions['limit'] = $pager->per_page;
+        $conditions['offset'] = $pager->offset;
+
         $this->template->title = 'List of emails';
         $this->template->content = View::forge('admin/companies/ng_index', [
             'val' => $val,
+            'ngs' => \Model_Company_Ng::find('all', $conditions),
             'company' => $company,
         ]);
     }

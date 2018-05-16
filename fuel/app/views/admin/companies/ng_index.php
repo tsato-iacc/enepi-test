@@ -15,14 +15,15 @@
     <tr>
       <th>ID</th>
       <th>パターン</th>
+      <th>タイプ</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
     <?php foreach ($ngs as $ng): ?>
       <tr>
-        <td><?= $ng->id ?></td>
-        <td><?= $ng->pattern ?></td>
+        <td><?= $ng->id; ?></td>
+        <td><?= $ng->pattern; ?></td>
         <td><a href="<?= \Uri::create('admin/companies/:id/ng/:ng_id/delete', ['id' => $company->id, 'ng_id' => $ng->id]) ?>" onclick="return confirm('本当によろしいですか?')">削除</a></td>
       </tr>
     <?php endforeach; ?>
