@@ -66,6 +66,12 @@ return array(
     'admin/users'                                          => [['GET', new Route('admin/users/index')], ['POST', new Route('admin/users/store')]],
     'admin/users/create'                                   => [['GET', new Route('admin/users/create')]],
     'admin/users/(:num)/delete'                            => [['GET', new Route('admin/users/delete/$1')]],
+    
+    'admin/templates'                                      => [['GET', new Route('admin/templates/index')], ['POST', new Route('admin/templates/store')]],
+    'admin/templates/create'                               => [['GET', new Route('admin/templates/create')]],
+    'admin/templates/(:num)/edit'                          => [['GET', new Route('admin/templates/edit/$1')]],
+    'admin/templates/(:num)'                               => [['POST', new Route('admin/templates/update/$1')]],
+    'admin/templates/(:num)/delete'                        => [['GET', new Route('admin/templates/destroy/$1')]],
 
     'admin/tracking'                                       => [['GET', new Route('admin/tracking/index')], ['POST', new Route('admin/tracking/store')]],
     'admin/tracking/(:num)/edit'                           => [['GET', new Route('admin/tracking/edit/$1')]],
@@ -120,6 +126,7 @@ return array(
     'admin/companies/(:num)/offices/(:num)/prices/(:num)/delete' => [['GET', new Route('admin/companyoffices/prices_destroy/$1/$2/$3')]],
     'admin/companies/(:num)/offices/(:num)/area'           => [['GET', new Route('admin/companyoffices/area_index/$1/$2')], ['POST', new Route('admin/companyoffices/area_store/$1/$2')]],
     'admin/companies/(:num)/offices/(:num)/area/(:num)/delete' => [['GET', new Route('admin/companyoffices/area_destroy/$1/$2/$3')]],
+    'admin/companies/(:num)/offices/(:num)/area/delete'    => [['POST', new Route('admin/companyoffices/area_destroy/$1/$2')]],
 
     'admin/company_features'                               => [['GET', new Route('admin/companyfeatures/index')], ['POST', new Route('admin/companyfeatures/store')]],
     'admin/company_features/(:num)/edit'                   => [['GET', new Route('admin/companyfeatures/edit/$1')]],

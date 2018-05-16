@@ -1,3 +1,9 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="<?= \Uri::create('admin/companies/'); ?>">会社一覧</a></li>
+  <li class="breadcrumb-item"><a href="<?= \Uri::create('admin/partner_companies/:id/edit', ['id' => $company->partner_company->id]); ?>"><?= $company->getCompanyName(); ?></a></li>
+  <li class="breadcrumb-item active">NG企業</li>
+</ol>
+
 <?= \Form::open(); ?>
   <?= \Form::csrf(); ?>
   <div class="form-group<?= $val->error('pattern') ? ' has-danger' : ''?>">
@@ -15,14 +21,15 @@
     <tr>
       <th>ID</th>
       <th>パターン</th>
+      <th>タイプ</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
     <?php foreach ($ngs as $ng): ?>
       <tr>
-        <td><?= $ng->id ?></td>
-        <td><?= $ng->pattern ?></td>
+        <td><?= $ng->id; ?></td>
+        <td><?= $ng->pattern; ?></td>
         <td><a href="<?= \Uri::create('admin/companies/:id/ng/:ng_id/delete', ['id' => $company->id, 'ng_id' => $ng->id]) ?>" onclick="return confirm('本当によろしいですか?')">削除</a></td>
       </tr>
     <?php endforeach; ?>

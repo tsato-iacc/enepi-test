@@ -94,6 +94,8 @@ class Controller_Front_Simulations extends Controller_Front
         if ($bill)
         {
             $simulation = new Model_Simulation([
+                'uuid'            => $this->uuid,
+                'tr'              => \Input::post('tr', null),
                 'prefecture_code' => $val->validated('prefecture_code'),
                 'city_code'       => $val->validated('city_code'),
                 'household'       => $val->validated('household'),

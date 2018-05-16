@@ -8,6 +8,7 @@
 @import "../../bower_components/bootstrap/scss/bootstrap";
 @import "../../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css";
 @import "../../bower_components/components-font-awesome/scss/font-awesome";
+@import "../../bower_components/ladda/dist/ladda.min.css";
 
 /*
 * Custom
@@ -19,6 +20,7 @@
 
 /* Global layout styles */
 @import "admin/layout";
+@import "admin/template";
 // @import "front/header";
 // @import "front/footer";
 
