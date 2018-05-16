@@ -94,6 +94,7 @@ if ($('.iframe-simulation-form').length) {
     var household = $('select[name=household]').val();
     var month = $('select[name=month]').val();
     var bill = $('input[name=bill]').val();
+    var tr = $('input[name=tr]').val();
 
     if (!prefecture_code) {
       error = true;
@@ -132,6 +133,7 @@ if ($('.iframe-simulation-form').length) {
           household: household,
           month: month,
           bill: bill,
+          tr: tr,
           iframe: 'iframe'
         },
         success: function (data) {
