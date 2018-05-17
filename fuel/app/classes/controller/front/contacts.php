@@ -238,6 +238,7 @@ class Controller_Front_Contacts extends Controller_Front
                 'contact' => $contact,
                 'val' => $val,
                 'month_selected' => '',
+                'slots' => \Model_Slot::getSlots(),
             ]);
         }
 

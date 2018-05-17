@@ -249,6 +249,7 @@ if ($('.iframe-simulation-form').length) {
   $('#iframe_resimulation_btn').on('click', function() {
     $('.result-page').addClass('page-hidden');
     $('.start-page').removeClass('page-hidden');
+    ga('send', 'event', 'resimulation-iframe', 'btn-click', '', 0);
     caevent('reシミュレーション「外部」', {ch:'63912289'});
   });
 

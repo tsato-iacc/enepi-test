@@ -223,6 +223,28 @@ footer.contact-footer {
   }
 }
 
+@media screen and (max-device-width: $device-max-width) {
+  .breadcrumb {
+    padding: 2.5% 0% 2%;
+
+    .container {
+      ol {
+        padding: 0 2%;
+        display: flex;
+        overflow: auto;
+        white-space: nowrap;
+
+        li {
+          padding: 0 0.4em 0 0;
+          display: inline-block;
+          color: white;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
+
 /**
  * Hide tracking image tag width=1px
  */

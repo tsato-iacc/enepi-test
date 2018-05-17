@@ -6,17 +6,6 @@ if ($('form#simple_simulation').length) {
    * ANONYMOUS FUNCTIONS START
    */
   
-  // SEND FORM
-  var sendForm = function (el) {
-    var form = el.closest('form');
-
-    if (sending_form !== true) {
-      sending_form = true;
-      ga('send', 'event', 'simulation-execute', 'btn-click', '', 0);
-      form.submit();
-    }
-  }
-
   // API Get cities list
   var getCities = function (prefecture_code) {
     var city_code_select = $('#simple_simulation select[name=city_code]');
@@ -24,7 +13,7 @@ if ($('form#simple_simulation').length) {
     if (!prefecture_code) {
       $('#simple_simulation select[name=city_code]').prop('disabled', true);
       city_code_select.empty();
-      city_code_select.append($('<option>').html("選択してください").val(''));
+      city_code_select.append($('<option>').html("都道府県を選択してください").val(''));
 
       return;
     }
@@ -121,8 +110,21 @@ if ($('form#simple_simulation').length) {
     }
 
     if (error === false) {
-      // POST FORM
-      sendForm($(this));
+      // SEND FORM
+      if (sending_form === true) {
+        return;
+      }
+
+      sending_form = true;
+
+      $('#simple_simulation_btn p').text('送信中...');
+      
+      var form = $(this).closest('form');
+      ga('send', 'event', 'simulation-execute', 'btn-click', '', 0);
+      caevent('シミュレーション', {ch:'63912289'});
+      
+      form.submit();
+
     } else {
       alert(error_msg[0]);
       return false;
