@@ -1,5 +1,6 @@
 <?php use JpPrefecture\JpPrefecture; ?>
 <div class="iframe-simulation-form">
+  <input type="hidden" name="tr" value="<?= \Input::get('tr'); ?>">
   <div class="form-wrap">
     <div class="form-header">
       <div class="first logo-pc">
