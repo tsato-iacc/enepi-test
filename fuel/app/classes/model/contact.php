@@ -110,6 +110,7 @@ class Model_Contact extends \Orm\Model
         'house_hold' => [
             'default' => null,
         ],
+        'api_key',
         'created_at',
         'updated_at',
         'deleted_at',

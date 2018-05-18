@@ -11,7 +11,19 @@ return [
         //'email' => 'test1@enepi.jp',
         'head_office_tel' => '03-5510-8015',
         'head_office_fax' => '03-5510-8016',
-        'api_security_key' => 'enepi_MhJfy98etGDzZqVeYSoH',
+        'api_security_keys' => [
+          'enepi_JEHhEBAcmhbfZjwvqJUG', // 社内テスト用
+          'enepi_MhJfy98etGDzZqVeYSoH', // 琉球スタイル
+          'enepi_HxdKxqngkLu7z4aA8km8', // 価格コム
+          'enepi_t4vGMSfLshMrqUr5h3mf', // インズウェブ
+          'enepi_KgLpqghwcGRAvEDqJc3D',
+          'enepi_Nubw3p2yWAd99wwUSpdE',
+          'enepi_EJuUQWz3Umtn7RxVZXfH',
+          'enepi_uPPfydAA2BUuaXDGNbrw',
+          'enepi_GyhCpSDbe92bTfmPYQrX',
+          'enepi_VMYj6BUEXWnU5wiJsUYd',
+          'enepi_p3RdPGvqJPzNzLZkkcds',
+        ],
     ],
 
     /**
