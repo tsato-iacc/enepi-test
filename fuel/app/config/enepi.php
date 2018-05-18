@@ -12,10 +12,10 @@ return [
         'head_office_tel' => '03-5510-8015',
         'head_office_fax' => '03-5510-8016',
         'api_security_keys' => [
-          'enepi_MhJfy98etGDzZqVeYSoH', // 社内テスト用
-          'enepi_JEHhEBAcmhbfZjwvqJUG', // 価格コム
-          'enepi_HxdKxqngkLu7z4aA8km8',
-          'enepi_t4vGMSfLshMrqUr5h3mf',
+          'enepi_JEHhEBAcmhbfZjwvqJUG', // 社内テスト用
+          'enepi_MhJfy98etGDzZqVeYSoH', // 琉球スタイル
+          'enepi_HxdKxqngkLu7z4aA8km8', // 価格コム
+          'enepi_t4vGMSfLshMrqUr5h3mf', // インズウェブ
           'enepi_KgLpqghwcGRAvEDqJc3D',
           'enepi_Nubw3p2yWAd99wwUSpdE',
           'enepi_EJuUQWz3Umtn7RxVZXfH',
