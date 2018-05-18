@@ -113,4 +113,8 @@ class Model_Tracking extends \Orm\Model
         return str_replace('{cv_id}', $conversion_id, $conversion_tag1.$conversion_tag2);
     }
 
+    public static function getSelectOptions()
+    {
+        return Arr::pluck(\Model_Tracking::find('all'), 'display_name', 'id');
+    }
 }

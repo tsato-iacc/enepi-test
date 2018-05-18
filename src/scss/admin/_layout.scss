@@ -1,0 +1,176 @@
+
+/**
+ * Global styles
+ */
+.fs-12px {
+  font-size: 12px;
+}
+.fw-100 {
+  font-weight: 100;
+}
+
+/**
+ * Navbar
+ */
+.navbar {
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+/**
+ * Sidebar
+ */
+.list-group.sidebar {
+  margin-bottom: 20px;
+  font-size: 14px;
+
+  .list-group-item {
+    padding: 10px 15px;
+  }
+
+  i {
+    margin-right: 4px;
+  }
+}
+
+/**    
+ * Forms   
+ */    
+label h6 {   
+  margin: 0;
+}
+
+/**
+ * Tables
+ */
+table.small-row {
+  font-size: 14px;
+}
+
+table.th-left {
+  th {
+    width: 200px;
+  }
+}
+
+table {
+  .note-box {
+    width: 9em;
+    height: 5.4em;
+    overflow-y: hidden;
+    border: 1px solid #ccc;
+    border-radius: .4em;
+    padding: 1px 3px;
+    display: block;
+    line-height: 1.3em;
+    font-size: 0.8em;
+    cursor: pointer;
+  }
+}
+
+/**
+ * Bootstrap list additional colors
+ */
+.list-group-item-light {
+  color: #818182;
+  background-color: #fdfdfe;
+}
+
+.list-group-item-secondary {
+  color: #464a4e;
+  background-color: #dddfe2;
+}
+
+.list-group-item-dark {
+  color: #1b1e21;
+  background-color: #c6c8ca;
+}
+
+.list-group-item-heading {
+  color: #333;
+  background-color: #f5f5f5;
+}
+
+/**
+ * Bootstrap cards additional colors
+ */
+.card-secondary {
+  background-color: #ccc;
+  border-color: #ccc;
+}
+
+/**
+ * Bootstrap cards
+ */
+.card.card-small {
+  font-size: 13px;
+  line-height: 1.3em;
+}
+.card.max-width {
+  max-width: 140px;
+}
+
+.card-outline-pending {
+  @extend .card-outline-danger;
+}
+
+.card-outline-cancelled, .card-outline-cancelled_before_estimate_req {
+  @extend .card-outline-secondary;
+}
+
+.card-outline-sent_estimate_to_user, .card-outline-sent_estimate_to_iacc, .card-outline-sent_estimate_req {
+  @extend .card-outline-warning;
+}
+
+.card-outline-verbal_ok, .card-outline-contracted, {
+  @extend .card-outline-success;
+}
+
+/**
+ * Bootstrap animate progress
+ */
+.progress .progress-bar {
+  transition: width 0.3s linear;
+}
+
+/**
+ * Footer
+ */
+.footer {
+  margin-top: 20px;
+  border-top: 1px solid rgba(0,0,0,.125);
+
+  .co-ltd {
+    padding: 6px 0;
+    font-size: 12px;
+    text-align: center;
+  }
+}
+
+/**
+ *
+ * Hidden elements
+ */
+.smooth-hide {
+  visibility: hidden;
+  opacity: 0;
+}
+
+/**
+ * Reset bootstrap defaults for Ladda buttons
+ */
+.ladda-button[data-loading], .ladda-button[data-loading]:hover, .ladda-button[disabled], .ladda-button[disabled]:hover {
+  cursor: default;
+  background-color: #999;
+}
+
+.ladda-button:hover, .ladda-button[data-loading], .ladda-button[disabled] {
+    border-color: rgba(0,0,0,.07);
+}
+/**
+ * Ladda button data-loading
+ */
+.btn.ladda-button[data-loading] {
+  background-color: #999;
+  border-color: #ccc !important;
+}

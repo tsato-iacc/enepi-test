@@ -4,14 +4,14 @@ use JpPrefecture\Config;
 
 class Controller_Front_Api_v1_Simulation extends Controller_Rest
 {
-    protected $rest_format = 'json';
+    protected $rest_format    = 'json';
+    protected $uuid           = null;
 
     public function before()
     {
         parent::before();
 
-        // if (!\Input::is_ajax())
-        //   throw new \HttpNotFoundException;
+        $this->setUUID();
     }
 
     public function get_cities()
@@ -85,6 +85,8 @@ class Controller_Front_Api_v1_Simulation extends Controller_Rest
             if ($bill)
             {
                 $simulation = new Model_Simulation([
+                    'uuid'            => $this->uuid,
+                    'tr'              => \Input::get('tr', null),
                     'prefecture_code' => $val->validated('prefecture_code'),
                     'city_code'       => $val->validated('city_code'),
                     'household'       => $val->validated('household'),
@@ -134,5 +136,16 @@ class Controller_Front_Api_v1_Simulation extends Controller_Rest
         }
 
         $this->response(json_encode($response, JSON_UNESCAPED_UNICODE));
+    }
+
+    private function setUUID()
+    {
+        // set uuid cookie
+        $this->uuid = \Cookie::get('enepiuuid', null);
+
+        if (!$this->uuid)
+        {
+            \Cookie::set('enepiuuid', \Str::random('uuid'), 60 * 60 * 24 * 365 * 10);
+        }
     }
 }

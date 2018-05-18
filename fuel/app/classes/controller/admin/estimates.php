@@ -46,7 +46,7 @@ class Controller_Admin_Estimates extends Controller_Admin
             ],
         ];
 
-        $related_where = $this->updateConditions($conditions);
+        $this->updateConditions($conditions);
 
         $total_items = \Model_Estimate::count($conditions);
 
@@ -58,18 +58,10 @@ class Controller_Admin_Estimates extends Controller_Admin
             'num_links' => 20,
         ]);
 
+        $conditions['group_by'] = ['id'];
         $conditions['order_by'] = ['id' => 'desc'];
-
-        if ($related_where)
-        {
-            $conditions['rows_limit'] = $pager->per_page;
-            $conditions['rows_offset'] = $pager->offset;
-        }
-        else
-        {
-            $conditions['limit'] = $pager->per_page;
-            $conditions['offset'] = $pager->offset;
-        }
+        $conditions['rows_limit'] = $pager->per_page;
+        $conditions['rows_offset'] = $pager->offset;
 
         $estimates = \Model_Estimate::find('all', $conditions);
         
@@ -458,19 +450,15 @@ class Controller_Admin_Estimates extends Controller_Admin
      */
     private function updateConditions(&$conditions)
     {
-        $related_where = false;
-
         // Where contact name equal
         if ($contact_name_equal = \Input::get('contact_name_equal'))
         {
-            $related_where = true;
             $conditions['related']['contact']['where'][] = ['name', $contact_name_equal];
         }
             
         // Where contact name like
         if ($contact_name_like = \Input::get('contact_name_like'))
         {
-            $related_where = true;
             $conditions['related']['contact']['where'][] = ['name', 'LIKE', "%{$contact_name_like}%"];
         }
         
@@ -485,14 +473,12 @@ class Controller_Admin_Estimates extends Controller_Admin
         // Where tel equal
         if ($contact_tel_equal = \Input::get('contact_tel_equal'))
         {
-            $related_where = true;
             $conditions['related']['contact']['where'][] = ['tel', $contact_tel_equal];
         }
 
         // Where email equal
         if ($contact_email_equal = \Input::get('contact_email_equal'))
         {
-            $related_where = true;
             $conditions['related']['contact']['where'][] = ['email', $contact_email_equal];
         }
 
@@ -544,16 +530,12 @@ class Controller_Admin_Estimates extends Controller_Admin
         // Where calling_histories is the day
         if ($history_created_from = \Input::get('history_created_from'))
         {
-            $related_where = true;
-
             $h_from = \Helper\TimezoneConverter::convertFromStringToUTC($history_created_from);
             $h_to = \Helper\TimezoneConverter::convertFromStringToUTC($history_created_from, 'Y-m-d H:i:s', 'Y-m-d', true);
 
             $conditions['related']['histories']['where'][] = ['created_at', '>=', $h_from];
             $conditions['related']['histories']['where'][] = ['created_at', '<=', $h_to];
         }
-
-        return $related_where;
     }
 
     private function searchHigherStatus(&$estimate, $new_status)

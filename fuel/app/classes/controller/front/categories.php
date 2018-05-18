@@ -110,7 +110,16 @@ class Controller_Front_Categories extends Controller_Front
         ]);
     }
 
-
+    /**
+     * Redirect to categories/citygas
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_citygas()
+    {
+        Response::redirect('categories/citygas');
+    }
 
     /**
      * Show Category's Articles

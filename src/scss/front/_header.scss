@@ -125,33 +125,56 @@ header {
 
   @media screen and (max-device-width: $device-max-width) {
     .container-wrap {
-      margin: 3% 0 0;
+      margin: 0;
       height: auto;
       flex-wrap: wrap;
 
       .navi-wrap {
         width: 100%;
-        margin-top: 2%;
+        height: auto;
+        margin-top: 0;
         border-top: 1px solid #eee;
         order: 3;
+
+        > div {
+          &:first-child {
+            border-left: none;
+          }
+          &:last-child {
+            border-right: none;
+          }
+        }
+
+        a {
+          padding: 4% 0;
+        }
       }
 
       .navi {
         width: 33.333333%;
+        height: 100%;
+        font-size: 3.5vw;
       }
 
       .logo-wrap {
         flex-grow: unset;
         flex-basis: unset;
 
-        .logo {
-          width: 100%;
-        }
-
         > div > div {
           width: 100%;
           max-width: unset;
-          padding: 0 10%;
+          padding: 0 12% 0;
+        }
+
+        .logo {
+          margin: 0;
+          width: 100%;
+
+          a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
         }
 
         .enepi-tel > div {

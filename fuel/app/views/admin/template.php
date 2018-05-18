@@ -22,7 +22,7 @@
         <?= render('admin/sidebar'); ?>
       </div>
 
-      <div class="col-md-10">
+      <div class="col-md-10 main-wrap">
         <!-- ALERTS START -->
         <?php if (Session::get_flash('success')): ?>
           <div class="alert alert-success alert-dismissible fade show" role="alert">

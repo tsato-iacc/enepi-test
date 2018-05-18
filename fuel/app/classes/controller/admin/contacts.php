@@ -31,7 +31,6 @@ class Controller_Admin_Contacts extends Controller_Admin
     {
         $val = Validation::forge();
 
-        // UPGRADE ME, Use group by than where in
         $conditions = [
             'where' => [],
             'related' => [
@@ -45,7 +44,7 @@ class Controller_Admin_Contacts extends Controller_Admin
             ],
         ];
 
-        $related_where = $this->updateConditions($conditions);
+        $this->updateConditions($conditions);
         $total_items = \Model_Contact::count($conditions);
 
         $pager = \Pagination::forge('contacts', [
@@ -56,18 +55,10 @@ class Controller_Admin_Contacts extends Controller_Admin
             'num_links' => 20,
         ]);
 
+        $conditions['group_by'] = ['id'];
         $conditions['order_by'] = ['id' => 'desc'];
-        
-        if ($related_where)
-        {
-            $conditions['rows_limit'] = $pager->per_page;
-            $conditions['rows_offset'] = $pager->offset;
-        }
-        else
-        {
-            $conditions['limit'] = $pager->per_page;
-            $conditions['offset'] = $pager->offset;
-        }
+        $conditions['rows_limit'] = $pager->per_page;
+        $conditions['rows_offset'] = $pager->offset;
 
         $contacts = \Model_Contact::find('all', $conditions);
 
@@ -312,7 +303,12 @@ class Controller_Admin_Contacts extends Controller_Admin
      */
     private function updateConditions(&$conditions)
     {
-        $related_where = false;
+        // Where id is
+        if ($by_id = \Input::get('by_id'))
+        {
+            $conditions['where'][] = ['id', $by_id];
+            return false;
+        }
 
         // Where name equal
         if ($name_equal = \Input::get('name_equal'))
@@ -365,22 +361,18 @@ class Controller_Admin_Contacts extends Controller_Admin
         // Where introduce created from
         if ($introduced_from = \Input::get('introduced_from'))
         {
-            $related_where = true;
             $conditions['related']['estimates']['where'][] = ['created_at', '>=', \Helper\TimezoneConverter::convertFromStringToUTC($introduced_from)];
         }
 
         // Where introduce created to
         if ($introduced_to = \Input::get('introduced_to'))
         {
-            $related_where = true;
             $conditions['related']['estimates']['where'][] = ['created_at', '<=', \Helper\TimezoneConverter::convertFromStringToUTC($introduced_to, 'Y-m-d H:i:s', 'Y-m-d', true)];
         }
 
         // Where estimate progress equal
         if ($estimate_progress = \Input::get('estimate_progress'))
         {
-            $related_where = true;
-
             switch ($estimate_progress)
             {
                 case 'unknown':
@@ -411,8 +403,6 @@ class Controller_Admin_Contacts extends Controller_Admin
         // Where calling_histories is the day
         if ($history_created_from = \Input::get('history_created_from'))
         {
-            $related_where = true;
-
             $h_from = \Helper\TimezoneConverter::convertFromStringToUTC($history_created_from);
             $h_to = \Helper\TimezoneConverter::convertFromStringToUTC($history_created_from, 'Y-m-d H:i:s', 'Y-m-d', true);
 
@@ -420,7 +410,11 @@ class Controller_Admin_Contacts extends Controller_Admin
             $conditions['related']['calling_histories']['where'][] = ['created_at', '<=', $h_to];
         }
 
-        return $related_where;
+        // Where tracking parameter is
+        if ($pr_tracking = \Input::get('pr_tracking'))
+        {
+            $conditions['related']['tracking']['where'][] = ['id', $pr_tracking];
+        }
     }
 
     private function getNewEstimates(&$contact)

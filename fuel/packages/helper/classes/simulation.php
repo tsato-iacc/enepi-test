@@ -14,15 +14,19 @@ use JpPrefecture\JpPrefecture;
 
 class Simulation
 {
-		private $region;
-		
-		private $basic_rate;
-		private $prefecture_name;
-		private $household_average_rate;
+    private $region;
+    private $prefecture;
+    
+    private $household;
+    private $month;
+    private $bill;
+    private $basic_rate;
+    private $prefecture_name;
+    private $household_average_rate;
 
     private $estimated_bill                   = 0;
     private $city_average_commodity_charge    = 0;
-		private $commodity_charge                 = 0;
+    private $commodity_charge                 = 0;
     private $nationwide_reduction             = 0;
     private $new_enepi_reduction_average      = 0;
     private $average_reduction_rate           = 0;
@@ -31,32 +35,32 @@ class Simulation
     private $monthly_average_price            = [];
     private $new_enepi_reduction              = [];
 
-		/**
-		 * Prepare Helper for work
-		 * @param Fuel\Core\Validation $val Recieve validation object
-		 */
-		public function __construct(\Validation $val)
-		{
-        $household                    = $val->validated('household');
-        $month                        = $val->validated('month');
-        $bill                         = $val->validated('bill');
+    /**
+     * Prepare Helper for work
+     * @param Fuel\Core\Validation $val Recieve validation object
+     */
+    public function __construct(\Validation $val)
+    {
+        $this->household                    = $val->validated('household');
+        $this->month                        = $val->validated('month');
+        $this->bill                   = $val->validated('bill');
 
-				$city                         = \Model_Localcontent_City::find($val->validated('city_code'));
-				$this->prefecture             = \Model_Localcontent_Prefecture::find($city->prefecture_code);
-				$this->region                 = \Model_Region::find($city->city_code);
-				$this->prefecture_name        = JpPrefecture::findByCode($city->prefecture_code)->nameKanji;
-				
+        $city                         = \Model_Localcontent_City::find($val->validated('city_code'));
+        $this->prefecture             = \Model_Localcontent_Prefecture::find($city->prefecture_code);
+        $this->region                 = \Model_Region::find($city->city_code);
+        $this->prefecture_name        = JpPrefecture::findByCode($city->prefecture_code)->nameKanji;
+        
         $annual_average               = $this->prefecture->annual_average;
         $sum = [];
 
-				$this->basic_rate             = (int) $city->basic_rate;
-        $this->household_average_rate = $this->prefecture[$month] / $annual_average * $this->prefecture[$household];
+        $this->basic_rate             = (int) $city->basic_rate;
+        $this->household_average_rate = $this->prefecture[$this->month] / $annual_average * $this->prefecture[$this->household];
 
         $this->city_average_commodity_charge = (int) $city->commodity_charge == 0 ? (int) $this->prefecture->commodity_charge_criterion : (int) $city->commodity_charge;
         
-        if ($bill)
+        if ($this->bill)
         {
-            $this->commodity_charge   = ((int) $bill / \Config::get('enepi.taxes.jp_acquisition_tax') - $this->basic_rate) / $this->household_average_rate;
+            $this->commodity_charge   = ((int) $this->bill / \Config::get('enepi.taxes.jp_acquisition_tax') - $this->basic_rate) / $this->household_average_rate;
         }
         else
         {
@@ -87,102 +91,117 @@ class Simulation
         }
 
         $this->new_enepi_reduction_average = array_sum($this->new_enepi_reduction) / 12;
-		}
+    }
 
-		public function getRegion()
-		{
-				return $this->region;
-		}
+    public function getHousehold()
+    {
+        return $this->household;
+    }
 
-		public function getPrefectureName()
-		{
-				return $this->prefecture_name;
-		}
+    public function getMonth()
+    {
+        return $this->month;
+    }
 
-		public function getBasicRate()
-		{
-				return $this->basic_rate;
-		}
+    public function getBill()
+    {
+        return $this->bill;
+    }
 
-		public function getHouseholdAverageRate()
-		{
-				return round($this->household_average_rate, 2);
-		}
+    public function getRegion()
+    {
+        return $this->region;
+    }
 
-		public function getCityAverageCommodityCharge()
-		{
-				return round($this->city_average_commodity_charge, 0);
-		}
+    public function getPrefectureName()
+    {
+        return $this->prefecture_name;
+    }
 
-		public function getEstimatedBill()
-		{
-				return round($this->estimated_bill, 0);
-		}
+    public function getBasicRate()
+    {
+        return $this->basic_rate;
+    }
 
-		public function getCommodityCharge()
-		{
-				return round($this->commodity_charge, 0);
-		}
+    public function getHouseholdAverageRate()
+    {
+        return round($this->household_average_rate, 2);
+    }
 
-		public function getNationwideReduction()
-		{
-				return round($this->nationwide_reduction, 2);
-		}
+    public function getCityAverageCommodityCharge()
+    {
+        return round($this->city_average_commodity_charge, 0);
+    }
 
-		public function getNewEnepiReductionAverage()
-		{
-				return round($this->new_enepi_reduction_average, 0);
-		}
+    public function getEstimatedBill()
+    {
+        return round($this->estimated_bill, 0);
+    }
 
-		public function getNewEnepiReduction()
-		{
-				return $this->new_enepi_reduction;
-		}
+    public function getCommodityCharge()
+    {
+        return round($this->commodity_charge, 0);
+    }
 
-		public function getMonthlyEstimatedPrice()
-		{
-				return $this->monthly_estimated_price;
-		}
+    public function getNationwideReduction()
+    {
+        return round($this->nationwide_reduction, 2);
+    }
 
-		public function getMonthlyAveragePrice()
-		{
-				return $this->monthly_average_price;
-		}
+    public function getNewEnepiReductionAverage()
+    {
+        return round($this->new_enepi_reduction_average, 0);
+    }
 
-		public function getAverageReductionRate()
-		{
-				return $this->prefecture->average_reduction_rate;
-		}
+    public function getNewEnepiReduction()
+    {
+        return $this->new_enepi_reduction;
+    }
 
-		public function getMonthlyEstimatedPriceAverage()
-		{
-				return round(array_sum($this->monthly_estimated_price) / 12, 0);
-		}
+    public function getMonthlyEstimatedPrice()
+    {
+        return $this->monthly_estimated_price;
+    }
 
-		public function getMonthlyAveragePriceAverage()
-		{
-				return round(array_sum($this->monthly_average_price) / 12, 0);
-		}
+    public function getMonthlyAveragePrice()
+    {
+        return $this->monthly_average_price;
+    }
 
-		public function getGoogleChartJsonData()
-		{
-				$data = [
-						'cols' => [
-								['id' => '','label' => '月','pattern' => '','type' => 'string'],
-								['id' => '','label' => '地域平均','pattern' => '','type' => 'number'],
-								['id' => '','label' => 'エネピ平均削減額','pattern' => '','type' => 'number'],
-						],
-						'rows' => [],
-				];
+    public function getAverageReductionRate()
+    {
+        return $this->prefecture->average_reduction_rate;
+    }
 
-				foreach (\Config::get('enepi.simulation.month.key_numeric') as $k => $v)
-				{
-						$key = $k - 1;
-						$data['rows'][] = ['c' => [['v' => "{$k}月"], ['v' => round($this->monthly_average_price[$key], 0)], ['v' => round($this->new_enepi_reduction[$key], 0)]]];
-				}
+    public function getMonthlyEstimatedPriceAverage()
+    {
+        return round(array_sum($this->monthly_estimated_price) / 12, 0);
+    }
 
-				return json_encode($data, JSON_UNESCAPED_UNICODE);
-		}
+    public function getMonthlyAveragePriceAverage()
+    {
+        return round(array_sum($this->monthly_average_price) / 12, 0);
+    }
+
+    public function getGoogleChartJsonData()
+    {
+        $data = [
+            'cols' => [
+                ['id' => '','label' => '月','pattern' => '','type' => 'string'],
+                ['id' => '','label' => $this->getPrefectureName().'平均','pattern' => '','type' => 'number'],
+                ['id' => '','label' => 'エネピ平均削減額','pattern' => '','type' => 'number'],
+            ],
+            'rows' => [],
+        ];
+
+        foreach (\Config::get('enepi.simulation.month.key_numeric') as $k => $v)
+        {
+            $key = $k - 1;
+            $data['rows'][] = ['c' => [['v' => "{$k}月"], ['v' => round($this->monthly_average_price[$key], 0)], ['v' => round($this->new_enepi_reduction[$key], 0)]]];
+        }
+
+        return json_encode($data, JSON_UNESCAPED_UNICODE);
+    }
 
     /**
      * STATIC METHODS

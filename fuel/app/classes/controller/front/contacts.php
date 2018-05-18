@@ -154,6 +154,7 @@ class Controller_Front_Contacts extends Controller_Front
         if ($val->run())
         {
             $contact->set($val->validated('lpgas_contact', 'contact'));
+            $contact->uuid = $this->uuid;
 
             // Calculate gas usage by house hold
             if (!$contact->gas_used_amount && $contact->house_hold)
@@ -237,6 +238,7 @@ class Controller_Front_Contacts extends Controller_Front
                 'contact' => $contact,
                 'val' => $val,
                 'month_selected' => '',
+                'slots' => \Model_Slot::getSlots(),
             ]);
         }
 

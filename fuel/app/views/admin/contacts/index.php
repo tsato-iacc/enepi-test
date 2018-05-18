@@ -117,10 +117,22 @@ use JpPrefecture\JpPrefecture;
   </div>
 
   <div class="form-group row mb-0">
-    <div class="col-2 pr-0">
+    <div class="col-2">
       <div class="form-group<?= $val->error('history_created_from') ? ' has-danger' : ''?>">
         <label class="form-control-label" for="history_created_from"><h6>対応履歴日時</h6></label>
         <input type="text" name="history_created_from" value="<?= $val->input('history_created_from', '') ?>" class="form-control datepicker" id="history_created_from">
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="form-group<?= $val->error('pr_tracking') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="pr_tracking"><h6>経由元</h6></label>
+        <?= Form::select('pr_tracking', $val->input('pr_tracking', ''), ['' => 'none'] + \Model_Tracking::getSelectOptions(), ['class' => 'form-control', 'id' => 'pr_tracking']); ?>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="form-group<?= $val->error('by_id') ? ' has-danger' : ''?>">
+        <label class="form-control-label" for="by_id"><h6 data-toggle="tooltip" data-placement="top" title="他の条件無視"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> ID</h6></label>
+        <input type="text" name="by_id" value="<?= $val->input('by_id', '') ?>" class="form-control" id="by_id">
       </div>
     </div>
   </div>
@@ -198,7 +210,7 @@ use JpPrefecture\JpPrefecture;
           <div class="d-flex justify-content-around align-items-center">
             <div><i class="fa <?= $contact->sent_auto_estimate_req ? 'fa-circle-o text-success' : 'fa-times' ?>" aria-hidden="true"></i></div>
             <div><i class="fa <?= $contact->is_seen == \Config::get('models.contact.is_seen.seen') ? 'fa-circle-o text-success' : 'fa-times' ?>" aria-hidden="true"></i></div>
-            <div><i class="fa fa-tachometer" aria-hidden="true"></i> <?= count($contact->estimates); ?></div>
+            <div><i class="fa fa-tachometer" aria-hidden="true"></i> <?= $contact->getEstimatesCount(); ?></div>
           </div>
           <div>&nbsp;</div>
           <div>集合住宅

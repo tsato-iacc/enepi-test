@@ -19,8 +19,8 @@ return array(
 
     'redis' => [
         'default' => [
-            'hostname' => \Input::server('CACHE_ENDPOINT'),
-            'port' => \Input::server('CACHE_ENDPOINT_PORT'),
+            'hostname' => getenv('CACHE_ENDPOINT'),
+            'port' => getenv('CACHE_ENDPOINT_PORT'),
             'timeout' => null,
         ],
     ],

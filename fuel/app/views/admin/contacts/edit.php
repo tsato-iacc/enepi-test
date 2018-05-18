@@ -189,6 +189,10 @@ use JpPrefecture\JpPrefecture;
   <?php endif; ?>
 </div>
 
+<!-- MODAL MAIL TEMPLATE START -->
+<?= render('admin/contacts/_modal_template', ['contact' => $contact]); ?>
+<!-- MODAL MAIL TEMPLATE END -->
+
 <!-- MODAL DELETE START -->
 <?= render('admin/_modal_delete'); ?>
 <!-- MODAL DELETE END -->

@@ -262,19 +262,19 @@ class Controller_Front_Localcontents extends Controller_Front
 
 
         $meta = [
-            ['name' => 'description', 'content' => $prefecture_name.$city_name.'のプロパンガス料金を知りたい方はこちらをチェック！お住まいの地域をクリックして頂くと、市区町村ごとの詳細なガス代を調べられます。プロパンガス(LPガス)は地域によって料金が異なるので、平均的なガス代を把握し、見直しに役立ててください。'],
+            ['name' => 'description', 'content' => $prefecture_name_itself.$city_name.'のプロパンガス料金を知りたい方はこちらをチェック！お住まいの地域をクリックして頂くと、市区町村ごとの詳細なガス代を調べられます。プロパンガス(LPガス)は地域によって料金が異なるので、平均的なガス代を把握し、見直しに役立ててください。'],
         ];
 
 
         $breadcrumb = [
             ['url' => \Uri::create('categories/lpgas'), 'name' => 'LPガス/プロパンガス'],
             ['url' => \Uri::create('local_contents'), 'name' => '都道府県料金一覧ページ'],
-            ['url' => \Uri::create('local_contents/'.$code), 'name' => $prefecture_name.'プロパンガス(LPガス)の平均利用額はココでチェック!'],
-            ['url' => \Uri::create('local_contents/city_show/'.$code), 'name' => $prefecture_name.$city_name.'プロパンガス(LPガス)の平均利用額はココでチェック!'],
+            ['url' => \Uri::create('local_contents/'.$city_data->prefecture_code), 'name' => $prefecture_name_itself.'プロパンガス(LPガス)の平均利用額はココでチェック!'],
+            ['url' => \Uri::create('local_contents/city_show/'.$code), 'name' => $prefecture_name_itself.$city_name.'プロパンガス(LPガス)の平均利用額はココでチェック!'],
         ];
 
 
-        $this->template->title = '【'.$prefecture_name.$city_name.'】'.'プロパンガス(LPガス)料金の適正価格と相場！';
+        $this->template->title = '【'.$prefecture_name_itself.$city_name.'】'.'プロパンガス(LPガス)料金の適正価格と相場！';
         $this->template->meta = $meta;
         $this->template->content = View::forge('front/localcontents/city', [
             'breadcrumb' => $breadcrumb,
