@@ -154,6 +154,12 @@ class Controller_Front extends Controller_Template
         if ($notice_param = \Cookie::get('notice_param'))
         {
             $notice = \Format::forge(\Crypt::decode($notice_param), 'json')->to_array();
+
+            if (!isset($notice['id']))
+            {
+                return;
+            }
+
             $contact = \Model_Contact::find($notice['id']);
 
 
@@ -204,14 +210,14 @@ class Controller_Front extends Controller_Template
                 if ($contact->is_seen == \Config::get('models.contact.is_seen.seen'))
                 {
                     $notice['economy'] = $max_saving;
-                    $notice['url'] = \Uri::create('lpgas/contacts/:id', ['id' => $contact->id]).'?'.http_build_query(['conversion_id' => "LPGAS-{$contact->id}", 'token' => $contact->token, 'pin' => $contact->pin]);
+                    $notice['url'] = \Uri::create('lpgas/contacts/:id', ['id' => $contact->id]).'?'.http_build_query(['conversion_id' => "LPGAS-{$contact->id}", 'token' => $contact->token, 'pin' => $contact->pin, 'notice' => true]);
                     // Set cache to 30 minutes
                     \Cache::set('front.notice_param.'.$notice['id'], $notice, 1800 * 1);
                 }
 
                 if (!isset($notice['economy']))
                 {
-                    $notice['url'] = \Uri::create('lpgas/contacts/:id', ['id' => $contact->id]).'?'.http_build_query(['conversion_id' => "LPGAS-{$contact->id}", 'token' => $contact->token]);
+                    $notice['url'] = \Uri::create('lpgas/contacts/:id', ['id' => $contact->id]).'?'.http_build_query(['conversion_id' => "LPGAS-{$contact->id}", 'token' => $contact->token, 'notice' => true]);
                 }
             }
         
