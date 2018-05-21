@@ -99,6 +99,19 @@ class Controller_Front_Contacts extends Controller_Front
             $contact->pr_tracking_parameter_id = $this->pr_tracking_id;
         }
 
+        // CHECK SECURITY KEY ONLY IF PRESENT
+        if (\Input::post('enepi_security_key'))
+        {
+            if (!in_array(\Input::post('enepi_security_key'), \Config::get('enepi.service.api_security_keys')))
+            {
+                throw new HttpNotFoundException;
+            }
+            else
+            {
+                $contact->api_key = \Input::post('enepi_security_key');
+            }
+        }
+
         $contact->from_kakaku = $this->from_kakaku;
         $contact->from_enechange = $this->from_enechange;
         $contact->terminal = \Config::get('enepi.terminal_types.'.$this->terminal_type);

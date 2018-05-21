@@ -34,7 +34,7 @@ if ($('#simulation_register_form').length) {
     if (sending_form !== true) {
       sending_form = true;
       ga('send', 'event', 'simulation-cv', 'btn-click', '', 0);
-      cacv('シミュレーションンフォーム「送信」', {ch:'63912289'});
+      cacv('シミュレーションフォーム「送信」', {ch:'63912289'});
       form.submit();
     }
   }
@@ -224,10 +224,10 @@ if ($('#simulation_register_form').length) {
       $('.can-hide').show();
       inputHideError('lpgas_contact\\[gas_contracted_shop_name\\]');
       ga('send', 'event', 'simulation-new-contract', 'btn-click', '', 0);
-      caevent('シミュレーションフォーム「現在」', {ch:'63912289'});
+      caevent('シミュレーションフォーム「引っ越し」', {ch:'63912289'});
     } else {
       $('.can-hide').hide();
-      caevent('シミュレーションンフォーム「引っ越し」', {ch:'63912289'});
+      caevent('シミュレーションフォーム「現在」', {ch:'63912289'});
       ga('send', 'event', 'simulation-change-contract', 'btn-click', '', 0);
     }
   });
