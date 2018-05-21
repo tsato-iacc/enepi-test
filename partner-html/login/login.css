@@ -1,0 +1,74 @@
+@charset "utf-8";
+body {
+	font-family: 'Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3',sans-serif;
+	background: #F6F6FB;
+	text-align: center;
+    margin: 4em 0em;
+}
+.inner {
+	font-size: 1.4em;
+}
+h1 {
+	margin: 1em 0 0.5em;
+	font-size: 1.1em;
+}
+p.top {
+    color: #50728A;
+	font-weight: bold;
+	margin: 0;
+}
+img.hyphen {
+    margin: 2em;
+}
+form#loginform {
+    width: auto;
+    display: inline-block;
+}
+input#login_txt {
+    display: flex;
+    width: 350px;
+    margin-bottom: 1.5em;
+    padding: 0.65em;
+    color: #707070;
+    border-radius: 6px;
+    border-color: #70707021;
+}
+button.loginbtn {
+    background: #0086C0;
+    border-radius: 60px;
+    border: 0;
+    color: #fff;
+    padding: 0.5px;
+    margin-top: 2em;
+    width: 100%;
+    font-weight: bold;
+    font-size: 1.4em;
+    cursor: pointer;
+    box-shadow: 0 6px #005D92;
+    display: flex;
+    align-items: center;
+}
+button.loginbtn:hover {
+    background: #005D92;
+    box-shadow: 0 0;
+}
+
+div.icon {
+    background-color: #fff;
+    border-radius: 50%;
+    padding: 16px;
+    margin: 0.4em 3.4em 0.4em 0.4em;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+p.no-login {
+	margin-top: 3em;
+    font-size: 0.9em;
+    text-align: center;
+    width: 100%;
+    color: #DB5F62;
+}
