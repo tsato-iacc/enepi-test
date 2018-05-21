@@ -20,7 +20,7 @@ $done-color-light-blue: #9ebedd;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: url(/assets/images/done/bg_pc.png);
+    background: url(/assets/images/done/bg_pc.jpg);
     background-size: 100%;
     background-repeat: no-repeat;
     background-position: 100%;
@@ -73,7 +73,7 @@ $done-color-light-blue: #9ebedd;
     }
 
     @media screen and (max-device-width: $device-max-width) {
-      background: url(/assets/images/done/bg_sp.png);
+      background: url(/assets/images/done/bg_sp.jpg);
       background-size: 100% auto;
       padding: 15vw 0 20vw;
 
