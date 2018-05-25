@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap - Prebuilt Layout</title>
+
+    <!-- Bootstrap -->
+    <link href="./css/bootstrap-4.0.0.css" rel="stylesheet">
+    <link href="./css/dashboard-sp.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <nav class="navi-bar">
+      <div id="nav-drawer">
+		  <input id="nav-input" type="checkbox" class="nav-unshown">
+		  <label id="nav-open" for="nav-input"><span></span></label>
+		  <label class="nav-unshown" id="nav-close" for="nav-input"></label>
+		  <div id="nav-content">
+			<div class="navi-prof">
+				<div>
+				<div><img src="img/people-icon.png"></div>
+				<p class="navbar-text">こんにちは、<b>佐藤</b>さん</p>
+				</div>
+				<span class="navi-bar post">[管理者アカウント]</span>
+		  	</div>
+			<li class="list-group-item heading"><div class="icon"><img src="./img/dashboard-icon.png" alt="dashboard"></div>ダッシュボード</li>
+			<a href="https://stg.new.enepi.jp/partner/estimates?u=30" class="list-group-item action">
+				<div class="icon"><img src="./img/text-icon.png" alt="dashboard"></div>案件一覧</a>
+			<a href="https://stg.new.enepi.jp/partner/estimates?u=30" class="list-group-item action">
+				<div class="icon"><img src="./img/people-icon.png" alt="dashboard"></div>ユーザ管理</a>
+		<div class="bar first"></div>
+			<a href="https://stg.new.enepi.jp/partner/estimates?u=30" class="list-group-item action">
+				<div class="icon"><img src="img/settings-iconsp.png" alt="dashboard"></div>プロフィール参照</a>
+			<a href="https://stg.new.enepi.jp/partner/estimates?u=30" class="list-group-item action">
+				<div class="icon"><img src="img/export-iconsp.png" alt="dashboard"></div>ログアウト</a>
+		  </div>
+	  </div>
+ 	  <img src="./img/enepi_logo.png" alt="enepi" class="enepi-top">
+	  <div class="navi-bar brand" href="#">佐藤プロパン様 管理画面</div>
+    </nav>
+
+    <div class="main-dashboard">
+		<div class="tabs">
+		  <input id="dashboard" type="radio" name="tab_item" checked>
+		  <label class="tab_item" for="dashboard"><h1>ダッシュボード</h1></label>
+		  <input id="staffs" type="radio" name="tab_item">
+		  <label class="tab_item" for="staffs"><span data-badge-top-right="10"></span>担当者への通知</label>
+   		  <div class="tab_content dash" id="dashboard_content">
+			<table class="brwsr2">
+				<tbody>
+					<tr>
+						<td class="intro">
+							担当者
+						</td>
+						<td class="intro">
+							未対応
+						</td>
+						<td class="intro">
+							未訪問
+						</td>
+						<td class="intro">
+							委任状<br>未獲得
+						</td>
+						<td class="intro">
+							工事未定
+						</td>
+						<td class="intro">
+							工事<br>未完了
+						</td>
+					</tr>
+					<tr>
+						<td class="bar first" colspan="6"></td>
+					</tr>
+					<tr>
+						<th><b>担当者なし</b></th>
+						<td class="data fst">
+							<span class="red-limit">20</span>
+						</td>
+						<td class="data">
+							0
+						</td>
+						<td class="data">
+							0
+						</td>
+						<td class="data">
+							0
+						</td>
+						<td class="data">
+							0
+						</td>
+					</tr>
+					<tr>
+						<td class="bar" colspan="6"></td>
+					</tr>
+					<tr>
+						<th>阿部慎之助</th>
+						<td class="data fst">
+							<span class="blue-limit">21</span>
+						</td>
+						<td class="data">
+							<span class="blue-limit">4</span>
+						</td>
+						<td class="data">
+							<span class="blue-limit">5</span>
+						</td>
+						<td class="data">
+							<span class="blue-limit">12</span>
+						</td>
+						<td class="data">
+							<span class="blue-limit">9</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="bar" colspan="6"></td>
+					</tr>
+					<tr>
+						<th>山田哲人</th>
+						<td class="data fst">
+							<span class="blue-limit">4</span>
+						</td>
+						<td class="data">
+							<span class="blue-limit">2</span>
+						</td>
+						<td class="data">
+							<span class="blue-limit">7</span>
+						</td>
+						<td class="data">
+							<span class="blue-limit">1</span>
+						</td>
+						<td class="data">
+							<span class="blue-limit">2</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="bar" colspan="6"></td>
+					</tr>
+					<tr>
+						<th>嶋基宏</th>
+						<td class="data fst">
+							<span class="blue-limit">3</span>
+						</td>
+						<td class="data">
+							0
+						</td>
+						<td class="data">
+							<span class="blue-limit">2</span>
+						</td>
+						<td class="data">
+							<span class="blue-limit">1</span>
+						</td>
+						<td class="data">
+							<span class="blue-limit">4</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="bar first" colspan="6"></td>
+					</tr>
+					<tr>
+						<th><b>合計</b></th>
+						<td class="data fst">
+							<span class="blue-limit">28</span>
+						</td>
+						<td class="data">
+							<span class="blue-limit">6</span>
+						</td>
+						<td class="data">
+							<span class="blue-limit">17</span>
+						</td>
+						<td class="data">
+							<span class="blue-limit">16</span>
+						</td>
+						<td class="data">
+							<span class="blue-limit">20</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		  </div>
+		  <div class="tab_content staff" id="staffs_content">
+			  <div class="pro-title"><img src="img/warning-iconsp.png">進行状況の確認をしてください</div>
+			<div class="tab_manager">
+				<p>マネージャー</p>
+			  <div class="tab_content_description">
+				  <div class="balloon-alert">
+					<p>担当者不在案件</p>
+				  </div>
+					<a class="info-alert" href="#">送客日時: 2018-04-12 12:21<br>ID: 1088　さとう様<br>進行状況: 未連絡</a>
+			  </div>
+			  <div class="tab_content_description">
+			  	<div class="balloon-alert">
+					<p>担当者不在案件</p>
+			  	</div>
+					<a class="info-alert" href="#">送客日時: 2018-04-12 12:21<br>ID: 10910　こんどう様<br>進行状況: 工事未完了</a>
+			  </div>
+			  <div class="tab_content_description">
+			  	<div class="balloon-alert">
+					<p>担当者不在案件</p>
+			    </div>
+					<a class="info-alert" href="#">送客日時: 2018-04-12 12:21<br>ID: 11000　とうかいりん様<br>進行状況: 委任状未獲得</a>
+			  </div>
+			</div>
+			
+			<div class="tab_manager staff">
+				<p>阿部慎之助</p>
+			  <div class="tab_content_description">
+				  <div class="balloon-alert">
+					<p>未読です!</p>
+				  </div>
+					<a class="info-alert" href="#">送客日時: 2018-04-12 12:21<br>ID: 1088　さとう様<br>進行状況: 未連絡</a>
+			  </div>
+			  <div class="tab_content_description">
+			  	<div class="balloon-alert">
+					<p>対応期限2日超過</p>
+			  	</div>
+					<a class="info-alert" href="#">送客日時: 2018-04-12 12:21<br>ID: 10910　こんどう様<br>進行状況: 工事未完了</a>
+			  </div>
+			  <div class="tab_content_description">
+			  	<div class="balloon-alert">
+					<p>対応期限10日超過</p>
+			    </div>
+					<a class="info-alert" href="#">送客日時: 2018-04-12 12:21<br>ID: 11000　とうかいりん様<br>進行状況: 委任状未獲得</a>
+			  </div>
+		  </div>
+		  
+		</div>
+		<p class="attention">※現在進行中の案件数です</p>
+	</div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+    <script src="../enepi-kanri/js/jquery-3.2.1.min.js"></script>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed --> 
+    <script src="../enepi-kanri/js/popper.min.js"></script>
+    <script src="../enepi-kanri/js/bootstrap-4.0.0.js"></script>
+  </body>
+</html>
