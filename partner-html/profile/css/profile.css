@@ -1,0 +1,347 @@
+@charset "utf-8";
+body {
+	font-family: 'Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3',sans-serif;
+	background: #F6F6FB;
+	text-align: center;
+    margin: 4em 0em;
+}
+.allarea {
+    display: flex;
+}
+.col-right {
+    width: 16%;
+	background-color: #50728A;
+}
+.enepi-top {
+    padding: 5.8%;
+    border-bottom: 1px solid #f6f6fb52;
+}
+.sidebar {
+    display: grid;
+	padding: 6% 0;
+    color: #fff;
+    font-size: 18px;
+}
+li.list-group-item {
+    border: none;
+    background: none;
+}
+li.list-group-item.heading {
+    height: 70px;
+    background-color: #00000030;
+	border-top-right-radius: 0;
+    border-top-left-radius: 0;
+	font-weight: bold;
+}
+.icon {
+    background-color: #fff;
+    border-radius: 50%;
+    padding: 16px;
+    margin: 0 6% 0 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.list-group-item.action {
+    z-index: 2;
+    color: #fff;
+    background-color: #50728A;
+}
+.list-group-item.action:hover {
+    background-color: #00000030;
+}
+.list-group-item:last-child {
+	border-bottom: none;
+}
+
+
+.col-left {
+    width: 84%;
+    background-color: #F6F6FB;
+}
+nav.navi-bar {
+    display: flex;
+    box-shadow: 1px 1px 10px #00000017;
+	height: 70px;
+	background-color: #FFFFFF;
+}
+.navi-bar.brand {
+    padding: 1.5%;
+    width: 75%;
+    color: #50728A;
+    font-size: 20px;
+    font-weight: bold;
+}
+.navi-bar.user {
+    width: 25%;
+	display: grid;
+}
+.navi-bar.user>div {
+    display: flex;
+	width: 100%;
+}
+.navi-bar.user>div>div {
+    background-color: #F6F6FB;
+	border-radius: 50%;
+    padding: 16px;
+    margin: 0 3% 0 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+p.navbar-text {
+    font-size: 16px;
+	padding-bottom: 0;
+    margin-bottom: 0;
+}
+p.navbar-text>b {
+    font-size: 18px;
+}
+span.navi-bar.post {
+    font-size: 14px;
+    padding: 3%;
+}
+.navi-bar.user>ul {
+	padding: 0 10%;
+    font-size: 14px;
+}
+.navi-bar.user>ul>li {
+	display: flex;
+	text-align: right;
+}
+.navi-bar.user>ul>li>a {
+	color: #0086C0;
+    margin-right: 5%;
+    padding: 0;
+    width: 100%;
+    text-decoration-line: underline;
+}
+.navi-bar.user>ul>li>a:hover {
+	color: #00BCD4;
+}
+.navi-bar.user>ul>li>a>img {
+	margin-right: 5%;
+}
+
+.main-dashboard {
+    padding: 2% 3%;
+    height: -webkit-fill-available;
+}
+
+.user-title,.h1-title {
+	display: flex;
+	line-height: 50px;
+}
+.main-dashboard>div>h1 {
+    font-size: 22px;
+    color: #50728A;
+    font-weight: bold;
+    text-align: left;
+	margin-left: 2%;
+	margin-bottom: 0;
+    line-height: 50px;
+}
+
+/*一覧用*/
+table.brwsr2 {
+	margin: 1% 0;
+    width: 100%;
+    border: none;
+    border-radius: 10px 10px 0 0;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    background: #fff;
+    box-shadow: 1px 1px 10px #0000002e;
+}
+
+table.brwsr2 th {
+	vertical-align: middle;
+    height: 20px;
+    width: 100px;
+    text-align: start;
+    color: rgb(51, 51, 51);
+    font-size: 19px;
+    padding-left: 2%;
+    margin: 0px;
+	font-weight: bold;
+}
+table.brwsr2 th>a {
+	color: #0086C0;
+}
+span.red-limit {
+    font-weight: bold;
+    color: #C82136;
+    text-decoration-line: underline;
+    background-color: #FDF0F1;
+    padding: 10%;
+	cursor: pointer;
+}
+span.blue-limit {
+    font-weight: bold;
+    color: #0086C0;
+    text-decoration-line: underline;
+	cursor: pointer;
+}
+table.brwsr2 td.data {
+	height: 45px;
+    color: rgb(102, 102, 102);
+    font-size: 20px;
+    line-height: 16px;
+    text-align: start;
+    vertical-align: middle;
+    white-space: nowrap;
+    padding: 0px 0px 0px 2%;
+    margin: 0px;
+    overflow: hidden;
+    border-left: 1px solid rgb(246, 246, 251);
+}
+
+.intro {
+	font-size: 18px;
+    color: #50728A;
+    font-weight: bold;
+	text-align: start;
+    padding-left: 2%;
+}
+
+table.brwsr2 td.bar {
+	height: 1px;
+	width: 100%;
+	border-top: solid 1px #F6F6FB;
+}
+table.brwsr2 td.bar.first {
+	border-top: solid 2px #F6F6FB;
+}
+
+
+/*追加画面用*/
+.h1-title>h1 {
+    font-size: 22px;
+    color: #50728A;
+    font-weight: bold;
+    text-align: left;
+	margin-left: 2%;
+	line-height: 50px;
+    margin-bottom: 0;
+}
+.h1-title>a {
+    position: absolute;
+    right: 3%;
+    text-decoration: underline;
+    font-weight: bold;
+    color: #0086C0;
+}
+.h1-title>a:hover{
+	opacity: 0.5;
+}
+button.user-btn {
+    background-color: #0086C0;
+    border: 0;
+    border-radius: 50px;
+    box-shadow: 0 4px #005D92;
+    height: 46px;
+    color: #fff;
+    font-weight: bold;
+    padding: 0 1.2%;
+    margin-left: auto;
+}
+button.user-btn:hover {
+    color: #fff;
+    background-color: #005D92;
+    box-shadow: none;
+    margin-top: 4px;
+	cursor: pointer;
+}
+.user-plus {
+	margin: 1% 0;
+    width: 100%;
+    border: none;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    background: #fff;
+    box-shadow: 1px 1px 10px #0000002e;
+	padding: 3%;
+}
+.user-plus>div {
+	display: flex;
+
+}
+p.edit-title {
+    font-size: 16px;
+    color: #50728A;
+    font-weight: bold;
+    margin-bottom: 0;
+    margin-right: 2%;
+	width: 200px;
+    text-align: end;
+	line-height: 50px;
+}
+.edit-title>span {
+    font-weight: normal;
+    font-size: 14px;
+}
+input#word {
+    border: 2px solid #BAC4CD;
+    border-radius: 4px;
+    height: 54px;
+    width: 28%;
+    padding: 0 8px;
+    margin: 0 3% 2% 0;
+}
+input#word:last-child {
+	margin: 0 0 2% 0;
+}
+.user-plus>div>select {
+    border-radius: 8px;
+    border: 1px solid #BAC4CD;
+    box-shadow: 0px 4px 0px #BAC4CD;
+    padding: 0;
+    font-size: 15px;
+    background-color: #F6F6FB;
+    height: 50px;
+    width: 28%;
+}
+.user-plus>div>select:hover {
+    opacity: 0.75;
+}
+textarea#biko {
+    border: 2px solid #BAC4CD;
+    border-radius: 4px;
+    min-height: 120px;
+    width: 78%;
+    padding: 0 8px;
+    margin: 0 3% 2% 0;
+}
+.user-plus>input[type="submit"] {
+    outline: none;
+    border: none;
+    color: #fff;
+    background-color: #0086C0;
+    line-height: 48px;
+    height: 60px;
+    width: 30%;
+    margin: 10px 0 0;
+    box-shadow: 0 4px 0 #005D92;
+    border-radius: 30px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+	cursor: pointer;
+}
+.user-plus>input[type="submit"]:hover {
+    color: #fff;
+    background-color: #005D92;
+    box-shadow: none;
+    margin-top: 14px;
+    box-shadow: none;
+    text-decoration-line: none;
+    margin-bottom: -4px;
+}
+
+.footer {
+    margin: auto;
+}
