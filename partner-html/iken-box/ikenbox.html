@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ごいけんボックス</title>
+<link href="styles/ikenbox.css" rel="stylesheet" type="text/css">
+
+<script>var __adobewebfontsappname__="dreamweaver"</script><script src="http://use.edgefonts.net/montserrat:n4:default;source-sans-pro:n2:default.js" type="text/javascript"></script>
+</head>
+
+<body>
+<!-- Header content -->
+<header>
+	<img src="images/goiken-kun.png" alt="ごいけんくん">
+  <div>
+    <h1><img src="images/goiken-logo.png" alt="ごいけんボックス"></h1>
+    <h3>社内外の様々なご意見、こちらにお寄せください</h3>
+    <!-- <hr> -->
+  </div>
+</header>
+<!-- content -->
+<section class="mainContent"> 
+  <!-- Contact details -->
+	<form action="" method="post">
+	  <div>
+      	  <div>
+			<label for="name">あなたの名前</label>
+			<input type="text" id="name" name="user_name">
+		  </div>
+		  <div>
+			<label for="category">カテゴリー</label>
+			<select name="">
+				<option value="vol1">選択してください</option>
+				<option value="vol2">admin画面</option>
+				<option value="vol3">フロント画面</option>
+				<option value="vol4">パートナー画面</option>
+				<option value="vol3">業務について</option>
+				<option value="vol4">その他</option>
+			</select>
+		  </div>
+	  </div>
+	  <div>
+      	  <div>
+			<label for="name">ご意見元の名前</label>
+			<input type="text" id="name" name="user_name">
+		  </div>
+		  <div class="meter-box">
+			<label for="meter">テンションメーター</label>
+			  <div class="pro-box">
+				<div class="progress">
+				  <div class="bar">
+					<div class="bar__fill" style="width: 33%;"></div>
+				  </div>
+				  <div class="point point--complete">
+					<div class="bullet"></div>
+					<label class="label">喜び</label>
+				  </div>
+				  <div class="point point--active">
+					<div class="bullet"></div>
+					<label class="label">普通</label>
+				  </div>
+				  <div class="point">
+					<div class="bullet"></div>
+					<label class="label">注意</label>
+				  </div>
+				  <div class="point">
+					<div class="bullet"></div>
+					<label class="label">怒り</label>
+				  </div>
+				</div>
+			  </div>
+		  </div>
+	  </div>
+	  <div>
+		<label for="msg">内容</label>
+		<textarea id="msg" name="user_message"></textarea>
+	  </div>
+	</form>
+	<div class="button">
+		<button type="submit"><b><img src="images/Yes.png"></b>投稿する</button>
+	</div>
+</section>
+	
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+<script>
+/**
+ * Point Animation
+ */
+$('.point').on('click', function(e) {
+  var getTotalPoints = $('.point').length,
+    getIndex = $(this).index(),
+    getCompleteIndex = $('.point--active').index();
+
+  TweenMax.to($('.bar__fill'), 0.6, {
+    width: (getIndex - 1) / (getTotalPoints - 1) * 100 + '%'
+  });
+
+  if (getIndex => getCompleteIndex) {
+    $('.point--active').addClass('point--complete').removeClass('point--active');
+
+    $(this).addClass('point--active');
+    $(this).prevAll().addClass('point--complete');
+    $(this).nextAll().removeClass('point--complete');
+  }
+});
+
+/*
+  Demo Purposes
+*/
+var progressAnimation = function() {
+  var getTotalPoints = $('.point').length,
+    getIndex = Math.floor(Math.random() * 4) + 1,
+    getCompleteIndex = $('.point--active').index();
+
+  TweenMax.to($('.bar__fill'), 0.6, {
+    width: (getIndex - 1) / (getTotalPoints - 1) * 100 + '%'
+  });
+
+  if (getIndex => getCompleteIndex) {
+    $('.point--active').addClass('point--complete').removeClass('point--active');
+
+    $('.point:nth-child(' + (getIndex + 1) + ')').addClass('point--active');
+    $('.point:nth-child(' + (getIndex + 1) + ')').prevAll().addClass('point--complete');
+    $('.point:nth-child(' + (getIndex + 1) + ')').nextAll().removeClass('point--complete');
+  }
+};
+
+var animateProgress = setInterval(progressAnimation, 1200);
+
+$(document).hover(function() {
+  clearInterval(animateProgress)
+});
+
+    </script>
+</body>
+</html>
