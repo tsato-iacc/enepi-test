@@ -1,0 +1,193 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ごいけんボックス</title>
+<style type="text/css">
+<!--
+body {
+    font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', 'sans-serif';
+}
+/* Header */
+header {
+	text-align: center;
+	display: -webkit-box;
+	margin: 30px 36% 0;
+}
+header>div {
+    padding: 2% 3% 0 2%;
+}
+header h1 {
+	line-height: 24px;
+    margin: 0;
+}
+header h3 {
+    color: #707070;
+    font-size: 14px;
+    margin: 0;
+    padding-top: 5%;
+}
+	
+div#main_b {
+    width: 100%;
+}
+b {
+    text-align: left;
+    display: block;
+	margin: 1% 10%;
+    color: #FFAA1C;
+    border-left: 4px solid #2699FB;
+    padding-left: 1%;
+}
+.list {
+    margin: 0 auto;
+    width: 80%;
+}
+.result-div {
+    box-shadow: 0px 0px 5px #ddd;
+}
+.floatThead-container {
+    border-bottom: 3px solid #2699FB;
+    padding: 0.5% 1% 0;
+	background: #eaeaea;
+    text-shadow: 1px 1px 1px #fff;
+}
+table#result-tbl {
+    padding: 1%;
+}
+td {
+    padding: 0.5% 1% 0.5% 0.5%;
+    min-width: 40px;
+	height: 30px;
+	border-right: 1px solid #f5f5f5;
+	border-bottom: 1px solid #f5f5f5;
+}
+td:last-child {
+	border-right: none;
+}
+.title {
+    font-size: 14px;
+    color: #777;
+    border: none;
+}
+td.date {
+    width: 20%;
+}
+td.text {
+    width: 100%;
+}
+td.meter {
+	width: 7%;
+	text-align: center;
+}
+-->
+</style>
+<script>
+$( document ).ready(function() {
+$('#demo').circliful();
+$('#demo2').circliful();
+$('#demo3').circliful();
+});
+</script>
+</head>
+
+<body>
+<!-- Header content -->
+<header>
+	<img src="images/goiken-kun.png" alt="ごいけんくん">
+  <div>
+    <h1><img src="images/goiken-logo.png" alt="ごいけんボックス"></h1>
+    <h3>意見ボックスに集まったご意見です。</h3>
+  </div>
+</header>
+	<hr color="#F1F9FF">
+<div id="main_b">
+	<b>全6件</b>
+	<div class="list">
+		<div class="result-div">
+		<div aria-hidden="true" class="floatThead-container">
+			<table class="simple_b floatThead-table">
+				<thead>
+					<tr>
+					<td class="k_enum title">No</td>
+					<td class="date title">Create_Date／日付</td>
+					<td class="meter title">喜ー怒</td>
+					<td class="text title">内容</td>
+					</tr>
+				</thead>
+			</table></div>
+		<table class="simple_b" id="result-tbl" style="table-layout: fixed; min-width: 510px;">
+		<tbody>
+			<tr>
+			<td>1</td>
+			<td class="date">2018-06-29 17:09:45</td>
+			<td class="meter">4</td>
+			<td class="text"></td>
+			</tr>
+			<tr>
+			<td>2</td>
+			<td class="date">2018-06-29 17:07:49</td>
+			<td class="meter">4</td>
+			<td class="text"></td>
+			</tr>
+			<tr>
+			<td>3</td>
+			<td class="date">2018-06-29 17:00:13</td>
+			<td class="meter">4</td>
+			<td class="text">とてもとても使いやすいそうです！褒められました！</td>
+			</tr>
+			<tr>
+			<td>4</td>
+			<td class="date">2018-06-29 16:59:08</td>
+			<td class="meter">4</td>
+			<td class="text"></td>
+			</tr>
+			<tr>
+			<td>5</td>
+			<td class="date">2018-06-29 16:56:58</td>
+			<td class="meter">4</td>
+			<td class="text">xxxx</td>
+			</tr>
+			<tr>
+			<td>6</td>
+			<td class="date">2018-06-29 16:53:45</td>
+			<td class="meter">4</td>
+			<td class="text">あああああ</td>
+			</tr>
+			</tbody>
+		</table>
+		</div>
+	</div>
+
+<br>
+
+
+<script>
+
+$(function(){
+var $table = $('#result-tbl');
+$table.floatThead({
+	position: 'fixed'
+});
+
+$("#sql-time")[0].innerHTML = "34.3";
+
+});
+</script>
+</div>
+	<hr color="#F1F9FF">
+	
+<script>
+
+$(function(){
+var $table = $('#result-tbl');
+$table.floatThead({
+position: 'fixed'
+});
+
+$("#sql-time")[0].innerHTML = "34.3";
+
+});
+</script>
+</body>
+</html>
