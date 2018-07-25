@@ -31,8 +31,68 @@ body {
     background-color: #C8E8FE;
 }
 #line-buy {
-    padding: 3% 0;
+    padding: 2% 9%;
 }
+.line-friends {
+    margin-top: -4%;
+}
+.line-friends>div {
+	background-color: #fff;
+    padding: 4% 0 1%;
+    text-align: start;
+}
+.kai-01>div {
+	display: flex;
+    margin: 0 9%;
+}
+.kai-01>div>label {
+	width: auto;
+    line-height: 25px;
+    margin: 2% 6% 2% 2%;
+}
+.kai-01>div>img {
+	width: 10%;
+    height: 10%;
+}
+.kai-01>div>span {
+    margin: 2%;
+    font-size: 20px;
+    line-height: 50px;
+}
+.kai-01>div>a {
+	margin: 3% 1%;
+}
+.kai-01>div>a:hover {
+	opacity: 0.7;
+}
+.kai-02 {
+    display: flex;
+    margin-top: 2%;
+}
+.kai-02>img {
+	width: auto;
+    height: fit-content;
+}
+.kai-02>label {
+	width: 35%;
+    line-height: 86px;
+    margin: 0% 0% 0% 3%;
+}
+.kai-02>div {
+	margin: 0;
+    width: 50%;
+    line-height: 26px;
+	display: flex;
+}
+.kai-02>div>p {
+	width: 70%;
+}
+.kai-02>div>img {
+	width: min-content;
+    height: auto;
+    margin: -3% 0 0 5%;
+}
+
 #web-buy {
     padding: 2% 9%;
 }
@@ -61,6 +121,8 @@ form>div>div>div>p {
 }
 form>div>div>div>img {
 	margin: 1% 1%;
+	width: inherit;
+    height: min-content;
 }
 form>div>div {
     width: 100%;
