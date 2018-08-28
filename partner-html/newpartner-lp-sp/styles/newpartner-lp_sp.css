@@ -1,0 +1,227 @@
+@charset "utf-8";
+/* Global Styles */
+
+body {
+	margin: 0 auto;
+	text-align: center;
+	max-width: 100% !important;
+}
+/* Main Content sections */
+.content {
+	display: block;
+	font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', 'sans-serif';
+}
+.top {
+	background-size: auto;
+    background-repeat: no-repeat;
+    background-position: center center;
+	background: linear-gradient(#a9c7e1, #6495b9, #4a7a9c, #48718b);
+}
+.inner {
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+}
+h1 {
+    margin: 0 auto;
+	font-size: 0;
+}
+h2 {
+    color: #00A0E9;
+    font-size: 24px;
+	margin: 3% 0;
+}
+h3 {
+	color: #222222;
+    font-size: 20px;
+    padding: 0 3%;
+    line-height: 30px;
+    margin: 3% 0;
+}
+h4 {
+    font-size: 18px;
+    color: #00A0E9;
+    margin: 1% 0;
+	line-height: 22px;
+}
+img {
+	max-width: 100% !important;
+	height: 100%;
+}
+p {
+	color: #222222;
+	font-size: 14px;
+	text-align: start;
+	padding: 0 2%;
+}
+.section1,.section3,.section5,.section7 {
+    background-color: #F4F4F4;
+	padding: 1% 2%;
+}
+.section2 {
+    background-color: #FFFFFF;
+	padding: 1% 2% 3%;
+}
+.under_text {
+    font-weight: bold;
+    font-size: 20px;
+}
+.under_text>span {
+	background: linear-gradient(transparent 70%, #FFF100 70%);
+}
+.step {
+    
+}
+img.step_icon {
+    position: absolute;
+    margin: 7% 0;
+    margin-left: -50%;
+}
+.step_box {
+    display: flex;
+    padding: 0 1%;
+    border: solid 3px #222;
+    background-color: #fff;
+	margin-bottom: 2%;
+}
+.step_box>div {
+    margin-left: 15%;
+    text-align: start;
+}
+.step_box .last-cl {
+	margin-left: 0;
+}
+.step_box>img {
+    height: min-content;
+	margin: 10% 2% 0 -3px;
+}
+p.s3_text {
+    margin: 2% 0;
+    padding: 0;
+    line-height: 18px;
+}
+.section4,.section6 {
+    padding: 3% 0;
+}
+.section2>div>img,.section3>div>img,.section4>div>img,.section5>div>div>img,.section6>div>img,.form_dw>img {
+    display: block;
+    margin: 0 auto;
+}
+.scroll {
+	height: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 3%;
+}
+.scroll .company {
+	list-style-type: none;
+    width: 3780px;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.form {
+    background: #00A0E9;
+	padding-bottom: 2%;
+}
+h5 {
+	color: #FFF100;
+	font-size: 36px;
+	margin: 3% 0;
+}
+.form_dw {
+    margin: 0 auto;
+}
+form {
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+}
+label {
+    font-size: 18px;
+    color: #fff;
+    width: 150px;
+    display: inline-block;
+    text-align: right;
+    margin-right: 3%;
+}
+input {
+    width: 70%;
+    padding: 0 2%;
+    height: 46px;
+    margin-bottom: 4%;
+    border-radius: 4px;
+    border: 1px solid #fff;
+    font-size: 16px;
+}
+.form_dw>p {
+	font-size: 12px;
+    color: #fff;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 2%;
+}
+button {
+	color: #00A0E9;
+    background: #FFF100;
+    border-radius: 6px;
+    box-shadow: 0px 5px 5px #22222226;
+    margin: 2% 0 3%;
+    width: 320px;
+    font-size: 28px;
+    font-weight: bold;
+    border: 1px;
+    cursor: pointer;
+    padding: 10PX;
+}
+button>b {
+    margin: 0 4%;
+}
+button:hover {
+    box-shadow: none;
+	background: #ebfa00;
+}
+
+
+.footer .terms {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -ms-flex-align: baseline;
+    align-items: baseline;
+    background-color: #0083bf;
+	flex-direction: column;
+    padding: 3% 5%;
+    margin-top: 0;
+	color: #fff;
+}
+.footer .terms>div:first-child, .footer .terms>div:last-child {
+	width: 100%;
+    font-size: 2.5vw;
+}
+.footer .terms>div {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    width: 100%;
+}
+.footer .terms>div:last-child {
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    padding-right: 1%;
+}
+.terms>div>div {
+	margin-right: 3%;
+}
+.footer .terms a {
+    font-size: 3.5vw;
+}
+.footer a {
+    color: #FFF;
+    font-weight: 700;
+}

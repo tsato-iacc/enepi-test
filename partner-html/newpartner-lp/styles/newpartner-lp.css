@@ -1,0 +1,220 @@
+@charset "utf-8";
+/* Global Styles */
+
+body {
+	margin: 0 auto;
+}
+/* Main Content sections */
+.content {
+	display: block;
+	font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', 'sans-serif';
+}
+.top {
+	background: url(../images/top-bg.png), linear-gradient(#a9c7e1, #6495b9, #4a7a9c, #48718b);
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+.inner {
+    width: 1090px;
+    margin: 0 auto;
+    display: block;
+}
+h1 {
+    margin: 0 auto;
+    padding: 4% 0;
+	height: 560px;
+}
+h2 {
+    color: #00A0E9;
+    font-size: 36px;
+}
+h3 {
+    color: #222222;
+    font-size: 24px;
+}
+h4 {
+    font-size: 22px;
+    color: #00A0E9;
+    margin: 1% 0;
+}
+img {
+	max-width: 100% !important;
+}
+p {
+	color: #222222;
+	font-size: 18px;
+}
+.section1,.section3,.section5,.section7 {
+    background-color: #F4F4F4;
+}
+.s1 {
+	padding: 60px 0;
+	display: flex;
+}
+.s1>div {
+	width: 40%;
+	margin-right: 5%;
+}
+.s1>img {
+	width: auto;
+}
+.section2 {
+    background-color: #FFFFFF;
+	padding: 1% 0 3%;
+}
+.s2 {
+    display: flex;
+}
+.s2_title {
+    height: min-content;
+    padding: 3% 0 0 2%;
+}
+.s2:last-of-type {
+	padding: 3% 0;
+}
+.s3,.s5,.s7,.form {
+    padding: 10px 0;
+}
+.step {
+    
+}
+img.step_icon {
+    position: absolute;
+	margin: 1.5% 0;
+}
+.step_box {
+    display: flex;
+    padding: 0 1em;
+    border: solid 3px #222;
+    background-color: #fff;
+	margin-bottom: 2%;
+}
+.step_box>div {
+    width: 75%;
+    margin-left: 10%;
+}
+.step_box>img {
+    height: min-content;
+    margin: 1% 2%;
+}
+p.s3_text {
+    font-size: 16px;
+    margin-top: 0;
+}
+.section3 {
+    padding: 0 0 3%;
+}
+.section4,.section6 {
+    padding: 3% 0;
+}
+.section2>div>img,.section3>div>img,.section4>div>img,.section5>div>div>img,.section6>div>img,.section7>div>div>img,.form_dw>img {
+    display: block;
+    margin: 0 auto;
+}
+.s5>img,.s7>img {
+	padding-bottom: 3%;
+}
+.form {
+    background: #00A0E9;
+	padding-bottom: 2%;
+}
+h5 {
+	color: #FFF100;
+	font-size: 36px;
+	margin: 3% 0;
+}
+.form_dw {
+    margin: 0 auto;
+}
+form {
+    text-align: center;
+    width: 700px;
+    display: block;
+    margin: 0 auto;
+}
+label {
+    font-size: 18px;
+    color: #fff;
+    width: 150px;
+    display: inline-block;
+    text-align: right;
+    margin-right: 3%;
+}
+input {
+    width: 70%;
+    padding: 0 2%;
+    height: 46px;
+    margin-bottom: 2%;
+    border-radius: 4px;
+    border: 1px solid #fff;
+    font-size: 16px;
+}
+.form_dw>p {
+	font-size: 12px;
+    color: #fff;
+    width: 830px;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 2%;
+}
+button {
+    color: #00A0E9;
+    background: #FFF100;
+    border-radius: 6px;
+    box-shadow: 0px 5px 5px #22222226;
+    margin: 2% 0 3%;
+    width: 360px;
+    height: 60px;
+    font-size: 28px;
+    font-weight: bold;
+    border: 1px;
+    cursor: pointer;
+    padding: 10PX;
+}
+button>b {
+    margin: 0 4%;
+}
+button:hover {
+    box-shadow: none;
+	background: #ebfa00;
+}
+
+
+.footer .terms {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -ms-flex-align: baseline;
+    align-items: baseline;
+    background-color: #0083bf;
+    padding: 10px 0;
+	color: #fff;
+}
+.footer .terms>div:first-child, .footer .terms>div:last-child {
+    width: 40%;
+    font-size: .8vw;
+}
+.footer .terms>div {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    width: 20%;
+}
+.footer .terms>div:last-child {
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    padding-right: 1%;
+}
+.footer .terms a {
+    font-size: .95vw;
+}
+.footer a {
+    color: #FFF;
+    font-weight: 700;
+}
+.footer a, header .container-wrap a:hover {
+    text-decoration: none;
+}
