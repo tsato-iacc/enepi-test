@@ -1,0 +1,214 @@
+@charset "utf-8";
+/* Global Styles */
+
+body {
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 2.275%;
+	padding-right: 2.275%;
+	text-align: center;
+}
+/* Main Content sections */
+.mainContent {
+	display: block;
+	font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', 'sans-serif';
+    margin: 0 3%;
+}
+img {
+	max-width: 100% !important;
+}
+.btn {
+    margin-top: -8em;
+}
+.btn a {
+    margin: 0 20px;
+}
+.btn a:hover {
+	opacity: 0.7;
+}
+.section1 {
+    margin: 4% 0 1%;
+}
+.section2 {
+    margin: 2% 0;
+    background-color: #C8E8FE;
+}
+.kai-01>div {
+	display: flex;
+    margin: 0 9%;
+}
+.kai-01>div>label {
+	width: auto;
+    line-height: 25px;
+    margin: 2% 6% 2% 2%;
+}
+.kai-01>div>img {
+	width: 10%;
+    height: 10%;
+}
+.kai-01>div>span {
+    margin: 2%;
+    font-size: 20px;
+    line-height: 50px;
+}
+.kai-01>div>a {
+	margin: 3% 1%;
+}
+.kai-01>div>a:hover {
+	opacity: 0.7;
+}
+.kai-02 {
+    display: flex;
+    margin-top: 2%;
+}
+.kai-02>img {
+	width: auto;
+    height: fit-content;
+}
+.kai-02>label {
+	width: 35%;
+    line-height: 86px;
+    margin: 0% 0% 0% 3%;
+}
+.kai-02>div {
+	margin: 0;
+    width: 50%;
+    line-height: 26px;
+	display: flex;
+}
+.kai-02>div>p {
+	width: 70%;
+}
+.kai-02>div>img {
+	width: min-content;
+    height: auto;
+    margin: -3% 0 0 5%;
+}
+
+#web-buy {
+    padding: 2% 4%;
+}
+.web-form {
+    margin-top: -4%;
+}
+form {
+	background-color: #fff;
+    padding: 4% 0 1%;
+}
+form>div {
+    display: flex;
+    margin: 2% 0;
+}
+form>div>img {
+	margin-right: 3%;
+}
+form>div>div>div {
+	display: flex;
+    margin-left: 7%;
+}
+form>div>div>div>p {
+	margin: 0;
+    line-height: 32px;
+	font-size: 12px;
+}
+form>div>div>div>img {
+	margin: 1% 1%;
+	width: inherit;
+    height: min-content;
+}
+form>div>div {
+    width: 100%;
+}
+label {
+    color: #3A3839;
+    font-size: 15px;
+    font-weight: bold;
+    width: 32%;
+    text-align: start;
+    line-height: 80px;
+}
+input {
+	border: 2px solid #BCE0FD;
+    width: 80%;
+    height: 38px;
+    font-size: 16px;
+    padding: 0 2%;
+    color: #707070;
+    border-radius: 6px;
+}
+form>div>div>select {
+    border: 2px solid #BCE0FD;
+    width: 280px;
+    height: 44px;
+    margin: 0 2%;
+    font-size: 16px;
+    padding: 0 2%;
+    color: #2699FB;
+    font-family: Hiragino Kaku Gothic Pro;
+}
+
+.label {
+  position: absolute;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+  width: 24px;
+  margin-left: 4px;
+  margin-top: -3px;
+}
+
+.button {
+    width: 100%;
+    margin: 3% 0;
+    text-align: center;
+}
+button {
+	border: none;
+    cursor: pointer;
+	background: none;
+	width: 50%;
+}
+button:hover {
+    opacity: 0.7;
+}
+
+.footer .terms {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -ms-flex-align: baseline;
+    align-items: baseline;
+    background-color: #0083bf;
+    padding: 10px 0;
+    margin-top: 20px;
+	color: #fff;
+}
+.footer .terms>div:first-child, .footer .terms>div:last-child {
+    width: 40%;
+    font-size: .8vw;
+}
+.footer .terms>div {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    width: 20%;
+}
+.footer .terms>div:last-child {
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    padding-right: 1%;
+}
+.footer .terms a {
+    font-size: .95vw;
+}
+.footer a {
+    color: #FFF;
+    font-weight: 700;
+}
+.footer a, header .container-wrap a:hover {
+    text-decoration: none;
+}
