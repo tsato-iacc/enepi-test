@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<title>【enepi】お宅の検針票買い取ります！</title>
+<link href="/assets/lpweb/styles/100lp-webonly.css" rel="stylesheet" type="text/css">
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66015925-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NCCZDM6');</script>
+<!-- End Google Tag Manager -->
+
+<script>
+var dom = "https://api.new.enepi.jp";
+</script>
+<script src="https://enepi.jp/assets/lp/js/kenshin.js?v=20181210070429"></script>
+
+<style>
+.modal-overlay {
+    z-index:1;
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:120%;
+    background-color:rgba(0,0,0,0.26);
+}
+</style>
+
+</head>
+
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NCCZDM6"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- content -->
+<section class="mainContent">
+  <!-- Contact details -->
+	<div class="top">
+		<h1><img src="/assets/lpweb/images/100lp-topimg.png" alt="プロパンガスユーザ限定!!検針票を送って最大500円を手に入れよう！"></h1>
+		<div class="btn">
+			<a href="#web-buy"><img src="/assets/lpweb/images/btn_webimg.png" alt="WEBでカンタン買取登録"></a>
+		</div>
+	</div>
+	<div class="cection1">
+		<img src="/assets/lpweb/images/section1.png" alt="プロパンガスユーザ限定!毎月保存しているだけの検針票が、お金に変わります　Amazonギフト券100円分で買い取り。12ヶ月分で合計500円分買い取り！">
+	</div>
+	<div class="section2">
+		<div id="web-buy">
+			<img src="/assets/lpweb/images/web-kai-title.png" alt="WEBで買取登録">
+			<div class="web-form">
+				<form enctype="multipart/form-data" id="fm">
+					  <div>
+						<img src="/assets/lpweb/images/step01.png" alt="STEP01">
+						<label for="address">送り先の情報を入力してください</label>
+						<div>
+							<input type="text" id="address" name="user_address" placeholder="メールアドレス">
+							<div>
+							<img src="/assets/lpweb/images/check-img.png"><p>すでにエネピに登録いただいている方は、そのメールアドレスをご入力ください</p>
+							</div>
+						</div>
+					  </div>
+					<hr color="#C8E8FE" width="100%" size="1">
+					  <div>
+						<img src="/assets/lpweb/images/step02.png" alt="STEP02">
+						<label for="upload">検針票をアップしてください</label>
+						<div>
+							<input type="file" name="attachment_file" id="attachment_file">
+							<div><img src="/assets/lpweb/images/check-img.png">
+								<p>書かれている文字が読めるよう、検針票全体を撮影してください</p>
+							</div>
+						</div>
+					  </div>
+					<hr color="#C8E8FE" width="100%" size="1">
+					  <div>
+						<img src="/assets/lpweb/images/step03.png" alt="STEP03">
+						<label for="">送信してください</label>
+						<button onclick="kenshin_ev(2); lp_go();" style="outline: none;"><img src="/assets/lpweb/images/btn_sendimg.png" alt="検針票を送信する"></button>
+						<div>
+							<div>
+							<img src="/assets/lpweb/images/check-img.png">
+							<p>万が一メールが来ない場合、再度送信または「info@enepi.jp」にお送りください</p>
+							</div>
+							<div>
+							<img src="/assets/lpweb/images/check-img.png">
+								<p>当サービスをご利用頂くにあたり<a href="https://enepi.jp/agreement" target="_blank">「enepi」利用規約</a>に同意したものとみなします</p>
+							</div>
+						</div>
+					  </div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="cection3">
+		<img src="/assets/lpweb/images/attention-img.png" alt="注意事項">
+	</div>
+</section>
+
+<div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.4";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<div class="social-buttons">
+  <div class="twitter">
+    <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ja">ツイート</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+  </div>
+
+  <div class="facebook">
+    <div class="fb-like" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
+  </div>
+</div>
+
+
+<footer class="footer">
+	<div class="terms">
+		<div></div>
+		<div>
+		  <div><a href="https://www.iacc.co.jp/" target="_blank">運営企業</a></div>
+		  <div><a href="https://www.iacc.co.jp/privacy/" target="_blank">プライバシーポリシー</a></div>
+		  <div><a href="/agreement" target="_blank">利用規約</a></div>
+		</div>
+		<div>© 2013 I AND C-Cruise Co.Ltd. All rights reserved.</div>
+	</div>
+</footer>
+
+<script src="https://ca.iacc.tokyo/js/ca.js"></script>
+<script>capv();</script>
+
+</body>
+</html>
