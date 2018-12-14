@@ -8,11 +8,43 @@ body {
 	padding-right: 2.275%;
 	text-align: center;
 }
+header {
+    height: auto;
+    border: none;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 8px 0 4px;
+}
+.estimates-match-header {
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+}
+.estimates-match-header .logo img {
+    max-height: 52px;
+    display: block;
+}
 /* Main Content sections */
 .mainContent {
 	display: block;
 	font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', 'sans-serif';
     margin: 0 3%;
+}
+.top-enq {
+    background: url(/assets/lpweb/images/100lp-thxbg.png);
+    padding: 5em;
+    box-shadow: 0px 5px 3px -3px rgba(0, 0, 0, 0.12) inset;
+}
+.top-enq>h1 {
+    font-size: 34px;
+    background: linear-gradient(transparent 70%, #FFFF00 0%);
+    margin: 0 320px 20px;
+    text-shadow: #fff 2px 1px 8px;
+}
+.enq {
+    margin-top: -4em;
 }
 img {
 	max-width: 100% !important;
